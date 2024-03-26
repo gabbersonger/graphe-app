@@ -96,12 +96,12 @@ export namespace app {
 		}
 	}
 	
-	export class ScriptureWordValue_Strongs {
+	export class ScriptureWordData_Strongs {
 	    num: string;
 	    grammar: string;
 	
 	    static createFrom(source: any = {}) {
-	        return new ScriptureWordValue_Strongs(source);
+	        return new ScriptureWordData_Strongs(source);
 	    }
 	
 	    constructor(source: any = {}) {
@@ -110,12 +110,12 @@ export namespace app {
 	        this.grammar = source["grammar"];
 	    }
 	}
-	export class ScriptureWordValue_Dictionary {
+	export class ScriptureWordData_Dictionary {
 	    form: string;
 	    gloss: string;
 	
 	    static createFrom(source: any = {}) {
-	        return new ScriptureWordValue_Dictionary(source);
+	        return new ScriptureWordData_Dictionary(source);
 	    }
 	
 	    constructor(source: any = {}) {
@@ -124,16 +124,16 @@ export namespace app {
 	        this.gloss = source["gloss"];
 	    }
 	}
-	export class ScriptureWordValue {
+	export class ScriptureWordData {
 	    translit: string;
 	    english: string;
 	    conjoin_word: string;
 	    sub_meaning: string;
-	    dictionary: ScriptureWordValue_Dictionary[];
-	    strongs: ScriptureWordValue_Strongs[];
+	    dictionary: ScriptureWordData_Dictionary[];
+	    strongs: ScriptureWordData_Strongs[];
 	
 	    static createFrom(source: any = {}) {
-	        return new ScriptureWordValue(source);
+	        return new ScriptureWordData(source);
 	    }
 	
 	    constructor(source: any = {}) {
@@ -142,8 +142,8 @@ export namespace app {
 	        this.english = source["english"];
 	        this.conjoin_word = source["conjoin_word"];
 	        this.sub_meaning = source["sub_meaning"];
-	        this.dictionary = this.convertValues(source["dictionary"], ScriptureWordValue_Dictionary);
-	        this.strongs = this.convertValues(source["strongs"], ScriptureWordValue_Strongs);
+	        this.dictionary = this.convertValues(source["dictionary"], ScriptureWordData_Dictionary);
+	        this.strongs = this.convertValues(source["strongs"], ScriptureWordData_Strongs);
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
