@@ -1,7 +1,6 @@
 package app
 
 import (
-	"context"
 	"errors"
 
 	"github.com/bvinc/go-sqlite-lite/sqlite3"
@@ -21,7 +20,7 @@ func (db *GrapheDB) getQuery(key string) (*sqlite3.Stmt, error) {
 	return stmt, nil
 }
 
-func (db *GrapheDB) prepareQuery(key string, sql string) error {
+func prepareQuery(db *GrapheDB, key string, sql string) error {
 	stmt, err := db.conn.Prepare(sql)
 	if err == nil {
 		db.queries[key] = stmt
@@ -29,53 +28,53 @@ func (db *GrapheDB) prepareQuery(key string, sql string) error {
 	return err
 }
 
-func (db *GrapheDB) prepareQueries(ctx context.Context) {
+func prepareQueries(a *App, db *GrapheDB) {
 	db.queries = make(map[string]*sqlite3.Stmt)
 
 	var err error
 
-	err = db.prepareQuery("GetScriptureSection", `
+	err = prepareQuery(db, "GetScriptureSection", `
         SELECT ref, word_num, text
-        FROM gnt_text 
+        FROM gnt_text
         WHERE ref >= ? AND ref <= ?;
     `)
-	check(ctx, err)
+	a.check(err)
 
-	err = db.prepareQuery("GetScriptureWordBasicInfo", `
+	err = prepareQuery(db, "GetScriptureWordBasicInfo", `
         SELECT translit, english, conjoin_word, sub_meaning
         FROM gnt_text_info
-        WHERE 
-            ref = ? 
-            AND word_num = ? 
+        WHERE
+            ref = ?
+            AND word_num = ?
         LIMIT 1;
     `)
-	check(ctx, err)
+	a.check(err)
 
-	err = db.prepareQuery("GetScriptureWordDictionaryInfo", `
+	err = prepareQuery(db, "GetScriptureWordDictionaryInfo", `
         SELECT form, gloss
         FROM gnt_text_dictionary
-        WHERE 
-            ref = ? 
+        WHERE
+            ref = ?
             AND word_num = ?;
     `)
-	check(ctx, err)
+	a.check(err)
 
-	err = db.prepareQuery("GetScriptureWordStrongsInfo", `
+	err = prepareQuery(db, "GetScriptureWordStrongsInfo", `
         SELECT strong, grammar
         FROM gnt_text_strongs
-        WHERE 
-            ref = ? 
+        WHERE
+            ref = ?
             AND word_num = ?;
     `)
-	check(ctx, err)
+	a.check(err)
 }
 
-func newGrapheDB(ctx context.Context, dbFile string) *GrapheDB {
+func newGrapheDB(a *App, dbFile string) *GrapheDB {
 	db := &GrapheDB{}
 	conn, err := sqlite3.Open("file:" + dbFile)
-	check(ctx, err)
+	a.check(err)
 	db.conn = conn
-	db.prepareQueries(ctx)
+	prepareQueries(a, db)
 	return db
 }
 
@@ -86,7 +85,7 @@ func (a *App) setupDatabasePool() {
 
 	a.db_pool = make(chan *GrapheDB, max_db_conn)
 	for i := 0; i < max_db_conn; i++ {
-		a.db_pool <- newGrapheDB(a.ctx, dbFile)
+		a.db_pool <- newGrapheDB(a, dbFile)
 	}
 }
 

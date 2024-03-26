@@ -28,17 +28,21 @@ type App struct {
 	db_pool chan *GrapheDB
 }
 
-func check(c context.Context, e error) {
+func (a *App) check(e error) {
 	if e != nil {
-		runtime.LogFatal(c, e.Error())
+		runtime.LogFatal(a.ctx, e.Error())
 	}
+}
+
+func (a *App) throw(s string) {
+	runtime.LogFatal(a.ctx, s)
 }
 
 func NewApp(version string) *App {
 	a := &App{}
 	a.Env.Version = strings.TrimSpace(version)
 	homeDir, err := os.UserHomeDir()
-	check(a.ctx, err)
+	a.check(err)
 	a.Env.HomeDirectory = homeDir
 	a.Env.DataDirectory = filepath.Join(a.Env.HomeDirectory, "/Library/Application Support/Graphe")
 	a.Env.LogDirectory = filepath.Join(a.Env.HomeDirectory, "/Library/Logs/Graphe")
