@@ -1,0 +1,23 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "Graphe",
+  "outputfilename": "graphe",
+  "frontend:install": "bun install",
+  "frontend:build": "bun run build",
+  "frontend:dev:watcher": "bun run dev",
+  "frontend:dev:serverUrl": "auto",
+  "author": {
+    "name": "Gabriel Aravena",
+    "email": "gabriel.alejo.gab@gmail.com"
+  },
+  "info": {
+    "productName": "Graphe",
+    "companyName": "Gabriel Aravena",
+    "productVersion": "0.0.1",
+    "comments": "Original language Bible study",
+    "copyright": "© Gabriel Aravena 2024"
+  },
+  "preBuildHooks": {
+    "*/*": "bun ../create_build_info.js"
+  }
+}
