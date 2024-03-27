@@ -34,7 +34,7 @@ func (a *App) check(e error) {
 	}
 }
 
-func (a *App) throw(s string) {
+func (a *App) Throw(s string) {
 	runtime.LogFatal(a.ctx, s)
 }
 

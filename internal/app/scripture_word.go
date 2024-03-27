@@ -38,7 +38,7 @@ func getScriptureWordBasicInfo(a *App, wg *sync.WaitGroup, w *ScriptureWordData)
 	hasRow, err := stmt.Step()
 	a.check(err)
 	if !hasRow {
-		a.throw(fmt.Sprintf("Could not find value using GetScriptureWordBasicInfo for (ref=%d, word_num=%d)", int(w.ref), w.word_num))
+		a.Throw(fmt.Sprintf("Could not find value using GetScriptureWordBasicInfo for (ref=%d, word_num=%d)", int(w.ref), w.word_num))
 	}
 
 	err = stmt.Scan(&(w.Translit), &(w.English), &(w.ConjoinWord), &(w.SubMeaning))
