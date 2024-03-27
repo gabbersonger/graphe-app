@@ -1,34 +1,24 @@
-<script>
-    import { GetScriptureSections, GetScriptureWord } from "!wails/app/App";
+<script lang="ts">
+    import { GetScriptureSections } from "!wails/app/App";
+    import {
+        biblePointToRef,
+        createBiblePointAtChapterStart,
+        createBiblePointAtChapterEnd,
+    } from "@/lib/data/bibleReference";
 
-    async function b() {
-        let ranges = [];
-        ranges.push({
-            start: 40011001,
-            end: 40011999,
-        });
-        let start = performance.now();
-        let scripture = await GetScriptureSections("esv", ranges);
-        let end = performance.now();
-        console.log(scripture);
-        console.log(`Took: ${end - start}ms`);
+    async function onStartup() {
+        let matt20 = createBiblePointAtChapterStart("Matthew", 20);
+        let matt25 = createBiblePointAtChapterEnd("Matthew", 25);
+        let rom3 = createBiblePointAtChapterStart("Romans", 3);
+        let rom5 = createBiblePointAtChapterEnd("Romans", 5);
+
+        let data = await GetScriptureSections("gnt", [
+            { start: biblePointToRef(matt20), end: biblePointToRef(matt25) },
+            { start: biblePointToRef(rom3), end: biblePointToRef(rom5) },
+        ]);
+        console.log(data);
     }
-
-    async function a() {
-        let start = performance.now();
-        let res = await GetScriptureWord(40004006, 26);
-        let end = performance.now();
-        console.log(res);
-        console.log(`Took: ${end - start}ms`);
-    }
-
-    b();
+    onStartup();
 </script>
 
-<div class="app">
-    <br /><br />
-    <button on:click={() => a()}>test</button>
-</div>
-
-<style>
-</style>
+<div class="app"></div>

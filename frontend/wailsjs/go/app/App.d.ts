@@ -5,3 +5,5 @@ import {app} from '../models';
 export function GetScriptureSections(arg1:app.ScriptureVersion,arg2:Array<app.ScriptureRange>):Promise<Array<app.ScriptureSection>>;
 
 export function GetScriptureWord(arg1:app.ScriptureRef,arg2:number):Promise<app.ScriptureWordData>;
+
+export function Throw(arg1:string):Promise<void>;
