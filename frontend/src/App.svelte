@@ -1,6 +1,6 @@
 <script lang="ts">
     import Navbar from "@/components/Navbar/Navbar.svelte";
-    import MainWindow from "@/components/MainWindow.svelte";
+    import MainWindow from "@/components/MainWindow/MainWindow.svelte";
     import Sidebar from "@/components/Sidebar.svelte";
 
     import { ui_showSidebar } from "@/stores/app";

@@ -83,6 +83,6 @@
     .separator {
         height: 1rem;
         width: 0.15rem;
-        background: var(--clr-background);
+        background: var(--clr-background-sub);
     }
 </style>
