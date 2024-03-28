@@ -15,19 +15,29 @@ export type BibleRange = {
 };
 
 /**
+ * Determines if given chapter is a superscript psalm
+ * @param {number} chapter - The psalm chapter to check.
+ */
+const isSuperscriptPsalm = (chapter: number): boolean => {
+  return bibleData[18].superscripts.some((c) => c == chapter);
+};
+
+/**
  * Determines if a BiblePoint is valid (that is, chapter and verse exist in given bible book)
  * @param {BiblePoint} point - The point to be validated.
  */
 const isValidBiblePoint = (point: BiblePoint): boolean => {
   if (point == null) return false;
   const book_index = bibleData.findIndex((b) => b.name == point.book);
-  return !(
-    book_index == -1 ||
-    (book_index == 18 && point.chapter < 0) ||
-    (book_index != 18 && point.chapter <= 0) ||
-    point.chapter > bibleData[book_index].num_chapters ||
-    point.verse <= 0 ||
-    point.verse > bibleData[book_index].num_verses[point.chapter - 1]
+  return (
+    book_index >= 0 &&
+    point.chapter > 0 &&
+    point.chapter <= bibleData[book_index].num_chapters &&
+    (point.verse > 0 ||
+      (point.verse == 0 &&
+        point.book == "Psalms" &&
+        isSuperscriptPsalm(point.chapter))) &&
+    point.verse <= bibleData[book_index].num_verses[point.chapter - 1]
   );
 };
 
@@ -97,49 +107,46 @@ export const biblePointToString = (
 };
 
 /**
- * Create a valid BiblePoint at the start of a specific chapter
+ * Create a valid BiblePoint at the specific chapter (default to end of chapter)
  * @throws Will throw if resulting `point` is not valid.
  * @param {BibleBook} book - The book name.
  * @param {number} chapter - The chapter of the book.
+ * @param {"start"|"end"} direction - Whether point should be at start or end of chapter.
  */
-export const createBiblePointAtChapterStart = (
+export const createBiblePoint = (
   book: BibleBook,
   chapter: number,
+  direction: "start" | "end" = "start",
 ): BiblePoint => {
-  let point: BiblePoint = {
-    book: book,
-    chapter: chapter,
-    verse: 1,
-  };
-  if (!isValidBiblePoint(point))
-    GrapheError("Invalid book or chapter passed to `getFirstPoint`");
-  return point;
-};
-
-/**
- * Create a valid BiblePoint at the end of a specific chapter
- * @throws Will throw if resulting `point` is not valid.
- * @param {BibleBook} book - The book name.
- * @param {number} chapter - The chapter of the book.
- */
-export const createBiblePointAtChapterEnd = (
-  book: BibleBook,
-  chapter: number,
-): BiblePoint => {
-  let point: BiblePoint = null;
-  const book_index = bibleData.findIndex((b) => b.name == book);
-  if (
-    book_index != -1 &&
-    chapter > 0 &&
-    chapter <= bibleData[book_index].num_chapters
-  ) {
-    point = {
-      book: book,
-      chapter: chapter,
-      verse: bibleData[book_index].num_verses[chapter - 1],
-    };
+  let point: BiblePoint;
+  switch (direction) {
+    case "start":
+      const verse = book == "Psalms" && isSuperscriptPsalm(chapter) ? 0 : 1;
+      point = {
+        book: book,
+        chapter: chapter,
+        verse: verse,
+      };
+      break;
+    case "end":
+      const book_index = bibleData.findIndex((b) => b.name == book);
+      if (
+        book_index != -1 &&
+        chapter > 0 &&
+        chapter <= bibleData[book_index].num_chapters
+      ) {
+        point = {
+          book: book,
+          chapter: chapter,
+          verse: bibleData[book_index].num_verses[chapter - 1],
+        };
+      }
+      break;
   }
+
   if (!isValidBiblePoint(point))
-    GrapheError("Invalid book or chapter passed to `getLastPoint`");
+    GrapheError(
+      "Invalid point created by book or chapter passed to `createBiblePoint`",
+    );
   return point;
 };
