@@ -1,24 +1,59 @@
 <script lang="ts">
-    import { GetScriptureSections } from "!wails/app/App";
-    import {
-        biblePointToRef,
-        createBiblePointAtChapterStart,
-        createBiblePointAtChapterEnd,
-    } from "@/lib/data/bibleReference";
+    import Navbar from "@/components/Navbar.svelte";
+    import MainWindow from "@/components/MainWindow.svelte";
+    import Sidebar from "@/components/Sidebar.svelte";
 
-    async function onStartup() {
-        let matt20 = createBiblePointAtChapterStart("Matthew", 20);
-        let matt25 = createBiblePointAtChapterEnd("Matthew", 25);
-        let rom3 = createBiblePointAtChapterStart("Romans", 3);
-        let rom5 = createBiblePointAtChapterEnd("Romans", 5);
-
-        let data = await GetScriptureSections("gnt", [
-            { start: biblePointToRef(matt20), end: biblePointToRef(matt25) },
-            { start: biblePointToRef(rom3), end: biblePointToRef(rom5) },
-        ]);
-        console.log(data);
-    }
-    onStartup();
+    import { ui_showSidebar } from "@/stores/app";
 </script>
 
-<div class="app"></div>
+<div id="app" class:sidebar={$ui_showSidebar}>
+    <nav><div class="wrapper"><Navbar /></div></nav>
+    <main><MainWindow /></main>
+    <aside><Sidebar /></aside>
+</div>
+
+<style>
+    #app {
+        --size-navbar-height: 38px;
+        --size-navbar-clear-left: 80px;
+        --size-sidebar-width: 300px;
+
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: var(--size-navbar-height) 1fr;
+        grid-template-areas: "navbar" "content";
+        background: var(--clr-background);
+    }
+
+    #app.sidebar {
+        grid-template-columns: 1fr var(--size-sidebar-width);
+        grid-template-areas: "navbar sidebar" "content sidebar";
+    }
+
+    #app:not(.sidebar) aside {
+        display: none;
+    }
+
+    #app nav {
+        grid-area: navbar;
+        --wails-draggable: drag;
+    }
+
+    #app nav .wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        padding-left: var(--size-navbar-clear-left);
+    }
+
+    #app main {
+        grid-area: content;
+    }
+
+    #app aside {
+        grid-area: sidebar;
+    }
+</style>
