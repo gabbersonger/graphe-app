@@ -12,7 +12,7 @@
     "isolatedModules": true,
     "paths": {
       "@/*": ["src/*"],
-      "!wails/*": ["wailsjs/go/*"]
+      "!wails/*": ["wailsjs/*"]
     }
   },
   "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte"],

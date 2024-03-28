@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { ui_showSidebar } from "@/stores/app";
     import {
         biblePointToString,
         createBiblePoint,
@@ -14,8 +13,3 @@
 </script>
 
 main
-<button
-    on:click={() => {
-        $ui_showSidebar = !$ui_showSidebar;
-    }}>Toggle Sidebar</button
->

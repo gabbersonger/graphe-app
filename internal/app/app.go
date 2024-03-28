@@ -38,10 +38,6 @@ func (a *App) Throw(s string) {
 	runtime.LogFatal(a.ctx, s)
 }
 
-func (a *App) Warn(s string) {
-	runtime.LogWarning(a.ctx, s)
-}
-
 func NewApp(version string) *App {
 	a := &App{}
 	a.Env.Version = strings.TrimSpace(version)

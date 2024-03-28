@@ -5,6 +5,6 @@
         position: relative;
         width: 100%;
         height: 100%;
-        background: var(--clr-background-dark);
+        background: var(--clr-background-sub);
     }
 </style>

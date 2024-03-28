@@ -1,10 +1,10 @@
-import { Warn } from "!wails/app/App";
+import { LogWarning } from "!wails/runtime/runtime";
 
 export const assertUnreachable = (_: never): never => {
   throw new Error("Cannot reach here");
 };
 
 export const GrapheError = (message: string): never => {
-  Warn("Javascript: " + message);
+  LogWarning("Javascript: " + message);
   throw Error(message);
 };

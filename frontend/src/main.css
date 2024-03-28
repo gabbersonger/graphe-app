@@ -1,6 +1,7 @@
 :root {
     --clr-background: #323437;
-    --clr-background-dark: #2c2e31;
+    --clr-background-sub: #2c2e31;
+    --clr-background-dark: #1a1b1c;
     --clr-main: #e2b714;
     --clr-text: #d1d0c5;
     --clr-text-sub: #646669;
@@ -14,13 +15,17 @@
 html {
     height: 100%;
     overflow: hidden;
+    background: var(--clr-background);
 }
 
 body {
     position: absolute;
     width: 100%;
     height: 100%;
-    font-family: system-ui, -apple-system, Roboto;
+    font-family:
+        system-ui,
+        -apple-system,
+        Roboto;
     font-size: 15px;
     margin: 0;
     padding: 0;
