@@ -7,3 +7,5 @@ export function GetScriptureSections(arg1:app.ScriptureVersion,arg2:Array<app.Sc
 export function GetScriptureWord(arg1:app.ScriptureRef,arg2:number):Promise<app.ScriptureWordData>;
 
 export function Throw(arg1:string):Promise<void>;
+
+export function Warn(arg1:string):Promise<void>;
