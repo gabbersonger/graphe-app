@@ -107,7 +107,7 @@ export const biblePointToString = (
 };
 
 /**
- * Create a valid BiblePoint at the specific chapter (default to end of chapter)
+ * Create a valid BiblePoint at the specific chapter (default to start of chapter)
  * @throws Will throw if resulting `point` is not valid.
  * @param {BibleBook} book - The book name.
  * @param {number} chapter - The chapter of the book.
