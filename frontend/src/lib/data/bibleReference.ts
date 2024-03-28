@@ -119,29 +119,26 @@ export const createBiblePoint = (
   direction: "start" | "end" = "start",
 ): BiblePoint => {
   let point: BiblePoint;
-  switch (direction) {
-    case "start":
-      const verse = book == "Psalms" && isSuperscriptPsalm(chapter) ? 0 : 1;
+  if (direction == "start") {
+    const verse = book == "Psalms" && isSuperscriptPsalm(chapter) ? 0 : 1;
+    point = {
+      book: book,
+      chapter: chapter,
+      verse: verse,
+    };
+  } else if (direction == "end") {
+    const book_index = bibleData.findIndex((b) => b.name == book);
+    if (
+      book_index != -1 &&
+      chapter > 0 &&
+      chapter <= bibleData[book_index].num_chapters
+    ) {
       point = {
         book: book,
         chapter: chapter,
-        verse: verse,
+        verse: bibleData[book_index].num_verses[chapter - 1],
       };
-      break;
-    case "end":
-      const book_index = bibleData.findIndex((b) => b.name == book);
-      if (
-        book_index != -1 &&
-        chapter > 0 &&
-        chapter <= bibleData[book_index].num_chapters
-      ) {
-        point = {
-          book: book,
-          chapter: chapter,
-          verse: bibleData[book_index].num_verses[chapter - 1],
-        };
-      }
-      break;
+    }
   }
 
   if (!isValidBiblePoint(point))
