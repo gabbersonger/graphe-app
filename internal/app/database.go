@@ -7,6 +7,8 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
+const MAX_DB_CONN = 5
+
 type GrapheDB struct {
 	conn    *sqlite3.Conn
 	queries map[string]*sqlite3.Stmt
@@ -83,8 +85,8 @@ func (a *App) setupDatabasePool() {
 
 	runtime.LogWarning(a.ctx, dbFile)
 
-	a.db_pool = make(chan *GrapheDB, max_db_conn)
-	for i := 0; i < max_db_conn; i++ {
+	a.db_pool = make(chan *GrapheDB, MAX_DB_CONN)
+	for i := 0; i < MAX_DB_CONN; i++ {
 		a.db_pool <- newGrapheDB(a, dbFile)
 	}
 }

@@ -9,8 +9,6 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
-const max_db_conn = 5
-
 type EnvironmentInfo struct {
 	Arch      string `json:"arch"`
 	BuildType string `json:"buildType"`
