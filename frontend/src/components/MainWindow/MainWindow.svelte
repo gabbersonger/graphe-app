@@ -1,50 +1,22 @@
 <script lang="ts">
     import type { app } from "!wails/go/models";
     import { GetScriptureSections } from "!wails/go/app/App";
-    import { TextManager } from "@/lib/Scripture/TextManager";
     import { bibleRefToString, createBibleRef } from "@/lib/Scripture/ref";
 
     let text: app.ScriptureSection;
-    // async function onStartup() {
-    //     const start = performance.now();
-    //     const texts = await GetScriptureSections("gnt", [
-    //         {
-    //             start: biblePointToRef(createBiblePoint("Matthew", 1)),
-    //             end: biblePointToRef(createBiblePoint("Mark", 16, "end")),
-    //         },
-    //         {
-    //             start: biblePointToRef(createBiblePoint("Luke", 1)),
-    //             end: biblePointToRef(createBiblePoint("John", 21, "end")),
-    //         },
-    //         {
-    //             start: biblePointToRef(createBiblePoint("Acts", 1)),
-    //             end: biblePointToRef(createBiblePoint("Romans", 16, "end")),
-    //         },
-    //         {
-    //             start: biblePointToRef(createBiblePoint("1 Corinthians", 1)),
-    //             end: biblePointToRef(
-    //                 createBiblePoint("2 Thessalonians", 3, "end"),
-    //             ),
-    //         },
-    //         {
-    //             start: biblePointToRef(createBiblePoint("1 Timothy", 1)),
-    //             end: biblePointToRef(createBiblePoint("Revelation", 22, "end")),
-    //         },
-    //     ]);
-    //     const end = performance.now();
-    //     console.log(`Took: ${end - start}ms`);
+    async function onStartup() {
+        const start = performance.now();
+        const texts = await GetScriptureSections("gnt", [
+            {
+                start: createBibleRef("Matthew", 1),
+                end: createBibleRef("Revelation", 22, "end"),
+            },
+        ]);
+        const end = performance.now();
+        console.log(`Took: ${end - start}ms`);
 
-    //     if (texts.length > 0) text = texts[0];
-    //     console.log(text);
-    // }
-
-    function onStartup() {
-        const ans = TextManager.GetScriptureSection(
-            "gnt",
-            createBibleRef("Matthew", 1, "start"),
-            createBibleRef("Revelation", 22, "end"),
-        );
-        console.log(ans);
+        if (texts.length > 0) text = texts[0];
+        console.log(text);
     }
     onStartup();
 </script>
@@ -93,7 +65,7 @@
     .container {
         position: relative;
         height: 100%;
-        width: 100%;
+        width: 95%;
         max-width: var(--size-max-width);
         overflow: scroll;
     }
@@ -104,9 +76,9 @@
         overflow: scroll;
     }
 
-    .wrapper::-webkit-scrollbar {
+    /* .wrapper::-webkit-scrollbar {
         display: none;
-    }
+    } */
 
     .block {
         padding-bottom: 1rem;
@@ -128,7 +100,7 @@
         vertical-align: super;
         font-weight: bold;
         font-size: 0.7rem;
-        color: var(--clr-main);
+        color: var(--clr-text-sub);
     }
 
     .word {
