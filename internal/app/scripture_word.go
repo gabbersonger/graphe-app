@@ -27,7 +27,7 @@ type ScriptureWordData struct {
 }
 
 func getScriptureWordBasicInfo(a *App, wg *sync.WaitGroup, w *ScriptureWordData) {
-	db := <-a.db_pool
+	db := <-a.db.pool
 
 	stmt, err := db.getQuery("GetScriptureWordBasicInfo")
 	a.check(err)
@@ -45,12 +45,12 @@ func getScriptureWordBasicInfo(a *App, wg *sync.WaitGroup, w *ScriptureWordData)
 	a.check(err)
 
 	stmt.Reset()
-	a.db_pool <- db
+	a.db.pool <- db
 	wg.Done()
 }
 
 func getScriptureWordDictionaryValues(a *App, wg *sync.WaitGroup, w *ScriptureWordData) {
-	db := <-a.db_pool
+	db := <-a.db.pool
 
 	stmt, err := db.getQuery("GetScriptureWordDictionaryInfo")
 	a.check(err)
@@ -74,12 +74,12 @@ func getScriptureWordDictionaryValues(a *App, wg *sync.WaitGroup, w *ScriptureWo
 	}
 
 	stmt.Reset()
-	a.db_pool <- db
+	a.db.pool <- db
 	wg.Done()
 }
 
 func getScriptureWordStrongsValues(a *App, wg *sync.WaitGroup, w *ScriptureWordData) {
-	db := <-a.db_pool
+	db := <-a.db.pool
 
 	stmt, err := db.getQuery("GetScriptureWordStrongsInfo")
 	a.check(err)
@@ -103,7 +103,7 @@ func getScriptureWordStrongsValues(a *App, wg *sync.WaitGroup, w *ScriptureWordD
 	}
 
 	stmt.Reset()
-	a.db_pool <- db
+	a.db.pool <- db
 	wg.Done()
 }
 
@@ -112,9 +112,9 @@ func (a *App) GetScriptureWord(ref ScriptureRef, word int) ScriptureWordData {
 
 	wg := new(sync.WaitGroup)
 	wg.Add(3)
-	getScriptureWordBasicInfo(a, wg, &w)
-	getScriptureWordDictionaryValues(a, wg, &w)
-	getScriptureWordStrongsValues(a, wg, &w)
+	go getScriptureWordBasicInfo(a, wg, &w)
+	go getScriptureWordDictionaryValues(a, wg, &w)
+	go getScriptureWordStrongsValues(a, wg, &w)
 	wg.Wait()
 	return w
 }

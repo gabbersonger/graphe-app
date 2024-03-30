@@ -21,9 +21,9 @@ type EnvironmentInfo struct {
 }
 
 type App struct {
-	Env     EnvironmentInfo
-	ctx     context.Context
-	db_pool chan *GrapheDB
+	Env EnvironmentInfo
+	ctx context.Context
+	db  GrapheDB
 }
 
 func (a *App) check(e error) {

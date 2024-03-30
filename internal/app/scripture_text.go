@@ -29,7 +29,7 @@ func getScriptureSection(a *App, out chan *ScriptureSection, ver ScriptureVersio
 	s := ScriptureSection{Version: ver, Range: ran}
 	s.Blocks = make([]ScriptureBlock, 0, 1)
 
-	db := <-a.db_pool
+	db := <-a.db.pool
 	stmt, err := db.getQuery("GetScriptureSection")
 	a.check(err)
 	err = stmt.Bind(int(ran.Start), int(ran.End))
@@ -90,7 +90,7 @@ func getScriptureSection(a *App, out chan *ScriptureSection, ver ScriptureVersio
 	s.Blocks[len(s.Blocks)-1].Range.End = ScriptureRef(ref)
 
 	stmt.Reset()
-	a.db_pool <- db
+	a.db.pool <- db
 	out <- &s
 }
 
