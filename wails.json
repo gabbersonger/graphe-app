@@ -18,6 +18,6 @@
     "copyright": "© Gabriel Aravena 2024"
   },
   "preBuildHooks": {
-    "*/*": "bun ../create_build_info.js"
+    "*/*": "bun ../prebuild.js"
   }
 }

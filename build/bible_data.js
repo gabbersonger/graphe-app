@@ -9,6 +9,7 @@ export const bibleData = [
       36, 30, 23, 23, 57, 38, 34, 34, 28, 34, 31, 22, 33, 26,
     ],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Exodus",
@@ -20,6 +21,7 @@ export const bibleData = [
       29, 31, 43, 38,
     ],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Leviticus",
@@ -30,6 +32,7 @@ export const bibleData = [
       27, 24, 33, 44, 23, 55, 46, 34,
     ],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Numbers",
@@ -40,6 +43,7 @@ export const bibleData = [
       22, 29, 35, 41, 30, 25, 18, 65, 23, 31, 40, 16, 54, 42, 56, 29, 34, 13,
     ],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Deuteronomy",
@@ -50,6 +54,7 @@ export const bibleData = [
       21, 20, 23, 30, 25, 22, 19, 19, 26, 68, 29, 20, 30, 52, 29, 12,
     ],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Joshua",
@@ -60,6 +65,7 @@ export const bibleData = [
       51, 9, 45, 34, 16, 33,
     ],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Judges",
@@ -70,6 +76,7 @@ export const bibleData = [
       30, 48, 25,
     ],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Ruth",
@@ -77,6 +84,7 @@ export const bibleData = [
     num_chapters: 4,
     num_verses: [22, 23, 18, 22],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "1 Samuel",
@@ -87,6 +95,7 @@ export const bibleData = [
       24, 42, 15, 23, 29, 22, 44, 25, 12, 25, 11, 31, 13,
     ],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "2 Samuel",
@@ -97,6 +106,7 @@ export const bibleData = [
       43, 26, 22, 51, 39, 25,
     ],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "1 Kings",
@@ -107,6 +117,7 @@ export const bibleData = [
       21, 43, 29, 53,
     ],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "2 Kings",
@@ -117,6 +128,7 @@ export const bibleData = [
       37, 21, 26, 20, 37, 20, 30,
     ],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "1 Chronicles",
@@ -127,6 +139,7 @@ export const bibleData = [
       19, 8, 30, 19, 32, 31, 31, 32, 34, 21, 30,
     ],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "2 Chronicles",
@@ -137,6 +150,7 @@ export const bibleData = [
       11, 37, 20, 12, 21, 27, 28, 23, 9, 27, 36, 27, 21, 33, 25, 33, 27, 23,
     ],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Ezra",
@@ -144,6 +158,7 @@ export const bibleData = [
     num_chapters: 10,
     num_verses: [11, 70, 13, 24, 17, 22, 28, 36, 15, 44],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Nehemiah",
@@ -151,6 +166,7 @@ export const bibleData = [
     num_chapters: 13,
     num_verses: [11, 20, 32, 23, 19, 19, 73, 18, 38, 39, 36, 47, 31],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Esther",
@@ -158,6 +174,7 @@ export const bibleData = [
     num_chapters: 10,
     num_verses: [22, 23, 15, 17, 14, 14, 10, 17, 32, 3],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Job",
@@ -169,6 +186,7 @@ export const bibleData = [
       41, 30, 24, 34, 17,
     ],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Psalms",
@@ -194,6 +212,7 @@ export const bibleData = [
       133, 134, 138, 139, 140, 141, 142, 143, 144, 145,
     ],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Proverbs",
@@ -204,6 +223,7 @@ export const bibleData = [
       29, 30, 31, 29, 35, 34, 28, 28, 27, 28, 27, 33, 31,
     ],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Ecclesiastes",
@@ -211,6 +231,7 @@ export const bibleData = [
     num_chapters: 12,
     num_verses: [18, 26, 22, 16, 20, 12, 29, 17, 18, 20, 10, 14],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Song of Songs",
@@ -218,6 +239,7 @@ export const bibleData = [
     num_chapters: 8,
     num_verses: [17, 17, 11, 16, 16, 13, 13, 14],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Isaiah",
@@ -230,6 +252,7 @@ export const bibleData = [
       14, 21, 22, 11, 12, 19, 12, 25, 24,
     ],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Jeremiah",
@@ -241,6 +264,7 @@ export const bibleData = [
       21, 28, 18, 16, 18, 22, 13, 30, 5, 28, 7, 47, 39, 46, 64, 34,
     ],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Lamentations",
@@ -248,6 +272,7 @@ export const bibleData = [
     num_chapters: 5,
     num_verses: [22, 22, 66, 22, 22],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Ezekiel",
@@ -259,6 +284,7 @@ export const bibleData = [
       23, 29, 49, 26, 20, 27, 31, 25, 24, 23, 35,
     ],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Daniel",
@@ -266,6 +292,7 @@ export const bibleData = [
     num_chapters: 12,
     num_verses: [21, 49, 30, 37, 31, 28, 28, 27, 27, 21, 45, 13],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Hosea",
@@ -273,6 +300,7 @@ export const bibleData = [
     num_chapters: 14,
     num_verses: [11, 23, 5, 19, 15, 11, 16, 14, 17, 15, 12, 14, 16, 9],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Joel",
@@ -280,6 +308,7 @@ export const bibleData = [
     num_chapters: 3,
     num_verses: [20, 32, 21],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Amos",
@@ -287,6 +316,7 @@ export const bibleData = [
     num_chapters: 9,
     num_verses: [15, 16, 15, 13, 27, 14, 17, 14, 15],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Obadiah",
@@ -294,6 +324,7 @@ export const bibleData = [
     num_chapters: 1,
     num_verses: [21],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Jonah",
@@ -301,6 +332,7 @@ export const bibleData = [
     num_chapters: 4,
     num_verses: [17, 10, 10, 11],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Micah",
@@ -308,6 +340,7 @@ export const bibleData = [
     num_chapters: 7,
     num_verses: [16, 13, 12, 13, 15, 16, 20],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Nahum",
@@ -315,6 +348,7 @@ export const bibleData = [
     num_chapters: 3,
     num_verses: [15, 13, 19],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Habakkuk ",
@@ -322,6 +356,7 @@ export const bibleData = [
     num_chapters: 3,
     num_verses: [17, 20, 19],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Zephaniah",
@@ -329,6 +364,7 @@ export const bibleData = [
     num_chapters: 3,
     num_verses: [18, 15, 20],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Haggai",
@@ -336,6 +372,7 @@ export const bibleData = [
     num_chapters: 2,
     num_verses: [15, 23],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Zechariah",
@@ -343,6 +380,7 @@ export const bibleData = [
     num_chapters: 14,
     num_verses: [21, 13, 10, 14, 11, 15, 14, 23, 17, 12, 17, 14, 9, 21],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Malachi",
@@ -350,6 +388,7 @@ export const bibleData = [
     num_chapters: 4,
     num_verses: [14, 17, 18, 6],
     testament: "old",
+    version: ["hot", "lxx", "esv"],
   },
   {
     name: "Matthew",
@@ -360,6 +399,7 @@ export const bibleData = [
       30, 34, 46, 46, 39, 51, 46, 75, 66, 20,
     ],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "Mark",
@@ -369,6 +409,7 @@ export const bibleData = [
       45, 28, 35, 41, 43, 56, 37, 38, 50, 52, 33, 44, 37, 72, 47, 20,
     ],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "Luke",
@@ -379,6 +420,7 @@ export const bibleData = [
       48, 47, 38, 71, 56, 53,
     ],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "John",
@@ -389,6 +431,7 @@ export const bibleData = [
       42, 31, 25,
     ],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "Acts",
@@ -399,6 +442,7 @@ export const bibleData = [
       41, 38, 40, 30, 35, 27, 27, 32, 44, 31,
     ],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "Romans",
@@ -408,6 +452,7 @@ export const bibleData = [
       32, 29, 31, 25, 21, 23, 25, 39, 33, 21, 36, 21, 14, 23, 33, 27,
     ],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "1 Corinthians",
@@ -417,6 +462,7 @@ export const bibleData = [
       31, 16, 23, 21, 13, 20, 40, 13, 27, 33, 34, 31, 13, 40, 58, 24,
     ],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "2 Corinthians",
@@ -424,6 +470,7 @@ export const bibleData = [
     num_chapters: 13,
     num_verses: [24, 17, 18, 18, 21, 18, 16, 24, 15, 18, 33, 21, 14],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "Galatians",
@@ -431,6 +478,7 @@ export const bibleData = [
     num_chapters: 6,
     num_verses: [24, 21, 29, 31, 26, 18],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "Ephesians",
@@ -438,6 +486,7 @@ export const bibleData = [
     num_chapters: 6,
     num_verses: [23, 22, 21, 32, 33, 24],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "Philippians",
@@ -445,6 +494,7 @@ export const bibleData = [
     num_chapters: 4,
     num_verses: [30, 30, 21, 23],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "Colossians",
@@ -452,6 +502,7 @@ export const bibleData = [
     num_chapters: 4,
     num_verses: [29, 23, 25, 18],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "1 Thessalonians",
@@ -459,6 +510,7 @@ export const bibleData = [
     num_chapters: 5,
     num_verses: [10, 20, 13, 18, 28],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "2 Thessalonians",
@@ -466,6 +518,7 @@ export const bibleData = [
     num_chapters: 3,
     num_verses: [12, 17, 18],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "1 Timothy",
@@ -473,6 +526,7 @@ export const bibleData = [
     num_chapters: 6,
     num_verses: [20, 15, 16, 16, 25, 21],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "2 Timothy",
@@ -480,6 +534,7 @@ export const bibleData = [
     num_chapters: 4,
     num_verses: [18, 26, 17, 22],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "Titus",
@@ -487,6 +542,7 @@ export const bibleData = [
     num_chapters: 3,
     num_verses: [16, 15, 15],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "Philemon",
@@ -494,6 +550,7 @@ export const bibleData = [
     num_chapters: 1,
     num_verses: [25],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "Hebrews",
@@ -501,6 +558,7 @@ export const bibleData = [
     num_chapters: 13,
     num_verses: [14, 18, 19, 16, 14, 20, 28, 13, 28, 39, 40, 29, 25],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "James",
@@ -508,6 +566,7 @@ export const bibleData = [
     num_chapters: 5,
     num_verses: [27, 26, 18, 17, 20],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "1 Peter",
@@ -515,6 +574,7 @@ export const bibleData = [
     num_chapters: 5,
     num_verses: [25, 25, 22, 19, 14],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "2 Peter",
@@ -522,6 +582,7 @@ export const bibleData = [
     num_chapters: 3,
     num_verses: [21, 22, 18],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "1 John",
@@ -529,6 +590,7 @@ export const bibleData = [
     num_chapters: 5,
     num_verses: [10, 29, 24, 21, 21],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "2 John",
@@ -536,6 +598,7 @@ export const bibleData = [
     num_chapters: 1,
     num_verses: [13],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "3 John",
@@ -543,6 +606,7 @@ export const bibleData = [
     num_chapters: 1,
     num_verses: [15],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "Jude",
@@ -550,6 +614,7 @@ export const bibleData = [
     num_chapters: 1,
     num_verses: [25],
     testament: "new",
+    version: ["gnt", "esv"],
   },
   {
     name: "Revelation",
@@ -560,9 +625,6 @@ export const bibleData = [
       15, 27, 21,
     ],
     testament: "new",
+    version: ["gnt", "esv"],
   },
-] as const;
-
-export type BibleBook = (typeof bibleData)[number]["name"];
-export type BibleBookAbbreviation = (typeof bibleData)[number]["abbreviation"];
-export type BibleTestament = (typeof bibleData)[number]["testament"];
+];

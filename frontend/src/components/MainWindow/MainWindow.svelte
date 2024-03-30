@@ -1,45 +1,50 @@
 <script lang="ts">
     import type { app } from "!wails/go/models";
     import { GetScriptureSections } from "!wails/go/app/App";
-    import {
-        biblePointToRef,
-        createBiblePoint,
-        bibleRefToPoint,
-        biblePointToString,
-    } from "@/lib/data/bibleReference";
+    import { TextManager } from "@/lib/Scripture/TextManager";
+    import { bibleRefToString, createBibleRef } from "@/lib/Scripture/ref";
 
     let text: app.ScriptureSection;
-    async function onStartup() {
-        const start = performance.now();
-        const texts = await GetScriptureSections("gnt", [
-            {
-                start: biblePointToRef(createBiblePoint("Matthew", 1)),
-                end: biblePointToRef(createBiblePoint("Mark", 16, "end")),
-            },
-            {
-                start: biblePointToRef(createBiblePoint("Luke", 1)),
-                end: biblePointToRef(createBiblePoint("John", 21, "end")),
-            },
-            {
-                start: biblePointToRef(createBiblePoint("Acts", 1)),
-                end: biblePointToRef(createBiblePoint("Romans", 16, "end")),
-            },
-            {
-                start: biblePointToRef(createBiblePoint("1 Corinthians", 1)),
-                end: biblePointToRef(
-                    createBiblePoint("2 Thessalonians", 3, "end"),
-                ),
-            },
-            {
-                start: biblePointToRef(createBiblePoint("1 Timothy", 1)),
-                end: biblePointToRef(createBiblePoint("Revelation", 22, "end")),
-            },
-        ]);
-        const end = performance.now();
-        console.log(`Took: ${end - start}ms`);
+    // async function onStartup() {
+    //     const start = performance.now();
+    //     const texts = await GetScriptureSections("gnt", [
+    //         {
+    //             start: biblePointToRef(createBiblePoint("Matthew", 1)),
+    //             end: biblePointToRef(createBiblePoint("Mark", 16, "end")),
+    //         },
+    //         {
+    //             start: biblePointToRef(createBiblePoint("Luke", 1)),
+    //             end: biblePointToRef(createBiblePoint("John", 21, "end")),
+    //         },
+    //         {
+    //             start: biblePointToRef(createBiblePoint("Acts", 1)),
+    //             end: biblePointToRef(createBiblePoint("Romans", 16, "end")),
+    //         },
+    //         {
+    //             start: biblePointToRef(createBiblePoint("1 Corinthians", 1)),
+    //             end: biblePointToRef(
+    //                 createBiblePoint("2 Thessalonians", 3, "end"),
+    //             ),
+    //         },
+    //         {
+    //             start: biblePointToRef(createBiblePoint("1 Timothy", 1)),
+    //             end: biblePointToRef(createBiblePoint("Revelation", 22, "end")),
+    //         },
+    //     ]);
+    //     const end = performance.now();
+    //     console.log(`Took: ${end - start}ms`);
 
-        if (texts.length > 0) text = texts[0];
-        console.log(text);
+    //     if (texts.length > 0) text = texts[0];
+    //     console.log(text);
+    // }
+
+    function onStartup() {
+        const ans = TextManager.GetScriptureSection(
+            "gnt",
+            createBibleRef("Matthew", 1, "start"),
+            createBibleRef("Revelation", 22, "end"),
+        );
+        console.log(ans);
     }
     onStartup();
 </script>
@@ -51,10 +56,7 @@
                 {#each text.blocks as block}
                     <div class="block">
                         <span class="ref">
-                            {biblePointToString(
-                                bibleRefToPoint(block.range.start),
-                                "short",
-                            )}
+                            {bibleRefToString(block.range.start, "short")}
                         </span>
                         {#each block.verses as verse, index}
                             <div class="verse" style="display: inline">
