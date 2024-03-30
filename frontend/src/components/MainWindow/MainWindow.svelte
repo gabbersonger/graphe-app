@@ -1,22 +1,18 @@
 <script lang="ts">
     import type { app } from "!wails/go/models";
     import { GetScriptureSections } from "!wails/go/app/App";
-    import { bibleRefToString, createBibleRef } from "@/lib/Scripture/ref";
+    import { createBibleRef } from "@/lib/Scripture/ref";
+    import BibleDisplay from "./BibleDisplay.svelte";
 
     let text: app.ScriptureSection;
     async function onStartup() {
-        const start = performance.now();
         const texts = await GetScriptureSections("gnt", [
             {
                 start: createBibleRef("Matthew", 1),
                 end: createBibleRef("Revelation", 22, "end"),
             },
         ]);
-        const end = performance.now();
-        console.log(`Took: ${end - start}ms`);
-
         if (texts.length > 0) text = texts[0];
-        console.log(text);
     }
     onStartup();
 </script>
@@ -25,23 +21,7 @@
     <div class="container">
         <div class="wrapper">
             {#if text}
-                {#each text.blocks as block}
-                    <div class="block">
-                        <span class="ref">
-                            {bibleRefToString(block.range.start, "short")}
-                        </span>
-                        {#each block.verses as verse, index}
-                            <div class="verse" style="display: inline">
-                                {#if index > 0}
-                                    <sup>{verse.ref % 1000}</sup>
-                                {/if}
-                                {#each verse.words as word}
-                                    <span class="word">{word}</span>{" "}
-                                {/each}
-                            </div>
-                        {/each}
-                    </div>
-                {/each}
+                <BibleDisplay {text} />
             {/if}
         </div>
     </div>
@@ -79,38 +59,4 @@
     /* .wrapper::-webkit-scrollbar {
         display: none;
     } */
-
-    .block {
-        padding-bottom: 1rem;
-        color: var(--clr-text);
-        font-size: 1rem;
-        line-height: 1.7;
-    }
-
-    .ref {
-        font-weight: bold;
-        font-size: 0.8rem;
-        color: var(--clr-main);
-        background: var(--clr-background-sub);
-        padding: 0.3rem;
-        border-radius: 0.1rem;
-    }
-
-    sup {
-        vertical-align: super;
-        font-weight: bold;
-        font-size: 0.7rem;
-        color: var(--clr-text-sub);
-    }
-
-    .word {
-        font-family: "Accordance";
-        font-size: 1.2rem;
-    }
-
-    .word:hover {
-        cursor: pointer;
-        background: var(--clr-background-dark);
-        outline: 0.2rem solid var(--clr-background-dark);
-    }
 </style>
