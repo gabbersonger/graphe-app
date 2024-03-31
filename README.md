@@ -24,3 +24,4 @@ Build distributable app: `wails build`
 - [ ] Split `GetScriptureSections` request into multiple batches for larger ranges that perform concurrently
 - [ ] Auto download database file if it does not exist on startup
 - [ ] Split words received into content, pre, post (where pre and post contain punctuation)
+- [ ] Bug: Sidebar opening is slow

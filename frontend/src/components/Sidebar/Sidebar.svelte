@@ -16,9 +16,9 @@
     </div>
     <div class="content">
         {#each sidebarData as el}
-            {#if $ui_sidebarSection == el.name}
+            <div class="wrapper" class:hidden={$ui_sidebarSection != el.name}>
                 <svelte:component this={el.window} />
-            {/if}
+            </div>
         {/each}
     </div>
 </div>
@@ -47,7 +47,18 @@
 
     .content {
         grid-area: content;
-        padding: 0 1rem;
         overflow: scroll;
+        position: relative;
+    }
+
+    .content .wrapper {
+        position: absolute;
+        width: 100%;
+        top: 0;
+        padding: 0 1rem;
+    }
+
+    .content .wrapper.hidden {
+        display: none;
     }
 </style>

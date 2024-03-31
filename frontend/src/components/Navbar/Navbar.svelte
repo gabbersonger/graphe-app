@@ -40,9 +40,7 @@
         <div class="wrapper">
             <Button
                 icon={$ui_showSidebar ? PanelRightClose : PanelRight}
-                on:click={() => {
-                    $ui_showSidebar = !$ui_showSidebar;
-                }}
+                on:click={() => ($ui_showSidebar = !$ui_showSidebar)}
             />
         </div>
     </div>
