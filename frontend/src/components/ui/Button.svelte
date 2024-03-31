@@ -3,10 +3,11 @@
     import type { Icon } from "lucide-svelte";
 
     export let icon: ComponentType<Icon>;
+    export let active: boolean = false;
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<div class="item" on:click>
+<div class="item" class:active on:click>
     <svelte:component this={icon} />
 </div>
 
@@ -27,5 +28,9 @@
     .item > :global(svg) {
         height: 100%;
         width: 100%;
+    }
+
+    .item.active {
+        color: var(--clr-main);
     }
 </style>

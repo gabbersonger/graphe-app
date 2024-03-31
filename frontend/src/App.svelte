@@ -1,7 +1,7 @@
 <script lang="ts">
     import Navbar from "@/components/Navbar/Navbar.svelte";
     import MainWindow from "@/components/MainWindow/MainWindow.svelte";
-    import Sidebar from "@/components/Sidebar.svelte";
+    import Sidebar from "@/components/Sidebar/Sidebar.svelte";
 
     import { ui_showSidebar } from "@/stores/app";
     import { WindowIsFullscreen } from "!wails/runtime/runtime";
@@ -25,10 +25,6 @@
 
 <style>
     #app {
-        --size-navbar-height: 55px;
-        --size-navbar-clear-left: 68px;
-        --size-sidebar-width: 300px;
-
         position: relative;
         width: 100%;
         height: 100%;

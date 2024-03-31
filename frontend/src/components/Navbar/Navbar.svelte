@@ -1,6 +1,6 @@
 <script lang="ts">
     import NavbarItem from "@/components/Navbar/NavbarItem.svelte";
-    import NavbarButton from "@/components/Navbar/NavbarButton.svelte";
+    import Button from "@/components/ui/Button.svelte";
     import {
         BookOpenText,
         PanelRight,
@@ -38,7 +38,7 @@
         </div>
 
         <div class="wrapper">
-            <NavbarButton
+            <Button
                 icon={$ui_showSidebar ? PanelRightClose : PanelRight}
                 on:click={() => {
                     $ui_showSidebar = !$ui_showSidebar;
