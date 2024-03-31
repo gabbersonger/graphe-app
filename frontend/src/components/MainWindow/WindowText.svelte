@@ -1,4 +1,5 @@
 <script lang="ts">
+    import WindowPane from "./WindowPane.svelte";
     import type { app } from "!wails/go/models";
     import { createVirtualizer } from "@tanstack/svelte-virtual";
     import { bibleRefToString } from "@/lib/Scripture/ref";
@@ -15,36 +16,38 @@
         estimateSize: () => 80,
     });
 
-    $: items = $virtualizer.getVirtualItems();
-
     $: {
         if (virtualItemEls.length)
             virtualItemEls.forEach((el) => $virtualizer.measureElement(el));
     }
 </script>
 
-<div
-    bind:this={virtualListEl}
-    style="position: relative; height: {$virtualizer.getTotalSize()}px; width: 100%;"
->
-    {#each text.blocks as block, idx}
-        <div class="block" bind:this={virtualItemEls[idx]} data-index={idx}>
-            <span class="ref">
-                {bibleRefToString(block.range.start, "short")}
-            </span>
-            {#each block.verses as verse, index}
-                <div class="verse" style="display: inline">
-                    {#if index > 0}
-                        <sup>{verse.ref % 1000}</sup>
-                    {/if}
-                    {#each verse.words as word}
-                        <span class="word">{word}</span>{" "}
-                    {/each}
-                </div>
-            {/each}
-        </div>
-    {/each}
-</div>
+<WindowPane>
+    <div
+        bind:this={virtualListEl}
+        style={"position: relative; height:" +
+            $virtualizer.getTotalSize() +
+            "px; width: 100%;"}
+    >
+        {#each text.blocks as block, idx}
+            <div class="block" bind:this={virtualItemEls[idx]} data-index={idx}>
+                <span class="ref">
+                    {bibleRefToString(block.range.start, "short")}
+                </span>
+                {#each block.verses as verse, index}
+                    <div class="verse" style="display: inline">
+                        {#if index > 0}
+                            <sup>{verse.ref % 1000}</sup>
+                        {/if}
+                        {#each verse.words as word}
+                            <span class="word">{word}</span>{" "}
+                        {/each}
+                    </div>
+                {/each}
+            </div>
+        {/each}
+    </div>
+</WindowPane>
 
 <style>
     .block {
