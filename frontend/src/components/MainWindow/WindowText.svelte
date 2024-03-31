@@ -13,7 +13,7 @@
     $: virtualizer = createVirtualizer<HTMLDivElement, HTMLDivElement>({
         count,
         getScrollElement: () => virtualListEl,
-        estimateSize: () => 80,
+        estimateSize: () => 150,
     });
 
     $: {
