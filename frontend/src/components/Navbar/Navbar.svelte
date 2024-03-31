@@ -96,23 +96,16 @@
 
     .navbar-fade {
         --size-fade-height: 20px;
-
         position: absolute;
-        width: 100vw;
+        width: 90vw;
         height: var(--size-fade-height);
-        right: 0;
+        right: 5vw;
         bottom: calc(-1 * var(--size-fade-height));
         background: linear-gradient(
             180deg,
             rgba(50, 52, 55, 1) 30%,
             rgba(0, 0, 0, 0) 100%
         );
-        background: linear-gradient(
-            180deg,
-            rgba(50, 52, 55, 1) 32%,
-            rgba(0, 0, 0, 0) 100%
-        );
-
         z-index: 1;
     }
 </style>
