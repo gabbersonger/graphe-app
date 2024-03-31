@@ -16,6 +16,8 @@
         estimateSize: () => 150,
     });
 
+    $: items = $virtualizer.getVirtualItems();
+
     $: {
         if (virtualItemEls.length)
             virtualItemEls.forEach((el) => $virtualizer.measureElement(el));
@@ -29,7 +31,27 @@
             $virtualizer.getTotalSize() +
             "px; width: 100%;"}
     >
-        {#each text.blocks as block, idx}
+        {#each items as row, idx (row.index)}
+            <div class="block" bind:this={virtualItemEls[idx]} data-index={idx}>
+                <span class="ref">
+                    {bibleRefToString(
+                        text.blocks[row.index].range.start,
+                        "short",
+                    )}
+                </span>
+                {#each text.blocks[row.index].verses as verse, index}
+                    <div class="verse" style="display: inline">
+                        {#if index > 0}
+                            <sup>{verse.ref % 1000}</sup>
+                        {/if}
+                        {#each verse.words as word}
+                            <span class="word">{word}</span>{" "}
+                        {/each}
+                    </div>
+                {/each}
+            </div>
+        {/each}
+        <!-- {#each text.blocks as block, idx}
             <div class="block" bind:this={virtualItemEls[idx]} data-index={idx}>
                 <span class="ref">
                     {bibleRefToString(block.range.start, "short")}
@@ -45,7 +67,7 @@
                     </div>
                 {/each}
             </div>
-        {/each}
+        {/each} -->
     </div>
 </WindowPane>
 
