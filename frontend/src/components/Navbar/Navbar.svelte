@@ -13,7 +13,9 @@
 
 <div id="navbar">
     <div class="container">
-        <div class="wrapper wrapper-left">
+        <div class="wrapper"></div>
+
+        <div class="wrapper wrapper-nav">
             <NavbarItem
                 icon={BookOpenText}
                 text="gnt"
@@ -73,11 +75,11 @@
         gap: 1.2em;
     }
 
-    .wrapper-left {
-        height: 28px;
+    .wrapper-nav {
+        height: 36px;
         background: var(--clr-background-dark);
         border-radius: 0.4em;
-        padding: 0 1.2em;
+        padding: 0 1.8em;
     }
 
     .separator {
