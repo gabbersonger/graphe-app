@@ -46,6 +46,8 @@
             />
         </div>
     </div>
+
+    <div class="navbar-fade"></div>
 </div>
 
 <style>
@@ -90,5 +92,27 @@
         height: 1rem;
         width: 0.15rem;
         background: var(--clr-background-sub);
+    }
+
+    .navbar-fade {
+        --size-fade-height: 20px;
+
+        position: absolute;
+        width: 100vw;
+        height: var(--size-fade-height);
+        right: 0;
+        bottom: calc(-1 * var(--size-fade-height));
+        background: linear-gradient(
+            180deg,
+            rgba(50, 52, 55, 1) 30%,
+            rgba(0, 0, 0, 0) 100%
+        );
+        background: linear-gradient(
+            180deg,
+            rgba(50, 52, 55, 1) 32%,
+            rgba(0, 0, 0, 0) 100%
+        );
+
+        z-index: 1;
     }
 </style>
