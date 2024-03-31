@@ -25,7 +25,7 @@
 
 <style>
     #app {
-        --size-navbar-height: 50px;
+        --size-navbar-height: 55px;
         --size-navbar-clear-left: 68px;
         --size-sidebar-width: 300px;
 

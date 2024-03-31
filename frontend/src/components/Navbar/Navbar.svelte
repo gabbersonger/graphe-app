@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import NavbarItem from "@/components/Navbar/NavbarItem.svelte";
     import NavbarButton from "@/components/Navbar/NavbarButton.svelte";
     import {
@@ -9,11 +9,15 @@
         Quote,
     } from "lucide-svelte";
     import { ui_showSidebar } from "@/stores/app";
+
+    let width: number;
 </script>
 
-<div id="navbar">
+<div id="navbar" bind:clientWidth={width}>
     <div class="container">
-        <div class="wrapper"></div>
+        {#if width > 450}
+            <div class="wrapper"></div>
+        {/if}
 
         <div class="wrapper wrapper-nav">
             <NavbarItem
