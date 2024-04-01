@@ -1,22 +1,28 @@
 <script lang="ts">
-    import WindowPane from "./WindowPane.svelte";
     import type { app } from "!wails/go/models";
-    import { createVirtualizer } from "@tanstack/svelte-virtual";
     import { bibleRefToString } from "@/lib/Scripture/ref";
+    import { createVirtualizer } from "@tanstack/svelte-virtual";
 
     export let text: app.ScriptureSection;
 
     let virtualListEl: HTMLDivElement;
     let virtualItemEls: HTMLDivElement[] = [];
 
-    let count = text.blocks.length;
+    const count = text.blocks.length;
     $: virtualizer = createVirtualizer<HTMLDivElement, HTMLDivElement>({
         count,
         getScrollElement: () => virtualListEl,
-        estimateSize: () => 150,
+        estimateSize: (index: number) => {
+            let num_char = text.blocks[index].verses.reduce(
+                (acc, cur) => acc + cur.words.length,
+                0,
+            );
+            return Math.ceil(num_char / 120) * 25 + 16;
+        },
+        overscan: 2000,
     });
 
-    $: items = $virtualizer.getVirtualItems();
+    $: virtualItems = $virtualizer.getVirtualItems();
 
     $: {
         if (virtualItemEls.length)
@@ -24,54 +30,68 @@
     }
 </script>
 
-<WindowPane>
-    <div
-        bind:this={virtualListEl}
-        style={"position: relative; height:" +
-            $virtualizer.getTotalSize() +
-            "px; width: 100%;"}
-    >
-        {#each items as row, idx (row.index)}
-            <div class="block" bind:this={virtualItemEls[idx]} data-index={idx}>
-                <span class="ref">
-                    {bibleRefToString(
-                        text.blocks[row.index].range.start,
-                        "short",
-                    )}
-                </span>
-                {#each text.blocks[row.index].verses as verse, index}
-                    <div class="verse" style="display: inline">
-                        {#if index > 0}
-                            <sup>{verse.ref % 1000}</sup>
-                        {/if}
-                        {#each verse.words as word}
-                            <span class="word">{word}</span>{" "}
+<div class="container">
+    <div class="wrapper" bind:this={virtualListEl}>
+        <div class="sizer" style={`height: ${$virtualizer.getTotalSize()}px`}>
+            <div
+                style={`position: absolute; top: 0; left: 0; width: 100%; transform: translateY(${
+                    virtualItems[0]
+                        ? virtualItems[0].start -
+                          $virtualizer.options.scrollMargin
+                        : 0
+                }px);`}
+            >
+                {#each virtualItems as row, idx (row.index)}
+                    <div
+                        class="block"
+                        bind:this={virtualItemEls[idx]}
+                        data-index={idx}
+                    >
+                        <span class="ref">
+                            {bibleRefToString(
+                                text.blocks[row.index].range.start,
+                                "short",
+                            )}
+                        </span>
+                        {#each text.blocks[row.index].verses as verse, index}
+                            <div class="verse" style="display: inline">
+                                {#if index > 0}
+                                    <sup>{verse.ref % 1000}</sup>
+                                {/if}
+                                {#each verse.words as word}
+                                    <span class="word">{word}</span>{" "}
+                                {/each}
+                            </div>
                         {/each}
                     </div>
                 {/each}
             </div>
-        {/each}
-        <!-- {#each text.blocks as block, idx}
-            <div class="block" bind:this={virtualItemEls[idx]} data-index={idx}>
-                <span class="ref">
-                    {bibleRefToString(block.range.start, "short")}
-                </span>
-                {#each block.verses as verse, index}
-                    <div class="verse" style="display: inline">
-                        {#if index > 0}
-                            <sup>{verse.ref % 1000}</sup>
-                        {/if}
-                        {#each verse.words as word}
-                            <span class="word">{word}</span>{" "}
-                        {/each}
-                    </div>
-                {/each}
-            </div>
-        {/each} -->
+        </div>
     </div>
-</WindowPane>
+</div>
 
 <style>
+    .container {
+        position: absolute;
+        inset: 0;
+    }
+
+    .wrapper {
+        --size-max-width: 80ch;
+
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow-y: scroll;
+    }
+
+    .sizer {
+        position: relative;
+        width: 90%;
+        max-width: var(--size-max-width);
+        margin: 0 auto;
+    }
+
     .block {
         padding-bottom: 1rem;
         color: var(--clr-text);
