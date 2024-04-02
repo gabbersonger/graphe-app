@@ -102,7 +102,7 @@
         bottom: calc(-1 * var(--size-fade-height));
         background: linear-gradient(
             180deg,
-            rgba(50, 52, 55, 1) 30%,
+            var(--clr-background) 30%,
             rgba(0, 0, 0, 0) 100%
         );
         z-index: 1;
