@@ -131,10 +131,4 @@
         font-family: "Accordance";
         font-size: 1.2rem;
     }
-
-    .word:hover {
-        cursor: pointer;
-        background: var(--clr-background-dark);
-        outline: 0.2rem solid var(--clr-background-dark);
-    }
 </style>
