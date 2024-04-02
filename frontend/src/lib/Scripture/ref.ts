@@ -78,22 +78,35 @@ export const createBibleRef = (
  * Convert a BibleRef into a scripture reference string
  * @throws Will throw if BibleRef is not valid.
  * @param {BibleRef} ref - The reference to be converted.
- * @param {"short"|"long"} format - Determines the format of the scripture reference string produced...
- * **short** – A shorter reference (e.g. Gen 1:1, John 15:12).
- * **long** – A longer reference (e.g. Genesis 1:1, John 15:12).
+ * @param {"short"|"long"|"chapter"} format - Determines the format of the scripture reference string produced...
+ * **short** – A shorter reference (e.g. Gen 1:1, John 15:12, 3Jo 14).
+ * **long** – A longer reference (e.g. Genesis 1:1, John 15:12, 3 John 14).
+ * **chapter** – A chapter reference (e.g. Genesis 1, John 15, 3 John).
  */
-export const bibleRefToString = (ref: BibleRef, format: "short" | "long") => {
+export const bibleRefToString = (
+  ref: BibleRef,
+  format: "short" | "long" | "chapter",
+) => {
   if (!isValidBibleRef(ref))
     GrapheError(`Invalid ref (${ref}) passed to \`bibleRefToString\``);
 
   const verse = ref % 1000;
   const chapter = ((ref % 1000000) - verse) / 1000;
   const book = (ref - chapter * 1000 - verse) / 1000000;
+  const isSingleChapterBook = bibleData[book - 1].num_chapters == 1;
   switch (format) {
     case "short":
-      return `${bibleData[book - 1].abbreviation} ${chapter}:${verse}`;
+      return isSingleChapterBook
+        ? `${bibleData[book - 1].abbreviation} ${verse}`
+        : `${bibleData[book - 1].abbreviation} ${chapter}:${verse}`;
     case "long":
-      return `${bibleData[book - 1].name} ${chapter}:${verse}`;
+      return isSingleChapterBook
+        ? `${bibleData[book - 1].name} ${verse}`
+        : `${bibleData[book - 1].name} ${chapter}:${verse}`;
+    case "chapter":
+      return isSingleChapterBook
+        ? `${bibleData[book - 1].name}`
+        : `${bibleData[book - 1].name} ${chapter}`;
   }
 };
 

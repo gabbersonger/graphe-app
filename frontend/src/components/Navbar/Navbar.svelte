@@ -8,7 +8,8 @@
         Search,
         Quote,
     } from "lucide-svelte";
-    import { ui_showSidebar } from "@/stores/app";
+    import { ui_showSidebar, ui_currentRef } from "@/stores/app";
+    import { bibleRefToString } from "@/lib/Scripture/ref";
 
     let width: number;
 </script>
@@ -28,7 +29,7 @@
 
             <NavbarItem
                 icon={Quote}
-                text="matthew 20.12"
+                text={bibleRefToString($ui_currentRef, "chapter")}
                 on:click={() => console.log("hi")}
             />
 

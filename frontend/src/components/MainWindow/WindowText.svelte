@@ -1,7 +1,10 @@
 <script lang="ts">
     import type { app } from "!wails/go/models";
     import { bibleRefToString } from "@/lib/Scripture/ref";
+    import { ui_currentRef } from "@/stores/app";
     import { createVirtualizer } from "@tanstack/svelte-virtual";
+    import type { ScrollEvents } from "lucide-svelte/dist/icons/scroll.svelte";
+    import { onMount } from "svelte";
 
     export let text: app.ScriptureSection;
 
@@ -28,10 +31,19 @@
         if (virtualItemEls.length)
             virtualItemEls.forEach((el) => $virtualizer.measureElement(el));
     }
+
+    let scrollTimeout: ReturnType<typeof setTimeout>;
+    function onScroll() {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            const block = text.blocks[$virtualizer.range.startIndex];
+            $ui_currentRef = block.range.start;
+        }, 30);
+    }
 </script>
 
 <div class="container">
-    <div class="wrapper" bind:this={virtualListEl}>
+    <div class="wrapper" bind:this={virtualListEl} on:scroll={onScroll}>
         <div class="sizer" style={`height: ${$virtualizer.getTotalSize()}px`}>
             <div
                 style={`position: absolute; top: 0; left: 0; width: 100%; transform: translateY(${
