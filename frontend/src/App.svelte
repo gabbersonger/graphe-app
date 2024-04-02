@@ -2,6 +2,7 @@
     import Navbar from "@/components/Navbar/Navbar.svelte";
     import MainWindow from "@/components/MainWindow/MainWindow.svelte";
     import Sidebar from "@/components/Sidebar/Sidebar.svelte";
+    import Modals from "@/components/Modals/Modals.svelte";
 
     import { ui_showSidebar } from "@/stores/app";
     import { WindowIsFullscreen } from "!wails/runtime/runtime";
@@ -21,6 +22,7 @@
     <nav><Navbar /></nav>
     <main><MainWindow /></main>
     <aside><Sidebar /></aside>
+    <Modals />
 </div>
 
 <style>

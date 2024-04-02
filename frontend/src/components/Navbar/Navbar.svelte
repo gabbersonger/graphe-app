@@ -8,7 +8,7 @@
         Search,
         Quote,
     } from "lucide-svelte";
-    import { ui_showSidebar, ui_currentRef } from "@/stores/app";
+    import { ui_showSidebar, ui_currentRef, ui_modal } from "@/stores/app";
     import { bibleRefToString } from "@/lib/Scripture/ref";
 
     let width: number;
@@ -24,18 +24,18 @@
             <NavbarItem
                 icon={BookOpenText}
                 text="gnt"
-                on:click={() => console.log("hi")}
+                on:click={() => ($ui_modal = "chooseText")}
             />
 
             <NavbarItem
                 icon={Quote}
                 text={bibleRefToString($ui_currentRef, "chapter")}
-                on:click={() => console.log("hi")}
+                on:click={() => ($ui_modal = "choosePassage")}
             />
 
             <div class="separator"></div>
 
-            <NavbarItem icon={Search} on:click={() => console.log("hi")} />
+            <NavbarItem icon={Search} on:click={() => ($ui_modal = "search")} />
         </div>
 
         <div class="wrapper">
