@@ -14,7 +14,7 @@
         </div>
     {/if}
     {#if text}
-        <div class="text">{text}</div>
+        <div class="text">{text.toLowerCase()}</div>
     {/if}
 </div>
 

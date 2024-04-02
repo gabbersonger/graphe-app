@@ -20,8 +20,8 @@
 
 <style>
     .screen-wrapper {
-        --modal-max-width: 1000px;
-        --modal-margin: 10vh;
+        --modal-max-width: 900px;
+        --modal-margin: 15vh;
         --modal-padding: 2rem;
 
         position: absolute;
@@ -30,7 +30,7 @@
         isolation: isolate;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
         padding: var(--modal-margin) 0;
     }
