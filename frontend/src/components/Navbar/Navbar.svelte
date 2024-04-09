@@ -89,8 +89,8 @@
 
     .separator {
         height: 1rem;
-        width: 0.15rem;
-        background: var(--clr-background-sub);
+        width: 0.1rem;
+        background: var(--clr-text-sub);
     }
 
     .navbar-fade {

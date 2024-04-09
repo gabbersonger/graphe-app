@@ -4,7 +4,8 @@
     import Sidebar from "@/components/Sidebar/Sidebar.svelte";
     import Modals from "@/components/Modals/Modals.svelte";
 
-    import { ui_showSidebar } from "@/stores/app";
+    import { ui_showSidebar, ui_theme } from "@/stores/app";
+    import { themeData } from "@/lib/theme-data";
     import { WindowIsFullscreen } from "!wails/runtime/runtime";
 
     let isFullscreen = false;
@@ -14,11 +15,24 @@
     }
     let innerWidth: number;
     $: checkIfFullscreen(innerWidth);
+
+    $: theme = themeData.find((t) => t.name == $ui_theme);
 </script>
 
 <svelte:window bind:innerWidth />
 
-<div id="app" class:sidebar={$ui_showSidebar} class:fullscreen={isFullscreen}>
+<div
+    id="app"
+    class:sidebar={$ui_showSidebar}
+    class:fullscreen={isFullscreen}
+    style:--clr-background={theme.colors.background}
+    style:--clr-background-sub={theme.colors.backgroundSub}
+    style:--clr-background-dark={theme.colors.backgroundDark}
+    style:--clr-main={theme.colors.main}
+    style:--clr-text={theme.colors.text}
+    style:--clr-text-sub={theme.colors.textSub}
+    style:--clr-text-highlight={theme.colors.textHighlight}
+>
     <nav><Navbar /></nav>
     <main><MainWindow /></main>
     <aside><Sidebar /></aside>
