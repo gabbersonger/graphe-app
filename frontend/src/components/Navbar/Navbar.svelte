@@ -8,7 +8,7 @@
         Search,
         Quote,
     } from "lucide-svelte";
-    import { ui_showSidebar, app_currRefLabel, ui_modal } from "@/stores/app";
+    import { ui_showSidebar, app_currRefLabel, ui_modal } from "@/lib/stores";
     import { bibleRefToString } from "@/lib/Scripture/ref";
 
     let width: number;

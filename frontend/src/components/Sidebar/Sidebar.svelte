@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { ui_sidebarSection } from "@/stores/app";
+    import { ui_sidebarSection } from "@/lib/stores";
     import Button from "@/components/ui/Button.svelte";
     import { sidebarData } from "@/components/Sidebar/data";
 </script>

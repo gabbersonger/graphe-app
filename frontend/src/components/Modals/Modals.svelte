@@ -1,6 +1,6 @@
 <script lang="ts">
     import { modalData } from "@/components/Modals/data";
-    import { ui_modal } from "@/stores/app";
+    import { ui_modal } from "@/lib/stores";
     import { onMount } from "svelte";
 
     onMount(() => {

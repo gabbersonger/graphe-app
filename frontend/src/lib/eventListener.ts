@@ -2,7 +2,7 @@ import { EventsOn, EventsOff } from "!wails/runtime/runtime";
 import { GrapheError } from "@/lib/utils";
 
 import { modalData, type ModalName } from "@/components/Modals/data";
-import { ui_modal, ui_showSidebar } from "@/stores/app";
+import { ui_modal, ui_showSidebar } from "@/lib/stores";
 
 const event_list = {
   "ui:modal": (data: ModalName) => {

@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { app } from "!wails/go/models";
     import { bibleRefToString } from "@/lib/Scripture/ref";
-    import { app_currRefLabel } from "@/stores/app";
+    import { app_currRefLabel } from "@/lib/stores";
     import { createVirtualizer } from "@tanstack/svelte-virtual";
     import type { ScrollEvents } from "lucide-svelte/dist/icons/scroll.svelte";
     import { onMount } from "svelte";
