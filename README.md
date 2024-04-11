@@ -9,16 +9,31 @@ Build distributable app: `wails build`
 
 ## Todo
 
-**Next up**
+**Version 1 Checklist**
 
-- [ ] Make modal ui for picking text, bible passage and search
-- [ ] Add themes to settings tab in sidebar
+- [ ] Add keyboard shortcuts
+- [ ] Format display of texts
+- [ ] 'Choose passage' modal
+- [ ] 'Choose text' modal
+- [ ] 'Search pane' modal
+- [ ] Add theme selector to settings in sidebar
 - [ ] Hover effect for words + ui for displaying info
+- [ ] Split GNT text into word, pre, post (separate out punctuation)
+- [ ] Add HOT
+- [ ] Add ESV
+- [ ] Add LXX
 
-**Optional extras**
+**Later Versions Checklist**
+
+- [ ] Auto-download database file if it does not exist on startup
+- [ ] Sidebar: formatting
+- [ ] Sidebar: settings
+
+**Performance**
 
 - [ ] Split `GetScriptureSections` request into multiple batches for larger ranges that perform concurrently
-- [ ] Auto download database file if it does not exist on startup
-- [ ] Split words received into content, pre, post (where pre and post contain punctuation)
-- [ ] Bug: Sidebar opening is slow
-- [ ] Bug: Occasional jitters in scrolling through Bible
+- [ ] Sidebar opening is slow
+
+**Bugs**
+
+- [ ] Occasional jitters in scrolling through Bible
