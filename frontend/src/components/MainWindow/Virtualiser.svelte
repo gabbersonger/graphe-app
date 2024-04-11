@@ -9,7 +9,7 @@
     let rows_height = 0;
     let viewport: HTMLElement;
 
-    let current = 0;
+    export let current_item = 0;
     let current_offset = 0;
 
     async function firstLoad() {
@@ -26,9 +26,9 @@
             row_position_data[i].start = row_elements[i].offsetTop;
             rows_height += row_elements[i].offsetHeight;
 
-            if (i == current) {
+            if (i == current_item) {
                 viewport.scrollTop =
-                    row_position_data[current].start + current_offset;
+                    row_position_data[current_item].start + current_offset;
             }
         }
 
@@ -39,11 +39,13 @@
         const scroll = viewport.scrollTop;
         for (let i = 0; i < row_position_data.length; i++) {
             if (row_position_data[i].start > scroll) {
-                current = i - 1;
-                current_offset = scroll - row_position_data[current].start;
-                visible = items.slice(current, current + 20).map((data, x) => {
-                    return { index: x + current, data };
-                });
+                current_item = i - 1;
+                current_offset = scroll - row_position_data[current_item].start;
+                visible = items
+                    .slice(current_item, current_item + 20)
+                    .map((data, x) => {
+                        return { index: x + current_item, data };
+                    });
                 return;
             }
         }

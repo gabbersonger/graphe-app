@@ -1,12 +1,18 @@
 <script lang="ts">
     import type { app } from "!wails/go/models";
     import { bibleRefToString } from "@/lib/Scripture/ref";
-    import Virtualiser from "./Virtualiser.svelte";
+    import Virtualiser from "@/components/MainWindow/Virtualiser.svelte";
+    import { app_currRefLabel } from "@/lib/stores";
 
     export let text: app.ScriptureSection;
+
+    let current_item: number;
+    $: if (current_item) {
+        $app_currRefLabel = text.blocks[current_item].range.start;
+    }
 </script>
 
-<Virtualiser items={text.blocks} let:row>
+<Virtualiser items={text.blocks} bind:current_item let:row>
     <div class="block">
         <span class="ref">
             {bibleRefToString(row.data.range.start, "short")}
