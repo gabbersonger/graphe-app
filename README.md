@@ -7,21 +7,23 @@ Live development mode: `wails dev`
 
 Build distributable app: `wails build`
 
-## Todo
+## Roadmap
 
 **Version 1 Checklist**
 
 - [x] Add keyboard shortcuts
 - [ ] Format display of texts
-- [ ] 'Choose passage' modal
-- [ ] 'Choose text' modal
-- [ ] 'Search pane' modal
+- [ ] Get the modals working
+  - [ ] 'Choose passage' modal
+  - [ ] 'Choose text' modal
+  - [ ] 'Search pane' modal
 - [ ] Add theme selector to settings in sidebar
 - [ ] Hover effect for words + ui for displaying info
-- [ ] Split GNT text into word, pre, post (separate out punctuation)
-- [ ] Add HOT
-- [ ] Add ESV
-- [ ] Add LXX
+- [ ] Get all the bible texts working properly
+  - [ ] Split GNT text into word, pre, post (separate out punctuation)
+  - [ ] Add HOT
+  - [ ] Add ESV
+  - [ ] Add LXX
 
 **Later Versions Checklist**
 
