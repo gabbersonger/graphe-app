@@ -546,7 +546,7 @@ export const bibleData = [
   },
   {
     name: "Philemon",
-    abbreviation: "Philem",
+    abbreviation: "Phlm",
     num_chapters: 1,
     num_verses: [25],
     testament: "new",
@@ -562,7 +562,7 @@ export const bibleData = [
   },
   {
     name: "James",
-    abbreviation: "James",
+    abbreviation: "Jas",
     num_chapters: 5,
     num_verses: [27, 26, 18, 17, 20],
     testament: "new",
