@@ -13,6 +13,9 @@ Build distributable app: `wails build`
 
 - [x] Add keyboard shortcuts
 - [ ] Format display of texts
+  - [x] Update virtualiser
+  - [ ] Add book titles
+  - [ ] Add top padding
 - [ ] Get the modals working
   - [ ] 'Choose passage' modal
   - [ ] 'Choose text' modal
@@ -35,8 +38,4 @@ Build distributable app: `wails build`
 **Performance**
 
 - [ ] Split `GetScriptureSections` request into multiple batches for larger ranges that perform concurrently
-- [ ] Sidebar opening is slow
-
-**Bugs**
-
-- [ ] Occasional jitters in scrolling through Bible
+- [ ] Increase speed of virtualiser when resizing window
