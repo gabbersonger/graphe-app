@@ -70,7 +70,10 @@ var bibleData = [...]BookData{`;
 };
 
 export const createBibleData = () => {
-  if (hashFile("/bible_data.js") == "0bcf03f1a7111e6884ba7cbd3ab82dfd") return;
+  // Ensure this code only gets run on file change to `bible_data.js`
+  let hash = hashFile("/bible_data.js");
+  if (hash == fs.readFileSync(__dirname + "/bible_data.lock")) return;
+  fs.writeFileSync(__dirname + "/bible_data.lock", hash);
 
   createJSFile(); // `frontend/src/lib/Scripture/data.ts`
   createGoFile(); // `internal/app/scripture_data.go`
