@@ -1,6 +1,19 @@
 <script lang="ts">
     import { modalData } from "@/components/Modals/data";
     import { ui_modal } from "@/stores/app";
+    import { onMount } from "svelte";
+
+    onMount(() => {
+        function handleKeyup(event: KeyboardEvent) {
+            if ($ui_modal && event.key == "Escape") {
+                $ui_modal = "";
+            }
+        }
+        document.addEventListener("keyup", handleKeyup);
+        return () => {
+            document.removeEventListener("keyup", handleKeyup);
+        };
+    });
 </script>
 
 <div class="screen-wrapper" class:open={$ui_modal != ""}>
