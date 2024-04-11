@@ -12,13 +12,27 @@
     export let current_item = 0;
     let current_offset = 0;
 
+    let last_width = 0;
+    let historic_row_position_data = {};
+
     async function firstLoad() {
+        // Save positioning data
+        if (row_position_data.length > 0) {
+            historic_row_position_data[last_width] = row_position_data;
+        }
+        if (resize_width in historic_row_position_data) {
+            row_position_data = historic_row_position_data[resize_width];
+            refresh();
+            return;
+        }
+
         visible = items.slice(0, items.length).map((data, i) => {
             return { index: i, data };
         });
 
         await tick();
 
+        last_width = resize_width;
         rows_height = 0;
         for (let i = 0; i < row_elements.length; i++) {
             row_position_data[i] = {};
