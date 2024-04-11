@@ -463,7 +463,7 @@ var bibleData = [...]BookData{
 	},
 	{
 		name: "Philemon",
-		abbreviation: "Philem",
+		abbreviation: "Phlm",
 		num_chapters: 1,
 		num_verses: []int{25},
 		testament: "new",
@@ -479,7 +479,7 @@ var bibleData = [...]BookData{
 	},
 	{
 		name: "James",
-		abbreviation: "James",
+		abbreviation: "Jas",
 		num_chapters: 5,
 		num_verses: []int{27,26,18,17,20},
 		testament: "new",

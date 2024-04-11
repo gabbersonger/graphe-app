@@ -13,7 +13,7 @@ const hashFile = (filename) => {
 const createJSFile = () => {
   if (
     hashFile("/../frontend/src/lib/Scripture/data.ts") ==
-    "3640380b651b9e9c7f1db2438a343dd2"
+    "6662c5e86de946584a585415aef09838"
   )
     return;
 
@@ -42,7 +42,7 @@ const createJSFile = () => {
 const createGoFile = () => {
   if (
     hashFile("/../internal/app/scripture_data.go") ==
-    "b0aeaab51ad7d2903f3bfc9858aa3f34"
+    "262f7a8b68bf2452f1820f53e8795fec"
   )
     return;
 
