@@ -30,7 +30,10 @@ const createJSFile = () => {
     },`;
   }
   data += "\n] as const;";
-  fs.writeFileSync(__dirname + "/../frontend/src/lib/Scripture/data.ts", data);
+  fs.writeFileSync(
+    __dirname + "/../../frontend/src/lib/Scripture/data.ts",
+    data,
+  );
 };
 
 const createGoFile = () => {
@@ -66,7 +69,7 @@ var bibleData = [...]BookData{`;
 	},`;
   }
   data += "}";
-  fs.writeFileSync(__dirname + "/../internal/app/scripture_data.go", data);
+  fs.writeFileSync(__dirname + "/../../internal/app/scripture_data.go", data);
 };
 
 export const createBibleData = () => {
