@@ -1,31 +1,20 @@
 <script lang="ts">
-    import { onMount, tick } from "svelte";
+    import { tick } from "svelte";
 
     export let items: Array<any>;
 
-    let visible = items;
-
-    let start = 0;
-    let end = items.length;
-
+    let visible = [];
     let row_elements = [];
     let row_position_data = [];
     let rows_height = 0;
-    let positionable = false;
-
     let viewport: HTMLElement;
 
-    $: visible = items.slice(start, end).map((data, i) => {
-        return { index: i + start, data };
-    });
+    let current = 0;
+    let current_offset = 0;
 
     async function firstLoad() {
-        positionable = false;
-        start = 0;
-        end = items.length;
-        positionable = false;
-        visible = items.slice(start, end).map((data, i) => {
-            return { index: i + start, data };
+        visible = items.slice(0, items.length).map((data, i) => {
+            return { index: i, data };
         });
 
         await tick();
@@ -36,8 +25,12 @@
             row_position_data[i].height = row_elements[i].offsetHeight;
             row_position_data[i].start = row_elements[i].offsetTop;
             rows_height += row_elements[i].offsetHeight;
+
+            if (i == current) {
+                viewport.scrollTop =
+                    row_position_data[current].start + current_offset;
+            }
         }
-        positionable = true;
 
         refresh();
     }
@@ -46,20 +39,21 @@
         const scroll = viewport.scrollTop;
         for (let i = 0; i < row_position_data.length; i++) {
             if (row_position_data[i].start > scroll) {
-                start = i - 1;
-                end = i + 20;
+                current = i - 1;
+                current_offset = scroll - row_position_data[current].start;
+                visible = items.slice(current, current + 20).map((data, x) => {
+                    return { index: x + current, data };
+                });
                 return;
             }
         }
     }
 
-    onMount(() => firstLoad);
-
     let resize_width: number;
     let resize_timer: ReturnType<typeof setTimeout>;
     $: if (resize_width) {
         clearTimeout(resize_timer);
-        setTimeout(firstLoad, 3);
+        resize_timer = setTimeout(firstLoad, 50);
     }
 </script>
 
@@ -69,16 +63,18 @@
     <div class="viewport" bind:this={viewport} on:scroll={refresh}>
         <div class="content" bind:clientWidth={resize_width}>
             <div class="rows" style="min-height: {rows_height}px">
-                {#each visible as row (row.index)}
-                    <div
-                        style={positionable
-                            ? `position: absolute; top: ${row_position_data[row.index].start}px;`
-                            : ""}
-                        bind:this={row_elements[row.index]}
-                    >
-                        <slot {row} />
-                    </div>
-                {/each}
+                <div
+                    class="offseter"
+                    style={row_position_data.length > 0 && visible.length > 0
+                        ? `top: ${row_position_data[visible[0].index].start}px`
+                        : ""}
+                >
+                    {#each visible as row (row.index)}
+                        <div bind:this={row_elements[row.index]}>
+                            <slot {row} />
+                        </div>
+                    {/each}
+                </div>
             </div>
         </div>
     </div>
@@ -109,5 +105,11 @@
         /* top: 0;
         left: 0;
         width: 100%; */
+    }
+
+    .offseter {
+        position: absolute;
+        top: 0;
+        width: 100%;
     }
 </style>
