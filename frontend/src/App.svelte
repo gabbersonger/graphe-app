@@ -7,7 +7,7 @@
     import { ui_showSidebar, ui_theme } from "@/lib/stores";
     import { themeData } from "@/lib/theme-data";
     import { WindowIsFullscreen } from "!wails/runtime/runtime";
-    import { eventListener } from "@/lib/eventListener";
+    import { eventListener } from "@/lib/events";
 
     let isFullscreen = false;
     async function checkIfFullscreen(_: number) {
