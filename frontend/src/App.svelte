@@ -7,6 +7,7 @@
     import { ui_showSidebar, ui_theme } from "@/stores/app";
     import { themeData } from "@/lib/theme-data";
     import { WindowIsFullscreen } from "!wails/runtime/runtime";
+    import { eventListener } from "@/lib/eventListener";
 
     let isFullscreen = false;
     async function checkIfFullscreen(_: number) {
@@ -32,6 +33,7 @@
     style:--clr-text={theme.colors.text}
     style:--clr-text-sub={theme.colors.textSub}
     style:--clr-text-highlight={theme.colors.textHighlight}
+    use:eventListener
 >
     <nav><Navbar /></nav>
     <main><MainWindow /></main>

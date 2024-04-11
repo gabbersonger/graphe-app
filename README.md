@@ -11,7 +11,7 @@ Build distributable app: `wails build`
 
 **Version 1 Checklist**
 
-- [ ] Add keyboard shortcuts
+- [x] Add keyboard shortcuts
 - [ ] Format display of texts
 - [ ] 'Choose passage' modal
 - [ ] 'Choose text' modal
@@ -28,6 +28,7 @@ Build distributable app: `wails build`
 - [ ] Auto-download database file if it does not exist on startup
 - [ ] Sidebar: formatting
 - [ ] Sidebar: settings
+- [ ] Create menubar with full features
 
 **Performance**
 
