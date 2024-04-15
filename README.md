@@ -34,6 +34,7 @@ Build distributable app: `wails build`
 - [ ] Sidebar: formatting
 - [ ] Sidebar: settings
 - [ ] Create menubar with full features
+- [ ] Resizing window keeps verse at top on screen, not just block
 
 **Performance**
 
