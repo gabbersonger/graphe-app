@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { app } from "!wails/go/models";
-    import { bibleRefToString } from "@/lib/Scripture/ref";
+    import { bibleRefToString, isRefBookStart } from "@/lib/Scripture/ref";
     import Virtualiser from "@/components/MainWindow/Virtualiser.svelte";
     import { app_currRefLabel } from "@/lib/stores";
 
@@ -14,6 +14,12 @@
 
 <Virtualiser items={text.blocks} bind:current_item let:row>
     <div class="block">
+        {#if isRefBookStart(row.data.range.start)}
+            <div class="heading">
+                {bibleRefToString(row.data.range.start, "book")}
+            </div>
+        {/if}
+
         <span class="ref">
             {bibleRefToString(row.data.range.start, "short")}
         </span>
@@ -32,10 +38,19 @@
 
 <style>
     .block {
+        display: block;
         padding-bottom: 1rem;
         color: var(--clr-text);
         font-size: 1rem;
         line-height: 1.7;
+    }
+
+    .heading {
+        display: block;
+        text-align: center;
+        font-weight: bold;
+        font-size: 2em;
+        padding-block: 2rem;
     }
 
     .ref {

@@ -12,10 +12,10 @@ Build distributable app: `wails build`
 **Version 1 Checklist**
 
 - [x] Add keyboard shortcuts
-- [ ] Format display of texts
+- [x] Format display of texts
   - [x] Update virtualiser
-  - [ ] Add book titles
-  - [ ] Add top padding
+  - [x] Add book titles
+  - [x] Add top padding
 - [ ] Get the modals working
   - [ ] 'Choose passage' modal
   - [ ] 'Choose text' modal
