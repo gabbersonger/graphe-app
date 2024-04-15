@@ -4,6 +4,8 @@
 
     export let icon: ComponentType<Icon> = null;
     export let text: string = "";
+    export let tooltip: string = "";
+    export let command: string = "";
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -16,10 +18,20 @@
     {#if text}
         <div class="text">{text.toLowerCase()}</div>
     {/if}
+
+    {#if tooltip || command}
+        <div class="tooltip-wrapper">
+            <div class="tooltip">
+                {tooltip}
+                {#if command}<span class="command">{command}</span>{/if}
+            </div>
+        </div>
+    {/if}
 </div>
 
 <style>
     .item {
+        position: relative;
         display: flex;
         flex-direction: row;
         gap: 0.4rem;
@@ -51,5 +63,49 @@
         flex-direction: row;
         align-items: center;
         line-height: 0;
+    }
+
+    .item .tooltip-wrapper {
+        position: absolute;
+        left: 50%;
+        width: 100vw;
+        pointer-events: none;
+        padding-top: calc(1rem + 2px);
+    }
+
+    .item:not(:hover) .tooltip-wrapper {
+        display: none;
+    }
+
+    .item .tooltip-wrapper .tooltip {
+        --size-triangle-height: 0.6em;
+        position: relative;
+        width: min-content;
+        transform: translateX(-50%);
+        background: var(--clr-text);
+        color: var(--clr-background);
+        padding: 0.5em 0.8em;
+        border-radius: 0.2em;
+        z-index: 2;
+        margin-top: var(--size-triangle-height);
+        white-space: nowrap;
+    }
+
+    .item .tooltip-wrapper .tooltip::after {
+        content: "";
+        display: block;
+        height: 0;
+        width: 0;
+        position: absolute;
+        top: calc(-1 * var(--size-triangle-height) + 1px);
+        left: calc(50% - var(--size-triangle-height) / 1.2);
+        border-left: calc(var(--size-triangle-height) / 1.2) solid transparent;
+        border-right: calc(var(--size-triangle-height) / 1.2) solid transparent;
+        border-bottom: var(--size-triangle-height) solid var(--clr-text);
+    }
+
+    .item .tooltip-wrapper .tooltip .command {
+        color: var(--clr-background-dark);
+        padding-left: 0.2rem;
     }
 </style>

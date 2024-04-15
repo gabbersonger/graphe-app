@@ -25,17 +25,26 @@
                 icon={BookOpenText}
                 text="gnt"
                 on:click={() => ($ui_modal = "chooseText")}
+                tooltip="Choose Text"
+                command="⌘T"
             />
 
             <NavbarItem
                 icon={Quote}
                 text={bibleRefToString($app_currRefLabel, "chapter")}
                 on:click={() => ($ui_modal = "choosePassage")}
+                tooltip="Choose Passage"
+                command="⌘P"
             />
 
             <div class="separator"></div>
 
-            <NavbarItem icon={Search} on:click={() => ($ui_modal = "search")} />
+            <NavbarItem
+                icon={Search}
+                on:click={() => ($ui_modal = "search")}
+                tooltip="Search"
+                command="⌘F"
+            />
         </div>
 
         <div class="wrapper">
