@@ -1,17 +1,11 @@
-import { Cog, SquareSigma } from "lucide-svelte";
-import SidebarSettings from "@/components/sidebar/SidebarSettings.svelte";
-import SidebarFormatting from "@/components/sidebar/SidebarFormatting.svelte";
+import { CircleHelp, Cog, SquareSigma } from "lucide-svelte";
+import SidebarTodo from "@/components/sidebar/SidebarTodo.svelte";
 
 export const sidebarData = [
   {
-    name: "formatting",
-    icon: SquareSigma,
-    window: SidebarFormatting,
-  },
-  {
-    name: "settings",
-    icon: Cog,
-    window: SidebarSettings,
+    name: "todo",
+    icon: CircleHelp,
+    window: SidebarTodo,
   },
 ] as const;
 

@@ -7,6 +7,7 @@
         PanelRightClose,
         Search,
         Quote,
+        Sigma,
     } from "lucide-svelte";
     import { ui_showSidebar, app_currRefLabel, ui_modal } from "@/lib/stores";
     import { bibleRefToString } from "@/lib/Scripture/ref";
@@ -38,6 +39,13 @@
             />
 
             <div class="separator"></div>
+
+            <NavbarItem
+                icon={Sigma}
+                on:click={() => ($ui_modal = "functions")}
+                tooltip="Functions"
+                command="⌘R"
+            />
 
             <NavbarItem
                 icon={Search}

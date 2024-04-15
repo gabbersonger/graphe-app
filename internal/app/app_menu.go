@@ -52,7 +52,8 @@ func (a *App) Menu() *menu.Menu {
 	fileMenu := appMenu.AddSubmenu("File")
 	fileMenu.AddText("Choose Text...", keys.CmdOrCtrl("T"), menuCallbackEmit(a, "ui:modal", "chooseText"))
 	fileMenu.AddText("Choose Passage...", keys.CmdOrCtrl("P"), menuCallbackEmit(a, "ui:modal", "choosePassage"))
-	fileMenu.AddText("Search for passage...", keys.CmdOrCtrl("F"), menuCallbackEmit(a, "ui:modal", "search"))
+	fileMenu.AddText("Functions", keys.CmdOrCtrl("R"), menuCallbackEmit(a, "ui:modal", "functions"))
+	fileMenu.AddText("Search", keys.CmdOrCtrl("F"), menuCallbackEmit(a, "ui:modal", "search"))
 	fileMenu.AddSeparator()
 	fileMenu.AddText("Sidebar", keys.CmdOrCtrl("\\"), menuCallbackEmit(a, "ui:sidebar:toggle"))
 
