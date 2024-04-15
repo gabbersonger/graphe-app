@@ -115,5 +115,6 @@
             rgba(0, 0, 0, 0) 100%
         );
         z-index: 1;
+        pointer-events: none;
     }
 </style>
