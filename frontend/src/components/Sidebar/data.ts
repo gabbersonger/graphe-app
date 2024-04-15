@@ -1,4 +1,4 @@
-import { CircleHelp, Cog, SquareSigma } from "lucide-svelte";
+import { CircleHelp } from "lucide-svelte";
 import SidebarTodo from "@/components/sidebar/SidebarTodo.svelte";
 
 export const sidebarData = [
