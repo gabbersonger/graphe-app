@@ -2,28 +2,36 @@
     import type { app } from "!wails/go/models";
     import { bibleRefToString, isRefBookStart } from "@/lib/Scripture/ref";
     import Virtualiser from "@/components/MainWindow/Virtualiser.svelte";
-    import { app_currRefLabel } from "@/lib/stores";
+    import { app_currRefVisible } from "@/lib/stores";
+    import type { BibleRef } from "@/lib/Scripture/types";
 
     export let text: app.ScriptureSection;
 
     let current_item: number;
     $: if (current_item) {
-        $app_currRefLabel = text.blocks[current_item].range.start;
+        $app_currRefVisible = text.blocks[current_item].range.start;
     }
+
+    let scrollVirtualiser: (_: number) => void;
 </script>
 
-<Virtualiser items={text.blocks} bind:current_item let:row>
+<Virtualiser
+    items={text.blocks}
+    bind:current_item
+    bind:scrollToItem={scrollVirtualiser}
+    let:row
+>
     <div class="block">
-        {#if isRefBookStart(row.data.range.start)}
+        {#if isRefBookStart(row.range.start)}
             <div class="heading">
-                {bibleRefToString(row.data.range.start, "book")}
+                {bibleRefToString(row.range.start, "book")}
             </div>
         {/if}
 
         <span class="ref">
-            {bibleRefToString(row.data.range.start, "short")}
+            {bibleRefToString(row.range.start, "short")}
         </span>
-        {#each row.data.verses as verse, index}
+        {#each row.verses as verse, index}
             <div class="verse" style="display: inline">
                 {#if index > 0}
                     <sup>{verse.ref % 1000}</sup>

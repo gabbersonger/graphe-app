@@ -9,7 +9,7 @@
         Quote,
         Sigma,
     } from "lucide-svelte";
-    import { ui_showSidebar, app_currRefLabel, ui_modal } from "@/lib/stores";
+    import { ui_showSidebar, app_currRefVisible, ui_modal } from "@/lib/stores";
     import { bibleRefToString } from "@/lib/Scripture/ref";
 
     let width: number;
@@ -32,7 +32,7 @@
 
             <NavbarItem
                 icon={Quote}
-                text={bibleRefToString($app_currRefLabel, "chapter")}
+                text={bibleRefToString($app_currRefVisible, "chapter")}
                 on:click={() => ($ui_modal = "choosePassage")}
                 tooltip="Choose Passage"
                 command="⌘P"

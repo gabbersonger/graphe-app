@@ -13,4 +13,4 @@ export const ui_sidebarSection: Writable<SidebarSection> = writable(
 export const ui_modal: Writable<ModalName | ""> = writable("");
 
 // App Functionality
-export const app_currRefLabel: Writable<BibleRef> = writable(40_001_001);
+export const app_currRefVisible: Writable<BibleRef> = writable(40_001_001);

@@ -1,9 +1,10 @@
 <script lang="ts">
     import { tick } from "svelte";
 
-    export let items: Array<any>;
+    type T = $$Generic;
+    export let items: Array<T>;
 
-    let visible = [];
+    let visible: Array<{ index: number; data: T }> = [];
     let row_elements = [];
     let row_position_data = [];
     let rows_height = 0;
@@ -14,6 +15,14 @@
 
     let last_width = 0;
     let historic_row_position_data = {};
+
+    const setVisible = (start: number, length: number = 20) => {
+        if (start < 0 || start >= items.length) return;
+        if (length < 0 || start + length > items.length) return;
+        visible = items.slice(start, start + length).map((data, i) => {
+            return { index: i + start, data };
+        });
+    };
 
     async function firstLoad() {
         // Save positioning data
@@ -26,10 +35,7 @@
             return;
         }
 
-        visible = items.slice(0, items.length).map((data, i) => {
-            return { index: i, data };
-        });
-
+        setVisible(0, items.length);
         await tick();
 
         last_width = resize_width;
@@ -55,15 +61,17 @@
             if (row_position_data[i].start > scroll) {
                 current_item = i - 1;
                 current_offset = scroll - row_position_data[current_item].start;
-                visible = items
-                    .slice(current_item, current_item + 20)
-                    .map((data, x) => {
-                        return { index: x + current_item, data };
-                    });
+                setVisible(current_item);
                 return;
             }
         }
     }
+
+    export const scrollToItem = (n: number) => {
+        if (n < 0 || n >= items.length) return;
+        let scrollPosition = Math.max(row_position_data[n].start - 20, 0);
+        viewport.scrollTop = scrollPosition;
+    };
 
     let resize_width: number;
     let resize_timer: ReturnType<typeof setTimeout>;
@@ -73,12 +81,10 @@
     }
 </script>
 
-<svelte:window />
-
 <div class="container">
     <div class="viewport" bind:this={viewport} on:scroll={refresh}>
         <div class="content" bind:clientWidth={resize_width}>
-            <div class="rows" style="min-height: {rows_height}px">
+            <div class="rows" style={`min-height: ${rows_height}px`}>
                 <div
                     class="offseter"
                     style={row_position_data.length > 0 && visible.length > 0
@@ -87,7 +93,7 @@
                 >
                     {#each visible as row (row.index)}
                         <div bind:this={row_elements[row.index]}>
-                            <slot {row} />
+                            <slot row={row.data} />
                         </div>
                     {/each}
                 </div>
