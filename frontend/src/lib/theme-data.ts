@@ -23,7 +23,19 @@ export const themeData = [
       textHighlight: "#000",
     },
   },
+  {
+    name: "catppuccin",
+    colors: {
+      background: "#1e1e2e",
+      backgroundSub: "#181825",
+      backgroundDark: "#08080C",
+      main: "#cba6f7",
+      text: "#cdd6f4",
+      textSub: "#7f849c",
+      textHighlight: "#f2cdcd",
+    },
+  },
 ] as const;
 
 export type ThemeName = (typeof themeData)[number]["name"];
-export const defaultTheme: ThemeName = "hanok";
+export const defaultTheme: ThemeName = "catppuccin";
