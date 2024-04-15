@@ -16,25 +16,42 @@ Build distributable app: `wails build`
   - [x] Update virtualiser
   - [x] Add book titles
   - [x] Add top padding
-- [ ] Get the modals working
+- [ ] Get text/passage selection working
+  - [ ] Functionality
   - [ ] 'Choose passage' modal
   - [ ] 'Choose text' modal
-  - [ ] 'Search pane' modal
-- [ ] Add theme selector to settings in sidebar
-- [ ] Hover effect for words + ui for displaying info
+- [ ] Instant details (word hover)
 - [ ] Get all the bible texts working properly
   - [ ] Split GNT text into word, pre, post (separate out punctuation)
   - [ ] Add HOT
   - [ ] Add ESV
   - [ ] Add LXX
 
-**Later Versions Checklist**
+**Future features**
 
+- [ ] Search
+  - [ ] Functionality
+  - [ ] Modal
+- [ ] Functions (format the text on screen using functions)
+  - [ ] Functionality
+  - [ ] Modal
+  - [ ] Saved functions
+- [ ] Settings window
+  - [ ] General (startup)
+  - [ ] Appearence (theme, font/size)
+  - [ ] Shortcuts
+  - [ ] Formatting (e.g. default colours)
+  - [ ] Search (e.g. ranges, default text)
+  - [ ] Instant details (what is display and order?)
+  - [ ] Version/updates
 - [ ] Auto-download database file if it does not exist on startup
-- [ ] Sidebar: formatting
-- [ ] Sidebar: settings
 - [ ] Create menubar with full features
 - [ ] Resizing window keeps verse at top on screen, not just block
+- [ ] Display app version in bottom right?
+- [ ] Right click functionality
+  - [ ] On word in text
+- [ ] Text highlighting
+- [ ] Parallel texts
 
 **Performance**
 
