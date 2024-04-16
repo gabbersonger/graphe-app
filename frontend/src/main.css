@@ -30,5 +30,5 @@ body {
     font-family: "Neuton";
     src:
         local("Neuton"),
-        url("assets/fonts/Neuton.ttf") format("truetype");
+        url("static/fonts/Neuton.ttf") format("truetype");
 }

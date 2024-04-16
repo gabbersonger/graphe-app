@@ -39,3 +39,16 @@ export const themeData = [
 
 export type ThemeName = (typeof themeData)[number]["name"];
 export const defaultTheme: ThemeName = "catppuccin";
+
+export const createThemeStyles = (themeName: ThemeName) => {
+  let theme = themeData.find((t) => t.name == themeName);
+  return `
+    --clr-background: ${theme.colors.background};
+    --clr-background-sub: ${theme.colors.backgroundSub};
+    --clr-background-dark: ${theme.colors.backgroundDark};
+    --clr-main: ${theme.colors.main};
+    --clr-text: ${theme.colors.text};
+    --clr-text-sub: ${theme.colors.textSub};
+    --clr-text-highlight: ${theme.colors.textHighlight};
+  `;
+};

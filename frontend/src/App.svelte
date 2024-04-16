@@ -5,7 +5,7 @@
     import Modals from "@/components/Modals/Modals.svelte";
 
     import { ui_showSidebar, ui_theme } from "@/lib/stores";
-    import { themeData } from "@/lib/theme-data";
+    import { createThemeStyles } from "@/static/themes";
     import { WindowIsFullscreen } from "!wails/runtime/runtime";
     import { eventListener } from "@/lib/events";
 
@@ -16,8 +16,6 @@
     }
     let innerWidth: number;
     $: checkIfFullscreen(innerWidth);
-
-    $: theme = themeData.find((t) => t.name == $ui_theme);
 </script>
 
 <svelte:window bind:innerWidth />
@@ -26,13 +24,7 @@
     id="app"
     class:sidebar={$ui_showSidebar}
     class:fullscreen={isFullscreen}
-    style:--clr-background={theme.colors.background}
-    style:--clr-background-sub={theme.colors.backgroundSub}
-    style:--clr-background-dark={theme.colors.backgroundDark}
-    style:--clr-main={theme.colors.main}
-    style:--clr-text={theme.colors.text}
-    style:--clr-text-sub={theme.colors.textSub}
-    style:--clr-text-highlight={theme.colors.textHighlight}
+    style={createThemeStyles($ui_theme)}
     use:eventListener
 >
     <nav><Navbar /></nav>
