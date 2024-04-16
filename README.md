@@ -56,7 +56,7 @@ Build distributable app: `wails build`
 **Performance**
 
 - [ ] Split `GetScriptureSections` request into multiple batches for larger ranges that perform concurrently
-- [ ] Increase speed of virtualiser when resizing window to new width
+- [ ] Potentially increase virtualiser speed for resizes / first load
 
 **Bugs**
 
