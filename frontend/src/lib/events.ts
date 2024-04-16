@@ -4,6 +4,7 @@ import { GrapheError } from "@/lib/utils";
 import { modalData, type ModalName } from "@/components/Modals/data";
 import { app_mode, ui_modal, ui_showSidebar } from "@/lib/stores";
 import type { AppMode } from "@/lib/manager";
+import { get } from "svelte/store";
 
 const event_list = {
   "app:mode": (data: AppMode) => {
@@ -16,6 +17,7 @@ const event_list = {
       return GrapheError(
         `Invalid modal name (\`${data}\`) passed in event (\`ui:modal\`)`,
       );
+    if (data == "choosePassage" && get(app_mode) == "search") return;
     ui_modal.update((val) => (val == data ? "" : data));
   },
   "ui:sidebar:toggle": () => {

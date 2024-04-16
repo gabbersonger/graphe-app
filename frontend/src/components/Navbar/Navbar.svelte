@@ -54,7 +54,7 @@
             <NavbarItem
                 icon={LibraryBig}
                 text="gnt"
-                on:click={() => ($ui_modal = "chooseText")}
+                on:click={() => EventsEmit("ui:modal", "chooseText")}
                 tooltip="Choose Text"
                 command="⌘T"
             />
@@ -62,7 +62,7 @@
             <NavbarItem
                 icon={BookOpenText}
                 text={bibleRefToString($app_currentRef, "chapter")}
-                on:click={() => ($ui_modal = "choosePassage")}
+                on:click={() => EventsEmit("ui:modal", "choosePassage")}
                 tooltip="Choose Passage"
                 command="⌘P"
                 disabled={$app_mode == "search"}
@@ -72,14 +72,14 @@
 
             <NavbarItem
                 icon={Sigma}
-                on:click={() => ($ui_modal = "functions")}
+                on:click={() => EventsEmit("ui:modal", "functions")}
                 tooltip="Functions"
                 command="⌘R"
             />
 
             <NavbarItem
                 icon={ClipboardType}
-                on:click={() => ($ui_modal = "appearence")}
+                on:click={() => EventsEmit("ui:modal", "appearence")}
                 tooltip="Appearence"
                 command="⌘E"
             />
