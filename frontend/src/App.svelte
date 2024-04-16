@@ -4,10 +4,11 @@
     import Sidebar from "@/components/Sidebar/Sidebar.svelte";
     import Modals from "@/components/Modals/Modals.svelte";
 
-    import { ui_showSidebar, ui_theme } from "@/lib/stores";
+    import { ui_showSidebar, ui_theme } from "@/lib/uiManager";
     import { createThemeStyles } from "@/static/themes";
     import { WindowIsFullscreen } from "!wails/runtime/runtime";
-    import { eventListener } from "@/lib/events";
+    import { appManager } from "@/lib/appManager";
+    import { uiManager } from "@/lib/uiManager";
 
     let isFullscreen = false;
     async function checkIfFullscreen(_: number) {
@@ -25,7 +26,8 @@
     class:sidebar={$ui_showSidebar}
     class:fullscreen={isFullscreen}
     style={createThemeStyles($ui_theme)}
-    use:eventListener
+    use:uiManager
+    use:appManager
 >
     <nav><Navbar /></nav>
     <main><MainWindow /></main>

@@ -1,8 +1,9 @@
 <script lang="ts">
+    import Virtualiser from "@/components/MainWindow/Virtualiser.svelte";
+
     import type { app } from "!wails/go/models";
     import { bibleRefToString, isRefBookStart } from "@/lib/Scripture/ref";
-    import Virtualiser from "@/components/MainWindow/Virtualiser.svelte";
-    import { app_currentRef } from "@/lib/stores";
+    import { app_currentRef } from "@/lib/appManager";
 
     export let text: app.ScriptureSection;
 
