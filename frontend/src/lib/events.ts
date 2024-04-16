@@ -11,6 +11,7 @@ const event_list = {
     app_mode.set(data);
     if (data == "search")
       ui_modal.update((val) => (val == data ? "" : "search"));
+    else if (get(ui_modal) != "") ui_modal.set("");
   },
   "ui:modal": (data: ModalName) => {
     if (!modalData.some((x) => x.name == data))
