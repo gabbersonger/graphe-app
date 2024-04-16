@@ -52,6 +52,7 @@ Build distributable app: `wails build`
   - [ ] On word in text
 - [ ] Text highlighting
 - [ ] Parallel texts
+- [ ] Sidebar holds different app states (?)
 
 **Performance**
 
