@@ -118,6 +118,7 @@ export const bibleRefToString = (
     case "book":
       return bibleData[book - 1].name;
   }
+  assertUnreachable(format);
 };
 
 // /**
