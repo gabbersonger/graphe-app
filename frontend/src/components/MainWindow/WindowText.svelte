@@ -78,7 +78,7 @@
     }
 
     .word {
-        font-family: "Accordance";
+        font-family: "SBL Greek";
         font-size: 1.2rem;
     }
 </style>

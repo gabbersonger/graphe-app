@@ -32,3 +32,10 @@ body {
         local("Neuton"),
         url("static/fonts/Neuton.ttf") format("truetype");
 }
+
+@font-face {
+    font-family: "SBL Greek";
+    src:
+        local("SBL Greek"),
+        url("static/fonts/SBL\ Greek.ttf") format("truetype");
+}
