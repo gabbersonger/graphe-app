@@ -57,8 +57,8 @@
         display: block;
         text-align: center;
         font-family: "Neuton";
-        font-size: 2em;
-        padding-block: 2rem;
+        font-size: 3em;
+        padding-block: 3rem;
     }
 
     .ref {
