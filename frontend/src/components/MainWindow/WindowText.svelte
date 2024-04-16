@@ -56,7 +56,7 @@
     .heading {
         display: block;
         text-align: center;
-        font-weight: bold;
+        font-family: "Neuton";
         font-size: 2em;
         padding-block: 2rem;
     }
