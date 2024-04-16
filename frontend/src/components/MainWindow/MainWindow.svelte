@@ -9,6 +9,10 @@
         const texts = await GetScriptureSections("gnt", [
             {
                 start: createBibleRef("Matthew", 1),
+                end: createBibleRef("Matthew", 28, "end"),
+            },
+            {
+                start: createBibleRef("Mark", 1),
                 end: createBibleRef("Revelation", 22, "end"),
             },
         ]);

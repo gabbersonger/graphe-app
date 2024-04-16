@@ -9,15 +9,10 @@
         Sigma,
         TextSelect,
         LibraryBig,
-        ALargeSmall,
         ClipboardType,
     } from "lucide-svelte";
-    import {
-        app_mode,
-        ui_showSidebar,
-        app_currentRef,
-        ui_modal,
-    } from "@/lib/stores";
+    import { app_mode, app_currentRef } from "@/lib/appManager";
+    import { ui_modal, ui_showSidebar } from "@/lib/uiManager";
     import { bibleRefToString } from "@/lib/Scripture/ref";
     import { EventsEmit } from "!wails/runtime/runtime";
 
