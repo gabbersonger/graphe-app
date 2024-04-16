@@ -2,14 +2,13 @@
     import type { app } from "!wails/go/models";
     import { bibleRefToString, isRefBookStart } from "@/lib/Scripture/ref";
     import Virtualiser from "@/components/MainWindow/Virtualiser.svelte";
-    import { app_currRefVisible } from "@/lib/stores";
-    import type { BibleRef } from "@/lib/Scripture/types";
+    import { app_currentRef } from "@/lib/stores";
 
     export let text: app.ScriptureSection;
 
     let current_item: number;
     $: if (current_item) {
-        $app_currRefVisible = text.blocks[current_item].range.start;
+        $app_currentRef = text.blocks[current_item].range.start;
     }
 
     let scrollVirtualiser: (_: number) => void;

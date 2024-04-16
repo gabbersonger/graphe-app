@@ -2,9 +2,15 @@ import { EventsOn, EventsOff } from "!wails/runtime/runtime";
 import { GrapheError } from "@/lib/utils";
 
 import { modalData, type ModalName } from "@/components/Modals/data";
-import { ui_modal, ui_showSidebar } from "@/lib/stores";
+import { app_mode, ui_modal, ui_showSidebar } from "@/lib/stores";
+import type { AppMode } from "@/lib/manager";
 
 const event_list = {
+  "app:mode": (data: AppMode) => {
+    app_mode.set(data);
+    if (data == "search")
+      ui_modal.update((val) => (val == data ? "" : "search"));
+  },
   "ui:modal": (data: ModalName) => {
     if (!modalData.some((x) => x.name == data))
       return GrapheError(

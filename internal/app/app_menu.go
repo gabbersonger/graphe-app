@@ -50,10 +50,14 @@ func (a *App) Menu() *menu.Menu {
 	grapheMenu.AddText("Quit Graphe", keys.CmdOrCtrl("Q"), func(cd *menu.CallbackData) { runtime.Quit(a.ctx) })
 
 	fileMenu := appMenu.AddSubmenu("File")
+	fileMenu.AddText("Passage Mode", keys.CmdOrCtrl("P"), menuCallbackEmit(a, "app:mode", "passage"))
+	fileMenu.AddText("Search Mode", keys.CmdOrCtrl("S"), menuCallbackEmit(a, "app:mode", "search"))
+	fileMenu.AddSeparator()
 	fileMenu.AddText("Choose Text...", keys.CmdOrCtrl("T"), menuCallbackEmit(a, "ui:modal", "chooseText"))
 	fileMenu.AddText("Choose Passage...", keys.CmdOrCtrl("P"), menuCallbackEmit(a, "ui:modal", "choosePassage"))
+	fileMenu.AddSeparator()
 	fileMenu.AddText("Functions", keys.CmdOrCtrl("R"), menuCallbackEmit(a, "ui:modal", "functions"))
-	fileMenu.AddText("Search", keys.CmdOrCtrl("F"), menuCallbackEmit(a, "ui:modal", "search"))
+	fileMenu.AddText("Appearence", keys.CmdOrCtrl("E"), menuCallbackEmit(a, "ui:modal", "appearence"))
 	fileMenu.AddSeparator()
 	fileMenu.AddText("Sidebar", keys.CmdOrCtrl("\\"), menuCallbackEmit(a, "ui:sidebar:toggle"))
 

@@ -6,10 +6,12 @@
     export let text: string = "";
     export let tooltip: string = "";
     export let command: string = "";
+    export let selected: boolean = false;
+    export let disabled: boolean = false;
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<div class="item" on:click>
+<div class="item" on:click class:selected class:disabled>
     {#if icon}
         <div class="icon">
             <svelte:component this={icon} />
@@ -42,7 +44,16 @@
         --wails-draggable: no-drag;
     }
 
-    .item:hover {
+    .item.selected:not(.disabled) {
+        color: var(--clr-main);
+    }
+
+    .item.disabled {
+        pointer-events: none;
+        color: var(--clr-text-muted);
+    }
+
+    .item:not(.selected):hover {
         transition: 0.2s color ease-in-out;
         color: var(--clr-text);
     }

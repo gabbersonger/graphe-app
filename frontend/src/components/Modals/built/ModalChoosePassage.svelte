@@ -1,6 +1,6 @@
 <script lang="ts">
     import Input from "@/components/ui/Input.svelte";
-    import ModalWrapper from "./ModalWrapper.svelte";
+    import ModalWrapper from "@/components/Modals/ModalWrapper.svelte";
 
     import { bibleData } from "@/lib/Scripture/data";
 

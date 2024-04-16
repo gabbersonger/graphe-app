@@ -6,11 +6,20 @@
         PanelRight,
         PanelRightClose,
         Search,
-        Quote,
         Sigma,
+        TextSelect,
+        LibraryBig,
+        ALargeSmall,
+        ClipboardType,
     } from "lucide-svelte";
-    import { ui_showSidebar, app_currRefVisible, ui_modal } from "@/lib/stores";
+    import {
+        app_mode,
+        ui_showSidebar,
+        app_currentRef,
+        ui_modal,
+    } from "@/lib/stores";
     import { bibleRefToString } from "@/lib/Scripture/ref";
+    import { EventsEmit } from "!wails/runtime/runtime";
 
     let width: number;
 </script>
@@ -23,7 +32,27 @@
 
         <div class="wrapper wrapper-nav">
             <NavbarItem
-                icon={BookOpenText}
+                icon={TextSelect}
+                text={width > 650 ? "passage" : ""}
+                on:click={() => EventsEmit("app:mode", "passage")}
+                tooltip="Passage Mode"
+                command="⌘P"
+                selected={$app_mode == "passage"}
+            />
+
+            <NavbarItem
+                icon={Search}
+                text={width > 650 ? "search" : ""}
+                on:click={() => EventsEmit("app:mode", "search")}
+                tooltip="Search Mode"
+                command="⌘S"
+                selected={$app_mode == "search"}
+            />
+
+            <div class="separator"></div>
+
+            <NavbarItem
+                icon={LibraryBig}
                 text="gnt"
                 on:click={() => ($ui_modal = "chooseText")}
                 tooltip="Choose Text"
@@ -31,11 +60,12 @@
             />
 
             <NavbarItem
-                icon={Quote}
-                text={bibleRefToString($app_currRefVisible, "chapter")}
+                icon={BookOpenText}
+                text={bibleRefToString($app_currentRef, "chapter")}
                 on:click={() => ($ui_modal = "choosePassage")}
                 tooltip="Choose Passage"
                 command="⌘P"
+                disabled={$app_mode == "search"}
             />
 
             <div class="separator"></div>
@@ -48,10 +78,10 @@
             />
 
             <NavbarItem
-                icon={Search}
-                on:click={() => ($ui_modal = "search")}
-                tooltip="Search"
-                command="⌘F"
+                icon={ClipboardType}
+                on:click={() => ($ui_modal = "appearence")}
+                tooltip="Appearence"
+                command="⌘E"
             />
         </div>
 
@@ -99,7 +129,7 @@
 
     .wrapper-nav {
         height: 36px;
-        background: var(--clr-background-dark);
+        background: var(--clr-background-sub);
         border-radius: 0.4em;
         padding: 0 1.8em;
     }

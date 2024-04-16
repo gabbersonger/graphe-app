@@ -9,6 +9,7 @@ export const themeData = [
       text: "#d1d0c5",
       textSub: "#646669",
       textHighlight: "#fff",
+      textMuted: "#494B4D",
     },
   },
   {
@@ -21,6 +22,7 @@ export const themeData = [
       text: "#393b3b",
       textSub: "#8b6f5c",
       textHighlight: "#000",
+      textMuted: "#9b8c81",
     },
   },
   {
@@ -33,6 +35,7 @@ export const themeData = [
       text: "#cdd6f4",
       textSub: "#7f849c",
       textHighlight: "#f2cdcd",
+      textMuted: "#545767",
     },
   },
 ] as const;
@@ -50,5 +53,6 @@ export const createThemeStyles = (themeName: ThemeName) => {
     --clr-text: ${theme.colors.text};
     --clr-text-sub: ${theme.colors.textSub};
     --clr-text-highlight: ${theme.colors.textHighlight};
+    --clr-text-muted: ${theme.colors.textMuted};
   `;
 };

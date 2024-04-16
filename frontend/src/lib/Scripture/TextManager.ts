@@ -1,5 +1,5 @@
 import type { app } from "!wails/go/models";
-import type { BibleRef } from "@/lib/Scripture/types";
+import type { BibleRef, BibleVersion } from "@/lib/Scripture/types";
 import { isValidBibleRef } from "@/lib/Scripture/ref";
 import { isValidBibleRange } from "@/lib/Scripture/range";
 import { GrapheError } from "@/lib/utils";
@@ -48,7 +48,7 @@ import { GrapheError } from "@/lib/utils";
 
 export class TextManager {
   static GetScriptureSection(
-    version: "esv" | "gnt" | "lxx" | "hot",
+    version: BibleVersion,
     start: BibleRef,
     end: BibleRef,
   ): app.ScriptureSection[] {
