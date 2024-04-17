@@ -1,5 +1,7 @@
 package app
 
+import "sync"
+
 type ScriptureRef int
 type ScriptureWord string
 type ScriptureVersion string
@@ -25,14 +27,14 @@ type ScriptureSection struct {
 	Blocks  []ScriptureBlock `json:"blocks"`
 }
 
-func getScriptureSection(a *App, out chan *ScriptureSection, ver ScriptureVersion, ran ScriptureRange) {
-	s := ScriptureSection{Version: ver, Range: ran}
+func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
+	// s := ScriptureSection{Version: ver, Range: ran}
 	s.Blocks = make([]ScriptureBlock, 0, 1)
 
 	db := <-a.db.pool
 	stmt, err := db.getQuery("GetScriptureSection")
 	a.check(err)
-	err = stmt.Bind(int(ran.Start), int(ran.End))
+	err = stmt.Bind(int(s.Range.Start), int(s.Range.End))
 	a.check(err)
 
 	var ref, word_num int
@@ -91,18 +93,20 @@ func getScriptureSection(a *App, out chan *ScriptureSection, ver ScriptureVersio
 
 	stmt.Reset()
 	a.db.pool <- db
-	out <- &s
+	wg.Done()
 }
 
 func (a *App) GetScriptureSections(ver ScriptureVersion, ran []ScriptureRange) []ScriptureSection {
-	feed := make(chan *ScriptureSection, len(ran))
+	data := make([]ScriptureSection, 0, len(ran))
 	for _, r := range ran {
-		go getScriptureSection(a, feed, ver, r)
+		data = append(data, ScriptureSection{Version: ver, Range: r})
 	}
 
-	data := make([]ScriptureSection, 0, len(ran))
+	wg := new(sync.WaitGroup)
+	wg.Add(len(ran))
 	for i := 0; i < len(ran); i++ {
-		data = append(data, *(<-feed))
+		go getScriptureSection(a, wg, &data[i])
 	}
+	wg.Wait()
 	return data
 }
