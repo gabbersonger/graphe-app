@@ -1,4 +1,4 @@
-import { bibleData } from "./bible_data";
+import { bibleData, versionData } from "./bible_data";
 
 const fs = require("fs");
 const crypto = require("crypto");
@@ -26,10 +26,23 @@ const createJSFile = () => {
     }
     data += `
       testament: "${bookData.testament}",
-      version: [${bookData.version.map((v) => `"${v}"`).join(",")}],
     },`;
   }
-  data += "\n] as const;";
+  data += "\n] as const;\n\n";
+
+  data += `export const versionData = [`;
+  for (let i = 0; i < versionData.length; i++) {
+    const versionInfo = versionData[i];
+    data += `
+    {
+      name: "${versionInfo.name}",
+      books: [
+${versionInfo.books.map((x) => `        { index: ${x.index}, name: "${x.name}" },`).join("\n")}
+      ],
+    },`;
+  }
+  data += `] as const;`;
+
   fs.writeFileSync(
     __dirname + "/../../frontend/src/lib/Scripture/data.ts",
     data,
@@ -47,28 +60,53 @@ type BookData struct {
   num_verses   []int
   superscripts []int
   testament    string
-  version      []string
+}
+
+type VersionBookData struct {
+	index int
+	name  string
+}
+
+type VersionData struct {
+	name  string
+	books []VersionBookData
 }
 
 var bibleData = [...]BookData{`;
   for (let i = 0; i < bibleData.length; i++) {
     const bookData = bibleData[i];
     data += `
-	{
-		name: "${bookData.name}",
-		abbreviation: "${bookData.abbreviation}",
-		num_chapters: ${bookData.num_chapters},
-		num_verses: []int{${bookData.num_verses.join(",")}},`;
+  {
+    name: "${bookData.name}",
+    abbreviation: "${bookData.abbreviation}",
+    num_chapters: ${bookData.num_chapters},
+    num_verses: []int{${bookData.num_verses.join(",")}},`;
     if (bookData.name == "Psalms") {
       data += `
-		superscripts: []int{${bookData.superscripts.join(",")}},`;
+    superscripts: []int{${bookData.superscripts.join(",")}},`;
     }
     data += `
-		testament: "${bookData.testament}",
-		version:   []string{${bookData.version.map((v) => `"${v}"`).join(",")}},
-	},`;
+    testament: "${bookData.testament}",
+  },`;
   }
-  data += "}";
+  data += "\n}\n\n";
+
+  data += `var versionData = [...]VersionData{\n`;
+  for (let i = 0; i < versionData.length; i++) {
+    data += `  {
+    name: "${versionData[i].name}",
+    books: []VersionBookData{`;
+    for (let j = 0; j < versionData[i].books.length; j++) {
+      data += `
+      {
+        index: ${versionData[i].books[j].index},
+        name:  "${versionData[i].books[j].name}",
+      },`;
+    }
+    data += `\n    },\n  },\n`;
+  }
+  data += `}`;
+
   fs.writeFileSync(__dirname + "/../../internal/app/scripture_data.go", data);
 };
 
