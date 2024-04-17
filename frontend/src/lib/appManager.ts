@@ -4,6 +4,7 @@ import { ui_modal } from "@/lib/uiManager";
 
 import type { app } from "!wails/go/models";
 import type { BibleRange, BibleRef, BibleVersion } from "@/lib/Scripture/types";
+import { updateBaseData } from "@/lib/Scripture/manager";
 
 // Types
 
@@ -14,6 +15,7 @@ export type SearchQuery = {};
 
 export const app_mode: Writable<AppMode> = writable("passage");
 export const app_version: Writable<BibleVersion> = writable("gnt");
+export const app_range: Writable<BibleRange> = writable();
 export const app_search: Writable<SearchQuery> = writable(true);
 export const app_data: Writable<app.ScriptureSection[]> = writable([]);
 export const app_currentRef: Writable<BibleRef> = writable(40_001_001);
@@ -49,6 +51,8 @@ function handleAppGoTo(ref: BibleRef) {
 // Register events
 
 export function appManager(_: HTMLElement) {
+  updateBaseData();
+
   const handlers: {
     [key: string]: (...data: any) => void;
   } = {

@@ -1,9 +1,9 @@
 <script lang="ts">
     import type { app } from "!wails/go/models";
-    import { tick } from "svelte";
+    import { onMount, tick } from "svelte";
 
     export let items: Array<app.ScriptureSection>;
-    let num_blocks = items.reduce((acc, cur) => acc + cur.blocks.length, 0);
+    $: num_blocks = items.reduce((acc, cur) => acc + cur.blocks.length, 0);
 
     let visible: Array<{
         index: number;
@@ -75,6 +75,7 @@
     }
 
     async function firstLoad() {
+        firstMount = true;
         if (content_width in historic_row_offsets) {
             row_offsets = historic_row_offsets[content_width];
             refresh();
@@ -115,22 +116,50 @@
         viewport.scrollTop = scrollPosition;
     }
 
-    let resize_timer: ReturnType<typeof setTimeout>;
-    $: if (content_width && content_width != last_registered_width) {
-        last_registered_width = content_width;
-        clearTimeout(resize_timer);
-        if (
-            last_calculated_width &&
-            !(last_calculated_width in historic_row_offsets)
-        )
-            historic_row_offsets[last_calculated_width] = row_offsets;
-        resize_timer = setTimeout(firstLoad, 50);
+    let firstMount = false;
+    $: if (!firstMount && items.length > 0) {
+        firstLoad();
     }
+
+    let contentElem: HTMLElement;
+    let resize_timer: ReturnType<typeof setTimeout>;
+    onMount(() => {
+        const resizeObserver = new ResizeObserver((_) => {
+            if (last_registered_width == undefined) {
+                last_registered_width = contentElem.offsetWidth;
+                return;
+            }
+            if (
+                contentElem &&
+                contentElem.offsetWidth == last_registered_width
+            ) {
+                return;
+            }
+
+            last_registered_width = content_width;
+            clearTimeout(resize_timer);
+            if (
+                last_calculated_width &&
+                !(last_calculated_width in historic_row_offsets)
+            )
+                historic_row_offsets[last_calculated_width] = row_offsets;
+            resize_timer = setTimeout(firstLoad, 50);
+        });
+
+        resizeObserver.observe(contentElem);
+        return () => {
+            resizeObserver.unobserve(contentElem);
+        };
+    });
 </script>
 
 <div class="container">
     <div class="viewport" bind:this={viewport} on:scroll={refresh}>
-        <div class="content" bind:clientWidth={content_width}>
+        <div
+            class="content"
+            bind:this={contentElem}
+            bind:clientWidth={content_width}
+        >
             <div class="rows" style={`min-height: ${rows_height}px`}>
                 <div
                     class="offseter"
