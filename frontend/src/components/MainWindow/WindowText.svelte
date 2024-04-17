@@ -2,7 +2,11 @@
     import Virtualiser from "@/components/MainWindow/Virtualiser.svelte";
 
     import type { app } from "!wails/go/models";
-    import { bibleRefToString, isRefBookStart } from "@/lib/Scripture/ref";
+    import {
+        bibleRefToString,
+        bibleRefToVersionBookTitle,
+        isRefBookStart,
+    } from "@/lib/Scripture/ref";
     import { app_currentRef } from "@/lib/appManager";
 
     export let texts: Array<app.ScriptureSection>;
@@ -22,7 +26,7 @@
     <div class="block">
         {#if isRefBookStart(row.range.start)}
             <div class="heading">
-                {bibleRefToString(row.range.start, "book")}
+                {bibleRefToVersionBookTitle(row.range.start, "gnt")}
             </div>
         {/if}
 
@@ -54,7 +58,8 @@
     .heading {
         display: block;
         text-align: center;
-        font-family: "Neuton";
+        /* font-family: "Neuton"; */
+        font-family: "SBL Greek";
         font-size: 3em;
         padding-block: 3rem;
     }

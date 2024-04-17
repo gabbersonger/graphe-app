@@ -1,5 +1,5 @@
-import { bibleData } from "@/lib/Scripture/data";
-import type { BibleBook, BibleRef } from "@/lib/Scripture/types";
+import { bibleData, versionData } from "@/lib/Scripture/data";
+import type { BibleBook, BibleRef, BibleVersion } from "@/lib/Scripture/types";
 import { GrapheError, assertUnreachable } from "@/lib/utils";
 
 /**
@@ -121,90 +121,27 @@ export const bibleRefToString = (
   assertUnreachable(format);
 };
 
-// /**
-//  * Create a valid BibleRef at the specified offset away (will return valid BibleRef even if only partial offset away).
-//  * @throws Will throw if `ref` is not valid.
-//  * @param {BibleRef} ref - The original BibleRef from which offset is measured.
-//  * @param {number} offset - The offset magnitude.
-//  * @param {"book"|"chapter"|"verse"} offset_unit - The units for the offset.
-//  * @param {"start"|"end"} mode - Determines what mode of offset is taken.
-//  *  **start** – unit immediately below {@link offset_unit} is given lowest possible value (e.g. 1 John 2:28 + 1 chapter => 1 John 3:1, or + 1 book => 2 John 1).
-//  *  **end** – unit immediately below  {@link offset_unit} is given highest possible value (e.g. 1 John 2:28 + 1 chapter => 1 John 3:24, or + 1 book => 2 John 13).
-//  */
-// export const createOffsetBibleRef = (
-//   ref: BibleRef,
-//   offset: number,
-//   offset_unit: "book" | "chapter" | "verse",
-//   mode: "start" | "end",
-// ): BibleRef => {
-//   if (!isValidBibleRef(ref))
-//     GrapheError(`Invalid ref (${ref}) passed to \`createOffsetBibleRef\``);
-//   if (offset == 0) return ref;
+/**
+ * Convert a BibleRef into it's book title in the given bible version
+ * @throws Will throw if BibleRef is not valid or BibleRef not in version.
+ * @param {BibleRef} ref - A reference within the book.
+ * @param {BibleVersion} ver - The version of the text.
+ */
+export const bibleRefToVersionBookTitle = (
+  ref: BibleRef,
+  ver: BibleVersion,
+): string => {
+  if (!isValidBibleRef(ref))
+    GrapheError(
+      `Invalid ref (${ref}) passed to \`bibleRefToVersionBookTitle\``,
+    );
 
-//   const verse = ref % 1000;
-//   const chapter = ((ref % 1000000) - verse) / 1000;
-//   const book = (ref - chapter * 1000 - verse) / 1000000;
-
-//   const step = -offset / Math.abs(offset);
-//   switch (offset_unit) {
-//     case "book":
-//       for (let i = offset; i != step; i += step) {
-//         const index = book + i - 1;
-//         if (index < 0 && index >= bibleData.length) continue;
-//         const new_chapter = mode == "start" ? 1 : bibleData[index].num_chapters;
-//         return createBibleRef(bibleData[index].name, new_chapter, mode);
-//       }
-//     case "chapter":
-//       let chapters_left = offset;
-//       let new_book = book;
-//       let new_chapter = chapter;
-
-//       // If moving backwards
-//       if (offset < 0) {
-//         // position at chapter 1 (or as far back as allowed)
-//         let move_amount = Math.min(Math.abs(chapters_left), new_chapter - 1);
-//         new_chapter = new_chapter - move_amount;
-//         chapters_left += move_amount;
-
-//         while (chapters_left < 0) {
-//           if (new_book == 1) break;
-//           new_book -= 1;
-//           move_amount = Math.min(
-//             Math.abs(chapters_left),
-//             bibleData[new_book - 1].num_chapters,
-//           );
-//           new_chapter = bibleData[new_book - 1].num_chapters - move_amount + 1;
-//           chapters_left += move_amount;
-//         }
-//       }
-
-//       // If moving forwards
-//       if (offset > 0) {
-//         // position at final chapter of book (or as far forward as allowed)
-//         let move_amount = Math.min(
-//           chapters_left,
-//           bibleData[new_book - 1].num_chapters - new_chapter,
-//         );
-//         new_chapter = new_chapter + move_amount;
-//         chapters_left -= move_amount;
-
-//         while (chapters_left > 0) {
-//           if (new_book == bibleData.length) break;
-//           new_book += 1;
-//           move_amount = Math.min(
-//             chapters_left,
-//             bibleData[new_book - 1].num_chapters,
-//           );
-//           new_chapter = move_amount;
-//           chapters_left -= move_amount;
-//         }
-//       }
-
-//       return createBibleRef(bibleData[new_book - 1].name, new_chapter, mode);
-//     case "verse":
-//       // TODO
-//       break;
-//   }
-
-//   return 40001001;
-// };
+  const book_index = (ref - (ref % 1_000_000)) / 1_000_000 - 1;
+  const version_info = versionData.find((v) => v.name == ver);
+  const book_info = version_info.books.find((b) => b.index == book_index);
+  if (book_info == undefined)
+    GrapheError(
+      `Valid ref (${ref}) not in bible version (${ver}), passed to \`bibleRefToVersionBookTitle\``,
+    );
+  return book_info.name;
+};
