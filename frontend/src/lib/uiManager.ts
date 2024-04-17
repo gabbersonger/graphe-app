@@ -1,6 +1,6 @@
 import { writable, type Writable } from "svelte/store";
 import { sidebarData, type SidebarSection } from "@/components/Sidebar/data";
-import { defaultTheme, type ThemeName } from "@/static/themes";
+import { defaultTheme, themeData, type ThemeName } from "@/static/themes";
 import { EventsOff, EventsOn } from "!wails/runtime/runtime";
 import type { ModalName } from "@/components/Modals/data";
 import { app_mode } from "@/lib/appManager";
@@ -13,7 +13,7 @@ export const ui_showSidebar = writable(false);
 export const ui_sidebarSection: Writable<SidebarSection> = writable(
   sidebarData[0].name,
 );
-export const ui_modal: Writable<ModalName | ""> = writable("");
+export const ui_modal: Writable<ModalName | ""> = writable("version");
 
 // Functions to handle events
 
@@ -34,6 +34,16 @@ function handleUITheme(data: ThemeName) {
   ui_theme.set(data);
 }
 
+// TODO: remove
+function handleUIThemeToggle() {
+  ui_theme.update(
+    (theme) =>
+      themeData[
+        (themeData.findIndex((t) => t.name == theme) + 1) % themeData.length
+      ].name,
+  );
+}
+
 // Register events
 
 export function uiManager(_: HTMLElement) {
@@ -44,6 +54,8 @@ export function uiManager(_: HTMLElement) {
     "ui:modal:closeAll": handleUIModalCloseAll,
     "ui:sidebar:toggle": handleUISidebarToggle,
     "ui:theme": handleUITheme,
+
+    "ui:theme:toggle": handleUIThemeToggle,
   };
 
   for (const [event, callback] of Object.entries(handlers)) {
