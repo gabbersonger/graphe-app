@@ -15,6 +15,7 @@
     let rows_height: number = 0;
 
     let viewport: HTMLElement;
+    let content: HTMLElement;
 
     let current_item = 0;
     let current_offset = 0;
@@ -35,7 +36,6 @@
     }
 
     let historic_row_offsets = {};
-    let content_width: number = undefined;
     let last_calculated_width: number = undefined;
     let last_registered_width: number = undefined;
 
@@ -76,8 +76,8 @@
 
     async function firstLoad() {
         firstMount = true;
-        if (content_width in historic_row_offsets) {
-            row_offsets = historic_row_offsets[content_width];
+        if (last_registered_width in historic_row_offsets) {
+            row_offsets = historic_row_offsets[last_registered_width];
             refresh();
             return;
         }
@@ -87,7 +87,7 @@
 
         if (row_offsets.length == 0) row_offsets = Array(num_blocks).fill(0);
 
-        last_calculated_width = content_width;
+        last_calculated_width = last_registered_width;
         rows_height = 0;
         for (let i = 0; i < row_elements.length; i++) {
             row_offsets[i] = rows_height;
@@ -121,18 +121,15 @@
         firstLoad();
     }
 
-    let contentElem: HTMLElement;
     let resize_timer: ReturnType<typeof setTimeout>;
     onMount(() => {
         const resizeObserver = new ResizeObserver((_) => {
+            let content_width = content.offsetWidth;
             if (last_registered_width == undefined) {
-                last_registered_width = contentElem.offsetWidth;
+                last_registered_width = content_width;
                 return;
             }
-            if (
-                contentElem &&
-                contentElem.offsetWidth == last_registered_width
-            ) {
+            if (content && content_width == last_registered_width) {
                 return;
             }
 
@@ -146,20 +143,16 @@
             resize_timer = setTimeout(firstLoad, 50);
         });
 
-        resizeObserver.observe(contentElem);
+        resizeObserver.observe(content);
         return () => {
-            resizeObserver.unobserve(contentElem);
+            resizeObserver.unobserve(content);
         };
     });
 </script>
 
 <div class="container">
     <div class="viewport" bind:this={viewport} on:scroll={refresh}>
-        <div
-            class="content"
-            bind:this={contentElem}
-            bind:clientWidth={content_width}
-        >
+        <div class="content" bind:this={content}>
             <div class="rows" style={`min-height: ${rows_height}px`}>
                 <div
                     class="offseter"
