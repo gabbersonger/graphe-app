@@ -30,18 +30,14 @@ const createJSFile = () => {
   }
   data += "\n] as const;\n\n";
 
-  data += `export const versionData = [`;
-  for (let i = 0; i < versionData.length; i++) {
-    const versionInfo = versionData[i];
+  data += `export const versionData = {`;
+  for (let [version, books] of Object.entries(versionData)) {
     data += `
-    {
-      name: "${versionInfo.name}",
-      books: [
-${versionInfo.books.map((x) => `        { index: ${x.index}, name: "${x.name}" },`).join("\n")}
-      ],
-    },`;
+  ${version}: [
+${books.map((x) => `    { index: ${x.index}, name: "${x.name}" },`).join("\n")}
+  ],`;
   }
-  data += `] as const;`;
+  data += `\n} as const;`;
 
   fs.writeFileSync(
     __dirname + "/../../frontend/src/lib/Scripture/data.ts",
@@ -92,15 +88,15 @@ var bibleData = [...]BookData{`;
   data += "\n}\n\n";
 
   data += `var versionData = [...]VersionData{\n`;
-  for (let i = 0; i < versionData.length; i++) {
+  for (let [version, books] of Object.entries(versionData)) {
     data += `  {
-    name: "${versionData[i].name}",
+    name: "${version}",
     books: []VersionBookData{`;
-    for (let j = 0; j < versionData[i].books.length; j++) {
+    for (let i = 0; i < books.length; i++) {
       data += `
       {
-        index: ${versionData[i].books[j].index},
-        name:  "${versionData[i].books[j].name}",
+        index: ${books[i].index},
+        name:  "${books[i].name}",
       },`;
     }
     data += `\n    },\n  },\n`;

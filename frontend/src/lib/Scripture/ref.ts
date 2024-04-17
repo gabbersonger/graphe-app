@@ -137,8 +137,7 @@ export const bibleRefToVersionBookTitle = (
     );
 
   const book_index = (ref - (ref % 1_000_000)) / 1_000_000 - 1;
-  const version_info = versionData.find((v) => v.name == ver);
-  const book_info = version_info.books.find((b) => b.index == book_index);
+  const book_info = versionData[ver].books.find((b) => b.index == book_index);
   if (book_info == undefined)
     GrapheError(
       `Valid ref (${ref}) not in bible version (${ver}), passed to \`bibleRefToVersionBookTitle\``,
