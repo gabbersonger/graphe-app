@@ -62,3 +62,4 @@ Build distributable app: `wails build`
 **Bugs**
 
 - [ ] If items changes then virtualiser doesn't invalidate positioning data
+- [ ] Ordering of sections requested from Go server is not respected

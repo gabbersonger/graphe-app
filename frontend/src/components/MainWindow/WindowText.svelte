@@ -5,19 +5,17 @@
     import { bibleRefToString, isRefBookStart } from "@/lib/Scripture/ref";
     import { app_currentRef } from "@/lib/appManager";
 
-    export let text: app.ScriptureSection;
+    export let texts: Array<app.ScriptureSection>;
 
-    let current_item: number;
-    $: if (current_item) {
-        $app_currentRef = text.blocks[current_item].range.start;
-    }
+    let cp = { section: 0, block: 0 };
+    $: $app_currentRef = texts[cp.section].blocks[cp.block].range.start;
 
     let scrollVirtualiser: (_: number) => void;
 </script>
 
 <Virtualiser
-    items={text.blocks}
-    bind:current_item
+    items={texts}
+    bind:current_position={cp}
     bind:scrollToItem={scrollVirtualiser}
     let:row
 >

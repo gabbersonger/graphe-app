@@ -1,30 +1,77 @@
 <script lang="ts">
+    import type { app } from "!wails/go/models";
     import { tick } from "svelte";
 
-    type T = $$Generic;
-    export let items: Array<T>;
+    export let items: Array<app.ScriptureSection>;
+    let num_blocks = items.reduce((acc, cur) => acc + cur.blocks.length, 0);
 
-    let visible: Array<{ index: number; data: T }> = [];
+    let visible: Array<{
+        index: number;
+        section: number;
+        block: number;
+    }> = [];
     let row_elements: HTMLElement[] = [];
     let row_offsets: number[] = [];
     let rows_height: number = 0;
 
     let viewport: HTMLElement;
 
-    export let current_item = 0;
+    let current_item = 0;
     let current_offset = 0;
+
+    export let current_position: { section: number; block: number };
+    let last_registered_current_item = 0;
+    $: if (current_item != last_registered_current_item) {
+        last_registered_current_item = current_item;
+        let remaining = current_item;
+        for (let i = 0; i < items.length; i++) {
+            if (remaining < items[i].blocks.length) {
+                current_position.section = i;
+                current_position.block = remaining;
+                break;
+            }
+            remaining -= items[i].blocks.length;
+        }
+    }
 
     let historic_row_offsets = {};
     let content_width: number = undefined;
     let last_calculated_width: number = undefined;
     let last_registered_width: number = undefined;
 
-    function setVisible(start: number, length: number = 20) {
-        if (start < 0 || start >= items.length) return;
-        if (length < 0 || start + length > items.length) return;
-        visible = items.slice(start, start + length).map((data, i) => {
-            return { index: i + start, data };
-        });
+    function setVisible(start: number, length: number = -1) {
+        if (length == -1) length = Math.min(20, num_blocks);
+        if (start < 0 || start >= num_blocks) return;
+        if (length < 0 || start + length > num_blocks) return;
+
+        visible.length = length;
+        let curr_visible = 0;
+        let curr_section = 0;
+        let how_many_to_skip = start;
+        while (curr_visible < length) {
+            if (items[curr_section].blocks.length <= how_many_to_skip) {
+                how_many_to_skip -= items[curr_section].blocks.length;
+                curr_section += 1;
+                continue;
+            }
+
+            const how_many_possible =
+                items[curr_section].blocks.length - how_many_to_skip;
+            const how_many_to_take = Math.min(
+                length - curr_visible,
+                how_many_possible,
+            );
+            for (let i = 0; i < how_many_to_take; i++) {
+                visible[curr_visible + i] = {
+                    index: start + curr_visible + i,
+                    section: curr_section,
+                    block: how_many_to_skip + i,
+                };
+            }
+            curr_section++;
+            how_many_to_skip = 0;
+            curr_visible += how_many_to_take;
+        }
     }
 
     async function firstLoad() {
@@ -34,10 +81,10 @@
             return;
         }
 
-        setVisible(0, items.length);
+        setVisible(0, num_blocks);
         await tick();
 
-        if (row_offsets.length == 0) row_offsets = Array(items.length).fill(0);
+        if (row_offsets.length == 0) row_offsets = Array(num_blocks).fill(0);
 
         last_calculated_width = content_width;
         rows_height = 0;
@@ -63,7 +110,7 @@
     }
 
     export function scrollToItem(n: number) {
-        if (n < 0 || n >= items.length) return;
+        if (n < 0 || n >= num_blocks) return;
         let scrollPosition = Math.max(row_offsets[n] - 20, 0);
         viewport.scrollTop = scrollPosition;
     }
@@ -93,7 +140,7 @@
                 >
                     {#each visible as row (row.index)}
                         <div bind:this={row_elements[row.index]}>
-                            <slot row={row.data} />
+                            <slot row={items[row.section].blocks[row.block]} />
                         </div>
                     {/each}
                 </div>

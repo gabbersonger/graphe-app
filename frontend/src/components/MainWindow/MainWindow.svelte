@@ -4,26 +4,30 @@
     import { createBibleRef } from "@/lib/Scripture/ref";
     import WindowText from "./WindowText.svelte";
 
-    let text: app.ScriptureSection;
+    let texts: Array<app.ScriptureSection>;
     async function onStartup() {
-        const texts = await GetScriptureSections("gnt", [
+        let data = await GetScriptureSections("gnt", [
             {
                 start: createBibleRef("Matthew", 1),
                 end: createBibleRef("Matthew", 28, "end"),
             },
             {
                 start: createBibleRef("Mark", 1),
+                end: createBibleRef("Mark", 16, "end"),
+            },
+            {
+                start: createBibleRef("Luke", 1),
                 end: createBibleRef("Revelation", 22, "end"),
             },
         ]);
-        if (texts.length > 0) text = texts[0];
+        texts = data;
     }
     onStartup();
 </script>
 
 <div id="content">
-    {#if text}
-        <WindowText {text} />
+    {#if texts}
+        <WindowText {texts} />
     {/if}
 </div>
 
