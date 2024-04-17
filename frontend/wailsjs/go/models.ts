@@ -15,6 +15,7 @@ export namespace app {
 	    }
 	}
 	export class ScriptureRange {
+	    version: string;
 	    start: number;
 	    end: number;
 	
@@ -24,6 +25,7 @@ export namespace app {
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.version = source["version"];
 	        this.start = source["start"];
 	        this.end = source["end"];
 	    }
@@ -62,7 +64,6 @@ export namespace app {
 	}
 	
 	export class ScriptureSection {
-	    version: string;
 	    range: ScriptureRange;
 	    blocks: ScriptureBlock[];
 	
@@ -72,7 +73,6 @@ export namespace app {
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.version = source["version"];
 	        this.range = this.convertValues(source["range"], ScriptureRange);
 	        this.blocks = this.convertValues(source["blocks"], ScriptureBlock);
 	    }

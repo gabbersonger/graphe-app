@@ -3,7 +3,7 @@
 import {app} from '../models';
 import {menu} from '../models';
 
-export function GetScriptureSections(arg1:app.ScriptureVersion,arg2:Array<app.ScriptureRange>):Promise<Array<app.ScriptureSection>>;
+export function GetScriptureSections(arg1:Array<app.ScriptureRange>):Promise<Array<app.ScriptureSection>>;
 
 export function GetScriptureWord(arg1:app.ScriptureRef,arg2:number):Promise<app.ScriptureWordData>;
 

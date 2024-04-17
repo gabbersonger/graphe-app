@@ -11,7 +11,7 @@
         LibraryBig,
         ClipboardType,
     } from "lucide-svelte";
-    import { app_mode, app_currentRef } from "@/lib/appManager";
+    import { app_mode, app_version, app_currentRef } from "@/lib/appManager";
     import { ui_modal, ui_showSidebar } from "@/lib/uiManager";
     import { bibleRefToString } from "@/lib/Scripture/ref";
     import { EventsEmit } from "!wails/runtime/runtime";
@@ -48,18 +48,18 @@
 
             <NavbarItem
                 icon={LibraryBig}
-                text="gnt"
-                on:click={() => EventsEmit("ui:modal", "chooseText")}
-                tooltip="Choose Text"
-                command="⌘T"
+                text={$app_version}
+                on:click={() => EventsEmit("ui:modal", "version")}
+                tooltip="Choose Version"
+                command="⌘D"
             />
 
             <NavbarItem
                 icon={BookOpenText}
                 text={bibleRefToString($app_currentRef, "chapter")}
-                on:click={() => EventsEmit("ui:modal", "choosePassage")}
-                tooltip="Choose Passage"
-                command="⌘P"
+                on:click={() => EventsEmit("ui:modal", "text")}
+                tooltip="Choose Text"
+                command="⌘F"
                 disabled={$app_mode == "search"}
             />
 
@@ -69,14 +69,14 @@
                 icon={Sigma}
                 on:click={() => EventsEmit("ui:modal", "functions")}
                 tooltip="Functions"
-                command="⌘R"
+                command="⌘E"
             />
 
             <NavbarItem
                 icon={ClipboardType}
                 on:click={() => EventsEmit("ui:modal", "appearence")}
                 tooltip="Appearence"
-                command="⌘E"
+                command="⌘R"
             />
         </div>
 

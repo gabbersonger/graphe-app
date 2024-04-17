@@ -34,7 +34,7 @@ const createJSFile = () => {
   for (let [version, books] of Object.entries(versionData)) {
     data += `
   ${version}: [
-${books.map((x) => `    { index: ${x.index}, name: "${x.name}" },`).join("\n")}
+${books.map((x) => `    { book_number: ${x.book_number}, name: "${x.name}" },`).join("\n")}
   ],`;
   }
   data += `\n} as const;`;
@@ -59,8 +59,8 @@ type BookData struct {
 }
 
 type VersionBookData struct {
-	index int
-	name  string
+	book_number int
+	name        string
 }
 
 type VersionData struct {
@@ -95,7 +95,7 @@ var bibleData = [...]BookData{`;
     for (let i = 0; i < books.length; i++) {
       data += `
       {
-        index: ${books[i].index},
+        book_number: ${books[i].book_number},
         name:  "${books[i].name}",
       },`;
     }

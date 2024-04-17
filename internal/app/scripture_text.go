@@ -12,8 +12,9 @@ type ScriptureVerse struct {
 }
 
 type ScriptureRange struct {
-	Start ScriptureRef `json:"start"`
-	End   ScriptureRef `json:"end"`
+	Version ScriptureVersion `json:"version"`
+	Start   ScriptureRef     `json:"start"`
+	End     ScriptureRef     `json:"end"`
 }
 
 type ScriptureBlock struct {
@@ -22,9 +23,8 @@ type ScriptureBlock struct {
 }
 
 type ScriptureSection struct {
-	Version ScriptureVersion `json:"version"`
-	Range   ScriptureRange   `json:"range"`
-	Blocks  []ScriptureBlock `json:"blocks"`
+	Range  ScriptureRange   `json:"range"`
+	Blocks []ScriptureBlock `json:"blocks"`
 }
 
 func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
@@ -59,6 +59,7 @@ func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 			}
 
 			newBlock := ScriptureBlock{}
+			newBlock.Range.Version = s.Range.Version
 			newBlock.Range.Start = ScriptureRef(ref)
 			newBlock.Verses = make([]ScriptureVerse, 0, 20) // TODO: pick the right value
 			s.Blocks = append(s.Blocks, newBlock)
@@ -96,10 +97,10 @@ func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 	wg.Done()
 }
 
-func (a *App) GetScriptureSections(ver ScriptureVersion, ran []ScriptureRange) []ScriptureSection {
+func (a *App) GetScriptureSections(ran []ScriptureRange) []ScriptureSection {
 	data := make([]ScriptureSection, 0, len(ran))
 	for _, r := range ran {
-		data = append(data, ScriptureSection{Version: ver, Range: r})
+		data = append(data, ScriptureSection{Range: r})
 	}
 
 	wg := new(sync.WaitGroup)

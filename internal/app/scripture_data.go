@@ -11,8 +11,8 @@ type BookData struct {
 }
 
 type VersionBookData struct {
-	index int
-	name  string
+	book_number int
+	name        string
 }
 
 type VersionData struct {
@@ -491,159 +491,159 @@ var versionData = [...]VersionData{
     name: "hot",
     books: []VersionBookData{
       {
-        index: 0,
+        book_number: 1,
         name:  "Genesis",
       },
       {
-        index: 1,
+        book_number: 2,
         name:  "Exodus",
       },
       {
-        index: 2,
+        book_number: 3,
         name:  "Leviticus",
       },
       {
-        index: 3,
+        book_number: 4,
         name:  "Numbers",
       },
       {
-        index: 4,
+        book_number: 5,
         name:  "Deuteronomy",
       },
       {
-        index: 5,
+        book_number: 6,
         name:  "Joshua",
       },
       {
-        index: 6,
+        book_number: 7,
         name:  "Judges",
       },
       {
-        index: 8,
+        book_number: 9,
         name:  "1 Samuel",
       },
       {
-        index: 9,
+        book_number: 10,
         name:  "2 Samuel",
       },
       {
-        index: 10,
+        book_number: 11,
         name:  "1 Kings",
       },
       {
-        index: 11,
+        book_number: 12,
         name:  "2 Kings",
       },
       {
-        index: 22,
+        book_number: 23,
         name:  "Isaiah",
       },
       {
-        index: 23,
+        book_number: 24,
         name:  "Jeremiah",
       },
       {
-        index: 25,
+        book_number: 26,
         name:  "Ezekiel",
       },
       {
-        index: 27,
+        book_number: 28,
         name:  "Hosea",
       },
       {
-        index: 28,
+        book_number: 29,
         name:  "Joel",
       },
       {
-        index: 29,
+        book_number: 30,
         name:  "Amos",
       },
       {
-        index: 30,
+        book_number: 31,
         name:  "Obadiah",
       },
       {
-        index: 31,
+        book_number: 32,
         name:  "Jonah",
       },
       {
-        index: 32,
+        book_number: 33,
         name:  "Micah",
       },
       {
-        index: 33,
+        book_number: 34,
         name:  "Nahum",
       },
       {
-        index: 34,
+        book_number: 35,
         name:  "Habakkuk ",
       },
       {
-        index: 35,
+        book_number: 36,
         name:  "Zephaniah",
       },
       {
-        index: 36,
+        book_number: 37,
         name:  "Haggai",
       },
       {
-        index: 37,
+        book_number: 38,
         name:  "Zechariah",
       },
       {
-        index: 38,
+        book_number: 39,
         name:  "Malachi",
       },
       {
-        index: 18,
+        book_number: 19,
         name:  "Psalms",
       },
       {
-        index: 17,
+        book_number: 18,
         name:  "Job",
       },
       {
-        index: 19,
+        book_number: 20,
         name:  "Proverbs",
       },
       {
-        index: 7,
+        book_number: 8,
         name:  "Ruth",
       },
       {
-        index: 21,
+        book_number: 22,
         name:  "Song of Songs",
       },
       {
-        index: 20,
+        book_number: 21,
         name:  "Ecclesiastes",
       },
       {
-        index: 24,
+        book_number: 25,
         name:  "Lamentations",
       },
       {
-        index: 16,
+        book_number: 17,
         name:  "Esther",
       },
       {
-        index: 26,
+        book_number: 27,
         name:  "Daniel",
       },
       {
-        index: 14,
+        book_number: 15,
         name:  "Ezra",
       },
       {
-        index: 15,
+        book_number: 16,
         name:  "Nehemiah",
       },
       {
-        index: 12,
+        book_number: 13,
         name:  "1 Chronicles",
       },
       {
-        index: 13,
+        book_number: 14,
         name:  "2 Chronicles",
       },
     },
@@ -652,267 +652,267 @@ var versionData = [...]VersionData{
     name: "esv",
     books: []VersionBookData{
       {
-        index: 0,
+        book_number: 1,
         name:  "Genesis",
       },
       {
-        index: 1,
+        book_number: 2,
         name:  "Exodus",
       },
       {
-        index: 2,
+        book_number: 3,
         name:  "Leviticus",
       },
       {
-        index: 3,
+        book_number: 4,
         name:  "Numbers",
       },
       {
-        index: 4,
+        book_number: 5,
         name:  "Deuteronomy",
       },
       {
-        index: 5,
+        book_number: 6,
         name:  "Joshua",
       },
       {
-        index: 6,
+        book_number: 7,
         name:  "Judges",
       },
       {
-        index: 7,
+        book_number: 8,
         name:  "Ruth",
       },
       {
-        index: 8,
+        book_number: 9,
         name:  "1 Samuel",
       },
       {
-        index: 9,
+        book_number: 10,
         name:  "2 Samuel",
       },
       {
-        index: 10,
+        book_number: 11,
         name:  "1 Kings",
       },
       {
-        index: 11,
+        book_number: 12,
         name:  "2 Kings",
       },
       {
-        index: 12,
+        book_number: 13,
         name:  "1 Chronicles",
       },
       {
-        index: 13,
+        book_number: 14,
         name:  "2 Chronicles",
       },
       {
-        index: 14,
+        book_number: 15,
         name:  "Ezra",
       },
       {
-        index: 15,
+        book_number: 16,
         name:  "Nehemiah",
       },
       {
-        index: 16,
+        book_number: 17,
         name:  "Esther",
       },
       {
-        index: 17,
+        book_number: 18,
         name:  "Job",
       },
       {
-        index: 18,
+        book_number: 19,
         name:  "Psalms",
       },
       {
-        index: 19,
+        book_number: 20,
         name:  "Proverbs",
       },
       {
-        index: 20,
+        book_number: 21,
         name:  "Ecclesiastes",
       },
       {
-        index: 21,
+        book_number: 22,
         name:  "Song of Solomon",
       },
       {
-        index: 22,
+        book_number: 23,
         name:  "Isaiah",
       },
       {
-        index: 23,
+        book_number: 24,
         name:  "Jeremiah",
       },
       {
-        index: 24,
+        book_number: 25,
         name:  "Lamentations",
       },
       {
-        index: 25,
+        book_number: 26,
         name:  "Ezekiel",
       },
       {
-        index: 26,
+        book_number: 27,
         name:  "Daniel",
       },
       {
-        index: 27,
+        book_number: 28,
         name:  "Hosea",
       },
       {
-        index: 28,
+        book_number: 29,
         name:  "Joel",
       },
       {
-        index: 29,
+        book_number: 30,
         name:  "Amos",
       },
       {
-        index: 30,
+        book_number: 31,
         name:  "Obadiah",
       },
       {
-        index: 31,
+        book_number: 32,
         name:  "Jonah",
       },
       {
-        index: 32,
+        book_number: 33,
         name:  "Micah",
       },
       {
-        index: 33,
+        book_number: 34,
         name:  "Nahum",
       },
       {
-        index: 34,
+        book_number: 35,
         name:  "Habakkuk ",
       },
       {
-        index: 35,
+        book_number: 36,
         name:  "Zephaniah",
       },
       {
-        index: 36,
+        book_number: 37,
         name:  "Haggai",
       },
       {
-        index: 37,
+        book_number: 38,
         name:  "Zechariah",
       },
       {
-        index: 38,
+        book_number: 39,
         name:  "Malachi",
       },
       {
-        index: 39,
+        book_number: 40,
         name:  "Matthew",
       },
       {
-        index: 40,
+        book_number: 41,
         name:  "Mark",
       },
       {
-        index: 41,
+        book_number: 42,
         name:  "Luke",
       },
       {
-        index: 42,
+        book_number: 43,
         name:  "John",
       },
       {
-        index: 43,
+        book_number: 44,
         name:  "Acts",
       },
       {
-        index: 44,
+        book_number: 45,
         name:  "Romans",
       },
       {
-        index: 45,
+        book_number: 46,
         name:  "1 Corinthians",
       },
       {
-        index: 46,
+        book_number: 47,
         name:  "2 Corinthians",
       },
       {
-        index: 47,
+        book_number: 48,
         name:  "Galatians",
       },
       {
-        index: 48,
+        book_number: 49,
         name:  "Ephesians",
       },
       {
-        index: 49,
+        book_number: 50,
         name:  "Philippians",
       },
       {
-        index: 50,
+        book_number: 51,
         name:  "Colossians",
       },
       {
-        index: 51,
+        book_number: 52,
         name:  "1 Thessalonians",
       },
       {
-        index: 52,
+        book_number: 53,
         name:  "2 Thessalonians",
       },
       {
-        index: 53,
+        book_number: 54,
         name:  "1 Timothy",
       },
       {
-        index: 54,
+        book_number: 55,
         name:  "2 Timothy",
       },
       {
-        index: 55,
+        book_number: 56,
         name:  "Titus",
       },
       {
-        index: 56,
+        book_number: 57,
         name:  "Philemon",
       },
       {
-        index: 57,
+        book_number: 58,
         name:  "Hebrews",
       },
       {
-        index: 58,
+        book_number: 59,
         name:  "James",
       },
       {
-        index: 59,
+        book_number: 60,
         name:  "1 Peter",
       },
       {
-        index: 60,
+        book_number: 61,
         name:  "2 Peter",
       },
       {
-        index: 61,
+        book_number: 62,
         name:  "1 John",
       },
       {
-        index: 62,
+        book_number: 63,
         name:  "2 John",
       },
       {
-        index: 63,
+        book_number: 64,
         name:  "3 John",
       },
       {
-        index: 64,
+        book_number: 65,
         name:  "Jude",
       },
       {
-        index: 65,
+        book_number: 66,
         name:  "Revelation",
       },
     },
@@ -921,111 +921,111 @@ var versionData = [...]VersionData{
     name: "gnt",
     books: []VersionBookData{
       {
-        index: 39,
+        book_number: 40,
         name:  "ΚΑΤΑ ΜΑΘΘΑΙΟΝ",
       },
       {
-        index: 40,
+        book_number: 41,
         name:  "ΚΑΤΑ ΜΑΡΚΟΝ",
       },
       {
-        index: 41,
+        book_number: 42,
         name:  "ΚΑΤΑ ΛΟΥΚΑΝ",
       },
       {
-        index: 42,
+        book_number: 43,
         name:  "ΚΑΤΑ ΙΩΑΝΝΗΝ",
       },
       {
-        index: 43,
+        book_number: 44,
         name:  "ΠΡΑΞΕΙΣ ΑΠΟΣΤΟΛΩΝ",
       },
       {
-        index: 44,
+        book_number: 45,
         name:  "ΠΡΟΣ ΡΩΜΑΙΟΥΣ",
       },
       {
-        index: 45,
+        book_number: 46,
         name:  "ΠΡΟΣ ΚΟΡΙΝΘΙΟΥΣ Ά",
       },
       {
-        index: 46,
+        book_number: 47,
         name:  "ΠΡΟΣ ΚΟΡΙΝΘΙΟΥΣ Β́",
       },
       {
-        index: 47,
+        book_number: 48,
         name:  "ΠΡΟΣ ΓΑΛΑΤΑΣ",
       },
       {
-        index: 48,
+        book_number: 49,
         name:  "ΠΡΟΣ ΕΦΕΣΙΟΥΣ",
       },
       {
-        index: 49,
+        book_number: 50,
         name:  "ΠΡΟΣ ΦΙΛΙΠΠΗΣΙΟΥΣ",
       },
       {
-        index: 50,
+        book_number: 51,
         name:  "ΠΡΟΣ ΚΟΛΟΣΣΑΕΙΣ",
       },
       {
-        index: 51,
+        book_number: 52,
         name:  "ΠΡΟΣ ΘΕΣΣΑΛΟΝΙΚΕΙΣ Ά",
       },
       {
-        index: 52,
+        book_number: 53,
         name:  "ΠΡΟΣ ΘΕΣΣΑΛΟΝΙΚΕΙΣ Β́",
       },
       {
-        index: 53,
+        book_number: 54,
         name:  "ΠΡΟΣ ΤΙΜΟΘΕΟΝ Ά",
       },
       {
-        index: 54,
+        book_number: 55,
         name:  "ΠΡΟΣ ΤΙΜΟΘΕΟΝ Β́",
       },
       {
-        index: 55,
+        book_number: 56,
         name:  "ΠΡΟΣ ΤΙΤΟΝ",
       },
       {
-        index: 56,
+        book_number: 57,
         name:  "ΠΡΟΣ ΦΙΛΗΜΟΝΑ",
       },
       {
-        index: 57,
+        book_number: 58,
         name:  "ΠΡΟΣ ΕΒΡΑΙΟΥΣ",
       },
       {
-        index: 58,
+        book_number: 59,
         name:  "ΙΑΚΩΒΟΥ ΕΠΙΣΤΟΛΗ",
       },
       {
-        index: 59,
+        book_number: 60,
         name:  "ΠΕΤΡΟΥ ΕΠΙΣΤΟΛΗ ΠΡΩΤΗ",
       },
       {
-        index: 60,
+        book_number: 61,
         name:  "ΠΕΤΡΟΥ ΕΠΙΣΤΟΛΗ ΔΕΥΤΕΡΑ",
       },
       {
-        index: 61,
+        book_number: 62,
         name:  "ΙΩΑΝΝΟΥ ΕΠΙΣΤΟΛΗ ΠΡΩΤΗ",
       },
       {
-        index: 62,
+        book_number: 63,
         name:  "ΙΩΑΝΝΟΥ ΕΠΙΣΤΟΛΗ ΔΕΥΤΕΡΑ",
       },
       {
-        index: 63,
+        book_number: 64,
         name:  "ΙΩΑΝΝΟΥ ΕΠΙΣΤΟΛΗ ΤΡΙΤΗ",
       },
       {
-        index: 64,
+        book_number: 65,
         name:  "ΙΟΥΔΑ ΕΠΙΣΤΟΛΗ",
       },
       {
-        index: 65,
+        book_number: 66,
         name:  "ΑΠΟΚΑΛΥΨΙΣ ΙΩΑΝΝΟΥ",
       },
     },

@@ -1,5 +1,8 @@
 <script lang="ts">
     import type { app } from "!wails/go/models";
+    import { EventsOff, EventsOn } from "!wails/runtime/runtime";
+    import { isRefInRange } from "@/lib/Scripture/range";
+    import type { BibleRef } from "@/lib/Scripture/types";
     import { onMount, tick } from "svelte";
 
     export let items: Array<app.ScriptureSection>;
@@ -110,42 +113,66 @@
         }
     }
 
-    export function scrollToItem(n: number) {
-        if (n < 0 || n >= num_blocks) return;
-        let scrollPosition = Math.max(row_offsets[n] - 20, 0);
-        viewport.scrollTop = scrollPosition;
-    }
-
     let firstMount = false;
     $: if (!firstMount && items.length > 0) {
         firstLoad();
     }
 
     let resize_timer: ReturnType<typeof setTimeout>;
-    onMount(() => {
-        const resizeObserver = new ResizeObserver((_) => {
-            let content_width = content.offsetWidth;
-            if (last_registered_width == undefined) {
-                last_registered_width = content_width;
-                return;
-            }
-            if (content && content_width == last_registered_width) {
-                return;
-            }
-
+    const resizeObserver = new ResizeObserver((_) => {
+        let content_width = content.offsetWidth;
+        if (last_registered_width == undefined) {
             last_registered_width = content_width;
-            clearTimeout(resize_timer);
-            if (
-                last_calculated_width &&
-                !(last_calculated_width in historic_row_offsets)
-            )
-                historic_row_offsets[last_calculated_width] = row_offsets;
-            resize_timer = setTimeout(firstLoad, 50);
-        });
+            return;
+        }
+        if (content && content_width == last_registered_width) {
+            return;
+        }
 
+        last_registered_width = content_width;
+        clearTimeout(resize_timer);
+        if (
+            last_calculated_width &&
+            !(last_calculated_width in historic_row_offsets)
+        )
+            historic_row_offsets[last_calculated_width] = row_offsets;
+        resize_timer = setTimeout(firstLoad, 50);
+    });
+
+    function scrollToItem(n: number) {
+        if (n < 0 || n >= num_blocks) return;
+        let scrollPosition = Math.max(row_offsets[n] - 20, 0);
+        viewport.scrollTop = scrollPosition;
+    }
+
+    function handleGoTo(ref: BibleRef) {
+        console.log(`HANDLING VISUALISER GOTO: ${ref}`);
+
+        let seen = 0;
+
+        for (let i = 0; i < items.length; i++) {
+            let section = items[i];
+            if (isRefInRange(ref, section.range)) {
+                for (let j = 0; j < section.blocks.length; j++) {
+                    let block = section.blocks[j];
+                    if (isRefInRange(ref, block.range)) {
+                        scrollToItem(seen);
+                        return;
+                    }
+                    seen += 1;
+                }
+            } else {
+                seen += section.blocks.length;
+            }
+        }
+    }
+
+    onMount(() => {
         resizeObserver.observe(content);
+        EventsOn("visualiser:goto", handleGoTo);
         return () => {
             resizeObserver.unobserve(content);
+            EventsOff("visualiser:goto");
         };
     });
 </script>

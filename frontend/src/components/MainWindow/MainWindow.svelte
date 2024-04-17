@@ -1,6 +1,5 @@
 <script lang="ts">
     import Virtualiser from "@/components/MainWindow/Virtualiser.svelte";
-
     import { app_data, app_currentRef } from "@/lib/appManager";
     import {
         bibleRefToString,
@@ -11,18 +10,11 @@
     let cp = { section: 0, block: 0 };
     $: if ($app_data.length > 0 && cp)
         $app_currentRef = $app_data[cp.section].blocks[cp.block].range.start;
-
-    let scrollVirtualiser: (_: number) => void;
 </script>
 
 <div id="content">
     {#if $app_data}
-        <Virtualiser
-            items={$app_data}
-            bind:current_position={cp}
-            bind:scrollToItem={scrollVirtualiser}
-            let:row
-        >
+        <Virtualiser items={$app_data} bind:current_position={cp} let:row>
             <div class="block">
                 {#if isRefBookStart(row.range.start)}
                     <div class="heading">

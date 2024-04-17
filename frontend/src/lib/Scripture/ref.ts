@@ -2,6 +2,18 @@ import { bibleData, versionData } from "@/lib/Scripture/data";
 import type { BibleBook, BibleRef, BibleVersion } from "@/lib/Scripture/types";
 import { GrapheError, assertUnreachable } from "@/lib/utils";
 
+export const getBook = (ref: BibleRef): number => {
+  return (ref - (ref % 1_000_000)) / 1_000_000;
+};
+
+export const getChapter = (ref: BibleRef): number => {
+  return ((ref % 1_000_000) - (ref % 1_000)) / 1_000;
+};
+
+export const getVerse = (ref: BibleRef): number => {
+  return ref % 1_000;
+};
+
 /**
  * Determines if given chapter is a superscript psalm
  * @param {number} chapter - The psalm chapter to check.
@@ -16,9 +28,9 @@ const isSuperscriptPsalmChapter = (chapter: number): boolean => {
  */
 export const isValidBibleRef = (ref: BibleRef): boolean => {
   if (ref == null) return false;
-  const verse = ref % 1000;
-  const chapter = ((ref % 1000000) - verse) / 1000;
-  const book = (ref - chapter * 1000 - verse) / 1000000;
+  const verse = getVerse(ref);
+  const chapter = getChapter(ref);
+  const book = getBook(ref);
 
   return (
     book > 0 &&
@@ -30,11 +42,13 @@ export const isValidBibleRef = (ref: BibleRef): boolean => {
   );
 };
 
+/**
+ * Determines if a BibleRef is the start of a book
+ * @param {BibleRef} ref - The reference to be checked.
+ */
 export const isRefBookStart = (ref: BibleRef): boolean => {
   if (!isValidBibleRef) return false;
-  const verse = ref % 1000;
-  const chapter = ((ref % 1000000) - verse) / 1000;
-  return chapter == 1 && verse == 1;
+  return getChapter(ref) == 1 && getVerse(ref) == 1;
 };
 
 /**
@@ -98,9 +112,9 @@ export const bibleRefToString = (
   if (!isValidBibleRef(ref))
     GrapheError(`Invalid ref (${ref}) passed to \`bibleRefToString\``);
 
-  const verse = ref % 1000;
-  const chapter = ((ref % 1000000) - verse) / 1000;
-  const book = (ref - chapter * 1000 - verse) / 1000000;
+  const verse = getVerse(ref);
+  const chapter = getChapter(ref);
+  const book = getBook(ref);
   const isSingleChapterBook = bibleData[book - 1].num_chapters == 1;
   switch (format) {
     case "short":
@@ -136,8 +150,8 @@ export const bibleRefToVersionBookTitle = (
       `Invalid ref (${ref}) passed to \`bibleRefToVersionBookTitle\``,
     );
 
-  const book_index = (ref - (ref % 1_000_000)) / 1_000_000 - 1;
-  const book_info = versionData[ver].find((b) => b.index == book_index);
+  const book_number = getBook(ref);
+  const book_info = versionData[ver].find((b) => b.book_number == book_number);
   if (book_info == undefined)
     GrapheError(
       `Valid ref (${ref}) not in bible version (${ver}), passed to \`bibleRefToVersionBookTitle\``,

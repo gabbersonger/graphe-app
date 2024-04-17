@@ -17,7 +17,7 @@ Build distributable app: `wails build`
   - [x] Add book titles
   - [x] Add top padding
 - [ ] Get text/passage selection working
-  - [ ] Functionality
+  - [x] Functionality
   - [ ] 'Choose passage' modal
   - [ ] 'Choose text' modal
 - [ ] Instant details (word hover)

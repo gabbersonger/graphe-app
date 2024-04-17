@@ -18,7 +18,7 @@ export const ui_modal: Writable<ModalName | ""> = writable("");
 // Functions to handle events
 
 function handleUIModal(data: ModalName) {
-  if (data == "choosePassage" && get(app_mode) == "search") return;
+  if (data == "text" && get(app_mode) == "search") return;
   ui_modal.update((val) => (val == data ? "" : data));
 }
 
