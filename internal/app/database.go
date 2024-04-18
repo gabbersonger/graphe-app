@@ -39,7 +39,7 @@ func prepareQueries(a *App, db *GrapheDBConn) {
 	var err error
 
 	err = prepareQuery(db, "GetScriptureSection", `
-        SELECT ref, word_num, text
+        SELECT ref, word_num, text, pre, post
         FROM gnt_text
         WHERE ref >= ? AND ref <= ?;
     `)

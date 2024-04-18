@@ -53,7 +53,7 @@
                             <sup>{verse.ref % 1000}</sup>
                         {/if}
                         {#each verse.words as word, word_index}
-                            <span
+                            {word.pre}<span
                                 class="word"
                                 on:mouseenter={(e) =>
                                     handleWordMouseEnter(
@@ -61,9 +61,8 @@
                                         word_index + 1,
                                     )}
                                 on:mouseleave={handleWordMouseLeave}
-                            >
-                                {word}
-                            </span>{" "}
+                                >{word.text}</span
+                            >{word.post}{" "}
                         {/each}
                     </div>
                 {/each}

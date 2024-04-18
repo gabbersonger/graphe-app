@@ -3,8 +3,13 @@ package app
 import "sync"
 
 type ScriptureRef int
-type ScriptureWord string
 type ScriptureVersion string
+
+type ScriptureWord struct {
+	Text string `json:"text"`
+	Pre  string `json:"pre"`
+	Post string `json:"post"`
+}
 
 type ScriptureVerse struct {
 	Ref   ScriptureRef    `json:"ref"`
@@ -38,7 +43,7 @@ func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 	a.check(err)
 
 	var ref, word_num int
-	var text string
+	var text, pre, post string
 	createNextBlock := true
 	lastRef := 0
 
@@ -48,7 +53,7 @@ func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 		if !hasRow {
 			break
 		}
-		err = stmt.Scan(&ref, &word_num, &text)
+		err = stmt.Scan(&ref, &word_num, &text, &pre, &post)
 		a.check(err)
 
 		// Add block if needed
@@ -78,13 +83,12 @@ func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 		lastVerse := len(s.Blocks[lastBlock].Verses) - 1
 
 		// Add word
-		newWord := ScriptureWord(text)
+		newWord := ScriptureWord{text, pre, post}
 		s.Blocks[lastBlock].Verses[lastVerse].Words = append(s.Blocks[lastBlock].Verses[lastVerse].Words, newWord)
 
-		runes := []rune(text)
-		max := len(runes) - 1
-		for i := range runes {
-			if runes[max-i] == '¶' {
+		runes := []rune(post)
+		for _, rune := range runes {
+			if rune == '¶' {
 				createNextBlock = true
 			}
 		}

@@ -22,7 +22,7 @@ Build distributable app: `wails build`
   - [x] 'Choose text' modal
 - [x] Instant details (word hover)
 - [ ] Get all the bible texts working properly
-  - [ ] Split GNT text into word, pre, post (separate out punctuation)
+  - [x] Split GNT text into word, pre, post (separate out punctuation)
   - [ ] Add HOT
   - [ ] Add ESV
   - [ ] Add LXX
