@@ -22,4 +22,23 @@
         margin-top: var(--size-modal-header-gap);
         overflow: scroll;
     }
+
+    .content::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    .content::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+
+    .content::-webkit-scrollbar-thumb {
+        background: var(--clr-text-sub);
+        -webkit-transition: 0.125s;
+        transition: 0.125s;
+        border-radius: 4px !important;
+    }
+
+    .content::-webkit-scrollbar-track {
+        background: 0 0;
+    }
 </style>

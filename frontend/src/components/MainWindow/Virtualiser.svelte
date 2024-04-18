@@ -209,6 +209,25 @@
         overflow-y: scroll;
     }
 
+    .viewport::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    .viewport::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+
+    .viewport::-webkit-scrollbar-thumb {
+        background: var(--clr-text-sub);
+        -webkit-transition: 0.125s;
+        transition: 0.125s;
+        border-radius: 4px !important;
+    }
+
+    .viewport::-webkit-scrollbar-track {
+        background: 0 0;
+    }
+
     .content {
         position: relative;
         width: 90%;
@@ -218,9 +237,6 @@
 
     .rows {
         position: relative;
-        /* top: 0;
-        left: 0;
-        width: 100%; */
     }
 
     .offseter {
