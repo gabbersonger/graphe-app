@@ -7,7 +7,7 @@ const getVersionBookIndex = (
   version: BibleVersion,
   book_number: number,
 ): number => {
-  return versionData[version].findIndex(
+  return versionData[version].books.findIndex(
     (b: { book_number: number }) => b.book_number == book_number,
   );
 };

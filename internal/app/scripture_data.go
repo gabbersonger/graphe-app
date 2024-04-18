@@ -16,8 +16,10 @@ type VersionBookData struct {
 }
 
 type VersionData struct {
-	name  string
-	books []VersionBookData
+	name     string
+	fullname string
+	language string
+	books    []VersionBookData
 }
 
 var bibleData = [...]BookData{
@@ -489,6 +491,8 @@ var bibleData = [...]BookData{
 var versionData = [...]VersionData{
   {
     name: "hot",
+    fullname: "Tyndale Hebrew Old Testament",
+    language: "Ancient Hebrew",
     books: []VersionBookData{
       {
         book_number: 1,
@@ -649,7 +653,287 @@ var versionData = [...]VersionData{
     },
   },
   {
+    name: "lxx",
+    fullname: "Septuagint (LXX)",
+    language: "Koine Greek",
+    books: []VersionBookData{
+      {
+        book_number: 1,
+        name:  "Genesis",
+      },
+      {
+        book_number: 2,
+        name:  "Exodus",
+      },
+      {
+        book_number: 3,
+        name:  "Leviticus",
+      },
+      {
+        book_number: 4,
+        name:  "Numbers",
+      },
+      {
+        book_number: 5,
+        name:  "Deuteronomy",
+      },
+      {
+        book_number: 6,
+        name:  "Joshua",
+      },
+      {
+        book_number: 7,
+        name:  "Judges",
+      },
+      {
+        book_number: 8,
+        name:  "Ruth",
+      },
+      {
+        book_number: 9,
+        name:  "1 Samuel",
+      },
+      {
+        book_number: 10,
+        name:  "2 Samuel",
+      },
+      {
+        book_number: 11,
+        name:  "1 Kings",
+      },
+      {
+        book_number: 12,
+        name:  "2 Kings",
+      },
+      {
+        book_number: 13,
+        name:  "1 Chronicles",
+      },
+      {
+        book_number: 14,
+        name:  "2 Chronicles",
+      },
+      {
+        book_number: 15,
+        name:  "Ezra",
+      },
+      {
+        book_number: 16,
+        name:  "Nehemiah",
+      },
+      {
+        book_number: 17,
+        name:  "Esther",
+      },
+      {
+        book_number: 19,
+        name:  "Psalms",
+      },
+      {
+        book_number: 20,
+        name:  "Proverbs",
+      },
+      {
+        book_number: 21,
+        name:  "Ecclesiastes",
+      },
+      {
+        book_number: 22,
+        name:  "Song of Songs",
+      },
+      {
+        book_number: 18,
+        name:  "Job",
+      },
+      {
+        book_number: 28,
+        name:  "Hosea",
+      },
+      {
+        book_number: 30,
+        name:  "Amos",
+      },
+      {
+        book_number: 33,
+        name:  "Micah",
+      },
+      {
+        book_number: 29,
+        name:  "Joel",
+      },
+      {
+        book_number: 31,
+        name:  "Obadiah",
+      },
+      {
+        book_number: 32,
+        name:  "Jonah",
+      },
+      {
+        book_number: 34,
+        name:  "Nahum",
+      },
+      {
+        book_number: 35,
+        name:  "Habakkuk ",
+      },
+      {
+        book_number: 36,
+        name:  "Zephaniah",
+      },
+      {
+        book_number: 37,
+        name:  "Haggai",
+      },
+      {
+        book_number: 38,
+        name:  "Zechariah",
+      },
+      {
+        book_number: 39,
+        name:  "Malachi",
+      },
+      {
+        book_number: 23,
+        name:  "Isaiah",
+      },
+      {
+        book_number: 24,
+        name:  "Jeremiah",
+      },
+      {
+        book_number: 25,
+        name:  "Lamentations",
+      },
+      {
+        book_number: 26,
+        name:  "Ezekiel",
+      },
+      {
+        book_number: 27,
+        name:  "Daniel",
+      },
+    },
+  },
+  {
+    name: "gnt",
+    fullname: "Tyndale Greek New Testament",
+    language: "Koine Greek",
+    books: []VersionBookData{
+      {
+        book_number: 40,
+        name:  "ΚΑΤΑ ΜΑΘΘΑΙΟΝ",
+      },
+      {
+        book_number: 41,
+        name:  "ΚΑΤΑ ΜΑΡΚΟΝ",
+      },
+      {
+        book_number: 42,
+        name:  "ΚΑΤΑ ΛΟΥΚΑΝ",
+      },
+      {
+        book_number: 43,
+        name:  "ΚΑΤΑ ΙΩΑΝΝΗΝ",
+      },
+      {
+        book_number: 44,
+        name:  "ΠΡΑΞΕΙΣ ΑΠΟΣΤΟΛΩΝ",
+      },
+      {
+        book_number: 45,
+        name:  "ΠΡΟΣ ΡΩΜΑΙΟΥΣ",
+      },
+      {
+        book_number: 46,
+        name:  "ΠΡΟΣ ΚΟΡΙΝΘΙΟΥΣ Ά",
+      },
+      {
+        book_number: 47,
+        name:  "ΠΡΟΣ ΚΟΡΙΝΘΙΟΥΣ Β́",
+      },
+      {
+        book_number: 48,
+        name:  "ΠΡΟΣ ΓΑΛΑΤΑΣ",
+      },
+      {
+        book_number: 49,
+        name:  "ΠΡΟΣ ΕΦΕΣΙΟΥΣ",
+      },
+      {
+        book_number: 50,
+        name:  "ΠΡΟΣ ΦΙΛΙΠΠΗΣΙΟΥΣ",
+      },
+      {
+        book_number: 51,
+        name:  "ΠΡΟΣ ΚΟΛΟΣΣΑΕΙΣ",
+      },
+      {
+        book_number: 52,
+        name:  "ΠΡΟΣ ΘΕΣΣΑΛΟΝΙΚΕΙΣ Ά",
+      },
+      {
+        book_number: 53,
+        name:  "ΠΡΟΣ ΘΕΣΣΑΛΟΝΙΚΕΙΣ Β́",
+      },
+      {
+        book_number: 54,
+        name:  "ΠΡΟΣ ΤΙΜΟΘΕΟΝ Ά",
+      },
+      {
+        book_number: 55,
+        name:  "ΠΡΟΣ ΤΙΜΟΘΕΟΝ Β́",
+      },
+      {
+        book_number: 56,
+        name:  "ΠΡΟΣ ΤΙΤΟΝ",
+      },
+      {
+        book_number: 57,
+        name:  "ΠΡΟΣ ΦΙΛΗΜΟΝΑ",
+      },
+      {
+        book_number: 58,
+        name:  "ΠΡΟΣ ΕΒΡΑΙΟΥΣ",
+      },
+      {
+        book_number: 59,
+        name:  "ΙΑΚΩΒΟΥ ΕΠΙΣΤΟΛΗ",
+      },
+      {
+        book_number: 60,
+        name:  "ΠΕΤΡΟΥ ΕΠΙΣΤΟΛΗ ΠΡΩΤΗ",
+      },
+      {
+        book_number: 61,
+        name:  "ΠΕΤΡΟΥ ΕΠΙΣΤΟΛΗ ΔΕΥΤΕΡΑ",
+      },
+      {
+        book_number: 62,
+        name:  "ΙΩΑΝΝΟΥ ΕΠΙΣΤΟΛΗ ΠΡΩΤΗ",
+      },
+      {
+        book_number: 63,
+        name:  "ΙΩΑΝΝΟΥ ΕΠΙΣΤΟΛΗ ΔΕΥΤΕΡΑ",
+      },
+      {
+        book_number: 64,
+        name:  "ΙΩΑΝΝΟΥ ΕΠΙΣΤΟΛΗ ΤΡΙΤΗ",
+      },
+      {
+        book_number: 65,
+        name:  "ΙΟΥΔΑ ΕΠΙΣΤΟΛΗ",
+      },
+      {
+        book_number: 66,
+        name:  "ΑΠΟΚΑΛΥΨΙΣ ΙΩΑΝΝΟΥ",
+      },
+    },
+  },
+  {
     name: "esv",
+    fullname: "English Standard Version",
+    language: "English",
     books: []VersionBookData{
       {
         book_number: 1,
@@ -914,119 +1198,6 @@ var versionData = [...]VersionData{
       {
         book_number: 66,
         name:  "Revelation",
-      },
-    },
-  },
-  {
-    name: "gnt",
-    books: []VersionBookData{
-      {
-        book_number: 40,
-        name:  "ΚΑΤΑ ΜΑΘΘΑΙΟΝ",
-      },
-      {
-        book_number: 41,
-        name:  "ΚΑΤΑ ΜΑΡΚΟΝ",
-      },
-      {
-        book_number: 42,
-        name:  "ΚΑΤΑ ΛΟΥΚΑΝ",
-      },
-      {
-        book_number: 43,
-        name:  "ΚΑΤΑ ΙΩΑΝΝΗΝ",
-      },
-      {
-        book_number: 44,
-        name:  "ΠΡΑΞΕΙΣ ΑΠΟΣΤΟΛΩΝ",
-      },
-      {
-        book_number: 45,
-        name:  "ΠΡΟΣ ΡΩΜΑΙΟΥΣ",
-      },
-      {
-        book_number: 46,
-        name:  "ΠΡΟΣ ΚΟΡΙΝΘΙΟΥΣ Ά",
-      },
-      {
-        book_number: 47,
-        name:  "ΠΡΟΣ ΚΟΡΙΝΘΙΟΥΣ Β́",
-      },
-      {
-        book_number: 48,
-        name:  "ΠΡΟΣ ΓΑΛΑΤΑΣ",
-      },
-      {
-        book_number: 49,
-        name:  "ΠΡΟΣ ΕΦΕΣΙΟΥΣ",
-      },
-      {
-        book_number: 50,
-        name:  "ΠΡΟΣ ΦΙΛΙΠΠΗΣΙΟΥΣ",
-      },
-      {
-        book_number: 51,
-        name:  "ΠΡΟΣ ΚΟΛΟΣΣΑΕΙΣ",
-      },
-      {
-        book_number: 52,
-        name:  "ΠΡΟΣ ΘΕΣΣΑΛΟΝΙΚΕΙΣ Ά",
-      },
-      {
-        book_number: 53,
-        name:  "ΠΡΟΣ ΘΕΣΣΑΛΟΝΙΚΕΙΣ Β́",
-      },
-      {
-        book_number: 54,
-        name:  "ΠΡΟΣ ΤΙΜΟΘΕΟΝ Ά",
-      },
-      {
-        book_number: 55,
-        name:  "ΠΡΟΣ ΤΙΜΟΘΕΟΝ Β́",
-      },
-      {
-        book_number: 56,
-        name:  "ΠΡΟΣ ΤΙΤΟΝ",
-      },
-      {
-        book_number: 57,
-        name:  "ΠΡΟΣ ΦΙΛΗΜΟΝΑ",
-      },
-      {
-        book_number: 58,
-        name:  "ΠΡΟΣ ΕΒΡΑΙΟΥΣ",
-      },
-      {
-        book_number: 59,
-        name:  "ΙΑΚΩΒΟΥ ΕΠΙΣΤΟΛΗ",
-      },
-      {
-        book_number: 60,
-        name:  "ΠΕΤΡΟΥ ΕΠΙΣΤΟΛΗ ΠΡΩΤΗ",
-      },
-      {
-        book_number: 61,
-        name:  "ΠΕΤΡΟΥ ΕΠΙΣΤΟΛΗ ΔΕΥΤΕΡΑ",
-      },
-      {
-        book_number: 62,
-        name:  "ΙΩΑΝΝΟΥ ΕΠΙΣΤΟΛΗ ΠΡΩΤΗ",
-      },
-      {
-        book_number: 63,
-        name:  "ΙΩΑΝΝΟΥ ΕΠΙΣΤΟΛΗ ΔΕΥΤΕΡΑ",
-      },
-      {
-        book_number: 64,
-        name:  "ΙΩΑΝΝΟΥ ΕΠΙΣΤΟΛΗ ΤΡΙΤΗ",
-      },
-      {
-        book_number: 65,
-        name:  "ΙΟΥΔΑ ΕΠΙΣΤΟΛΗ",
-      },
-      {
-        book_number: 66,
-        name:  "ΑΠΟΚΑΛΥΨΙΣ ΙΩΑΝΝΟΥ",
       },
     },
   },

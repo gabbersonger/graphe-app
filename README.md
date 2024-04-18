@@ -18,7 +18,7 @@ Build distributable app: `wails build`
   - [x] Add top padding
 - [ ] Get text/passage selection working
   - [x] Functionality
-  - [ ] 'Choose passage' modal
+  - [x] 'Choose version' modal
   - [ ] 'Choose text' modal
 - [ ] Instant details (word hover)
 - [ ] Get all the bible texts working properly

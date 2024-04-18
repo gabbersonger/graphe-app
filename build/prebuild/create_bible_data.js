@@ -31,11 +31,15 @@ const createJSFile = () => {
   data += "\n] as const;\n\n";
 
   data += `export const versionData = {`;
-  for (let [version, books] of Object.entries(versionData)) {
+  for (let [version, versionInfo] of Object.entries(versionData)) {
     data += `
-  ${version}: [
-${books.map((x) => `    { book_number: ${x.book_number}, name: "${x.name}" },`).join("\n")}
-  ],`;
+  ${version}: {
+    fullname: "${versionInfo.fullname}",
+    language: "${versionInfo.language}",
+    books: [
+${versionInfo.books.map((x) => `      { book_number: ${x.book_number}, name: "${x.name}" },`).join("\n")}
+    ],
+  },`;
   }
   data += `\n} as const;`;
 
@@ -64,8 +68,10 @@ type VersionBookData struct {
 }
 
 type VersionData struct {
-	name  string
-	books []VersionBookData
+	name     string
+	fullname string
+	language string
+	books    []VersionBookData
 }
 
 var bibleData = [...]BookData{`;
@@ -88,15 +94,17 @@ var bibleData = [...]BookData{`;
   data += "\n}\n\n";
 
   data += `var versionData = [...]VersionData{\n`;
-  for (let [version, books] of Object.entries(versionData)) {
+  for (let [version, versionInfo] of Object.entries(versionData)) {
     data += `  {
     name: "${version}",
+    fullname: "${versionInfo.fullname}",
+    language: "${versionInfo.language}",
     books: []VersionBookData{`;
-    for (let i = 0; i < books.length; i++) {
+    for (let i = 0; i < versionInfo.books.length; i++) {
       data += `
       {
-        book_number: ${books[i].book_number},
-        name:  "${books[i].name}",
+        book_number: ${versionInfo.books[i].book_number},
+        name:  "${versionInfo.books[i].name}",
       },`;
     }
     data += `\n    },\n  },\n`;

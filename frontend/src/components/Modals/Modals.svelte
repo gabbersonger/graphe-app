@@ -55,7 +55,8 @@
     .overlay {
         position: absolute;
         inset: 0;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(0, 0, 0, 0.4);
+        /* NOTE: blur applied to background in App.svelte */
     }
 
     .modal {

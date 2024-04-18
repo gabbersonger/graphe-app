@@ -4,7 +4,7 @@
     import Sidebar from "@/components/Sidebar/Sidebar.svelte";
     import Modals from "@/components/Modals/Modals.svelte";
 
-    import { ui_showSidebar, ui_theme } from "@/lib/uiManager";
+    import { ui_modal, ui_showSidebar, ui_theme } from "@/lib/uiManager";
     import { createThemeStyles } from "@/static/themes";
     import { WindowIsFullscreen } from "!wails/runtime/runtime";
     import { appManager } from "@/lib/appManager";
@@ -25,6 +25,7 @@
     id="app"
     class:sidebar={$ui_showSidebar}
     class:fullscreen={isFullscreen}
+    class:modal={$ui_modal != ""}
     style={createThemeStyles($ui_theme)}
     use:uiManager
     use:appManager
@@ -71,5 +72,12 @@
 
     #app aside {
         grid-area: sidebar;
+    }
+
+    #app.modal > main,
+    #app.modal > nav,
+    #app.modal > aside {
+        filter: blur(2px);
+        -webkit-filter: blur(2px);
     }
 </style>

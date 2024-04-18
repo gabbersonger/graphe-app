@@ -13,7 +13,7 @@ export const ui_showSidebar = writable(false);
 export const ui_sidebarSection: Writable<SidebarSection> = writable(
   sidebarData[0].name,
 );
-export const ui_modal: Writable<ModalName | ""> = writable("version");
+export const ui_modal: Writable<ModalName | ""> = writable("");
 
 // Functions to handle events
 
@@ -22,7 +22,7 @@ function handleUIModal(data: ModalName) {
   ui_modal.update((val) => (val == data ? "" : data));
 }
 
-function handleUIModalCloseAll() {
+function handleUIModalClose() {
   ui_modal.set("");
 }
 
@@ -51,7 +51,7 @@ export function uiManager(_: HTMLElement) {
     [key: string]: (...data: any) => void;
   } = {
     "ui:modal": handleUIModal,
-    "ui:modal:closeAll": handleUIModalCloseAll,
+    "ui:modal:close": handleUIModalClose,
     "ui:sidebar:toggle": handleUISidebarToggle,
     "ui:theme": handleUITheme,
 
