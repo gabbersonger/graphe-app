@@ -1,9 +1,13 @@
 <script lang="ts">
     import type { ComponentType } from "svelte";
-    import type { Icon } from "lucide-svelte";
+    import { type Icon, Undo2 } from "lucide-svelte";
+
+    export let backButton: () => void = null;
 
     type $T = $$Generic;
     export let items: Array<$T>;
+
+    export let rowData: { number: number; maxwidth: number };
 
     export let onItemClick: (index: number) => void;
 
@@ -15,7 +19,20 @@
     export let isFocused: (index: number) => boolean = (_) => false;
 </script>
 
-<div class="container">
+<div
+    class="container"
+    style:--row-length={rowData.number.toString()}
+    style:--item-maxwidth={rowData.maxwidth.toString()}
+>
+    {#if backButton}
+        <button on:click={backButton} tabindex="0">
+            <span class="subheading">
+                <Undo2 />Return
+            </span>
+            <span>Go Back</span>
+        </button>
+    {/if}
+
     {#each items as _, index}
         <button
             on:click={() => onItemClick(index)}
@@ -23,10 +40,10 @@
             class:active={isActive(index)}
             class:focus={isFocused(index)}
         >
-            {#if subheading}
+            {#if subheading || icon}
                 <span class="subheading">
                     {#if icon}<svelte:component this={icon} />{/if}
-                    {subheading(index)}
+                    {#if subheading}{subheading(index)}{/if}
                 </span>
             {/if}
             {#if heading}
@@ -47,8 +64,10 @@
 
     button {
         position: relative;
-        width: calc((100% - 3rem) / 4);
-        min-width: 10rem;
+        width: calc(
+            (100% - ((var(--row-length) - 1) * 1rem)) / var(--row-length)
+        );
+        min-width: calc(var(--item-maxwidth) * 1rem);
         aspect-ratio: 2 / 1;
         background: none;
         border: 2px solid var(--clr-background-sub);

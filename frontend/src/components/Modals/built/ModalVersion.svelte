@@ -65,6 +65,7 @@
     <div slot="content">
         <ModalButtons
             items={available_versions}
+            rowData={{ number: 4, maxwidth: 10 }}
             onItemClick={clickVersion}
             icon={BookText}
             subheading={(index) => available_versions[index].language}

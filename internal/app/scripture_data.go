@@ -655,7 +655,7 @@ var versionData = [...]VersionData{
   {
     name: "lxx",
     fullname: "Septuagint (LXX)",
-    language: "Koine Greek",
+    language: "Ancient Greek",
     books: []VersionBookData{
       {
         book_number: 1,
@@ -818,7 +818,7 @@ var versionData = [...]VersionData{
   {
     name: "gnt",
     fullname: "Tyndale Greek New Testament",
-    language: "Koine Greek",
+    language: "Ancient Greek",
     books: []VersionBookData{
       {
         book_number: 40,

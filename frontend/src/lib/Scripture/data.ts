@@ -513,7 +513,7 @@ export const versionData = {
   },
   lxx: {
     fullname: "Septuagint (LXX)",
-    language: "Koine Greek",
+    language: "Ancient Greek",
     books: [
       { book_number: 1, name: "Genesis" },
       { book_number: 2, name: "Exodus" },
@@ -558,7 +558,7 @@ export const versionData = {
   },
   gnt: {
     fullname: "Tyndale Greek New Testament",
-    language: "Koine Greek",
+    language: "Ancient Greek",
     books: [
       { book_number: 40, name: "ΚΑΤΑ ΜΑΘΘΑΙΟΝ" },
       { book_number: 41, name: "ΚΑΤΑ ΜΑΡΚΟΝ" },
