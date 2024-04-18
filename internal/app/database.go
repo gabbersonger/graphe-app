@@ -45,8 +45,18 @@ func prepareQueries(a *App, db *GrapheDBConn) {
     `)
 	a.check(err)
 
+	err = prepareQuery(db, "GetScriptureWordText", `
+        SELECT text
+        FROM gnt_text
+        WHERE
+            ref = ?
+            AND word_num = ?
+        LIMIT 1;
+    `)
+	a.check(err)
+
 	err = prepareQuery(db, "GetScriptureWordBasicInfo", `
-        SELECT translit, english, conjoin_word, sub_meaning
+        SELECT translit, english
         FROM gnt_text_info
         WHERE
             ref = ?

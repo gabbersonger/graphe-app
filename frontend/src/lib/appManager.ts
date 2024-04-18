@@ -4,7 +4,7 @@ import { ui_modal } from "@/lib/uiManager";
 
 import type { app } from "!wails/go/models";
 import type { BibleRef, BibleVersion } from "@/lib/Scripture/types";
-import { updateBaseData } from "@/lib/Scripture/manager";
+import { instantDetails, updateBaseData } from "@/lib/Scripture/manager";
 
 // Types
 
@@ -17,9 +17,10 @@ export type SearchResult = {};
 export const app_mode: Writable<AppMode> = writable("passage"); // passage/search mode
 export const app_version: Writable<BibleVersion> = writable("gnt"); // esv/hot/lxx/gnt
 export const app_range: Writable<app.ScriptureRange> = writable(); // passage mode: what's visible
-export const app_search_query: Writable<SearchQuery> = writable();
+export const app_search_query: Writable<SearchQuery> = writable(); // TODO
 export const app_search_result: Writable<SearchResult> = writable(); // search mode: what's visible
 export const app_data: Writable<app.ScriptureSection[]> = writable([]); // all the data for version
+export const app_instantDetails: Writable<app.ScriptureWordData> = writable(); // TODO
 export const app_currentRef: Writable<BibleRef> = writable(40_001_001);
 
 // Functions to handle events
@@ -49,6 +50,16 @@ function handleAppGoTo(ref: BibleRef) {
   EventsEmit("visualiser:goto", ref);
 }
 
+function handleAppInstantDetails(ref: BibleRef, word_num: number) {
+  let current = get(app_instantDetails);
+  if (!(current && current.ref == ref && current.word_number == word_num))
+    instantDetails(ref, word_num);
+}
+
+function handleAppInstantDetailsHide() {
+  app_instantDetails.set(null);
+}
+
 // Register events
 
 export function appManager(_: HTMLElement) {
@@ -62,6 +73,8 @@ export function appManager(_: HTMLElement) {
     "app:search": handleAppSearch,
     "app:range": handleAppRange,
     "app:goto": handleAppGoTo,
+    "app:instantdetails": handleAppInstantDetails,
+    "app:instantdetails:hide": handleAppInstantDetailsHide,
   };
 
   for (const [event, callback] of Object.entries(handlers)) {

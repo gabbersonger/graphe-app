@@ -16,14 +16,36 @@ type ScriptureWordData_Strongs struct {
 }
 
 type ScriptureWordData struct {
-	ref         ScriptureRef
-	word_num    int
-	Translit    string                         `json:"translit"`
-	English     string                         `json:"english"`
-	ConjoinWord string                         `json:"conjoin_word"`
-	SubMeaning  string                         `json:"sub_meaning"`
-	Dictionary  []ScriptureWordData_Dictionary `json:"dictionary"`
-	Strongs     []ScriptureWordData_Strongs    `json:"strongs"`
+	Ref        ScriptureRef                   `json:"ref"`
+	WordNumber int                            `json:"word_number"`
+	Text       string                         `json:"text"`
+	Translit   string                         `json:"translit"`
+	English    string                         `json:"english"`
+	Dictionary []ScriptureWordData_Dictionary `json:"dictionary"`
+	Strongs    []ScriptureWordData_Strongs    `json:"strongs"`
+}
+
+func getScriptureWordText(a *App, wg *sync.WaitGroup, w *ScriptureWordData) {
+	db := <-a.db.pool
+
+	stmt, err := db.getQuery("GetScriptureWordText")
+	a.check(err)
+
+	err = stmt.Bind(int(w.Ref), int(w.WordNumber))
+	a.check(err)
+
+	hasRow, err := stmt.Step()
+	a.check(err)
+	if !hasRow {
+		a.Throw(fmt.Sprintf("Could not find value using GetScriptureWordText for (ref=%d, word_num=%d)", int(w.Ref), w.WordNumber))
+	}
+
+	err = stmt.Scan(&(w.Text))
+	a.check(err)
+
+	stmt.Reset()
+	a.db.pool <- db
+	wg.Done()
 }
 
 func getScriptureWordBasicInfo(a *App, wg *sync.WaitGroup, w *ScriptureWordData) {
@@ -32,16 +54,16 @@ func getScriptureWordBasicInfo(a *App, wg *sync.WaitGroup, w *ScriptureWordData)
 	stmt, err := db.getQuery("GetScriptureWordBasicInfo")
 	a.check(err)
 
-	err = stmt.Bind(int(w.ref), int(w.word_num))
+	err = stmt.Bind(int(w.Ref), int(w.WordNumber))
 	a.check(err)
 
 	hasRow, err := stmt.Step()
 	a.check(err)
 	if !hasRow {
-		a.Throw(fmt.Sprintf("Could not find value using GetScriptureWordBasicInfo for (ref=%d, word_num=%d)", int(w.ref), w.word_num))
+		a.Throw(fmt.Sprintf("Could not find value using GetScriptureWordBasicInfo for (ref=%d, word_num=%d)", int(w.Ref), w.WordNumber))
 	}
 
-	err = stmt.Scan(&(w.Translit), &(w.English), &(w.ConjoinWord), &(w.SubMeaning))
+	err = stmt.Scan(&(w.Translit), &(w.English))
 	a.check(err)
 
 	stmt.Reset()
@@ -55,7 +77,7 @@ func getScriptureWordDictionaryValues(a *App, wg *sync.WaitGroup, w *ScriptureWo
 	stmt, err := db.getQuery("GetScriptureWordDictionaryInfo")
 	a.check(err)
 
-	err = stmt.Bind(int(w.ref), int(w.word_num))
+	err = stmt.Bind(int(w.Ref), int(w.WordNumber))
 	a.check(err)
 
 	w.Dictionary = make([]ScriptureWordData_Dictionary, 0, 1)
@@ -84,7 +106,7 @@ func getScriptureWordStrongsValues(a *App, wg *sync.WaitGroup, w *ScriptureWordD
 	stmt, err := db.getQuery("GetScriptureWordStrongsInfo")
 	a.check(err)
 
-	err = stmt.Bind(int(w.ref), int(w.word_num))
+	err = stmt.Bind(int(w.Ref), int(w.WordNumber))
 	a.check(err)
 
 	w.Strongs = make([]ScriptureWordData_Strongs, 0, 1)
@@ -107,11 +129,12 @@ func getScriptureWordStrongsValues(a *App, wg *sync.WaitGroup, w *ScriptureWordD
 	wg.Done()
 }
 
-func (a *App) GetScriptureWord(ref ScriptureRef, word int) ScriptureWordData {
-	w := ScriptureWordData{ref: ref, word_num: word}
+func (a *App) GetScriptureWord(ref ScriptureRef, word_num int) ScriptureWordData {
+	w := ScriptureWordData{Ref: ref, WordNumber: word_num}
 
 	wg := new(sync.WaitGroup)
-	wg.Add(3)
+	wg.Add(4)
+	go getScriptureWordText(a, wg, &w)
 	go getScriptureWordBasicInfo(a, wg, &w)
 	go getScriptureWordDictionaryValues(a, wg, &w)
 	go getScriptureWordStrongsValues(a, wg, &w)

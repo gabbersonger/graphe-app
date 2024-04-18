@@ -43,6 +43,14 @@ export const themeData = [
 export type ThemeName = (typeof themeData)[number]["name"];
 export const defaultTheme: ThemeName = "catppuccin";
 
+// NOTE: assumes correct #______ format
+const hexToSelectionRGBA = (hex: string): string => {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, 0.99)`;
+};
+
 export const createThemeStyles = (themeName: ThemeName) => {
   let theme = themeData.find((t) => t.name == themeName);
   return `
@@ -50,6 +58,7 @@ export const createThemeStyles = (themeName: ThemeName) => {
     --clr-background-sub: ${theme.colors.backgroundSub};
     --clr-background-dark: ${theme.colors.backgroundDark};
     --clr-main: ${theme.colors.main};
+    --clr-selection: ${hexToSelectionRGBA(theme.colors.main)};
     --clr-text: ${theme.colors.text};
     --clr-text-sub: ${theme.colors.textSub};
     --clr-text-highlight: ${theme.colors.textHighlight};

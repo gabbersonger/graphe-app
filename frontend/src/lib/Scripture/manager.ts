@@ -1,7 +1,9 @@
-import { app_data, app_version } from "@/lib/appManager";
-import { GetScriptureSections } from "!wails/go/app/App";
-import { createBibleRef } from "./ref";
+import { app_data, app_instantDetails, app_version } from "@/lib/appManager";
+import { GetScriptureSections, GetScriptureWord } from "!wails/go/app/App";
 import { get } from "svelte/store";
+import { createBibleRef } from "@/lib/Scripture/ref";
+import type { BibleRef } from "@/lib/Scripture/types";
+import type { app } from "!wails/go/models";
 
 export async function updateBaseData() {
   let ranges = [
@@ -23,4 +25,9 @@ export async function updateBaseData() {
   ];
   let data = await GetScriptureSections(ranges);
   app_data.set(data); // TODO: not sure this updates visualiser (check once other texts in)
+}
+
+export async function instantDetails(ref: BibleRef, word_number: number) {
+  let data = await GetScriptureWord(ref, word_number);
+  app_instantDetails.set(data);
 }

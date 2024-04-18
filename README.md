@@ -20,7 +20,7 @@ Build distributable app: `wails build`
   - [x] Functionality
   - [x] 'Choose version' modal
   - [x] 'Choose text' modal
-- [ ] Instant details (word hover)
+- [x] Instant details (word hover)
 - [ ] Get all the bible texts working properly
   - [ ] Split GNT text into word, pre, post (separate out punctuation)
   - [ ] Add HOT
@@ -54,6 +54,10 @@ Build distributable app: `wails build`
 - [ ] Text highlighting
 - [ ] Parallel texts
 - [ ] Sidebar holds different app states (?)
+- [ ] Add footnoted variant spellings/meanings
+- [ ] Add conjoin word highlighting for instant details
+- [ ] Add lexicon for more information on instant details
+- [ ] Add morph code explanations
 
 **Performance**
 

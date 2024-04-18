@@ -6,10 +6,32 @@
         bibleRefToVersionBookTitle,
         isRefBookStart,
     } from "@/lib/Scripture/ref";
+    import InstantDetails from "@/components/MainWindow/InstantDetails.svelte";
+    import type { BibleRef } from "@/lib/Scripture/types";
+    import { EventsEmit } from "!wails/runtime/runtime";
 
     let cp = { section: 0, block: 0 };
     $: if ($app_data.length > 0 && cp)
         $app_currentRef = $app_data[cp.section].blocks[cp.block].range.start;
+
+    function callInstantDetails(ref: BibleRef, word_num: number) {
+        EventsEmit("app:instantdetails", ref, word_num);
+    }
+
+    let instant_details_timer: ReturnType<typeof setTimeout>;
+    const INSTANT_DETAILS_DELAY = 50; // unit: ms
+    function handleWordMouseEnter(ref: BibleRef, word_num: number) {
+        clearTimeout(instant_details_timer);
+        instant_details_timer = setTimeout(
+            () => callInstantDetails(ref, word_num),
+            INSTANT_DETAILS_DELAY,
+        );
+    }
+
+    function handleWordMouseLeave(e: MouseEvent) {
+        clearTimeout(instant_details_timer);
+        EventsEmit("app:instantdetails:hide");
+    }
 </script>
 
 <div id="content">
@@ -25,19 +47,31 @@
                 <span class="ref">
                     {bibleRefToString(row.range.start, "short")}
                 </span>
-                {#each row.verses as verse, index}
+                {#each row.verses as verse, verse_index}
                     <div class="verse" style="display: inline">
-                        {#if index > 0}
+                        {#if verse_index > 0}
                             <sup>{verse.ref % 1000}</sup>
                         {/if}
-                        {#each verse.words as word}
-                            <span class="word">{word}</span>{" "}
+                        {#each verse.words as word, word_index}
+                            <span
+                                class="word"
+                                on:mouseenter={(e) =>
+                                    handleWordMouseEnter(
+                                        verse.ref,
+                                        word_index + 1,
+                                    )}
+                                on:mouseleave={handleWordMouseLeave}
+                            >
+                                {word}
+                            </span>{" "}
                         {/each}
                     </div>
                 {/each}
             </div>
         </Virtualiser>
     {/if}
+
+    <InstantDetails />
 </div>
 
 <style>
@@ -84,5 +118,18 @@
     .word {
         font-family: "SBL Greek";
         font-size: 1.2rem;
+        cursor: pointer;
+    }
+
+    .word:hover {
+        background: var(--clr-main);
+        color: var(--clr-background);
+        outline: 0.5ch solid var(--clr-main);
+        border-radius: 0.15ch;
+    }
+
+    *::selection {
+        background: var(--clr-selection);
+        color: var(--clr-background);
     }
 </style>

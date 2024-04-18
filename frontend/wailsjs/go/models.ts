@@ -125,10 +125,11 @@ export namespace app {
 	    }
 	}
 	export class ScriptureWordData {
+	    ref: number;
+	    word_number: number;
+	    text: string;
 	    translit: string;
 	    english: string;
-	    conjoin_word: string;
-	    sub_meaning: string;
 	    dictionary: ScriptureWordData_Dictionary[];
 	    strongs: ScriptureWordData_Strongs[];
 	
@@ -138,10 +139,11 @@ export namespace app {
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.ref = source["ref"];
+	        this.word_number = source["word_number"];
+	        this.text = source["text"];
 	        this.translit = source["translit"];
 	        this.english = source["english"];
-	        this.conjoin_word = source["conjoin_word"];
-	        this.sub_meaning = source["sub_meaning"];
 	        this.dictionary = this.convertValues(source["dictionary"], ScriptureWordData_Dictionary);
 	        this.strongs = this.convertValues(source["strongs"], ScriptureWordData_Strongs);
 	    }
