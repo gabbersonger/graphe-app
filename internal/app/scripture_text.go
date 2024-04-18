@@ -83,16 +83,24 @@ func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 		}
 		lastVerse := len(s.Blocks[lastBlock].Verses) - 1
 
+		//
+		n := -1
+		runes := []rune(post)
+		for i, rune := range runes {
+			if rune == '¶' {
+				createNextBlock = true
+				n = i
+				break
+			}
+		}
+		if n >= 0 {
+			runes = append(runes[:n], runes[n+1:]...)
+			post = string(runes)
+		}
+
 		// Add word
 		newWord := ScriptureWord{word_num, text, pre, post}
 		s.Blocks[lastBlock].Verses[lastVerse].Words = append(s.Blocks[lastBlock].Verses[lastVerse].Words, newWord)
-
-		runes := []rune(post)
-		for _, rune := range runes {
-			if rune == '¶' {
-				createNextBlock = true
-			}
-		}
 	}
 	s.Range.End = ScriptureRef(ref)
 	s.Blocks[len(s.Blocks)-1].Range.End = ScriptureRef(ref)
