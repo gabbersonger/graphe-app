@@ -16,10 +16,10 @@ Build distributable app: `wails build`
   - [x] Update virtualiser
   - [x] Add book titles
   - [x] Add top padding
-- [ ] Get text/passage selection working
+- [x] Get text/passage selection working
   - [x] Functionality
   - [x] 'Choose version' modal
-  - [ ] 'Choose text' modal
+  - [x] 'Choose text' modal
 - [ ] Instant details (word hover)
 - [ ] Get all the bible texts working properly
   - [ ] Split GNT text into word, pre, post (separate out punctuation)
@@ -29,6 +29,7 @@ Build distributable app: `wails build`
 
 **Future features**
 
+- [ ] Choose text modal search functionality
 - [ ] Search
   - [ ] Functionality
   - [ ] Modal
@@ -62,3 +63,4 @@ Build distributable app: `wails build`
 **Bugs**
 
 - [ ] If items changes then virtualiser doesn't invalidate positioning data
+- [ ] Virtualiser goto function does not put you in correct scroll for currentRef to be right (e.g. goto Mark 1 shows Matt 28 in currentRef label)
