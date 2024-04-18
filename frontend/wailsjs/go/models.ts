@@ -1,6 +1,7 @@
 export namespace app {
 	
 	export class ScriptureWord {
+	    word_num: number;
 	    text: string;
 	    pre: string;
 	    post: string;
@@ -11,6 +12,7 @@ export namespace app {
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.word_num = source["word_num"];
 	        this.text = source["text"];
 	        this.pre = source["pre"];
 	        this.post = source["post"];

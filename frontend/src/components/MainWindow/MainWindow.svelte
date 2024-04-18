@@ -58,7 +58,7 @@
                                 on:mouseenter={(e) =>
                                     handleWordMouseEnter(
                                         verse.ref,
-                                        word_index + 1,
+                                        word.word_num,
                                     )}
                                 on:mouseleave={handleWordMouseLeave}
                                 >{word.text}</span

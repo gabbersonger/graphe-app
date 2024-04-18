@@ -6,9 +6,10 @@ type ScriptureRef int
 type ScriptureVersion string
 
 type ScriptureWord struct {
-	Text string `json:"text"`
-	Pre  string `json:"pre"`
-	Post string `json:"post"`
+	WordNumber int    `json:"word_num"`
+	Text       string `json:"text"`
+	Pre        string `json:"pre"`
+	Post       string `json:"post"`
 }
 
 type ScriptureVerse struct {
@@ -83,7 +84,7 @@ func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 		lastVerse := len(s.Blocks[lastBlock].Verses) - 1
 
 		// Add word
-		newWord := ScriptureWord{text, pre, post}
+		newWord := ScriptureWord{word_num, text, pre, post}
 		s.Blocks[lastBlock].Verses[lastVerse].Words = append(s.Blocks[lastBlock].Verses[lastVerse].Words, newWord)
 
 		runes := []rune(post)
