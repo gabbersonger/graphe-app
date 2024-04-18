@@ -146,8 +146,6 @@
     }
 
     function handleGoTo(ref: BibleRef) {
-        console.log(`HANDLING VISUALISER GOTO: ${ref}`);
-
         let seen = 0;
 
         for (let i = 0; i < items.length; i++) {
