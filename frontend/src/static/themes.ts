@@ -18,7 +18,7 @@ export const themeData = [
       background: "#d8d2c3",
       backgroundSub: "#cdc0af",
       backgroundDark: "#b8a48b",
-      main: "#513a2a",
+      main: "#743D44",
       text: "#393b3b",
       textSub: "#8b6f5c",
       textHighlight: "#000",
