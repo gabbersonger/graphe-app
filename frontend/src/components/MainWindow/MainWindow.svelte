@@ -1,11 +1,8 @@
 <script lang="ts">
     import Virtualiser from "@/components/MainWindow/Virtualiser.svelte";
     import { app_data, app_currentRef } from "@/lib/appManager";
-    import {
-        bibleRefToString,
-        bibleRefToVersionBookTitle,
-        isRefBookStart,
-    } from "@/lib/Scripture/ref";
+    import { bibleRefToString, isRefBookStart } from "@/lib/Scripture/ref";
+    import { bibleRangeToBookTitle } from "@/lib/Scripture/range";
     import InstantDetails from "@/components/MainWindow/InstantDetails.svelte";
     import type { BibleRef } from "@/lib/Scripture/types";
     import { EventsEmit } from "!wails/runtime/runtime";
@@ -40,19 +37,19 @@
             <div class="block">
                 {#if isRefBookStart(row.range.start)}
                     <div class="heading">
-                        {bibleRefToVersionBookTitle(row.range.start, "gnt")}
+                        {bibleRangeToBookTitle(row.range)}
                     </div>
                 {/if}
 
                 <span class="ref">
                     {bibleRefToString(row.range.start, "short")}
                 </span>
-                {#each row.verses as verse, verse_index}
+                {#each row.verses as verse, index}
                     <div class="verse" style="display: inline">
-                        {#if verse_index > 0}
+                        {#if index > 0}
                             <sup>{verse.ref % 1000}</sup>
                         {/if}
-                        {#each verse.words as word, word_index}
+                        {#each verse.words as word}
                             {word.pre}<span
                                 class="word"
                                 on:mouseenter={(e) =>

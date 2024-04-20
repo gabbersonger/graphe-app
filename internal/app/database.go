@@ -38,14 +38,15 @@ func prepareQueries(a *App, db *GrapheDBConn) {
 
 	var err error
 
-	err = prepareQuery(db, "GetScriptureSection", `
+	// GNT
+	err = prepareQuery(db, "GetGNTScriptureSection", `
         SELECT ref, word_num, text, pre, post
         FROM gnt_text
         WHERE ref >= ? AND ref <= ?;
     `)
 	a.check(err)
 
-	err = prepareQuery(db, "GetScriptureWordText", `
+	err = prepareQuery(db, "GetGNTScriptureWordText", `
         SELECT text
         FROM gnt_text
         WHERE
@@ -55,7 +56,7 @@ func prepareQueries(a *App, db *GrapheDBConn) {
     `)
 	a.check(err)
 
-	err = prepareQuery(db, "GetScriptureWordBasicInfo", `
+	err = prepareQuery(db, "GetGNTScriptureWordBasicInfo", `
         SELECT translit, english
         FROM gnt_text_info
         WHERE
@@ -65,7 +66,7 @@ func prepareQueries(a *App, db *GrapheDBConn) {
     `)
 	a.check(err)
 
-	err = prepareQuery(db, "GetScriptureWordDictionaryInfo", `
+	err = prepareQuery(db, "GetGNTScriptureWordDictionaryInfo", `
         SELECT form, gloss
         FROM gnt_text_dictionary
         WHERE
@@ -74,12 +75,20 @@ func prepareQueries(a *App, db *GrapheDBConn) {
     `)
 	a.check(err)
 
-	err = prepareQuery(db, "GetScriptureWordStrongsInfo", `
+	err = prepareQuery(db, "GetGNTScriptureWordStrongsInfo", `
         SELECT strong, grammar
         FROM gnt_text_strongs
         WHERE
             ref = ?
             AND word_num = ?;
+    `)
+	a.check(err)
+
+	// LXX
+	err = prepareQuery(db, "GetLXXScriptureSection", `
+        SELECT ref, word_num, text, pre, post
+        FROM lxx_text
+        WHERE ref >= ? AND ref <= ?;
     `)
 	a.check(err)
 }

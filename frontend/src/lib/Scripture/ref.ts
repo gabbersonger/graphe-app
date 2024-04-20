@@ -156,29 +156,3 @@ export const bibleRefToString = (
   }
   assertUnreachable(format);
 };
-
-/**
- * Convert a BibleRef into it's book title in the given bible version
- * @throws Will throw if BibleRef is not valid or BibleRef not in version.
- * @param {BibleRef} ref - A reference within the book.
- * @param {BibleVersion} ver - The version of the text.
- */
-export const bibleRefToVersionBookTitle = (
-  ref: BibleRef,
-  ver: BibleVersion,
-): string => {
-  if (!isValidBibleRef(ref))
-    GrapheError(
-      `Invalid ref (${ref}) passed to \`bibleRefToVersionBookTitle\``,
-    );
-
-  const book_number = getBook(ref);
-  const book_info = versionData[ver].books.find(
-    (b) => b.book_number == book_number,
-  );
-  if (book_info == undefined)
-    GrapheError(
-      `Valid ref (${ref}) not in bible version (${ver}), passed to \`bibleRefToVersionBookTitle\``,
-    );
-  return book_info.name;
-};

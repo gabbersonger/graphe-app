@@ -2,43 +2,11 @@ package app
 
 import "sync"
 
-type ScriptureRef int
-type ScriptureVersion string
-
-type ScriptureWord struct {
-	WordNumber int    `json:"word_num"`
-	Text       string `json:"text"`
-	Pre        string `json:"pre"`
-	Post       string `json:"post"`
-}
-
-type ScriptureVerse struct {
-	Ref   ScriptureRef    `json:"ref"`
-	Words []ScriptureWord `json:"words"`
-}
-
-type ScriptureRange struct {
-	Version ScriptureVersion `json:"version"`
-	Start   ScriptureRef     `json:"start"`
-	End     ScriptureRef     `json:"end"`
-}
-
-type ScriptureBlock struct {
-	Range  ScriptureRange   `json:"range"`
-	Verses []ScriptureVerse `json:"verses"`
-}
-
-type ScriptureSection struct {
-	Range  ScriptureRange   `json:"range"`
-	Blocks []ScriptureBlock `json:"blocks"`
-}
-
-func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
-	// s := ScriptureSection{Version: ver, Range: ran}
+func getLXXScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 	s.Blocks = make([]ScriptureBlock, 0, 1)
 
 	db := <-a.db.pool
-	stmt, err := db.getQuery("GetScriptureSection")
+	stmt, err := db.getQuery("GetLXXScriptureSection")
 	a.check(err)
 	err = stmt.Bind(int(s.Range.Start), int(s.Range.End))
 	a.check(err)
@@ -56,6 +24,17 @@ func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 		}
 		err = stmt.Scan(&ref, &word_num, &text, &pre, &post)
 		a.check(err)
+
+		// TODO: temporary fix (breaks at chapters) until paragraph breaks included in data
+		if len(s.Blocks)-1 >= 0 {
+			last_block_start := s.Blocks[len(s.Blocks)-1].Range.Start
+			last_block_chapter := last_block_start - last_block_start%1000
+			this_chapter := ref - ref%1000
+
+			if this_chapter != int(last_block_chapter) {
+				createNextBlock = true
+			}
+		}
 
 		// Add block if needed
 		if createNextBlock {
@@ -83,21 +62,6 @@ func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 		}
 		lastVerse := len(s.Blocks[lastBlock].Verses) - 1
 
-		//
-		n := -1
-		runes := []rune(post)
-		for i, rune := range runes {
-			if rune == '¶' {
-				createNextBlock = true
-				n = i
-				break
-			}
-		}
-		if n >= 0 {
-			runes = append(runes[:n], runes[n+1:]...)
-			post = string(runes)
-		}
-
 		// Add word
 		newWord := ScriptureWord{word_num, text, pre, post}
 		s.Blocks[lastBlock].Verses[lastVerse].Words = append(s.Blocks[lastBlock].Verses[lastVerse].Words, newWord)
@@ -108,19 +72,4 @@ func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 	stmt.Reset()
 	a.db.pool <- db
 	wg.Done()
-}
-
-func (a *App) GetScriptureSections(ran []ScriptureRange) []ScriptureSection {
-	data := make([]ScriptureSection, 0, len(ran))
-	for _, r := range ran {
-		data = append(data, ScriptureSection{Range: r})
-	}
-
-	wg := new(sync.WaitGroup)
-	wg.Add(len(ran))
-	for i := 0; i < len(ran); i++ {
-		go getScriptureSection(a, wg, &data[i])
-	}
-	wg.Wait()
-	return data
 }

@@ -25,10 +25,10 @@ type ScriptureWordData struct {
 	Strongs    []ScriptureWordData_Strongs    `json:"strongs"`
 }
 
-func getScriptureWordText(a *App, wg *sync.WaitGroup, w *ScriptureWordData) {
+func getGNTScriptureWordText(a *App, wg *sync.WaitGroup, w *ScriptureWordData) {
 	db := <-a.db.pool
 
-	stmt, err := db.getQuery("GetScriptureWordText")
+	stmt, err := db.getQuery("GetGNTScriptureWordText")
 	a.check(err)
 
 	err = stmt.Bind(int(w.Ref), int(w.WordNumber))
@@ -37,7 +37,7 @@ func getScriptureWordText(a *App, wg *sync.WaitGroup, w *ScriptureWordData) {
 	hasRow, err := stmt.Step()
 	a.check(err)
 	if !hasRow {
-		a.Throw(fmt.Sprintf("Could not find value using GetScriptureWordText for (ref=%d, word_num=%d)", int(w.Ref), w.WordNumber))
+		a.Throw(fmt.Sprintf("Could not find value using GetGNTScriptureWordText for (ref=%d, word_num=%d)", int(w.Ref), w.WordNumber))
 	}
 
 	err = stmt.Scan(&(w.Text))
@@ -48,10 +48,10 @@ func getScriptureWordText(a *App, wg *sync.WaitGroup, w *ScriptureWordData) {
 	wg.Done()
 }
 
-func getScriptureWordBasicInfo(a *App, wg *sync.WaitGroup, w *ScriptureWordData) {
+func getGNTScriptureWordBasicInfo(a *App, wg *sync.WaitGroup, w *ScriptureWordData) {
 	db := <-a.db.pool
 
-	stmt, err := db.getQuery("GetScriptureWordBasicInfo")
+	stmt, err := db.getQuery("GetGNTScriptureWordBasicInfo")
 	a.check(err)
 
 	err = stmt.Bind(int(w.Ref), int(w.WordNumber))
@@ -60,7 +60,7 @@ func getScriptureWordBasicInfo(a *App, wg *sync.WaitGroup, w *ScriptureWordData)
 	hasRow, err := stmt.Step()
 	a.check(err)
 	if !hasRow {
-		a.Throw(fmt.Sprintf("Could not find value using GetScriptureWordBasicInfo for (ref=%d, word_num=%d)", int(w.Ref), w.WordNumber))
+		a.Throw(fmt.Sprintf("Could not find value using GetGNTScriptureWordBasicInfo for (ref=%d, word_num=%d)", int(w.Ref), w.WordNumber))
 	}
 
 	err = stmt.Scan(&(w.Translit), &(w.English))
@@ -71,10 +71,10 @@ func getScriptureWordBasicInfo(a *App, wg *sync.WaitGroup, w *ScriptureWordData)
 	wg.Done()
 }
 
-func getScriptureWordDictionaryValues(a *App, wg *sync.WaitGroup, w *ScriptureWordData) {
+func getGNTScriptureWordDictionaryValues(a *App, wg *sync.WaitGroup, w *ScriptureWordData) {
 	db := <-a.db.pool
 
-	stmt, err := db.getQuery("GetScriptureWordDictionaryInfo")
+	stmt, err := db.getQuery("GetGNTScriptureWordDictionaryInfo")
 	a.check(err)
 
 	err = stmt.Bind(int(w.Ref), int(w.WordNumber))
@@ -100,10 +100,10 @@ func getScriptureWordDictionaryValues(a *App, wg *sync.WaitGroup, w *ScriptureWo
 	wg.Done()
 }
 
-func getScriptureWordStrongsValues(a *App, wg *sync.WaitGroup, w *ScriptureWordData) {
+func getGNTScriptureWordStrongsValues(a *App, wg *sync.WaitGroup, w *ScriptureWordData) {
 	db := <-a.db.pool
 
-	stmt, err := db.getQuery("GetScriptureWordStrongsInfo")
+	stmt, err := db.getQuery("GetGNTScriptureWordStrongsInfo")
 	a.check(err)
 
 	err = stmt.Bind(int(w.Ref), int(w.WordNumber))
@@ -130,14 +130,18 @@ func getScriptureWordStrongsValues(a *App, wg *sync.WaitGroup, w *ScriptureWordD
 }
 
 func (a *App) GetScriptureWord(ref ScriptureRef, word_num int) ScriptureWordData {
+	// TODO: remove
+	if ref <= 40_000_000 {
+		ref = 66020004
+	}
 	w := ScriptureWordData{Ref: ref, WordNumber: word_num}
 
 	wg := new(sync.WaitGroup)
 	wg.Add(4)
-	go getScriptureWordText(a, wg, &w)
-	go getScriptureWordBasicInfo(a, wg, &w)
-	go getScriptureWordDictionaryValues(a, wg, &w)
-	go getScriptureWordStrongsValues(a, wg, &w)
+	go getGNTScriptureWordText(a, wg, &w)
+	go getGNTScriptureWordBasicInfo(a, wg, &w)
+	go getGNTScriptureWordDictionaryValues(a, wg, &w)
+	go getGNTScriptureWordStrongsValues(a, wg, &w)
 	wg.Wait()
 	return w
 }
