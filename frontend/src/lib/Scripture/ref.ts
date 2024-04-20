@@ -15,11 +15,17 @@ export const getVerse = (ref: BibleRef): number => {
 };
 
 /**
- * Determines if given chapter is a superscript psalm
- * @param {number} chapter - The psalm chapter to check.
+ * Determines if given chapter has a superscript (verse 0)
+ * @param {number} book - The book to check.
+ * @param {number} chapter - The chapter to check.
  */
-const isSuperscriptPsalmChapter = (chapter: number): boolean => {
-  return bibleData[18].superscripts.some((c) => c == chapter);
+const isSuperscriptChapter = (book: number, chapter: number) => {
+  const bookData = bibleData[book - 1];
+  if ("superscripts" in bookData) {
+    const superscripts = bookData.superscripts;
+    return superscripts.some((c) => c == chapter);
+  }
+  return false;
 };
 
 /**
@@ -32,14 +38,22 @@ export const isValidBibleRef = (ref: BibleRef): boolean => {
   const chapter = getChapter(ref);
   const book = getBook(ref);
 
-  return (
-    book > 0 &&
-    book <= bibleData.length &&
-    chapter > 0 &&
-    chapter <= bibleData[book - 1].num_chapters &&
-    (verse > 0 ||
-      (verse == 0 && book == 19 && isSuperscriptPsalmChapter(chapter)))
-  );
+  if (book <= 0 && book > bibleData.length) return false;
+
+  if (
+    chapter == 0 &&
+    bibleData[book - 1].prologue > 0 &&
+    verse > 0 &&
+    verse <= bibleData[book - 1].prologue
+  )
+    return true;
+
+  if (chapter <= 0 || chapter > bibleData[book - 1].num_chapters) return false;
+  if (verse == 0 && !isSuperscriptChapter(book, chapter)) return false;
+  else if (verse < 0 || verse > bibleData[book - 1].num_verses[chapter - 1])
+    return false;
+
+  return true;
 };
 
 /**
@@ -67,20 +81,28 @@ export const createBibleRef = (
 ) => {
   let ref: BibleRef = 0;
   const book_index = bibleData.findIndex((b) => b.name == book);
-  if (
-    book_index >= 0 &&
-    chapter > 0 &&
-    chapter <= bibleData[book_index].num_chapters
-  ) {
+
+  if (book_index >= 0) {
     let verse_num: number;
-    if (verse == "start") {
-      verse_num =
-        book == "Psalms" && isSuperscriptPsalmChapter(chapter) ? 0 : 1;
-    } else if (verse == "end") {
-      verse_num = bibleData[book_index].num_verses[chapter - 1];
-    } else {
-      verse_num = verse;
+
+    if (chapter == 0 && bibleData[book_index].prologue > 0) {
+      if (verse == "start") {
+        verse_num = 1;
+      } else if (verse == "end") {
+        verse_num = bibleData[book_index].prologue;
+      } else {
+        verse_num = verse;
+      }
+    } else if (chapter > 0 && chapter <= bibleData[book_index].num_chapters) {
+      if (verse == "start") {
+        verse_num = isSuperscriptChapter(book_index + 1, chapter) ? 0 : 1;
+      } else if (verse == "end") {
+        verse_num = bibleData[book_index].num_verses[chapter - 1];
+      } else {
+        verse_num = verse;
+      }
     }
+
     ref = parseInt(
       String(book_index + 1) +
         String(chapter).padStart(3, "0") +

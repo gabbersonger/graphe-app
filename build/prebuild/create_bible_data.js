@@ -20,11 +20,12 @@ const createJSFile = () => {
       abbreviation: "${bookData.abbreviation}",
       num_chapters: ${bookData.num_chapters},
       num_verses: [${bookData.num_verses.join(",")}],`;
-    if (bookData.name == "Psalms") {
+    if ("superscripts" in bookData) {
       data += `
       superscripts: [${bookData.superscripts.join(",")}],`;
     }
     data += `
+      prologue: ${"prologue" in bookData ? bookData.prologue : 0},
       testament: "${bookData.testament}",
     },`;
   }
@@ -59,6 +60,7 @@ type BookData struct {
   num_chapters int
   num_verses   []int
   superscripts []int
+  prologue     int
   testament    string
 }
 
@@ -83,11 +85,12 @@ var bibleData = [...]BookData{`;
     abbreviation: "${bookData.abbreviation}",
     num_chapters: ${bookData.num_chapters},
     num_verses: []int{${bookData.num_verses.join(",")}},`;
-    if (bookData.name == "Psalms") {
+    if ("superscripts" in bookData) {
       data += `
     superscripts: []int{${bookData.superscripts.join(",")}},`;
     }
     data += `
+    prologue: ${"prologue" in bookData ? bookData.prologue : 0},
     testament: "${bookData.testament}",
   },`;
   }
