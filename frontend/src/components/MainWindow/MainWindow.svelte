@@ -1,8 +1,7 @@
 <script lang="ts">
     import Virtualiser from "@/components/MainWindow/Virtualiser.svelte";
-    import { app_data, app_currentRef } from "@/lib/appManager";
-    import { bibleRefToString, isRefBookStart } from "@/lib/Scripture/ref";
-    import { bibleRangeToBookTitle } from "@/lib/Scripture/range";
+    import { app_version, app_data, app_currentRef } from "@/lib/appManager";
+    import { refToString, isRefBookStart } from "@/lib/Scripture/ref";
     import InstantDetails from "@/components/MainWindow/InstantDetails.svelte";
     import type { BibleRef } from "@/lib/Scripture/types";
     import { EventsEmit } from "!wails/runtime/runtime";
@@ -35,14 +34,14 @@
     {#if $app_data}
         <Virtualiser items={$app_data} bind:current_position={cp} let:row>
             <div class="block">
-                {#if isRefBookStart(row.range.start)}
+                {#if isRefBookStart($app_version, row.range.start)}
                     <div class="heading">
-                        {bibleRangeToBookTitle(row.range)}
+                        {refToString($app_version, row.range.start, "book")}
                     </div>
                 {/if}
 
                 <span class="ref">
-                    {bibleRefToString(row.range.start, "short")}
+                    {refToString($app_version, row.range.start, "short")}
                 </span>
                 {#each row.verses as verse, index}
                     <div class="verse" style="display: inline">

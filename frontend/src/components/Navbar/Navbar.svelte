@@ -12,8 +12,8 @@
         ClipboardType,
     } from "lucide-svelte";
     import { app_mode, app_version, app_currentRef } from "@/lib/appManager";
-    import { ui_modal, ui_showSidebar } from "@/lib/uiManager";
-    import { bibleRefToString } from "@/lib/Scripture/ref";
+    import { ui_showSidebar } from "@/lib/uiManager";
+    import { refToString } from "@/lib/Scripture/ref";
     import { EventsEmit } from "!wails/runtime/runtime";
 
     let width: number;
@@ -56,7 +56,9 @@
 
             <NavbarItem
                 icon={BookOpenText}
-                text={bibleRefToString($app_currentRef, "chapter")}
+                text={$app_version && $app_currentRef
+                    ? refToString($app_version, $app_currentRef, "chapter")
+                    : ""}
                 on:click={() => EventsEmit("ui:modal", "text")}
                 tooltip="Choose Text"
                 command="⌘F"

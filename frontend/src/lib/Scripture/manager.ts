@@ -4,7 +4,7 @@ import { get } from "svelte/store";
 import type { BibleRef } from "@/lib/Scripture/types";
 
 export async function updateBaseData() {
-  const data = await GetScriptureSections(get(app_range));
+  const data = await GetScriptureSections([get(app_range)]);
   app_data.set(data); // TODO: not sure this updates visualiser (check once other texts in)
 }
 

@@ -10,6 +10,10 @@ export function GetScriptureWord(arg1, arg2) {
   return window['go']['app']['App']['GetScriptureWord'](arg1, arg2);
 }
 
+export function Info(arg1) {
+  return window['go']['app']['App']['Info'](arg1);
+}
+
 export function Menu() {
   return window['go']['app']['App']['Menu']();
 }

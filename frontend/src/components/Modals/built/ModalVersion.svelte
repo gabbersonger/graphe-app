@@ -16,12 +16,13 @@
         return string.toLowerCase().replaceAll(" ", "");
     }
 
+    // TODO: update searching to use abbreviations
     const searchStrings = Object.keys(versionData).map((x) => ({
         name: x as BibleVersion,
         string:
             normaliseString(x) +
             "|" +
-            normaliseString(versionData[x].fullname) +
+            normaliseString(versionData[x].full_name) +
             "|" +
             normaliseString(versionData[x].language),
     }));
@@ -69,7 +70,7 @@
             onItemClick={clickVersion}
             icon={BookText}
             subheading={(index) => available_versions[index].language}
-            heading={(index) => available_versions[index].fullname}
+            heading={(index) => available_versions[index].full_name}
             isActive={(index) => available_versions[index].name == $app_version}
             isFocused={(index) =>
                 value.length > 0 && index == 0 && isInputFocused}

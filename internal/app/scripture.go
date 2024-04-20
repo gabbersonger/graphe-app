@@ -1,6 +1,8 @@
 package app
 
-import "sync"
+import (
+	"sync"
+)
 
 type ScriptureRef int
 type ScriptureVersion string
@@ -48,6 +50,7 @@ func (a *App) GetScriptureSections(ran []ScriptureRange) []ScriptureSection {
 		case "lxx":
 			go getLXXScriptureSection(a, wg, &data[i])
 		default:
+			a.Info("version=[" + string(data[i].Range.Version+"]"))
 			a.Throw("Unknown version passed to GetScriptureSections")
 		}
 	}

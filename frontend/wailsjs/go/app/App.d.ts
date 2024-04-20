@@ -7,6 +7,8 @@ export function GetScriptureSections(arg1:Array<app.ScriptureRange>):Promise<Arr
 
 export function GetScriptureWord(arg1:app.ScriptureRef,arg2:number):Promise<app.ScriptureWordData>;
 
+export function Info(arg1:string):Promise<void>;
+
 export function Menu():Promise<menu.Menu>;
 
 export function Throw(arg1:string):Promise<void>;

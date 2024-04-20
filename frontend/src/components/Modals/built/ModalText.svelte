@@ -6,8 +6,9 @@
 
     import { bibleData, versionData } from "@/lib/Scripture/data";
     import { app_version } from "@/lib/appManager";
-    import { createBibleRef } from "@/lib/Scripture/ref";
+    import { createRef } from "@/lib/Scripture/ref";
     import { EventsEmit } from "!wails/runtime/runtime";
+    import { getVersionBookIndex } from "@/lib/Scripture/version";
 
     let value: string = "";
     let isInputFocused = true;
@@ -20,7 +21,7 @@
     }));
 
     function goto(book: number, chapter: number) {
-        const ref = createBibleRef(bibleData[book - 1].name, chapter);
+        const ref = createRef($app_version, book, chapter);
         EventsEmit("app:goto", ref);
         EventsEmit("ui:modal:close");
     }
@@ -31,13 +32,20 @@
 
     function clickBook(index: number) {
         selected_book = available_books[index].book_number;
-        if (bibleData[selected_book - 1].num_chapters == 1) {
+        if (
+            versionData[$app_version].books[selected_book - 1].num_chapters == 1
+        ) {
             goto(selected_book, 1);
         }
     }
 
     function clickChapter(index: number) {
         goto(selected_book, index + 1);
+    }
+
+    function getNumberOfChapters() {
+        const bookIndex = getVersionBookIndex($app_version, selected_book);
+        return versionData[bookIndex].num_chapters;
     }
 </script>
 
@@ -58,16 +66,16 @@
                 rowData={{ number: 6, maxwidth: 7.2 }}
                 onItemClick={clickBook}
                 subheading={(index) => available_books[index].name}
-                heading={(index) => available_books[index].abbreviation}
+                heading={(index) => available_books[index].short}
             />
         {:else}
             <ModalButtons
                 backButton={clickBackButton}
-                items={Array(bibleData[selected_book - 1].num_chapters)}
+                items={Array(getNumberOfChapters())}
                 rowData={{ number: 6, maxwidth: 7.2 }}
                 onItemClick={clickChapter}
                 subheading={(index) =>
-                    `${bibleData[selected_book - 1].abbreviation} ${index + 1}`}
+                    `${bibleData[selected_book - 1].short} ${index + 1}`}
                 heading={(index) => (index + 1).toString()}
             />
         {/if}

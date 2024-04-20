@@ -5,8 +5,7 @@ import { ui_modal } from "@/lib/uiManager";
 import type { app } from "!wails/go/models";
 import type { BibleRef, BibleVersion } from "@/lib/Scripture/types";
 import { instantDetails, updateBaseData } from "@/lib/Scripture/manager";
-import { createBibleRef } from "@/lib/Scripture/ref";
-import { createVersionRanges } from "@/lib/Scripture/range";
+import { createVersionRange } from "@/lib/Scripture/version";
 
 // Types
 
@@ -18,7 +17,7 @@ export type SearchResult = {};
 
 export const app_mode: Writable<AppMode> = writable("passage"); // passage/search mode
 export const app_version: Writable<BibleVersion> = writable(); // esv/hot/lxx/gnt
-export const app_range: Writable<app.ScriptureRange[]> = writable([]); // passage mode: what's visible
+export const app_range: Writable<app.ScriptureRange> = writable(); // passage mode: what's visible
 export const app_search_query: Writable<SearchQuery> = writable(); // TODO
 export const app_search_result: Writable<SearchResult> = writable(); // search mode: what's visible
 export const app_data: Writable<app.ScriptureSection[]> = writable([]); // all the data for version
@@ -35,8 +34,9 @@ function handleAppMode(mode: AppMode) {
 
 function handleAppVersion(version: BibleVersion) {
   if (get(app_version) != version) {
+    app_currentRef.set(null);
     app_version.set(version);
-    app_range.set(createVersionRanges(version));
+    app_range.set(createVersionRange(version));
     updateBaseData();
   }
 }
@@ -85,7 +85,7 @@ export function appManager(_: HTMLElement) {
   }
 
   // Start the app
-  EventsEmit("app:version", "lxx");
+  EventsEmit("app:version", "gnt");
 
   return {
     destroy() {

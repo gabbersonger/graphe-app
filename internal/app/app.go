@@ -32,6 +32,10 @@ func (a *App) check(e error) {
 	}
 }
 
+func (a *App) Info(s string) {
+	runtime.LogInfo(a.ctx, s)
+}
+
 func (a *App) Throw(s string) {
 	runtime.LogFatal(a.ctx, s)
 }
