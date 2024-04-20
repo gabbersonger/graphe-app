@@ -450,6 +450,14 @@ export const lxx = {
       ],
     },
     {
+      book_number: 67,
+      display_name: "1 Esdras",
+      num_chapters: 9,
+      num_verses: [55, 26, 24, 63, 71, 33, 15, 92, 55],
+      parallels: [],
+      missing_sections: [],
+    },
+    {
       book_number: 15,
       display_name: "Ezra",
       num_chapters: 10,
@@ -512,19 +520,138 @@ export const lxx = {
       ],
     },
     {
-      book_number: 18,
-      display_name: "Job",
-      num_chapters: 42,
+      book_number: 68,
+      display_name: "Judith",
+      num_chapters: 16,
       num_verses: [
-        22, 13, 26, 21, 27, 30, 21, 22, 35, 22, 20, 25, 28, 22, 35, 22, 16, 21,
-        29, 29, 34, 30, 17, 25, 6, 14, 23, 28, 25, 31, 40, 22, 33, 37, 16, 33,
-        24, 41, 30, 32, 26, 17,
+        16, 28, 10, 15, 24, 21, 32, 36, 14, 23, 23, 20, 20, 19, 14, 25,
+      ],
+      parallels: [],
+      missing_sections: [],
+    },
+    {
+      book_number: 69,
+      display_name: "Tobit",
+      num_chapters: 14,
+      num_verses: [22, 14, 17, 21, 23, 19, 17, 21, 6, 14, 19, 22, 18, 15],
+      parallels: [
+        {
+          start: 69001001,
+          end: 69001022,
+        },
+        {
+          start: 69002001,
+          end: 69002014,
+        },
+        {
+          start: 69003001,
+          end: 69003017,
+        },
+        {
+          start: 69004001,
+          end: 69004007,
+        },
+        {
+          start: 69004019,
+          end: 69004021,
+        },
+        {
+          start: 69005001,
+          end: 69005023,
+        },
+        {
+          start: 69006001,
+          end: 69006019,
+        },
+        {
+          start: 69007001,
+          end: 69007017,
+        },
+        {
+          start: 69008001,
+          end: 69008021,
+        },
+        {
+          start: 69009001,
+          end: 69009003,
+        },
+        {
+          start: 69009005,
+          end: 69009006,
+        },
+        {
+          start: 69010001,
+          end: 69010014,
+        },
+        {
+          start: 69011001,
+          end: 69011019,
+        },
+        {
+          start: 69012001,
+          end: 69012022,
+        },
+        {
+          start: 69013001,
+          end: 69013007,
+        },
+        {
+          start: 69013011,
+          end: 69013018,
+        },
+        {
+          start: 69014001,
+          end: 69014008,
+        },
+        {
+          start: 69014010,
+          end: 69014015,
+        },
+      ],
+      missing_sections: [],
+    },
+    {
+      book_number: 70,
+      display_name: "1 Maccabees",
+      num_chapters: 16,
+      num_verses: [
+        64, 70, 60, 61, 68, 63, 50, 32, 73, 89, 74, 53, 53, 49, 41, 24,
+      ],
+      parallels: [],
+      missing_sections: [],
+    },
+    {
+      book_number: 71,
+      display_name: "2 Maccabees",
+      num_chapters: 15,
+      num_verses: [36, 32, 40, 50, 27, 31, 42, 36, 29, 38, 38, 45, 26, 46, 39],
+      parallels: [],
+      missing_sections: [],
+    },
+    {
+      book_number: 72,
+      display_name: "3 Maccabees",
+      num_chapters: 7,
+      num_verses: [29, 33, 30, 21, 51, 41, 23],
+      parallels: [],
+      missing_sections: [],
+    },
+    {
+      book_number: 73,
+      display_name: "4 Maccabees",
+      num_chapters: 18,
+      num_verses: [
+        35, 24, 21, 26, 38, 35, 23, 29, 32, 21, 27, 19, 27, 20, 32, 25, 24, 24,
       ],
       parallels: [],
       missing_sections: [
         {
-          start: 18023014,
-          end: 18023014,
+          start: 73010004,
+          end: 73010004,
+        },
+        {
+          start: 73011007,
+          end: 73011008,
         },
       ],
     },
@@ -556,6 +683,48 @@ export const lxx = {
         {
           start: 19115005,
           end: 19115005,
+        },
+      ],
+    },
+    {
+      book_number: 74,
+      display_name: "Odes",
+      num_chapters: 14,
+      num_verses: [19, 43, 10, 19, 20, 10, 45, 88, 79, 9, 20, 15, 32, 46],
+      superscripts: [1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+      parallels: [],
+      missing_sections: [
+        {
+          start: 74005001,
+          end: 74005008,
+        },
+        {
+          start: 74006001,
+          end: 74006002,
+        },
+        {
+          start: 74007001,
+          end: 74007025,
+        },
+        {
+          start: 74008001,
+          end: 74008051,
+        },
+        {
+          start: 74009001,
+          end: 74009045,
+        },
+        {
+          start: 74009056,
+          end: 74009067,
+        },
+        {
+          start: 74011001,
+          end: 74011009,
+        },
+        {
+          start: 74013001,
+          end: 74013028,
         },
       ],
     },
@@ -655,6 +824,249 @@ export const lxx = {
       display_name: "Song of Songs",
       num_chapters: 8,
       num_verses: [17, 17, 11, 16, 16, 12, 14, 14],
+      parallels: [],
+      missing_sections: [],
+    },
+    {
+      book_number: 18,
+      display_name: "Job",
+      num_chapters: 42,
+      num_verses: [
+        22, 13, 26, 21, 27, 30, 21, 22, 35, 22, 20, 25, 28, 22, 35, 22, 16, 21,
+        29, 29, 34, 30, 17, 25, 6, 14, 23, 28, 25, 31, 40, 22, 33, 37, 16, 33,
+        24, 41, 30, 32, 26, 17,
+      ],
+      parallels: [],
+      missing_sections: [
+        {
+          start: 18023014,
+          end: 18023014,
+        },
+      ],
+    },
+    {
+      book_number: 75,
+      display_name: "Wisdom of Solomon",
+      num_chapters: 19,
+      num_verses: [
+        16, 24, 19, 20, 23, 25, 30, 21, 18, 21, 26, 27, 19, 31, 19, 29, 20, 25,
+        22,
+      ],
+      parallels: [],
+      missing_sections: [],
+    },
+    {
+      book_number: 76,
+      display_name: "Sirach",
+      num_chapters: 51,
+      num_verses: [
+        30, 18, 31, 31, 15, 37, 36, 19, 18, 31, 34, 18, 26, 27, 20, 30, 32, 33,
+        30, 31, 28, 27, 27, 34, 26, 29, 30, 26, 28, 25, 31, 24, 33, 26, 24, 27,
+        31, 34, 35, 30, 27, 25, 33, 23, 26, 20, 25, 25, 16, 29, 30,
+      ],
+      prologue: 36, // NOTE: "0" chapter (prologue) has 36 verses
+      parallels: [],
+      missing_sections: [
+        {
+          start: 76001005,
+          end: 76001005,
+        },
+        {
+          start: 76001007,
+          end: 76001007,
+        },
+        {
+          start: 76001021,
+          end: 76001021,
+        },
+        {
+          start: 76003019,
+          end: 76003019,
+        },
+        {
+          start: 76003025,
+          end: 76003025,
+        },
+        {
+          start: 76006001,
+          end: 76006001,
+        },
+        {
+          start: 76010021,
+          end: 76010021,
+        },
+        {
+          start: 76011015,
+          end: 76011016,
+        },
+        {
+          start: 76013014,
+          end: 76013014,
+        },
+        {
+          start: 76016015,
+          end: 76016016,
+        },
+        {
+          start: 76017005,
+          end: 76017005,
+        },
+        {
+          start: 76017009,
+          end: 76017009,
+        },
+        {
+          start: 76017016,
+          end: 76017016,
+        },
+        {
+          start: 76017018,
+          end: 76017018,
+        },
+        {
+          start: 76017021,
+          end: 76017021,
+        },
+        {
+          start: 76018003,
+          end: 76018003,
+        },
+        {
+          start: 76019018,
+          end: 76019019,
+        },
+        {
+          start: 76019021,
+          end: 76019021,
+        },
+        {
+          start: 76022007,
+          end: 76022008,
+        },
+        {
+          start: 76024018,
+          end: 76024018,
+        },
+        {
+          start: 76024024,
+          end: 76024024,
+        },
+        {
+          start: 76025012,
+          end: 76025012,
+        },
+        {
+          start: 76026019,
+          end: 76026027,
+        },
+      ],
+    },
+    {
+      book_number: 77,
+      display_name: "Solomon",
+      num_chapters: 18,
+      num_verses: [
+        8, 37, 12, 25, 19, 6, 10, 34, 11, 8, 9, 6, 12, 10, 13, 15, 46, 12,
+      ],
+      superscripts: [
+        2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
+      ],
+      parallels: [],
+      missing_sections: [],
+    },
+    {
+      book_number: 28,
+      display_name: "Hosea",
+      num_chapters: 14,
+      num_verses: [9, 25, 5, 19, 15, 11, 16, 14, 17, 15, 11, 15, 15, 10],
+      parallels: [],
+      missing_sections: [],
+    },
+    {
+      book_number: 30,
+      display_name: "Amos",
+      num_chapters: 9,
+      num_verses: [15, 16, 15, 13, 27, 14, 17, 14, 15],
+      parallels: [],
+      missing_sections: [],
+    },
+    {
+      book_number: 33,
+      display_name: "Micah",
+      num_chapters: 7,
+      num_verses: [16, 13, 12, 14, 14, 16, 20],
+      parallels: [],
+      missing_sections: [],
+    },
+    {
+      book_number: 29,
+      display_name: "Joel",
+      num_chapters: 4,
+      num_verses: [20, 27, 5, 21],
+      parallels: [],
+      missing_sections: [],
+    },
+    {
+      book_number: 31,
+      display_name: "Obadiah",
+      num_chapters: 1,
+      num_verses: [21],
+      parallels: [],
+      missing_sections: [],
+    },
+    {
+      book_number: 32,
+      display_name: "Jonah",
+      num_chapters: 4,
+      num_verses: [16, 11, 10, 11],
+      parallels: [],
+      missing_sections: [],
+    },
+    {
+      book_number: 34,
+      display_name: "Nahum",
+      num_chapters: 3,
+      num_verses: [14, 14, 19],
+      parallels: [],
+      missing_sections: [],
+    },
+    {
+      book_number: 35,
+      display_name: "Habakkuk ",
+      num_chapters: 3,
+      num_verses: [17, 20, 19],
+      parallels: [],
+      missing_sections: [],
+    },
+    {
+      book_number: 36,
+      display_name: "Zephaniah",
+      num_chapters: 3,
+      num_verses: [18, 15, 20],
+      parallels: [],
+      missing_sections: [],
+    },
+    {
+      book_number: 37,
+      display_name: "Haggai",
+      num_chapters: 2,
+      num_verses: [15, 23],
+      parallels: [],
+      missing_sections: [],
+    },
+    {
+      book_number: 38,
+      display_name: "Zechariah",
+      num_chapters: 14,
+      num_verses: [17, 17, 10, 14, 11, 15, 14, 23, 17, 12, 17, 14, 9, 21],
+      parallels: [],
+      missing_sections: [],
+    },
+    {
+      book_number: 39,
+      display_name: "Malachi",
+      num_chapters: 3,
+      num_verses: [14, 17, 24],
       parallels: [],
       missing_sections: [],
     },
@@ -805,11 +1217,19 @@ export const lxx = {
       ],
     },
     {
+      book_number: 78,
+      display_name: "Baruch",
+      num_chapters: 5,
+      num_verses: [22, 35, 38, 37, 9],
+      parallels: [],
+      missing_sections: [],
+    },
+    {
       book_number: 25,
       display_name: "Lamentations",
       num_chapters: 5,
       num_verses: [22, 22, 66, 22, 22],
-      superscripts: [1], // NOTE: only in LXX
+      superscripts: [1],
       parallels: [],
       missing_sections: [
         {
@@ -821,6 +1241,15 @@ export const lxx = {
           end: 25003029,
         },
       ],
+    },
+    {
+      book_number: 79,
+      display_name: "Letter of Jeremiah",
+      num_chapters: 1,
+      num_verses: [72],
+      superscripts: [1],
+      parallels: [],
+      missing_sections: [],
     },
     {
       book_number: 26,
@@ -864,7 +1293,7 @@ export const lxx = {
       display_name: "Daniel",
       num_chapters: 12,
       num_verses: [21, 49, 97, 37, 30, 29, 28, 27, 27, 21, 45, 13],
-      superscripts: [5], // NOTE: only in LXX
+      superscripts: [5],
       parallels: [
         {
           start: 27001001,
@@ -957,435 +1386,6 @@ export const lxx = {
           end: 27005028,
         },
       ],
-    },
-    {
-      book_number: 28,
-      display_name: "Hosea",
-      num_chapters: 14,
-      num_verses: [9, 25, 5, 19, 15, 11, 16, 14, 17, 15, 11, 15, 15, 10],
-      parallels: [],
-      missing_sections: [],
-    },
-    {
-      book_number: 29,
-      display_name: "Joel",
-      num_chapters: 4,
-      num_verses: [20, 27, 5, 21],
-      parallels: [],
-      missing_sections: [],
-    },
-    {
-      book_number: 30,
-      display_name: "Amos",
-      num_chapters: 9,
-      num_verses: [15, 16, 15, 13, 27, 14, 17, 14, 15],
-      parallels: [],
-      missing_sections: [],
-    },
-    {
-      book_number: 31,
-      display_name: "Obadiah",
-      num_chapters: 1,
-      num_verses: [21],
-      parallels: [],
-      missing_sections: [],
-    },
-    {
-      book_number: 32,
-      display_name: "Jonah",
-      num_chapters: 4,
-      num_verses: [16, 11, 10, 11],
-      parallels: [],
-      missing_sections: [],
-    },
-    {
-      book_number: 33,
-      display_name: "Micah",
-      num_chapters: 7,
-      num_verses: [16, 13, 12, 14, 14, 16, 20],
-      parallels: [],
-      missing_sections: [],
-    },
-    {
-      book_number: 34,
-      display_name: "Nahum",
-      num_chapters: 3,
-      num_verses: [14, 14, 19],
-      parallels: [],
-      missing_sections: [],
-    },
-    {
-      book_number: 35,
-      display_name: "Habakkuk ",
-      num_chapters: 3,
-      num_verses: [17, 20, 19],
-      parallels: [],
-      missing_sections: [],
-    },
-    {
-      book_number: 36,
-      display_name: "Zephaniah",
-      num_chapters: 3,
-      num_verses: [18, 15, 20],
-      parallels: [],
-      missing_sections: [],
-    },
-    {
-      book_number: 37,
-      display_name: "Haggai",
-      num_chapters: 2,
-      num_verses: [15, 23],
-      parallels: [],
-      missing_sections: [],
-    },
-    {
-      book_number: 38,
-      display_name: "Zechariah",
-      num_chapters: 14,
-      num_verses: [17, 17, 10, 14, 11, 15, 14, 23, 17, 12, 17, 14, 9, 21],
-      parallels: [],
-      missing_sections: [],
-    },
-    {
-      book_number: 39,
-      display_name: "Malachi",
-      num_chapters: 3,
-      num_verses: [14, 17, 24],
-      parallels: [],
-      missing_sections: [],
-    },
-    {
-      book_number: 67,
-      display_name: "1 Esdras",
-      num_chapters: 9,
-      num_verses: [55, 26, 24, 63, 71, 33, 15, 92, 55],
-      parallels: [],
-      missing_sections: [],
-    },
-    {
-      book_number: 68,
-      display_name: "Judith",
-      num_chapters: 16,
-      num_verses: [
-        16, 28, 10, 15, 24, 21, 32, 36, 14, 23, 23, 20, 20, 19, 14, 25,
-      ],
-      parallels: [],
-      missing_sections: [],
-    },
-    {
-      book_number: 69,
-      display_name: "Tobit",
-      num_chapters: 14,
-      num_verses: [22, 14, 17, 21, 23, 19, 17, 21, 6, 14, 19, 22, 18, 15],
-      parallels: [
-        {
-          start: 69001001,
-          end: 69001022,
-        },
-        {
-          start: 69002001,
-          end: 69002014,
-        },
-        {
-          start: 69003001,
-          end: 69003017,
-        },
-        {
-          start: 69004001,
-          end: 69004007,
-        },
-        {
-          start: 69004019,
-          end: 69004021,
-        },
-        {
-          start: 69005001,
-          end: 69005023,
-        },
-        {
-          start: 69006001,
-          end: 69006019,
-        },
-        {
-          start: 69007001,
-          end: 69007017,
-        },
-        {
-          start: 69008001,
-          end: 69008021,
-        },
-        {
-          start: 69009001,
-          end: 69009003,
-        },
-        {
-          start: 69009005,
-          end: 69009006,
-        },
-        {
-          start: 69010001,
-          end: 69010014,
-        },
-        {
-          start: 69011001,
-          end: 69011019,
-        },
-        {
-          start: 69012001,
-          end: 69012022,
-        },
-        {
-          start: 69013001,
-          end: 69013007,
-        },
-        {
-          start: 69013011,
-          end: 69013018,
-        },
-        {
-          start: 69014001,
-          end: 69014008,
-        },
-        {
-          start: 69014010,
-          end: 69014015,
-        },
-      ],
-      missing_sections: [],
-    },
-    {
-      book_number: 70,
-      display_name: "1 Maccabees",
-      num_chapters: 16,
-      num_verses: [
-        64, 70, 60, 61, 68, 63, 50, 32, 73, 89, 74, 53, 53, 49, 41, 24,
-      ],
-      parallels: [],
-      missing_sections: [],
-    },
-    {
-      book_number: 71,
-      display_name: "2 Maccabees",
-      num_chapters: 15,
-      num_verses: [36, 32, 40, 50, 27, 31, 42, 36, 29, 38, 38, 45, 26, 46, 39],
-      parallels: [],
-      missing_sections: [],
-    },
-    {
-      book_number: 72,
-      display_name: "3 Maccabees",
-      num_chapters: 7,
-      num_verses: [29, 33, 30, 21, 51, 41, 23],
-      parallels: [],
-      missing_sections: [],
-    },
-    {
-      book_number: 73,
-      display_name: "4 Maccabees",
-      num_chapters: 18,
-      num_verses: [
-        35, 24, 21, 26, 38, 35, 23, 29, 32, 21, 27, 19, 27, 20, 32, 25, 24, 24,
-      ],
-      parallels: [],
-      missing_sections: [
-        {
-          start: 73010004,
-          end: 73010004,
-        },
-        {
-          start: 73011007,
-          end: 73011008,
-        },
-      ],
-    },
-    {
-      book_number: 74,
-      display_name: "Odes",
-      num_chapters: 14,
-      num_verses: [19, 43, 10, 19, 20, 10, 45, 88, 79, 9, 20, 15, 32, 46],
-      superscripts: [1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-      parallels: [],
-      missing_sections: [
-        {
-          start: 74005001,
-          end: 74005008,
-        },
-        {
-          start: 74006001,
-          end: 74006002,
-        },
-        {
-          start: 74007001,
-          end: 74007025,
-        },
-        {
-          start: 74008001,
-          end: 74008051,
-        },
-        {
-          start: 74009001,
-          end: 74009045,
-        },
-        {
-          start: 74009056,
-          end: 74009067,
-        },
-        {
-          start: 74011001,
-          end: 74011009,
-        },
-        {
-          start: 74013001,
-          end: 74013028,
-        },
-      ],
-    },
-    {
-      book_number: 75,
-      display_name: "Wisdom of Solomon",
-      num_chapters: 19,
-      num_verses: [
-        16, 24, 19, 20, 23, 25, 30, 21, 18, 21, 26, 27, 19, 31, 19, 29, 20, 25,
-        22,
-      ],
-      parallels: [],
-      missing_sections: [],
-    },
-    {
-      book_number: 76,
-      display_name: "Sirach",
-      num_chapters: 51,
-      num_verses: [
-        30, 18, 31, 31, 15, 37, 36, 19, 18, 31, 34, 18, 26, 27, 20, 30, 32, 33,
-        30, 31, 28, 27, 27, 34, 26, 29, 30, 26, 28, 25, 31, 24, 33, 26, 24, 27,
-        31, 34, 35, 30, 27, 25, 33, 23, 26, 20, 25, 25, 16, 29, 30,
-      ],
-      prologue: 36, // NOTE: "0" chapter (prologue) has 36 verses
-      parallels: [],
-      missing_sections: [
-        {
-          start: 76001005,
-          end: 76001005,
-        },
-        {
-          start: 76001007,
-          end: 76001007,
-        },
-        {
-          start: 76001021,
-          end: 76001021,
-        },
-        {
-          start: 76003019,
-          end: 76003019,
-        },
-        {
-          start: 76003025,
-          end: 76003025,
-        },
-        {
-          start: 76006001,
-          end: 76006001,
-        },
-        {
-          start: 76010021,
-          end: 76010021,
-        },
-        {
-          start: 76011015,
-          end: 76011016,
-        },
-        {
-          start: 76013014,
-          end: 76013014,
-        },
-        {
-          start: 76016015,
-          end: 76016016,
-        },
-        {
-          start: 76017005,
-          end: 76017005,
-        },
-        {
-          start: 76017009,
-          end: 76017009,
-        },
-        {
-          start: 76017016,
-          end: 76017016,
-        },
-        {
-          start: 76017018,
-          end: 76017018,
-        },
-        {
-          start: 76017021,
-          end: 76017021,
-        },
-        {
-          start: 76018003,
-          end: 76018003,
-        },
-        {
-          start: 76019018,
-          end: 76019019,
-        },
-        {
-          start: 76019021,
-          end: 76019021,
-        },
-        {
-          start: 76022007,
-          end: 76022008,
-        },
-        {
-          start: 76024018,
-          end: 76024018,
-        },
-        {
-          start: 76024024,
-          end: 76024024,
-        },
-        {
-          start: 76025012,
-          end: 76025012,
-        },
-        {
-          start: 76026019,
-          end: 76026027,
-        },
-      ],
-    },
-    {
-      book_number: 77,
-      display_name: "Solomon",
-      num_chapters: 18,
-      num_verses: [
-        8, 37, 12, 25, 19, 6, 10, 34, 11, 8, 9, 6, 12, 10, 13, 15, 46, 12,
-      ],
-      superscripts: [
-        2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
-      ],
-      parallels: [],
-      missing_sections: [],
-    },
-    {
-      book_number: 78,
-      display_name: "Baruch",
-      num_chapters: 5,
-      num_verses: [22, 35, 38, 37, 9],
-      parallels: [],
-      missing_sections: [],
-    },
-    {
-      book_number: 79,
-      display_name: "Letter of Jeremiah",
-      num_chapters: 1,
-      num_verses: [72],
-      superscripts: [1],
-      parallels: [],
-      missing_sections: [],
     },
     {
       book_number: 80,
