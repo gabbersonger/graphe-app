@@ -45,7 +45,7 @@
 
     function getNumberOfChapters() {
         const bookIndex = getVersionBookIndex($app_version, selected_book);
-        return versionData[bookIndex].num_chapters;
+        return versionData[$app_version].books[bookIndex].num_chapters;
     }
 </script>
 

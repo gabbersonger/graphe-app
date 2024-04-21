@@ -78,8 +78,7 @@ export function isValidRef(version: BibleVersion, ref: BibleRef): boolean {
   if (chapter <= 0 || chapter > bookData.num_chapters) return false;
 
   // Handle verse invalid
-  if (verse == 0 && !isSuperscriptChapter(version, chapter, verse))
-    return false;
+  if (verse == 0) return isSuperscriptChapter(version, book, chapter);
   if (verse > bookData.num_verses[chapter - 1]) return false;
 
   // Handle missing sections

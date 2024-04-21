@@ -7,6 +7,15 @@
 
     export let items: Array<app.ScriptureSection>;
     $: num_blocks = items.reduce((acc, cur) => acc + cur.blocks.length, 0);
+    $: if (num_blocks == 0) {
+        visible = [];
+        row_elements = [];
+        row_offsets = [];
+        rows_height = 0;
+        last_calculated_width = undefined;
+        firstMount = false;
+        console.log("HAPPENING");
+    }
 
     let visible: Array<{
         index: number;

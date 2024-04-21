@@ -5,6 +5,7 @@ import type { BibleRef } from "@/lib/Scripture/types";
 
 export async function updateBaseData() {
   const data = await GetScriptureSections([get(app_range)]);
+  console.log(data);
   app_data.set(data); // TODO: not sure this updates visualiser (check once other texts in)
 }
 

@@ -35,6 +35,7 @@ function handleAppMode(mode: AppMode) {
 function handleAppVersion(version: BibleVersion) {
   if (get(app_version) != version) {
     app_currentRef.set(null);
+    app_data.set([]);
     app_version.set(version);
     app_range.set(createVersionRange(version));
     updateBaseData();
@@ -66,8 +67,6 @@ function handleAppInstantDetailsHide() {
 // Register events
 
 export function appManager(_: HTMLElement) {
-  updateBaseData();
-
   const handlers: {
     [key: string]: (...data: any) => void;
   } = {

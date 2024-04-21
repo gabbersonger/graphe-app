@@ -25,7 +25,7 @@ Build distributable app: `wails build`
   - [x] Split GNT text into word, pre, post (separate out punctuation)
   - [ ] Add HOT
   - [ ] Add ESV
-  - [ ] Add LXX
+  - [x] Add LXX
 
 **Future features**
 
