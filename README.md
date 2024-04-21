@@ -69,3 +69,4 @@ Build distributable app: `wails build`
 - [ ] If items changes then virtualiser doesn't invalidate positioning data
 - [ ] Virtualiser goto function does not put you in correct scroll for currentRef to be right (e.g. goto Mark 1 shows Matt 28 in currentRef label)
 - [ ] Does not currently handle missing verses well (e.g. goto)
+- [ ] Should hide chapters with no verses (e.g. LXX Proverbs 25-29)
