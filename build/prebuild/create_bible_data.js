@@ -204,7 +204,6 @@ export function createBibleData() {
   if (haveFilesChanged()) {
     createFrontendFile();
     createBackendFile();
-    console.log("doing");
   }
 }
 
