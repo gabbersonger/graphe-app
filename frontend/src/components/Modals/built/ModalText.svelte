@@ -32,9 +32,8 @@
 
     function clickBook(index: number) {
         selected_book = available_books[index].book_number;
-        if (
-            versionData[$app_version].books[selected_book - 1].num_chapters == 1
-        ) {
+        const version_index = getVersionBookIndex($app_version, selected_book);
+        if (versionData[$app_version].books[version_index].num_chapters == 1) {
             goto(selected_book, 1);
         }
     }

@@ -8,20 +8,29 @@ import { getVersionBookIndex, isValidVersion } from "@/lib/Scripture/version";
 /**
  * Determines if a range is valid
  * @param {app.ScriptureRange} range - The range to check.
+ * @param {boolean} strict - If strict mode then checks that start
+ * and end are valid ref.
  */
-export function isValidRange(range: app.ScriptureRange): boolean {
+export function isValidRange(
+  range: app.ScriptureRange,
+  strict: boolean = false,
+): boolean {
   if (!isValidVersion(range.version)) return false;
 
   const version = range.version as BibleVersion;
-  if (!isValidRef(version, range.start) || !isValidRef(version, range.end))
+  if (
+    strict &&
+    (!isValidRef(version, range.start) || !isValidRef(version, range.end))
+  )
     return false;
 
   const start_book_index = getVersionBookIndex(version, getBook(range.start));
   const end_book_index = getVersionBookIndex(version, getBook(range.end));
 
+  if (start_book_index == -1 || end_book_index == -1) return false;
   return (
     start_book_index < end_book_index ||
-    (start_book_index == end_book_index && range.start < range.end)
+    (start_book_index == end_book_index && range.start <= range.end)
   );
 }
 
@@ -37,7 +46,7 @@ export const isRefInRange = (
 ): boolean => {
   if (!isValidRange(range))
     GrapheError(
-      `Invalid range ({version: ${range.version}, start: ${range.start}, end: ${range.end}) passed to \`isRefInRange\``,
+      `Invalid range ({version: ${range.version}, start: ${range.start}, end: ${range.end}}) passed to \`isRefInRange\``,
     );
   const version = range.version as BibleVersion;
   if (!isValidRef(version, ref)) return false;
