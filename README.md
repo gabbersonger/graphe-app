@@ -20,15 +20,18 @@ Build distributable app: `wails build`
   - [x] Functionality
   - [x] 'Choose version' modal
   - [x] 'Choose text' modal
-- [x] Instant details (word hover)
+- [ ] Instant details (word hover)
+  - [x] Appeareance
+  - [x] Works for GNT
+  - [ ] Works for LXX
 - [ ] Get all the bible texts working properly
   - [x] Split GNT text into word, pre, post (separate out punctuation)
-  - [ ] Add HOT
   - [ ] Add ESV
   - [x] Add LXX
 
 **Future features**
 
+- [ ] Add HOT
 - [ ] Choose text modal search functionality
 - [ ] Search
   - [ ] Functionality
@@ -62,11 +65,10 @@ Build distributable app: `wails build`
 **Performance**
 
 - [ ] Split `GetScriptureSections` request into multiple batches for larger ranges that perform concurrently
-- [ ] Potentially increase virtualiser speed for resizes / first load
 
 **Bugs**
 
-- [ ] If items changes then virtualiser doesn't invalidate positioning data
-- [ ] Virtualiser goto function does not put you in correct scroll for currentRef to be right (e.g. goto Mark 1 shows Matt 28 in currentRef label)
 - [ ] Does not currently handle missing verses well (e.g. goto)
 - [ ] Should hide chapters with no verses (e.g. LXX Proverbs 25-29)
+- [ ] Verses split over two paragraph breaks show verse number twice
+- [ ] While virtualiser is in locked mode scrollbar breaks functionality temporarily if you scroll too far away
