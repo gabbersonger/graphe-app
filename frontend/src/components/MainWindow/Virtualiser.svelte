@@ -244,7 +244,7 @@
                 precise_content_offsets[index] + GOTO_SCROLL_OFFSET,
                 0,
             );
-            viewport.scrollTop = scrollPosition;
+            viewport.scrollTop = scrollPosition + 1;
         } else {
             const estimate_content_height =
                 (n_blocks / preloading_done) * precise_content_height;
