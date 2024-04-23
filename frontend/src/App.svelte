@@ -1,7 +1,6 @@
 <script lang="ts">
     import Navbar from "@/components/Navbar/Navbar.svelte";
     import MainWindow from "@/components/MainWindow/MainWindow.svelte";
-    import MainWindow2 from "@/components/MainWindow/MainWindow2.svelte";
     import Sidebar from "@/components/Sidebar/Sidebar.svelte";
     import Modals from "@/components/Modals/Modals.svelte";
 
@@ -32,8 +31,7 @@
     use:appManager
 >
     <nav><Navbar /></nav>
-    <!-- <main><MainWindow /></main> -->
-    <main><MainWindow2 /></main>
+    <main><MainWindow /></main>
     <aside><Sidebar /></aside>
     <Modals />
 </div>
