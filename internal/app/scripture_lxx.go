@@ -73,3 +73,7 @@ func getLXXScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 	a.db.pool <- db
 	wg.Done()
 }
+
+func getLXXScriptureWord(a *App, w *ScriptureWordData) {
+	// TODO
+}

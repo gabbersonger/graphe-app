@@ -5,7 +5,7 @@ import {menu} from '../models';
 
 export function GetScriptureSections(arg1:Array<app.ScriptureRange>):Promise<Array<app.ScriptureSection>>;
 
-export function GetScriptureWord(arg1:app.ScriptureRef,arg2:number):Promise<app.ScriptureWordData>;
+export function GetScriptureWord(arg1:app.ScriptureVersion,arg2:app.ScriptureRef,arg3:number):Promise<app.ScriptureWordData>;
 
 export function Info(arg1:string):Promise<void>;
 
