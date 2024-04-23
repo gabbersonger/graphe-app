@@ -6,6 +6,7 @@
 > Graphe is a **_fast and minimalistic Bible study application_**, with a focus on using the original language texts (the Hebrew Old Testament, the Septuagint and the Greek New Testament) in conjunction with an English translation. It is currently under active development.
 
 Features include:
+
 - Support for GNT and LXX
 - Instant details while hovering original language
 - Minimalistic design with built-in themes
@@ -37,8 +38,7 @@ Currently requires a large database file that is currently not packaged with the
 - [ ] ESV version
   - [ ] Text
   - [ ] Instant details
-- [ ] Display app version in bottom right
-
+- [x] Display app version in bottom right
 
 <br/>
 

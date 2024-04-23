@@ -2,7 +2,6 @@ import { bibleData, versionData } from "@/lib/Scripture/data";
 import type { BibleRef, BibleVersion } from "@/lib/Scripture/types";
 import { GrapheError, assertUnreachable } from "@/lib/utils";
 import { getVersionBookIndex, isValidVersion } from "@/lib/Scripture/version";
-import { Info } from "!wails/go/app/App";
 
 export function getBook(ref: BibleRef): number {
   return (ref - (ref % 1_000_000)) / 1_000_000;

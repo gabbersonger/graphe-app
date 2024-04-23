@@ -7,6 +7,9 @@
     import { EventsEmit } from "!wails/runtime/runtime";
     import { app_data, app_version, app_currentRef } from "@/lib/appManager";
     import { isRefBookStart, refToString } from "@/lib/Scripture/ref";
+    import { GetEnvironmentInfo } from "!wails/go/app/App";
+    import { onMount } from "svelte";
+    import { GitBranch } from "lucide-svelte";
 
     let instant_details_timer: ReturnType<typeof setTimeout>;
     const INSTANT_DETAILS_DELAY = 50;
@@ -29,6 +32,12 @@
             $app_data[current_position.section].blocks[current_position.block]
                 .range.start;
     }
+
+    let version: string;
+    onMount(async () => {
+        let data = await GetEnvironmentInfo();
+        version = data.version;
+    });
 </script>
 
 <div id="content">
@@ -61,6 +70,8 @@
             {/each}
         </div>
     </Virtualiser>
+
+    <div class="version-info"><GitBranch />{version}</div>
 
     <InstantDetails />
 </div>
@@ -122,5 +133,25 @@
     *::selection {
         background: var(--clr-selection);
         color: var(--clr-background);
+    }
+
+    .version-info {
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.1rem;
+        font-family: monospace;
+        font-size: 0.8rem;
+        color: var(--clr-text-sub);
+        pointer-events: none;
+        background: var(--clr-background);
+        border-radius: 0.1rem;
+        padding: 0.2rem;
+    }
+
+    .version-info > :global(svg) {
+        height: 1em;
     }
 </style>

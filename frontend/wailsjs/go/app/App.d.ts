@@ -3,11 +3,11 @@
 import {app} from '../models';
 import {menu} from '../models';
 
+export function GetEnvironmentInfo():Promise<app.EnvironmentInfo>;
+
 export function GetScriptureSections(arg1:Array<app.ScriptureRange>):Promise<Array<app.ScriptureSection>>;
 
 export function GetScriptureWord(arg1:app.ScriptureVersion,arg2:app.ScriptureRef,arg3:number):Promise<app.ScriptureWordData>;
-
-export function Info(arg1:string):Promise<void>;
 
 export function Menu():Promise<menu.Menu>;
 

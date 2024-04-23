@@ -1,5 +1,29 @@
 export namespace app {
 	
+	export class EnvironmentInfo {
+	    arch: string;
+	    buildType: string;
+	    platform: string;
+	    version: string;
+	    homeDirectory: string;
+	    dataDirectory: string;
+	    logDirectory: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new EnvironmentInfo(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.arch = source["arch"];
+	        this.buildType = source["buildType"];
+	        this.platform = source["platform"];
+	        this.version = source["version"];
+	        this.homeDirectory = source["homeDirectory"];
+	        this.dataDirectory = source["dataDirectory"];
+	        this.logDirectory = source["logDirectory"];
+	    }
+	}
 	export class ScriptureWord {
 	    word_num: number;
 	    text: string;
