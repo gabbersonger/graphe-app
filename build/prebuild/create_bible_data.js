@@ -206,6 +206,3 @@ export function createBibleData() {
     createBackendFile();
   }
 }
-
-// TODO: add superscripts
-// TODO: add
