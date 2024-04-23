@@ -6,6 +6,7 @@
 export const hot = {
   full_name: "Tyndale Hebrew Old Testament",
   language: "Ancient Hebrew",
+  language: "English",
   books: [
     {
       book_number: 1,

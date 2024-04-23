@@ -2,14 +2,16 @@
     import Virtualiser from "@/components/MainWindow/Virtualiser.svelte";
     import InstantDetails from "@/components/MainWindow/InstantDetails.svelte";
 
-    import type { BibleRef } from "@/lib/Scripture/types";
+    import type { BibleRef, BibleVersion } from "@/lib/Scripture/types";
 
     import { EventsEmit } from "!wails/runtime/runtime";
     import { app_data, app_version, app_currentRef } from "@/lib/appManager";
-    import { isRefBookStart, refToString } from "@/lib/Scripture/ref";
+    import { getBook, isRefBookStart, refToString } from "@/lib/Scripture/ref";
     import { GetEnvironmentInfo } from "!wails/go/app/App";
     import { onMount } from "svelte";
     import { GitBranch } from "lucide-svelte";
+    import { versionData } from "@/lib/Scripture/data";
+    import { getVersionBookIndex } from "@/lib/Scripture/version";
 
     let instant_details_timer: ReturnType<typeof setTimeout>;
     const INSTANT_DETAILS_DELAY = 50;
@@ -38,14 +40,30 @@
         let data = await GetEnvironmentInfo();
         version = data.version;
     });
+
+    let language: (typeof versionData)[BibleVersion]["language"];
+    let languageHeadings: (typeof versionData)[BibleVersion]["languageHeadings"];
+    $: if ($app_version) {
+        language = versionData[$app_version].language;
+        languageHeadings = versionData[$app_version].languageHeadings;
+    }
 </script>
 
-<div id="content">
+<div
+    id="content"
+    data-language={language}
+    data-language-heading={languageHeadings}
+>
     <Virtualiser data={$app_data} bind:current_position>
         <div slot="row" let:row class="block">
             {#if isRefBookStart($app_version, row.range.start)}
                 <div class="heading">
-                    {refToString($app_version, row.range.start, "book")}
+                    {versionData[$app_version].books[
+                        getVersionBookIndex(
+                            $app_version,
+                            getBook(row.range.start),
+                        )
+                    ].display_name}
                 </div>
             {/if}
 
@@ -84,6 +102,22 @@
         overflow: hidden;
     }
 
+    #content[data-language="Ancient Greek"] {
+        --font-content: "SBL Greek";
+    }
+
+    #content[data-language="English"] {
+        --font-content: "Neuton";
+    }
+
+    #content[data-language-heading="English"] .heading {
+        --font-heading: "Neuton";
+    }
+
+    #content[data-language-heading="Ancient Greek"] .heading {
+        --font-heading: "SBL Greek";
+    }
+
     .block {
         display: block;
         padding-bottom: 1rem;
@@ -95,8 +129,7 @@
     .heading {
         display: block;
         text-align: center;
-        /* font-family: "Neuton"; */
-        font-family: "SBL Greek";
+        font-family: var(--font-heading);
         font-size: 3em;
         padding-block: 3rem;
     }
@@ -118,7 +151,7 @@
     }
 
     .word {
-        font-family: "SBL Greek";
+        font-family: var(--font-content);
         font-size: 1.2rem;
         cursor: pointer;
     }

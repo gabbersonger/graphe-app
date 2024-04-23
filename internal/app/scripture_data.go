@@ -24,10 +24,11 @@ type VersionBookData struct {
 }
 
 type VersionData struct {
-  name      string
-  full_name string
-  language  string
-  books     []VersionBookData
+  name             string
+  full_name        string
+  language         string
+  languageHeadings string
+  books            []VersionBookData
 }
 
 var bibleData = [...]BookData{
@@ -1150,6 +1151,7 @@ var versionData = [...]VersionData{
     name: "lxx",
     full_name: "Septuagint (LXX)",
     language: "Ancient Greek",
+    languageHeadings: "English",
     books: []VersionBookData{
       {
         book_number: 1,
@@ -2641,6 +2643,7 @@ var versionData = [...]VersionData{
     name: "gnt",
     full_name: "Tyndale Greek New Testament",
     language: "Ancient Greek",
+    languageHeadings: "Ancient Greek",
     books: []VersionBookData{
       {
         book_number: 40,
@@ -2944,7 +2947,8 @@ var versionData = [...]VersionData{
   {
     name: "hot",
     full_name: "Tyndale Hebrew Old Testament",
-    language: "Ancient Hebrew",
+    language: "English",
+    languageHeadings: "undefined",
     books: []VersionBookData{
       {
         book_number: 1,
@@ -3382,6 +3386,7 @@ var versionData = [...]VersionData{
     name: "esv",
     full_name: "English Standard Version",
     language: "English",
+    languageHeadings: "English",
     books: []VersionBookData{
       {
         book_number: 1,

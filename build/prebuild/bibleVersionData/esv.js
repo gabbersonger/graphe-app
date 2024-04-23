@@ -3,6 +3,7 @@
 export const esv = {
   full_name: "English Standard Version",
   language: "English",
+  languageHeadings: "English",
   books: [
     {
       book_number: 1,

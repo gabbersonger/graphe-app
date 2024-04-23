@@ -6,8 +6,11 @@
     <div class="container">
         <p>
             <b>{$app_instantDetails.english}</b>
-            {$app_instantDetails.text}
-            ({$app_instantDetails.dictionary.map((x) => x.form).join(", ")})
+            <span class="word">{$app_instantDetails.text}</span>
+            ({#each $app_instantDetails.dictionary as dictionary_word, index}
+                {#if index != 0},&nbsp;{/if}
+                <span class="word">{dictionary_word.form}</span>
+            {/each})
             {$app_instantDetails.translit}
         </p>
         {#each $app_instantDetails.strongs as strongs}
@@ -38,5 +41,9 @@
 
     .container p {
         margin: 0;
+    }
+
+    .word {
+        font-family: var(--font-content);
     }
 </style>

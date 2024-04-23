@@ -62,6 +62,7 @@ function createFrontendFile() {
     data += `  ${name}: {\n`;
     data += `    full_name: "${version.full_name}",\n`;
     data += `    language: "${version.language}",\n`;
+    data += `    languageHeadings: "${version.languageHeadings}",\n`;
     data += `    books: [\n`;
     for (let i = 0; i < version.books.length; i++) {
       const book = version.books[i];
@@ -130,10 +131,11 @@ function createBackendFile() {
   data += "  missing_sections []VersionBibleRange\n";
   data += "}\n\n";
   data += "type VersionData struct {\n";
-  data += "  name      string\n";
-  data += "  full_name string\n";
-  data += "  language  string\n";
-  data += "  books     []VersionBookData\n";
+  data += "  name             string\n";
+  data += "  full_name        string\n";
+  data += "  language         string\n";
+  data += "  languageHeadings string\n";
+  data += "  books            []VersionBookData\n";
   data += "}\n\n";
 
   // Bible Data
@@ -159,6 +161,7 @@ function createBackendFile() {
     data += `    name: "${name}",\n`;
     data += `    full_name: "${version.full_name}",\n`;
     data += `    language: "${version.language}",\n`;
+    data += `    languageHeadings: "${version.languageHeadings}",\n`;
     data += `    books: []VersionBookData{\n`;
     for (let i = 0; i < version.books.length; i++) {
       const book = version.books[i];

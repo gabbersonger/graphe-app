@@ -1,6 +1,7 @@
 export const lxx = {
   full_name: "Septuagint (LXX)",
   language: "Ancient Greek",
+  languageHeadings: "English",
   books: [
     {
       book_number: 1,

@@ -3,6 +3,7 @@
 export const gnt = {
   full_name: "Tyndale Greek New Testament",
   language: "Ancient Greek",
+  languageHeadings: "Ancient Greek",
   books: [
     {
       book_number: 40,

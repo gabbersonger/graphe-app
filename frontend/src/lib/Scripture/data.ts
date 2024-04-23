@@ -1119,6 +1119,7 @@ export const versionData = {
   lxx: {
     full_name: "Septuagint (LXX)",
     language: "Ancient Greek",
+    languageHeadings: "English",
     books: [
       {
         book_number: 1,
@@ -2556,6 +2557,7 @@ export const versionData = {
   gnt: {
     full_name: "Tyndale Greek New Testament",
     language: "Ancient Greek",
+    languageHeadings: "Ancient Greek",
     books: [
       {
         book_number: 40,
@@ -2831,7 +2833,8 @@ export const versionData = {
   },
   hot: {
     full_name: "Tyndale Hebrew Old Testament",
-    language: "Ancient Hebrew",
+    language: "English",
+    languageHeadings: "undefined",
     books: [
       {
         book_number: 1,
@@ -3229,6 +3232,7 @@ export const versionData = {
   esv: {
     full_name: "English Standard Version",
     language: "English",
+    languageHeadings: "English",
     books: [
       {
         book_number: 1,
