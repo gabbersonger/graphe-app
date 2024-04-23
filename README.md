@@ -1,45 +1,58 @@
 ![Graphe](https://raw.githubusercontent.com/gabrielaravena32/graphe-app/main/build/banner.png)
 <br />
 
-## Development & Building
+# What is Graphe?
+
+> Graphe is a **_fast and minimalistic Bible study application_**, with a focus on using the original language texts (the Hebrew Old Testament, the Septuagint and the Greek New Testament) in conjunction with an English translation. It is currently under active development.
+
+Features include:
+- Support for GNT and LXX
+- Instant details while hovering original language
+- Minimalistic design with built-in themes
+
+<br/>
+
+# Development & Building
 
 Live development mode: `wails dev`
 
 Build distributable app: `wails build`
 
-## Roadmap
+Currently requires a large database file that is currently not packaged with the code. However there are plans to make this downloadable.
 
-**Version 1 Checklist**
+<br/>
 
-- [x] Add keyboard shortcuts
+# Roadmap
+
+**Version 0.1 – Greek and English update**
+
+- [x] Keyboard shortcuts
 - [x] Format display of texts
-  - [x] Update virtualiser
-  - [x] Add book titles
-  - [x] Add top padding
 - [x] Get text/passage selection working
-  - [x] Functionality
-  - [x] 'Choose version' modal
-  - [x] 'Choose text' modal
-- [ ] Instant details (word hover)
-  - [x] Appeareance
-  - [x] Works for GNT
-  - [ ] Works for LXX
-- [ ] Get all the bible texts working properly
-  - [x] Split GNT text into word, pre, post (separate out punctuation)
-  - [ ] Add ESV
-  - [x] Add LXX
+- [x] Instant details (word hover)
+- [x] GNT version
+- [x] LXX version
+  - [x] Text
+  - [ ] Instant details
+- [ ] ESV version
+  - [ ] Text
+  - [ ] Instant details
+- [ ] Display app version in bottom right
 
-**Future features**
 
-- [ ] Add HOT
-- [ ] Choose text modal search functionality
-- [ ] Search
-  - [ ] Functionality
-  - [ ] Modal
-- [ ] Functions (format the text on screen using functions)
-  - [ ] Functionality
-  - [ ] Modal
-  - [ ] Saved functions
+<br/>
+
+**Version 0.2 – Hebrew update**
+
+- [ ] Choose passage search field
+- [ ] HOT version
+- [ ] Auto-download database files on start-up
+
+<br/>
+
+**Version 0.3 – Settings update**
+
+- [ ] Menubar
 - [ ] Settings window
   - [ ] General (startup)
   - [ ] Appearence (theme, font/size)
@@ -48,23 +61,54 @@ Build distributable app: `wails build`
   - [ ] Search (e.g. ranges, default text)
   - [ ] Instant details (what is display and order?)
   - [ ] Version/updates
-- [ ] Auto-download database file if it does not exist on startup
-- [ ] Create menubar with full features
-- [ ] Resizing window keeps verse at top on screen, not just block
-- [ ] Display app version in bottom right?
 - [ ] Right click functionality
-  - [ ] On word in text
-- [ ] Text highlighting
-- [ ] Parallel texts
-- [ ] Sidebar holds different app states (?)
-- [ ] Add footnoted variant spellings/meanings
-- [ ] Add conjoin word highlighting for instant details
-- [ ] Add lexicon for more information on instant details
-- [ ] Add morph code explanations
+- [ ] Appearance modal
 
-**Performance**
+<br/>
+
+**Version 0.4 – Text details update**
+
+- [ ] Parallel texts
+- [ ] Footnoted variant spelling/meaning
+- [ ] Conjoin word highlighting
+- [ ] Lexicon data
+- [ ] Morph code expansions
+
+<br/>
+
+**Version 0.5 – Functions update**
+
+- [ ] Functionality, e.g...
+  - [ ] N occurances
+  - [ ] Overlap with another chapter
+  - [ ] Morph data
+  - [ ] Specific word/root (incl. original languages)
+- [ ] Combination of functions
+- [ ] Modal
+- [ ] Saved functions
+
+<br/>
+
+**Version 0.6 – Search update**
+
+- [ ] Functionality, e.g...
+  - [ ] Range
+  - [ ] Items (e.g. topic, characters, root, strongs)
+  - [ ] Commands (e.g. AND, OR, GROUPING, NOT, JOIN)
+- [ ] Modal
+
+<br/>
+
+**Later Versions**
+
+- [ ] Multiple app states (sidebar keeps them all) - ⌘1, ⌘2, ⌘3 to cycle through screens
+
+<br/><br/>
+
+**Random todos**
 
 - [ ] Split `GetScriptureSections` request into multiple batches for larger ranges that perform concurrently
+- [ ] Validate bible ranges passed to go functions
 
 **Bugs**
 
@@ -72,3 +116,4 @@ Build distributable app: `wails build`
 - [ ] Should hide chapters with no verses (e.g. LXX Proverbs 25-29)
 - [ ] Verses split over two paragraph breaks show verse number twice
 - [ ] While virtualiser is in locked mode scrollbar breaks functionality temporarily if you scroll too far away
+- [ ] Resizing window does not keep verse at top (currently: only keeps block + scroll offset)
