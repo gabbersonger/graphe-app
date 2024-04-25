@@ -1392,10 +1392,6 @@ var versionData = [...]VersionData{
           },
         },
         missing_sections: []VersionBibleRange{
-          {
-            start: 7011004,
-            end: 7011004,
-          },
         },
       },
       {
@@ -2246,7 +2242,7 @@ var versionData = [...]VersionData{
         book_number: 24,
         display_name: "Jeremiah",
         num_chapters: 52,
-        num_verses: []int{19,37,25,31,31,30,34,23,25,25,23,17,27,22,21,21,27,23,15,18,14,30,8,10,20,28,46,64,7,33,44,38,24,22,17,32,24,40,44,13,22,19,32,21,28,18,16,18,22,13,35,34},
+        num_verses: []int{19,37,25,31,31,30,34,23,25,25,23,17,27,22,21,21,27,23,15,18,14,30,40,10,20,28,46,64,7,33,44,38,24,22,17,32,24,40,44,13,22,19,32,21,28,18,16,18,22,13,35,34},
         prologue: 0,
         parallels: []VersionBibleRange{
         },
@@ -2286,14 +2282,6 @@ var versionData = [...]VersionData{
           {
             start: 24017001,
             end: 24017004,
-          },
-          {
-            start: 24023007,
-            end: 24023008,
-          },
-          {
-            start: 24023041,
-            end: 24023006,
           },
           {
             start: 24026001,
