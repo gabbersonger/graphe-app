@@ -25,17 +25,6 @@ func getLXXScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 		err = stmt.Scan(&ref, &word_num, &text, &pre, &post)
 		a.check(err)
 
-		// TODO: temporary fix (breaks at chapters) until paragraph breaks included in data
-		// if len(s.Blocks)-1 >= 0 {
-		// 	last_block_start := s.Blocks[len(s.Blocks)-1].Range.Start
-		// 	last_block_chapter := last_block_start - last_block_start%1000
-		// 	this_chapter := ref - ref%1000
-
-		// 	if this_chapter != int(last_block_chapter) {
-		// 		createNextBlock = true
-		// 	}
-		// }
-
 		// Add block if needed
 		if createNextBlock {
 			createNextBlock = false
