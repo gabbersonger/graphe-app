@@ -35,17 +35,16 @@ Currently requires a large database file that is currently not packaged with the
 - [x] LXX version
   - [x] Text
   - [ ] Instant details
-- [ ] ESV version
-  - [ ] Text
-  - [ ] Instant details
 - [x] Display app version in bottom right
 
 <br/>
 
-**Version 0.2 – Hebrew update**
+**Version 0.2 – Data update**
 
 - [ ] Choose passage search field
+- [ ] ESV version
 - [ ] HOT version
+- [ ] LXX capitalisation
 - [ ] Auto-download database files on start-up
 
 <br/>
