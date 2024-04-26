@@ -193,6 +193,8 @@ export namespace app {
 	    english: string;
 	    dictionary: ScriptureWordData_Dictionary[];
 	    strongs: ScriptureWordData_Strongs[];
+	    inflected_count: number;
+	    lexeme_count: number;
 	
 	    static createFrom(source: any = {}) {
 	        return new ScriptureWordData(source);
@@ -207,6 +209,8 @@ export namespace app {
 	        this.english = source["english"];
 	        this.dictionary = this.convertValues(source["dictionary"], ScriptureWordData_Dictionary);
 	        this.strongs = this.convertValues(source["strongs"], ScriptureWordData_Strongs);
+	        this.inflected_count = source["inflected_count"];
+	        this.lexeme_count = source["lexeme_count"];
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {

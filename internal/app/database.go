@@ -91,6 +91,58 @@ func prepareQueries(a *App, db *GrapheDBConn) {
         WHERE ref >= ? AND ref <= ?;
     `)
 	a.check(err)
+
+	err = prepareQuery(db, "GetLXXScriptureWordText", `
+        SELECT text
+        FROM lxx_text
+        WHERE
+            ref = ?
+            AND word_num = ?
+        LIMIT 1;
+    `)
+	a.check(err)
+
+	err = prepareQuery(db, "GetLXXScriptureWordBasicInfo", `
+        SELECT
+        	translit, english, strongs, grammar,
+         	dictionary_form, dictionary_gloss
+        FROM lxx_text_info
+        WHERE
+            ref = ?
+            AND word_num = ?
+        LIMIT 1;
+    `)
+	a.check(err)
+
+	err = prepareQuery(db, "GetLXXScriptureWordInflectedCount", `
+        SELECT count(*)
+        FROM lxx_text
+        WHERE text = (
+        	SELECT text
+         	FROM lxx_text
+          	WHERE
+           		ref = ?
+             	AND word_num = ?
+            LIMIT 1
+        )
+        LIMIT 1;
+    `)
+	a.check(err)
+
+	err = prepareQuery(db, "GetLXXScriptureWordLexemeCount", `
+        SELECT count(*)
+        FROM lxx_text_info
+        WHERE dictionary_form = (
+        	SELECT dictionary_form
+         	FROM lxx_text_info
+          	WHERE
+           		ref = ?
+	            AND word_num = ?
+			LIMIT 1
+        )
+        LIMIT 1;
+    `)
+	a.check(err)
 }
 
 func newGrapheDB(a *App, dbFile string) *GrapheDBConn {

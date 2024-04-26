@@ -33,9 +33,8 @@ Currently requires a large database file that is currently not packaged with the
 - [x] Instant details (word hover)
 - [x] GNT version
 - [x] LXX version
-  - [x] Text
-  - [ ] Instant details
 - [x] Display app version in bottom right
+- [ ] Bug fixes
 
 <br/>
 
@@ -111,8 +110,10 @@ Currently requires a large database file that is currently not packaged with the
 
 **Bugs**
 
+- [ ] Version book orders not preserved for displaying texts
 - [ ] Does not currently handle missing verses well (e.g. goto)
 - [ ] Should hide chapters with no verses (e.g. LXX Proverbs 25-29)
 - [ ] Verses split over two paragraph breaks show verse number twice
+
 - [ ] While virtualiser is in locked mode scrollbar breaks functionality temporarily if you scroll too far away
 - [ ] Resizing window does not keep verse at top (currently: only keeps block + scroll offset)

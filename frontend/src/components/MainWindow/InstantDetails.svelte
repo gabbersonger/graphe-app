@@ -4,17 +4,21 @@
 
 {#if $app_instantDetails}
     <div class="container">
-        <p>
+        <div>
             <b>{$app_instantDetails.english}</b>
             <span class="word">{$app_instantDetails.text}</span>
-            ({#each $app_instantDetails.dictionary as dictionary_word, index}
-                {#if index != 0},&nbsp;{/if}
-                <span class="word">{dictionary_word.form}</span>
-            {/each})
             {$app_instantDetails.translit}
-        </p>
+            <span class="count">[{$app_instantDetails.inflected_count}x]</span>
+        </div>
+        {#each $app_instantDetails.dictionary as dictionary_word}
+            <div>
+                — <span class="word">{dictionary_word.form}</span>
+                {dictionary_word.gloss}
+                <span class="count">[{$app_instantDetails.lexeme_count}x]</span>
+            </div>
+        {/each}
         {#each $app_instantDetails.strongs as strongs}
-            <p>{strongs.num} {strongs.grammar}</p>
+            <div>{strongs.num} {strongs.grammar}</div>
         {/each}
     </div>
 {/if}
@@ -39,11 +43,12 @@
         line-height: 1.5;
     }
 
-    .container p {
-        margin: 0;
-    }
-
     .word {
         font-family: var(--font-content);
+        font-size: 1.2em;
+    }
+
+    .count {
+        color: var(--clr-text-muted);
     }
 </style>
