@@ -185,12 +185,60 @@ func _getGNTScriptureWordStrongsValues(a *App, wg *sync.WaitGroup, w *ScriptureW
 	wg.Done()
 }
 
+func _getGNTScriptureWordInflectedCount(a *App, wg *sync.WaitGroup, w *ScriptureWordData) {
+	db := <-a.db.pool
+
+	stmt, err := db.getQuery("GetGNTScriptureWordInflectedCount")
+	a.check(err)
+
+	err = stmt.Bind(int(w.Ref), int(w.WordNumber))
+	a.check(err)
+
+	hasRow, err := stmt.Step()
+	a.check(err)
+	if !hasRow {
+		a.Throw(fmt.Sprintf("Could not find value using GetGNTScriptureWordInflectedCount for (ref=%d, word_num=%d)", int(w.Ref), w.WordNumber))
+	}
+
+	err = stmt.Scan(&(w.InflectedCount))
+	a.check(err)
+
+	stmt.Reset()
+	a.db.pool <- db
+	wg.Done()
+}
+
+func _getGNTScriptureWordLexemeCount(a *App, wg *sync.WaitGroup, w *ScriptureWordData) {
+	db := <-a.db.pool
+
+	stmt, err := db.getQuery("GetGNTScriptureWordLexemeCount")
+	a.check(err)
+
+	err = stmt.Bind(int(w.Ref), int(w.WordNumber))
+	a.check(err)
+
+	hasRow, err := stmt.Step()
+	a.check(err)
+	if !hasRow {
+		a.Throw(fmt.Sprintf("Could not find value using GetGNTScriptureWordLexemeCount for (ref=%d, word_num=%d)", int(w.Ref), w.WordNumber))
+	}
+
+	err = stmt.Scan(&(w.LexemeCount))
+	a.check(err)
+
+	stmt.Reset()
+	a.db.pool <- db
+	wg.Done()
+}
+
 func getGNTScriptureWord(a *App, w *ScriptureWordData) {
 	wg := new(sync.WaitGroup)
-	wg.Add(4)
+	wg.Add(6)
 	go _getGNTScriptureWordText(a, wg, w)
 	go _getGNTScriptureWordBasicInfo(a, wg, w)
 	go _getGNTScriptureWordDictionaryValues(a, wg, w)
 	go _getGNTScriptureWordStrongsValues(a, wg, w)
+	go _getGNTScriptureWordInflectedCount(a, wg, w)
+	go _getGNTScriptureWordLexemeCount(a, wg, w)
 	wg.Wait()
 }

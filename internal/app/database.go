@@ -84,6 +84,36 @@ func prepareQueries(a *App, db *GrapheDBConn) {
     `)
 	a.check(err)
 
+	err = prepareQuery(db, "GetGNTScriptureWordInflectedCount", `
+        SELECT count(*)
+        FROM gnt_text
+        WHERE text = (
+        	SELECT text
+         	FROM gnt_text
+          	WHERE
+           		ref = ?
+             	AND word_num = ?
+            LIMIT 1
+        )
+        LIMIT 1;
+    `)
+	a.check(err)
+
+	err = prepareQuery(db, "GetGNTScriptureWordLexemeCount", `
+        SELECT count(*)
+        FROM gnt_text_dictionary
+        WHERE form = (
+        	SELECT form
+         	FROM gnt_text_dictionary
+          	WHERE
+           		ref = ?
+		        AND word_num = ?
+			LIMIT 1
+        )
+        LIMIT 1;
+    `)
+	a.check(err)
+
 	// LXX
 	err = prepareQuery(db, "GetLXXScriptureSection", `
         SELECT ref, word_num, text, pre, post
