@@ -8,8 +8,8 @@ type BookData struct {
 }
 
 type VersionBibleRange struct {
-  start int
-  end   int
+  start ScriptureRef
+  end   ScriptureRef
 }
 
 type VersionBookData struct {

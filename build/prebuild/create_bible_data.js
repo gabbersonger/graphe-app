@@ -117,8 +117,8 @@ function createBackendFile() {
   data += "  abbreviations []string\n";
   data += "}\n\n";
   data += "type VersionBibleRange struct {\n";
-  data += "  start int\n";
-  data += "  end   int\n";
+  data += "  start ScriptureRef\n";
+  data += "  end   ScriptureRef\n";
   data += "}\n\n";
   data += "type VersionBookData struct {\n";
   data += "  book_number      int\n";

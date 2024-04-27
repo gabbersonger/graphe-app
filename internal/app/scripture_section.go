@@ -1,59 +1,51 @@
 package app
 
 import (
+	"fmt"
 	"sync"
 
 	"github.com/bvinc/go-sqlite-lite/sqlite3"
 )
 
-type ScriptureRef int
-type ScriptureVersion string
-
-type ScriptureWord struct {
-	WordNumber int    `json:"word_num"`
-	Text       string `json:"text"`
-	Pre        string `json:"pre"`
-	Post       string `json:"post"`
-}
-
-type ScriptureVerse struct {
-	Ref   ScriptureRef    `json:"ref"`
-	Words []ScriptureWord `json:"words"`
-}
-
-type ScriptureRange struct {
-	Version ScriptureVersion `json:"version"`
-	Start   ScriptureRef     `json:"start"`
-	End     ScriptureRef     `json:"end"`
-}
-
-type ScriptureBlock struct {
-	Range  ScriptureRange   `json:"range"`
-	Verses []ScriptureVerse `json:"verses"`
-}
-
-type ScriptureSection struct {
-	Range  ScriptureRange   `json:"range"`
-	Blocks []ScriptureBlock `json:"blocks"`
-}
-
-func (a *App) GetScriptureSections(ran []ScriptureRange) []ScriptureSection {
-	// start := time.Now()
-
-	data := make([]ScriptureSection, 0, len(ran))
-	for _, r := range ran {
-		data = append(data, ScriptureSection{Range: r})
+func (a *App) GetScriptureSection(r ScriptureRange) []ScriptureSection {
+	if !r.isValidRange() {
+		a.Throw("Invalid range (version=" + string(r.Version) + ", start=" + fmt.Sprint(r.Start) + ", end:" + fmt.Sprint(r.End) + ") passed to `GetScriptureSection`")
 	}
 
+	data := makeScriptureSections(a, r)
 	wg := new(sync.WaitGroup)
-	wg.Add(len(ran))
-	for i := 0; i < len(ran); i++ {
+	wg.Add(len(data))
+	for i := 0; i < len(data); i++ {
 		go getScriptureSection(a, wg, &data[i])
 	}
 	wg.Wait()
+	return data
+}
 
-	// duration := time.Since(start)
-	// fmt.Println(duration)
+func makeScriptureSections(a *App, r ScriptureRange) []ScriptureSection {
+	version_index := getVersionIndex(r.Version)
+	start_book_index := getVersionBookIndex(r.Version, r.Start.getBook())
+	end_book_index := getVersionBookIndex(r.Version, r.End.getBook())
+
+	data := make([]ScriptureSection, 0, end_book_index-start_book_index+1)
+	for i := start_book_index; i <= end_book_index; i++ {
+		book_data := versionData[version_index].books[i]
+		var book_start int
+		var err error
+		if book_data.prologue > 0 {
+			book_start, err = createRef(book_data.book_number, 0, 1)
+		} else {
+			book_start, err = createRef(book_data.book_number, 1, 1)
+		}
+		a.check(err)
+		book_end, err := createRef(book_data.book_number, book_data.num_chapters, book_data.num_verses[len(book_data.num_verses)-1])
+		a.check(err)
+		data = append(data, ScriptureSection{Range: ScriptureRange{
+			Version: r.Version,
+			Start:   ScriptureRef(book_start),
+			End:     ScriptureRef(book_end),
+		}})
+	}
 	return data
 }
 

@@ -4,12 +4,12 @@ import {
   app_range,
   app_version,
 } from "@/lib/appManager";
-import { GetScriptureSections, GetScriptureWord } from "!wails/go/app/App";
+import { GetScriptureSection, GetScriptureWord } from "!wails/go/app/App";
 import { get } from "svelte/store";
 import type { BibleRef } from "@/lib/Scripture/types";
 
 export async function updateBaseData() {
-  const data = await GetScriptureSections([get(app_range)]);
+  const data = await GetScriptureSection(get(app_range));
   app_data.set(data);
 }
 

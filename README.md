@@ -34,7 +34,7 @@ Currently requires a large database file that is currently not packaged with the
 - [x] GNT version
 - [x] LXX version
 - [x] Display app version in bottom right
-- [ ] Bug fixes
+- [x] Bug fixes
 
 <br/>
 
@@ -103,17 +103,11 @@ Currently requires a large database file that is currently not packaged with the
 
 <br/><br/>
 
-**Random todos**
-
-- [ ] Split `GetScriptureSections` request into multiple batches for larger ranges that perform concurrently
-- [ ] Validate bible ranges passed to go functions
-
 **Bugs**
 
-- [ ] Version book orders not preserved for displaying texts
+- [ ] Chapters starting in middle of paragraph don't show number
+- [ ] Verses split over two paragraph breaks show verse number twice
 - [ ] Does not currently handle missing verses well (e.g. goto)
 - [ ] Should hide chapters with no verses (e.g. LXX Proverbs 25-29)
-- [ ] Verses split over two paragraph breaks show verse number twice
-
 - [ ] While virtualiser is in locked mode scrollbar breaks functionality temporarily if you scroll too far away
 - [ ] Resizing window does not keep verse at top (currently: only keeps block + scroll offset)
