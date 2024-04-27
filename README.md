@@ -25,19 +25,6 @@ Currently requires a large database file that is currently not packaged with the
 
 # Roadmap
 
-**Version 0.1 – Greek and English update**
-
-- [x] Keyboard shortcuts
-- [x] Format display of texts
-- [x] Get text/passage selection working
-- [x] Instant details (word hover)
-- [x] GNT version
-- [x] LXX version
-- [x] Display app version in bottom right
-- [x] Bug fixes
-
-<br/>
-
 **Version 0.2 – Data update**
 
 - [ ] Choose passage search field
