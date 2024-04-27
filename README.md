@@ -29,9 +29,17 @@ Currently requires a large database file that is currently not packaged with the
 
 - [ ] Choose passage search field
 - [ ] ESV version
+  - [ ] Data
+  - [ ] Displaying sections
+  - [ ] Instant details
 - [ ] HOT version
+  - [ ] Data
+  - [ ] Displaying sections
+  - [ ] Instant details
 - [ ] LXX capitalisation
 - [ ] Auto-download database files on start-up
+  - [ ] Functionality
+  - [ ] UI
 
 <br/>
 
@@ -58,6 +66,7 @@ Currently requires a large database file that is currently not packaged with the
 - [ ] Conjoin word highlighting
 - [ ] Lexicon data
 - [ ] Morph code expansions
+- [ ] Cross References
 
 <br/>
 
