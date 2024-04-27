@@ -1,7 +1,7 @@
 package app
 
 import (
-	"errors"
+	"reflect"
 	rt "runtime"
 
 	"github.com/bvinc/go-sqlite-lite/sqlite3"
@@ -14,39 +14,71 @@ type GrapheDB struct {
 
 type GrapheDBConn struct {
 	conn    *sqlite3.Conn
-	queries map[string]*sqlite3.Stmt
+	queries GrapheQueries
 }
 
-func (db *GrapheDBConn) getQuery(key string) (*sqlite3.Stmt, error) {
-	stmt, ok := db.queries[key]
-	if !ok {
-		return nil, errors.New("DB does not have query: '" + key + "'")
-	}
-	return stmt, nil
+type GrapheQueries struct {
+	GntSection            *sqlite3.Stmt
+	GntWordText           *sqlite3.Stmt
+	GntWordBasicInfo      *sqlite3.Stmt
+	GntWordDictionary     *sqlite3.Stmt
+	GntWordStrongs        *sqlite3.Stmt
+	GntWordInflectedCount *sqlite3.Stmt
+	GntWordLexemeCount    *sqlite3.Stmt
+
+	LxxSection            *sqlite3.Stmt
+	LxxWordText           *sqlite3.Stmt
+	LxxWordBasicInfo      *sqlite3.Stmt
+	LxxWordInflectedCount *sqlite3.Stmt
+	LxxWordLexemeCount    *sqlite3.Stmt
 }
 
-func prepareQuery(db *GrapheDBConn, key string, sql string) error {
-	stmt, err := db.conn.Prepare(sql)
-	if err == nil {
-		db.queries[key] = stmt
+func (a *App) setupDatabasePool() {
+	dbFile := a.Env.DataDirectory + "/graphe.db"
+	numDBConn := rt.NumCPU()
+	a.db = GrapheDB{
+		pool_size: numDBConn,
+		pool:      make(chan *GrapheDBConn, numDBConn),
 	}
-	return err
+	for i := 0; i < numDBConn; i++ {
+		a.db.pool <- newGrapheDB(a, dbFile)
+	}
+}
+
+func (a *App) closeDatabasePool() {
+	for i := 0; i < a.db.pool_size; i++ {
+		d := <-a.db.pool
+		queries := reflect.ValueOf(d.queries)
+		for j := 0; j < queries.NumField(); j++ {
+			if queries.Field(j).Type() == reflect.TypeOf((*sqlite3.Stmt)(nil)) {
+				queries.Field(j).Close()
+			}
+		}
+		d.conn.Close()
+	}
+}
+
+func newGrapheDB(a *App, dbFile string) *GrapheDBConn {
+	db := &GrapheDBConn{}
+	conn, err := sqlite3.Open("file:" + dbFile)
+	a.check(err)
+	db.conn = conn
+	prepareQueries(a, db)
+	return db
 }
 
 func prepareQueries(a *App, db *GrapheDBConn) {
-	db.queries = make(map[string]*sqlite3.Stmt)
-
 	var err error
+	db.queries = GrapheQueries{}
 
-	// GNT
-	err = prepareQuery(db, "GetGNTScriptureSection", `
+	db.queries.GntSection, err = db.conn.Prepare(`
         SELECT ref, word_num, text, pre, post
         FROM gnt_text
         WHERE ref >= ? AND ref <= ?;
     `)
 	a.check(err)
 
-	err = prepareQuery(db, "GetGNTScriptureWordText", `
+	db.queries.GntWordText, err = db.conn.Prepare(`
         SELECT text
         FROM gnt_text
         WHERE
@@ -56,7 +88,7 @@ func prepareQueries(a *App, db *GrapheDBConn) {
     `)
 	a.check(err)
 
-	err = prepareQuery(db, "GetGNTScriptureWordBasicInfo", `
+	db.queries.GntWordBasicInfo, err = db.conn.Prepare(`
         SELECT translit, english
         FROM gnt_text_info
         WHERE
@@ -66,7 +98,7 @@ func prepareQueries(a *App, db *GrapheDBConn) {
     `)
 	a.check(err)
 
-	err = prepareQuery(db, "GetGNTScriptureWordDictionaryInfo", `
+	db.queries.GntWordDictionary, err = db.conn.Prepare(`
         SELECT form, gloss
         FROM gnt_text_dictionary
         WHERE
@@ -75,7 +107,7 @@ func prepareQueries(a *App, db *GrapheDBConn) {
     `)
 	a.check(err)
 
-	err = prepareQuery(db, "GetGNTScriptureWordStrongsInfo", `
+	db.queries.GntWordStrongs, err = db.conn.Prepare(`
         SELECT strong, grammar
         FROM gnt_text_strongs
         WHERE
@@ -84,7 +116,7 @@ func prepareQueries(a *App, db *GrapheDBConn) {
     `)
 	a.check(err)
 
-	err = prepareQuery(db, "GetGNTScriptureWordInflectedCount", `
+	db.queries.GntWordInflectedCount, err = db.conn.Prepare(`
         SELECT count(*)
         FROM gnt_text
         WHERE text = (
@@ -99,7 +131,7 @@ func prepareQueries(a *App, db *GrapheDBConn) {
     `)
 	a.check(err)
 
-	err = prepareQuery(db, "GetGNTScriptureWordLexemeCount", `
+	db.queries.GntWordLexemeCount, err = db.conn.Prepare(`
         SELECT count(*)
         FROM gnt_text_dictionary
         WHERE form = (
@@ -107,7 +139,7 @@ func prepareQueries(a *App, db *GrapheDBConn) {
          	FROM gnt_text_dictionary
           	WHERE
            		ref = ?
-		        AND word_num = ?
+			    AND word_num = ?
 			LIMIT 1
         )
         LIMIT 1;
@@ -115,14 +147,14 @@ func prepareQueries(a *App, db *GrapheDBConn) {
 	a.check(err)
 
 	// LXX
-	err = prepareQuery(db, "GetLXXScriptureSection", `
+	db.queries.LxxSection, err = db.conn.Prepare(`
         SELECT ref, word_num, text, pre, post
         FROM lxx_text
         WHERE ref >= ? AND ref <= ?;
     `)
 	a.check(err)
 
-	err = prepareQuery(db, "GetLXXScriptureWordText", `
+	db.queries.LxxWordText, err = db.conn.Prepare(`
         SELECT text
         FROM lxx_text
         WHERE
@@ -132,7 +164,7 @@ func prepareQueries(a *App, db *GrapheDBConn) {
     `)
 	a.check(err)
 
-	err = prepareQuery(db, "GetLXXScriptureWordBasicInfo", `
+	db.queries.LxxWordBasicInfo, err = db.conn.Prepare(`
         SELECT
         	translit, english, strongs, grammar,
          	dictionary_form, dictionary_gloss
@@ -144,7 +176,7 @@ func prepareQueries(a *App, db *GrapheDBConn) {
     `)
 	a.check(err)
 
-	err = prepareQuery(db, "GetLXXScriptureWordInflectedCount", `
+	db.queries.LxxWordInflectedCount, err = db.conn.Prepare(`
         SELECT count(*)
         FROM lxx_text
         WHERE text = (
@@ -159,7 +191,7 @@ func prepareQueries(a *App, db *GrapheDBConn) {
     `)
 	a.check(err)
 
-	err = prepareQuery(db, "GetLXXScriptureWordLexemeCount", `
+	db.queries.LxxWordLexemeCount, err = db.conn.Prepare(`
         SELECT count(*)
         FROM lxx_text_info
         WHERE dictionary_form = (
@@ -167,43 +199,10 @@ func prepareQueries(a *App, db *GrapheDBConn) {
          	FROM lxx_text_info
           	WHERE
            		ref = ?
-	            AND word_num = ?
+             	AND word_num = ?
 			LIMIT 1
         )
         LIMIT 1;
     `)
 	a.check(err)
-}
-
-func newGrapheDB(a *App, dbFile string) *GrapheDBConn {
-	db := &GrapheDBConn{}
-	conn, err := sqlite3.Open("file:" + dbFile)
-	a.check(err)
-	db.conn = conn
-	prepareQueries(a, db)
-	return db
-}
-
-func (a *App) setupDatabasePool() {
-	dbFile := a.Env.DataDirectory + "/graphe.db"
-
-	num_db_conn := rt.NumCPU()
-	a.db = GrapheDB{
-		pool_size: num_db_conn,
-		pool:      make(chan *GrapheDBConn, num_db_conn),
-	}
-
-	for i := 0; i < a.db.pool_size; i++ {
-		a.db.pool <- newGrapheDB(a, dbFile)
-	}
-}
-
-func (a *App) closeDatabasePool() {
-	for i := 0; i < a.db.pool_size; i++ {
-		d := <-a.db.pool
-		for _, stmt := range d.queries {
-			stmt.Close()
-		}
-		d.conn.Close()
-	}
 }
