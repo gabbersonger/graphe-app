@@ -2,6 +2,7 @@ package app
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 
 	"github.com/bvinc/go-sqlite-lite/sqlite3"
@@ -125,6 +126,16 @@ func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 		}
 
 		// Add word
+		if len(post) > 0 && post[0] == '_' {
+			post = " —" + post[1:]
+		} else if strings.ContainsAny(post, "_") {
+			post = strings.ReplaceAll(post, "_", "—")
+		}
+		if len(pre) > 0 && pre[len(pre)-1] == '_' {
+			pre = pre[:len(pre)-1] + "— "
+		} else if strings.ContainsAny(pre, "_") {
+			pre = strings.ReplaceAll(pre, "_", "—")
+		}
 		newWord := ScriptureWord{word_num, text, pre, post}
 		s.Blocks[lastBlock].Verses[lastVerse].Words = append(s.Blocks[lastBlock].Verses[lastVerse].Words, newWord)
 	}

@@ -38,10 +38,7 @@ Currently requires a large database file that is currently not packaged with the
   - [ ] Displaying sections
   - [ ] Instant details
 - [ ] LXX capitalisation
-- [ ] Fix punctuation
-  - [ ] Replace "\_" at start of post with " —"
-  - [ ] Replace "\_" at end of pre with "— "
-  - [ ] Replace all other "\_" with "—"
+- [x] Fix punctuation
 - [ ] Auto-download database files on start-up
   - [ ] Functionality
   - [ ] UI
