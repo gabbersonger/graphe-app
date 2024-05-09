@@ -157,23 +157,12 @@ export namespace app {
 	}
 	
 	
-	export class ScriptureWordData_Strongs {
-	    num: string;
-	    grammar: string;
-	
-	    static createFrom(source: any = {}) {
-	        return new ScriptureWordData_Strongs(source);
-	    }
-	
-	    constructor(source: any = {}) {
-	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.num = source["num"];
-	        this.grammar = source["grammar"];
-	    }
-	}
 	export class ScriptureWordData_Dictionary {
 	    form: string;
 	    gloss: string;
+	    strong: string;
+	    grammar: string;
+	    count: number;
 	
 	    static createFrom(source: any = {}) {
 	        return new ScriptureWordData_Dictionary(source);
@@ -183,6 +172,9 @@ export namespace app {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.form = source["form"];
 	        this.gloss = source["gloss"];
+	        this.strong = source["strong"];
+	        this.grammar = source["grammar"];
+	        this.count = source["count"];
 	    }
 	}
 	export class ScriptureWordData {
@@ -192,9 +184,7 @@ export namespace app {
 	    translit: string;
 	    english: string;
 	    dictionary: ScriptureWordData_Dictionary[];
-	    strongs: ScriptureWordData_Strongs[];
 	    inflected_count: number;
-	    lexeme_count: number;
 	
 	    static createFrom(source: any = {}) {
 	        return new ScriptureWordData(source);
@@ -208,9 +198,7 @@ export namespace app {
 	        this.translit = source["translit"];
 	        this.english = source["english"];
 	        this.dictionary = this.convertValues(source["dictionary"], ScriptureWordData_Dictionary);
-	        this.strongs = this.convertValues(source["strongs"], ScriptureWordData_Strongs);
 	        this.inflected_count = source["inflected_count"];
-	        this.lexeme_count = source["lexeme_count"];
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
@@ -231,7 +219,6 @@ export namespace app {
 		    return a;
 		}
 	}
-	
 
 }
 

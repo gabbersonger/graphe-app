@@ -22,15 +22,12 @@ type GrapheQueries struct {
 	GntWordText           *sqlite3.Stmt
 	GntWordBasicInfo      *sqlite3.Stmt
 	GntWordDictionary     *sqlite3.Stmt
-	GntWordStrongs        *sqlite3.Stmt
 	GntWordInflectedCount *sqlite3.Stmt
-	GntWordLexemeCount    *sqlite3.Stmt
 
 	LxxSection            *sqlite3.Stmt
 	LxxWordText           *sqlite3.Stmt
 	LxxWordBasicInfo      *sqlite3.Stmt
 	LxxWordInflectedCount *sqlite3.Stmt
-	LxxWordLexemeCount    *sqlite3.Stmt
 }
 
 func (a *App) setupDatabasePool() {
@@ -99,20 +96,17 @@ func prepareQueries(a *App, db *GrapheDBConn) {
 	a.check(err)
 
 	db.queries.GntWordDictionary, err = db.conn.Prepare(`
-        SELECT form, gloss
-        FROM gnt_text_dictionary
+		SELECT
+        	t1.form, t1.gloss, t1.strong, t1.grammar,
+			(
+				SELECT count(*)
+				FROM gnt_text_dictionary AS t2
+				WHERE t2.form = t1.form
+			) as count
+        FROM gnt_text_dictionary AS t1
         WHERE
-            ref = ?
-            AND word_num = ?;
-    `)
-	a.check(err)
-
-	db.queries.GntWordStrongs, err = db.conn.Prepare(`
-        SELECT strong, grammar
-        FROM gnt_text_strongs
-        WHERE
-            ref = ?
-            AND word_num = ?;
+           	t1.ref = ?
+           	AND t1.word_num = ?;
     `)
 	a.check(err)
 
@@ -126,21 +120,6 @@ func prepareQueries(a *App, db *GrapheDBConn) {
            		ref = ?
              	AND word_num = ?
             LIMIT 1
-        )
-        LIMIT 1;
-    `)
-	a.check(err)
-
-	db.queries.GntWordLexemeCount, err = db.conn.Prepare(`
-        SELECT count(*)
-        FROM gnt_text_dictionary
-        WHERE form = (
-        	SELECT form
-         	FROM gnt_text_dictionary
-          	WHERE
-           		ref = ?
-			    AND word_num = ?
-			LIMIT 1
         )
         LIMIT 1;
     `)
@@ -166,12 +145,17 @@ func prepareQueries(a *App, db *GrapheDBConn) {
 
 	db.queries.LxxWordBasicInfo, err = db.conn.Prepare(`
         SELECT
-        	translit, english, strongs, grammar,
-         	dictionary_form, dictionary_gloss
-        FROM lxx_text_info
+            t1.translit, t1.english, t1.strongs, t1.grammar,
+            t1.dictionary_form, t1.dictionary_gloss,
+            (
+                SELECT count(*)
+                FROM lxx_text_info AS t2
+                WHERE t2.dictionary_form = t1.dictionary_form
+            ) as count
+        FROM lxx_text_info AS t1
         WHERE
-            ref = ?
-            AND word_num = ?
+            t1.ref = ?
+            AND t1.word_num = ?
         LIMIT 1;
     `)
 	a.check(err)
@@ -180,27 +164,12 @@ func prepareQueries(a *App, db *GrapheDBConn) {
         SELECT count(*)
         FROM lxx_text
         WHERE text = (
-        	SELECT text
-         	FROM lxx_text
-          	WHERE
-           		ref = ?
-             	AND word_num = ?
+            SELECT text
+            FROM lxx_text
+            WHERE
+                ref = ?
+                AND word_num = ?
             LIMIT 1
-        )
-        LIMIT 1;
-    `)
-	a.check(err)
-
-	db.queries.LxxWordLexemeCount, err = db.conn.Prepare(`
-        SELECT count(*)
-        FROM lxx_text_info
-        WHERE dictionary_form = (
-        	SELECT dictionary_form
-         	FROM lxx_text_info
-          	WHERE
-           		ref = ?
-             	AND word_num = ?
-			LIMIT 1
         )
         LIMIT 1;
     `)

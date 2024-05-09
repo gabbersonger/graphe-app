@@ -5,20 +5,19 @@
 {#if $app_instantDetails}
     <div class="container">
         <div>
-            <b>{$app_instantDetails.english}</b>
+            <div class="pill">{$app_instantDetails.english}</div>
             <span class="word">{$app_instantDetails.text}</span>
-            {$app_instantDetails.translit}
+            <span class="translit">{$app_instantDetails.translit}</span>
             <span class="count">[{$app_instantDetails.inflected_count}x]</span>
         </div>
+
         {#each $app_instantDetails.dictionary as dictionary_word}
-            <div>
+            <div class="indent">
                 — <span class="word">{dictionary_word.form}</span>
-                {dictionary_word.gloss}
-                <span class="count">[{$app_instantDetails.lexeme_count}x]</span>
+                <b>{dictionary_word.strong} {dictionary_word.gloss}</b>
+                {dictionary_word.grammar}
+                <span class="count">[{dictionary_word.count}x]</span>
             </div>
-        {/each}
-        {#each $app_instantDetails.strongs as strongs}
-            <div>{strongs.num} {strongs.grammar}</div>
         {/each}
     </div>
 {/if}
@@ -29,18 +28,25 @@
         bottom: 1em;
         right: 1em;
         width: calc(100% - 2em);
-        max-width: 50ch;
+        max-width: 55ch;
         height: auto;
         padding: 1em;
         background: var(--clr-text);
-        /* outline: 0.2em solid var(--clr-background-sub);
-        outline-offset: 0.2em; */
         color: var(--clr-background);
         display: flex;
         flex-direction: column;
+        gap: 0.5em;
         border-radius: 0.5em;
         font-size: 0.8em;
-        line-height: 1.5;
+    }
+
+    .pill {
+        display: inline-block;
+        background: var(--clr-main);
+        padding: 0.2em 0.7em;
+        border-radius: 0.2em;
+        color: var(--clr-background-dark);
+        margin-right: 0.2em;
     }
 
     .word {
@@ -48,7 +54,15 @@
         font-size: 1.2em;
     }
 
+    .translit {
+        font-style: italic;
+    }
+
     .count {
         color: var(--clr-text-muted);
+    }
+
+    .indent {
+        padding-left: 2em;
     }
 </style>

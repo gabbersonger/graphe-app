@@ -32,13 +32,11 @@ type ScriptureSection struct {
 }
 
 type ScriptureWordData_Dictionary struct {
-	Form  string `json:"form"`
-	Gloss string `json:"gloss"`
-}
-
-type ScriptureWordData_Strongs struct {
-	Num     string `json:"num"`
+	Form    string `json:"form"`
+	Gloss   string `json:"gloss"`
+	Strong  string `json:"strong"`
 	Grammar string `json:"grammar"`
+	Count   int    `json:"count"`
 }
 
 type ScriptureWordData struct {
@@ -48,7 +46,5 @@ type ScriptureWordData struct {
 	Translit       string                         `json:"translit"`
 	English        string                         `json:"english"`
 	Dictionary     []ScriptureWordData_Dictionary `json:"dictionary"`
-	Strongs        []ScriptureWordData_Strongs    `json:"strongs"`
 	InflectedCount int                            `json:"inflected_count"`
-	LexemeCount    int                            `json:"lexeme_count"`
 }
