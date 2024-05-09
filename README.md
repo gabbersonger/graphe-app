@@ -27,6 +27,7 @@ Currently requires a large database file that is currently not packaged with the
 
 **Version 0.2 – Data update**
 
+- [x] Standardise instant details
 - [ ] Choose passage search field
 - [ ] ESV version
   - [ ] Data
@@ -37,6 +38,10 @@ Currently requires a large database file that is currently not packaged with the
   - [ ] Displaying sections
   - [ ] Instant details
 - [ ] LXX capitalisation
+- [ ] Fix punctuation
+  - [ ] Replace "\_" at start of post with " —"
+  - [ ] Replace "\_" at end of pre with "— "
+  - [ ] Replace all other "\_" with "—"
 - [ ] Auto-download database files on start-up
   - [ ] Functionality
   - [ ] UI

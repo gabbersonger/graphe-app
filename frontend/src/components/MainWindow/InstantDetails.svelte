@@ -8,7 +8,9 @@
             <div class="pill">{$app_instantDetails.english}</div>
             <span class="word">{$app_instantDetails.text}</span>
             <span class="translit">{$app_instantDetails.translit}</span>
-            <span class="count">[{$app_instantDetails.inflected_count}x]</span>
+            <span class="count">
+                [{$app_instantDetails.inflected_count.toLocaleString()}x]
+            </span>
         </div>
 
         {#each $app_instantDetails.dictionary as dictionary_word}
@@ -16,7 +18,9 @@
                 — <span class="word">{dictionary_word.form}</span>
                 <b>{dictionary_word.strong} {dictionary_word.gloss}</b>
                 {dictionary_word.grammar}
-                <span class="count">[{dictionary_word.count}x]</span>
+                <span class="count">
+                    [{dictionary_word.count.toLocaleString()}x]
+                </span>
             </div>
         {/each}
     </div>
