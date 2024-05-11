@@ -11,6 +11,7 @@
     export let noResults: string;
 
     let inputElem: HTMLInputElement;
+    let contentElement: HTMLDivElement;
     let resultElems: HTMLButtonElement[] = [];
 
     let selected = 0;
@@ -18,15 +19,30 @@
         selected = results[0].display == "Back" ? 1 : 0;
     }
 
+    function ensureItemInView(item: HTMLButtonElement) {
+        mouseEnterLocked = true;
+
+        const top = contentElement.scrollTop;
+        const bottom = top + contentElement.offsetHeight;
+        const itemTop = item.offsetTop;
+        const itemBottom = itemTop + item.offsetHeight;
+
+        if (itemTop < top) {
+            contentElement.scrollTop = itemTop;
+        } else if (itemBottom > bottom) {
+            contentElement.scrollTop = itemBottom - contentElement.offsetHeight;
+        }
+    }
+
     function handleKeyDown(e: KeyboardEvent) {
         switch (e.code) {
             case "ArrowDown":
                 selected = (selected + 1) % results.length;
-                resultElems[selected].scrollIntoView(false);
+                ensureItemInView(resultElems[selected]);
                 return;
             case "ArrowUp":
                 selected = selected == 0 ? results.length - 1 : selected - 1;
-                resultElems[selected].scrollIntoView(false);
+                ensureItemInView(resultElems[selected]);
                 return;
             case "Enter":
                 e.preventDefault();
@@ -34,6 +50,15 @@
                     chooseResult(selected);
                 }
                 return;
+        }
+    }
+
+    let mouseEnterLocked = false;
+    function handleMouseEnter(index: number) {
+        if (!mouseEnterLocked) {
+            selected = index;
+        } else {
+            mouseEnterLocked = false;
         }
     }
 
@@ -48,7 +73,7 @@
     });
 </script>
 
-<ModalWrapper>
+<ModalWrapper bind:contentElement>
     <div slot="header" class="input-container">
         {#if icon}
             <label for="input">
@@ -75,6 +100,7 @@
                         class="result"
                         class:selected={selected == index}
                         on:click={() => chooseResult(index)}
+                        on:mouseenter={() => handleMouseEnter(index)}
                         bind:this={resultElems[index]}
                     >
                         {#if result.display != "Back"}
@@ -139,6 +165,7 @@
     }
 
     .results-container {
+        position: relative;
         width: 100%;
         display: flex;
         flex-direction: column;

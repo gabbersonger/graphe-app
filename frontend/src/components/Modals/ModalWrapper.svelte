@@ -1,13 +1,19 @@
 <script lang="ts">
     let headerHeight: number;
+
+    export let contentElement: HTMLDivElement;
 </script>
 
 <div class="wrapper">
     <div class="header" bind:clientHeight={headerHeight}>
         <slot name="header" />
     </div>
-    <div class="content" style:--size-modal-header={`${headerHeight}px`}>
-        <slot name="content" />
+    <div
+        class="content"
+        style:--size-modal-header={`${headerHeight}px`}
+        bind:this={contentElement}
+    >
+        <slot name="content" {contentElement} />
     </div>
 </div>
 
