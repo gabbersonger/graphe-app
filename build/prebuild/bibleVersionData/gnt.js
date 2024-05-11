@@ -1,7 +1,7 @@
 // TODO: add 'missing sections'
 
 export const gnt = {
-  full_name: "Tyndale Greek New Testament",
+  full_name: "Greek New Testament",
   language: "Ancient Greek",
   languageHeadings: "Ancient Greek",
   books: [

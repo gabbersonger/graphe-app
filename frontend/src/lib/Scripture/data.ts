@@ -2544,7 +2544,7 @@ export const versionData = {
     ],
   },
   gnt: {
-    full_name: "Tyndale Greek New Testament",
+    full_name: "Greek New Testament",
     language: "Ancient Greek",
     languageHeadings: "Ancient Greek",
     books: [
@@ -2821,7 +2821,7 @@ export const versionData = {
     ],
   },
   hot: {
-    full_name: "Tyndale Hebrew Old Testament",
+    full_name: "Hebrew Old Testament",
     language: "English",
     languageHeadings: "undefined",
     books: [

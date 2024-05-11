@@ -2630,7 +2630,7 @@ var versionData = [...]VersionData{
   },
   {
     name: "gnt",
-    full_name: "Tyndale Greek New Testament",
+    full_name: "Greek New Testament",
     language: "Ancient Greek",
     languageHeadings: "Ancient Greek",
     books: []VersionBookData{
@@ -2935,7 +2935,7 @@ var versionData = [...]VersionData{
   },
   {
     name: "hot",
-    full_name: "Tyndale Hebrew Old Testament",
+    full_name: "Hebrew Old Testament",
     language: "English",
     languageHeadings: "undefined",
     books: []VersionBookData{

@@ -4,7 +4,7 @@
 // TODO: order the books
 
 export const hot = {
-  full_name: "Tyndale Hebrew Old Testament",
+  full_name: "Hebrew Old Testament",
   language: "Ancient Hebrew",
   language: "English",
   books: [
