@@ -3622,6 +3622,22 @@ export const versionData = {
         parallels: [
         ],
         missing_sections: [
+          {
+            start: 40012047,
+            end: 40012047,
+          },
+          {
+            start: 40017021,
+            end: 40017021,
+          },
+          {
+            start: 40018011,
+            end: 40018011,
+          },
+          {
+            start: 40023014,
+            end: 40023014,
+          },
         ],
       },
       {
@@ -3632,6 +3648,26 @@ export const versionData = {
         parallels: [
         ],
         missing_sections: [
+          {
+            start: 41007016,
+            end: 41007016,
+          },
+          {
+            start: 41009044,
+            end: 41009044,
+          },
+          {
+            start: 41009046,
+            end: 41009046,
+          },
+          {
+            start: 41011026,
+            end: 41011026,
+          },
+          {
+            start: 41015028,
+            end: 41015028,
+          },
         ],
       },
       {
@@ -3642,6 +3678,14 @@ export const versionData = {
         parallels: [
         ],
         missing_sections: [
+          {
+            start: 42017036,
+            end: 42017036,
+          },
+          {
+            start: 42023017,
+            end: 42023017,
+          },
         ],
       },
       {
@@ -3652,6 +3696,10 @@ export const versionData = {
         parallels: [
         ],
         missing_sections: [
+          {
+            start: 43005004,
+            end: 43005004,
+          },
         ],
       },
       {
@@ -3662,6 +3710,22 @@ export const versionData = {
         parallels: [
         ],
         missing_sections: [
+          {
+            start: 44008037,
+            end: 44008037,
+          },
+          {
+            start: 44015034,
+            end: 44015034,
+          },
+          {
+            start: 44024007,
+            end: 44024007,
+          },
+          {
+            start: 44028029,
+            end: 44028029,
+          },
         ],
       },
       {
@@ -3672,6 +3736,10 @@ export const versionData = {
         parallels: [
         ],
         missing_sections: [
+          {
+            start: 45016024,
+            end: 45016024,
+          },
         ],
       },
       {
