@@ -12,19 +12,22 @@
 </div>
 
 <style>
-    .content {
-        --size-modal-header-gap: 1rem;
+    .wrapper {
+        --modal-wrapper-scroll-width: 10px;
 
+        position: relative;
+    }
+
+    .content {
         max-height: calc(
-            100vh - 2 * var(--size-modal-margin) - 2 * var(--size-modal-padding) -
-                var(--size-modal-header) - var(--size-modal-header-gap)
+            100vh - 2 * var(--size-modal-margin) - var(--size-modal-header)
         );
-        margin-top: var(--size-modal-header-gap);
-        overflow: scroll;
+        overflow-x: hidden;
+        overflow-y: scroll;
     }
 
     .content::-webkit-scrollbar {
-        width: 10px;
+        width: var(--modal-wrapper-scroll-width);
     }
 
     .content::-webkit-scrollbar-corner {

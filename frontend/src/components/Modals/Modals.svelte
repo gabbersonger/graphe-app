@@ -33,9 +33,8 @@
 
 <style>
     .screen-wrapper {
-        --size-modal-max-width: 900px;
+        --size-modal-max-width: 500px;
         --size-modal-margin: 15vh;
-        --size-modal-padding: 2rem;
 
         position: absolute;
         inset: 0;
@@ -75,6 +74,5 @@
         width: 100%;
         max-height: 100%;
         overflow: scroll;
-        padding: var(--size-modal-padding);
     }
 </style>

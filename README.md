@@ -28,9 +28,9 @@ Currently requires a large database file that is currently not packaged with the
 **Version 0.2 – Data update**
 
 - [x] Standardise instant details
-- [ ] Choose passage
-  - [ ] UI
-  - [ ] Search field
+- [x] Choose passage
+  - [x] UI
+  - [x] Search field
   - [ ] Missing chapters (e.g. LXX Prov 25-29)
 - [ ] ESV version
   - [x] Data

@@ -304,6 +304,7 @@ var bibleData = [...]BookData{
       "Pslm",
       "Psm",
       "Pss",
+      "Ps",
     },
   },
   {

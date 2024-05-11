@@ -206,7 +206,7 @@ export const bibleData = [
   {
     name: "Psalms",
     short: "Psa",
-    abbreviations: ["Psalms", "Psa", "Psalm", "Pslm", "Psm", "Pss"],
+    abbreviations: ["Psalms", "Psa", "Psalm", "Pslm", "Psm", "Pss", "Ps"],
   },
   {
     name: "Proverbs",

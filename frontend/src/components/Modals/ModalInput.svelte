@@ -33,15 +33,13 @@
         {placeholder}
         bind:this={inputEl}
     />
-    <div class="focus-ring"></div>
 </div>
 
 <style>
     .container {
         position: relative;
         width: 100%;
-        background: var(--clr-background-sub);
-        border-radius: 0.4em;
+        background: transparent;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -51,7 +49,7 @@
     }
 
     .container label {
-        height: 1.5rem;
+        height: 1rem;
         aspect-ratio: 1;
         color: var(--clr-text-sub);
     }
@@ -75,20 +73,5 @@
 
     .container input::placeholder {
         color: var(--clr-text-sub);
-    }
-
-    .container .focus-ring {
-        display: none;
-        position: absolute;
-        inset: 0;
-        background: transparent;
-        pointer-events: none;
-        border-radius: 0.3rem;
-        outline: 0.2rem solid var(--clr-background-sub);
-        outline-offset: 0.2em;
-    }
-
-    .container input:focus + .focus-ring {
-        display: block;
     }
 </style>

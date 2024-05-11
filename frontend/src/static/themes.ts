@@ -41,7 +41,7 @@ export const themeData = [
 ] as const;
 
 export type ThemeName = (typeof themeData)[number]["name"];
-export const defaultTheme: ThemeName = "catppuccin";
+export const defaultTheme: ThemeName = "hanok";
 
 // NOTE: assumes correct #______ format
 const hexToSelectionRGBA = (hex: string): string => {

@@ -273,6 +273,7 @@ export const bibleData = [
       "Pslm",
       "Psm",
       "Pss",
+      "Ps",
     ],
   },
   {

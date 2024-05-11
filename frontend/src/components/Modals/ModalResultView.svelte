@@ -1,0 +1,197 @@
+<script lang="ts">
+    import ModalWrapper from "@/components/Modals/ModalWrapper.svelte";
+    import { onMount, type ComponentType } from "svelte";
+    import { Search, type Icon, ArchiveX, ChevronLeft } from "lucide-svelte";
+
+    export let icon: ComponentType<Icon> = null;
+    export let placeholder: string;
+    export let value: string;
+    export let results: { value: any; display: string }[];
+    export let chooseResult: (index: number) => void;
+    export let noResults: string;
+
+    let inputElem: HTMLInputElement;
+    let resultElems: HTMLButtonElement[] = [];
+
+    let selected = 0;
+    $: if (results.length > 0) {
+        selected = results[0].display == "Back" ? 1 : 0;
+    }
+
+    function handleKeyDown(e: KeyboardEvent) {
+        switch (e.code) {
+            case "ArrowDown":
+                selected = (selected + 1) % results.length;
+                resultElems[selected].scrollIntoView(false);
+                return;
+            case "ArrowUp":
+                selected = selected == 0 ? results.length - 1 : selected - 1;
+                resultElems[selected].scrollIntoView(false);
+                return;
+            case "Enter":
+                e.preventDefault();
+                if (results.length > 0) {
+                    chooseResult(selected);
+                }
+                return;
+        }
+    }
+
+    onMount(() => {
+        inputElem.focus();
+
+        addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            removeEventListener("keydown", handleKeyDown);
+        };
+    });
+</script>
+
+<ModalWrapper>
+    <div slot="header" class="input-container">
+        {#if icon}
+            <label for="input">
+                <Search />
+            </label>
+        {/if}
+        <input
+            bind:this={inputElem}
+            id="input"
+            type="text"
+            {placeholder}
+            autocomplete="off"
+            spellcheck="false"
+            bind:value
+            on:keypress
+        />
+    </div>
+
+    <div slot="content">
+        {#if results.length > 0}
+            <div class="results-container">
+                {#each results as result, index}
+                    <button
+                        class="result"
+                        class:selected={selected == index}
+                        on:click={() => chooseResult(index)}
+                        bind:this={resultElems[index]}
+                    >
+                        {#if result.display != "Back"}
+                            <div><svelte:component this={icon} /></div>
+                        {:else}
+                            <div><ChevronLeft /></div>
+                        {/if}
+                        <div>{result.display}</div>
+                    </button>
+                {/each}
+            </div>
+        {:else}
+            <div class="no-results">
+                <ArchiveX strokeWidth={1} />
+                <div>{noResults}</div>
+            </div>
+        {/if}
+    </div>
+</ModalWrapper>
+
+<style>
+    .input-container {
+        position: relative;
+        width: 100%;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0 1em;
+        gap: 1em;
+
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid var(--clr-background-dark);
+    }
+
+    .input-container label {
+        height: 1rem;
+        aspect-ratio: 1;
+        color: var(--clr-text-sub);
+    }
+
+    .input-container label > :global(svg) {
+        height: 100%;
+        width: 100%;
+    }
+
+    .input-container input {
+        width: 100%;
+        background: transparent;
+        border: none;
+        padding: 1rem 0;
+        font-family: inherit;
+        font-size: 0.9rem;
+        color: var(--clr-text);
+        caret-color: var(--clr-main);
+        outline: none;
+    }
+
+    .input-container input::placeholder {
+        color: var(--clr-text-sub);
+    }
+
+    .results-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding-left: var(--modal-wrapper-scroll-width);
+        padding-block: 0.4em;
+    }
+
+    .results-container .result {
+        display: block;
+        width: 100%;
+        height: 2.5rem;
+        border-radius: 0.2em;
+        padding: 0 1em;
+
+        background: none;
+        border: none;
+        font-size: 0.9em;
+        color: var(--clr-text-sub);
+
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 0.75em;
+    }
+
+    .results-container .result :global(svg) {
+        height: 1rem;
+        width: 1rem;
+    }
+
+    .results-container .result.selected {
+        background: var(--clr-background-sub);
+        color: var(--clr-text);
+    }
+
+    .no-results {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2em;
+        padding-block: min(4em, 10vh);
+        color: var(--clr-text-sub);
+        user-select: none;
+        -webkit-user-select: none;
+        pointer-events: none;
+    }
+
+    .no-results :global(svg) {
+        height: 4em;
+        width: 4em;
+    }
+</style>

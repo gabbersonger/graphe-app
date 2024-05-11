@@ -1,7 +1,7 @@
 import { writable, type Writable } from "svelte/store";
 import { sidebarData, type SidebarSection } from "@/components/Sidebar/data";
 import { defaultTheme, themeData, type ThemeName } from "@/static/themes";
-import { EventsOff, EventsOn } from "!wails/runtime/runtime";
+import { EventsEmit, EventsOff, EventsOn } from "!wails/runtime/runtime";
 import type { ModalName } from "@/components/Modals/data";
 import { app_mode } from "@/lib/appManager";
 import { get } from "svelte/store";
@@ -67,6 +67,9 @@ export function uiManager(_: HTMLElement) {
   for (const [event, callback] of Object.entries(handlers)) {
     EventsOn(event, callback);
   }
+
+  // TODO: remove
+  EventsEmit("ui:modal", "text");
 
   return {
     destroy() {
