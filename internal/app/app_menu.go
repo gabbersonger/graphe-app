@@ -51,10 +51,10 @@ func (a *App) Menu() *menu.Menu {
 
 	fileMenu := appMenu.AddSubmenu("File")
 	fileMenu.AddText("Passage Mode", keys.CmdOrCtrl("P"), menuCallbackEmit(a, "app:mode", "passage"))
-	fileMenu.AddText("Search Mode", keys.CmdOrCtrl("S"), menuCallbackEmit(a, "app:mode", "search"))
+	fileMenu.AddText("Search Mode", keys.CmdOrCtrl("F"), menuCallbackEmit(a, "app:mode", "search"))
 	fileMenu.AddSeparator()
 	fileMenu.AddText("Choose Version...", keys.CmdOrCtrl("D"), menuCallbackEmit(a, "ui:modal", "version"))
-	fileMenu.AddText("Choose Text...", keys.CmdOrCtrl("F"), menuCallbackEmit(a, "ui:modal", "text"))
+	fileMenu.AddText("Choose Text...", keys.CmdOrCtrl("T"), menuCallbackEmit(a, "ui:modal", "text"))
 	fileMenu.AddSeparator()
 	fileMenu.AddText("Functions", keys.CmdOrCtrl("E"), menuCallbackEmit(a, "ui:modal", "functions"))
 	fileMenu.AddText("Appearence", keys.CmdOrCtrl("R"), menuCallbackEmit(a, "ui:modal", "appearence"))

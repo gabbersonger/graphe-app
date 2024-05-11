@@ -26,6 +26,11 @@ function handleUIModalClose() {
   ui_modal.set("");
 }
 
+function handleUISidebar(data: SidebarSection) {
+  ui_showSidebar.set(true);
+  ui_sidebarSection.set(data);
+}
+
 function handleUISidebarToggle() {
   ui_showSidebar.update((x) => !x);
 }
@@ -52,6 +57,7 @@ export function uiManager(_: HTMLElement) {
   } = {
     "ui:modal": handleUIModal,
     "ui:modal:close": handleUIModalClose,
+    "ui:sidebar": handleUISidebar,
     "ui:sidebar:toggle": handleUISidebarToggle,
     "ui:theme": handleUITheme,
 

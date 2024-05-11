@@ -14,7 +14,7 @@
 <div class="item" on:click class:selected class:disabled>
     {#if icon}
         <div class="icon">
-            <svelte:component this={icon} />
+            <svelte:component this={icon} strokeWidth={selected ? 3 : 1.5} />
         </div>
     {/if}
     {#if text}

@@ -1,11 +1,17 @@
-import { CircleHelp } from "lucide-svelte";
-import SidebarTodo from "@/components/sidebar/SidebarTodo.svelte";
+import { Sigma, NotepadText } from "lucide-svelte";
+import SidebarAnalytics from "@/components/sidebar/built/SidebarAnalytics.svelte";
+import SidebarFunctions from "@/components/sidebar/built/SidebarFunctions.svelte";
 
 export const sidebarData = [
   {
-    name: "todo",
-    icon: CircleHelp,
-    window: SidebarTodo,
+    name: "functions",
+    icon: Sigma,
+    window: SidebarFunctions,
+  },
+  {
+    name: "analytics",
+    icon: NotepadText,
+    window: SidebarAnalytics,
   },
 ] as const;
 

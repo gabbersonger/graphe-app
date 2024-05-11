@@ -9,26 +9,23 @@
         Sigma,
         TextSelect,
         LibraryBig,
-        ClipboardType,
+        NotepadText,
     } from "lucide-svelte";
     import { app_mode, app_version, app_currentRef } from "@/lib/appManager";
-    import { ui_showSidebar } from "@/lib/uiManager";
     import { refToString } from "@/lib/Scripture/ref";
     import { EventsEmit } from "!wails/runtime/runtime";
 
     let width: number;
+
+    const BREAKPOINT = 550;
 </script>
 
 <div id="navbar" bind:clientWidth={width}>
     <div class="container">
-        {#if width > 450}
-            <div class="wrapper"></div>
-        {/if}
-
         <div class="wrapper wrapper-nav">
             <NavbarItem
                 icon={TextSelect}
-                text={width > 650 ? "passage" : ""}
+                text={width > BREAKPOINT ? "passage" : ""}
                 on:click={() => EventsEmit("app:mode", "passage")}
                 tooltip="Passage Mode"
                 command="⌘P"
@@ -37,10 +34,10 @@
 
             <NavbarItem
                 icon={Search}
-                text={width > 650 ? "search" : ""}
+                text={width > BREAKPOINT ? "search" : ""}
                 on:click={() => EventsEmit("app:mode", "search")}
                 tooltip="Search Mode"
-                command="⌘S"
+                command="⌘F"
                 selected={$app_mode == "search"}
             />
 
@@ -61,7 +58,7 @@
                     : ""}
                 on:click={() => EventsEmit("ui:modal", "text")}
                 tooltip="Choose Text"
-                command="⌘F"
+                command="⌘T"
                 disabled={$app_mode == "search"}
             />
 
@@ -69,23 +66,16 @@
 
             <NavbarItem
                 icon={Sigma}
-                on:click={() => EventsEmit("ui:modal", "functions")}
+                on:click={() => EventsEmit("ui:sidebar", "functions")}
                 tooltip="Functions"
                 command="⌘E"
             />
 
             <NavbarItem
-                icon={ClipboardType}
-                on:click={() => EventsEmit("ui:modal", "appearence")}
-                tooltip="Appearence"
+                icon={NotepadText}
+                on:click={() => EventsEmit("ui:sidebar", "analytics")}
+                tooltip="Analytics"
                 command="⌘R"
-            />
-        </div>
-
-        <div class="wrapper">
-            <Button
-                icon={$ui_showSidebar ? PanelRightClose : PanelRight}
-                on:click={() => ($ui_showSidebar = !$ui_showSidebar)}
             />
         </div>
     </div>
@@ -113,7 +103,7 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
     }
 
     .wrapper {
