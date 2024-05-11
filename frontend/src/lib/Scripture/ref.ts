@@ -232,8 +232,8 @@ export function refToString(
         : `${bookData.name} ${chapter}:${verse}`;
     case "chapter":
       return isSingleChapterBook
-        ? `${bookData.name}`
-        : `${bookData.name} ${chapter}`;
+        ? `${bookData.short}`
+        : `${bookData.short} ${chapter}`;
     case "book":
       return bookData.name;
   }
