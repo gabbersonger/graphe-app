@@ -5,6 +5,7 @@
     import { versionData } from "@/lib/Scripture/data";
     import type { BibleVersion } from "@/lib/Scripture/types";
     import { EventsEmit } from "!wails/runtime/runtime";
+    import { app_version } from "@/lib/appManager";
 
     function normaliseString(string: string): string {
         return string.toLowerCase().replaceAll(" ", "");
@@ -25,6 +26,7 @@
         return search_strings
             .map((x) => ({ ...x, index: x.string.indexOf(query) }))
             .filter((x) => x.index >= 0)
+            .filter((x) => x.name != $app_version)
             .sort((a, b) => a.index - b.index)
             .map((x) => ({
                 value: x.name,
