@@ -50,7 +50,7 @@ func (a *App) closeDatabasePool() {
 		queries := reflect.ValueOf(d.queries)
 		for j := 0; j < queries.NumField(); j++ {
 			if queries.Field(j).Type() == reflect.TypeOf((*sqlite3.Stmt)(nil)) {
-				queries.Field(j).Close()
+				queries.Field(j).MethodByName("Close")
 			}
 		}
 		d.conn.Close()
