@@ -7,7 +7,7 @@
 
 Features include:
 
-- Support for GNT and LXX
+- Support for ESV, GNT and LXX
 - Instant details while hovering original language
 - Minimalistic design with built-in themes
 
@@ -28,20 +28,24 @@ Currently requires a large database file that is currently not packaged with the
 **Version 0.2 – Data update**
 
 - [x] Standardise instant details
-- [ ] Choose passage search field
+- [ ] Choose passage
+  - [ ] UI
+  - [ ] Search field
+  - [ ] Missing chapters (e.g. LXX Prov 25-29)
 - [ ] ESV version
   - [x] Data
   - [x] Displaying sections
   - [ ] Instant details
-- [ ] HOT version
-  - [ ] Data
-  - [ ] Displaying sections
-  - [ ] Instant details
-- [ ] LXX capitalisation
-- [x] Fix punctuation
+- [ ] LXX updates
+  - [ ] Capitalisation
+  - [ ] Punctuation in psalms
 - [ ] Auto-download database files on start-up
   - [ ] Functionality
   - [ ] UI
+- [ ] Text UI updates
+  - [x] Fix basic punctuation
+  - [ ] Chapters starting in middle of paragraph
+  - [ ] Verses split over multiple paragraphs
 
 <br/>
 
@@ -61,7 +65,15 @@ Currently requires a large database file that is currently not packaged with the
 
 <br/>
 
-**Version 0.4 – Text details update**
+**Verse 0.4 - Quality of life update**
+
+- [ ] Improve virtualiser speed
+- [ ] Animations
+- [ ] Sound effects
+
+<br/>
+
+**Version 0.5 – Text details update**
 
 - [ ] Parallel texts
 - [ ] Footnoted variant spelling/meaning
@@ -69,10 +81,11 @@ Currently requires a large database file that is currently not packaged with the
 - [ ] Lexicon data
 - [ ] Morph code expansions
 - [ ] Cross References
+- [ ] Analysis window in sidebar: top occurances in chapter (filter out regular occurances)
 
 <br/>
 
-**Version 0.5 – Functions update**
+**Version 0.6 – Functions update**
 
 - [ ] Functionality, e.g...
   - [ ] N occurances
@@ -85,13 +98,23 @@ Currently requires a large database file that is currently not packaged with the
 
 <br/>
 
-**Version 0.6 – Search update**
+**Version 0.7 – Search update**
 
 - [ ] Functionality, e.g...
   - [ ] Range
   - [ ] Items (e.g. topic, characters, root, strongs)
   - [ ] Commands (e.g. AND, OR, GROUPING, NOT, JOIN)
 - [ ] Modal
+
+<br/>
+
+**Version 0.8 - Hebrew update**
+
+- [ ] RTL text support
+- [ ] Tyndale HOT
+  - [ ] Data
+  - [ ] Displaying sections
+  - [ ] Instant details
 
 <br/>
 
@@ -103,9 +126,7 @@ Currently requires a large database file that is currently not packaged with the
 
 **Bugs**
 
-- [ ] Chapters starting in middle of paragraph don't show number
-- [ ] Verses split over two paragraph breaks show verse number twice
 - [ ] Does not currently handle missing verses well (e.g. goto)
-- [ ] Should hide chapters with no verses (e.g. LXX Proverbs 25-29)
 - [ ] While virtualiser is in locked mode scrollbar breaks functionality temporarily if you scroll too far away
 - [ ] Resizing window does not keep verse at top (currently: only keeps block + scroll offset)
+- [ ] On shutdown, database is not being closed properly
