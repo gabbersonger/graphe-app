@@ -11,6 +11,7 @@
     const PRELOAD_BATCH_SIZE = 50;
     const RESIZE_DELAY = 50;
     const GOTO_SCROLL_OFFSET = -20;
+    const NAVBAR_HEIGHT = 55;
 
     export let data: Array<app.ScriptureSection>;
     $: n_blocks =
@@ -162,7 +163,7 @@
     }
 
     async function refresh() {
-        const scroll = viewport.scrollTop;
+        const scroll = viewport.scrollTop + NAVBAR_HEIGHT;
 
         if (mode == "precise") {
             for (let i = 0; i < precise_content_offsets.length; i++) {
