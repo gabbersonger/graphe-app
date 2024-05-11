@@ -86,7 +86,10 @@
                     potential_chapter > 0 &&
                     potential_chapter <=
                         versionData[$app_version].books[version_index]
-                            .num_chapters
+                            .num_chapters &&
+                    versionData[$app_version].books[version_index].num_verses[
+                        potential_chapter - 1
+                    ] != 0
                 ) {
                     selected_chapter = potential_chapter;
                     mode = "verse";
@@ -143,9 +146,12 @@
                 $app_version,
                 selected_book,
             );
-            const n_chapters =
-                versionData[$app_version].books[version_index].num_chapters;
+            const book_data = versionData[$app_version].books[version_index];
+            const n_chapters = book_data.num_chapters;
             return createNumberResults(n_chapters)
+                .filter((_, i) =>
+                    i == 0 ? true : book_data.num_verses[i - 1] != 0,
+                )
                 .map((x) => ({ item: x, index: x.indexOf(query) }))
                 .filter((x) => x.index >= 0)
                 .sort((a, b) => a.index - b.index)

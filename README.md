@@ -31,7 +31,8 @@ Currently requires a large database file that is currently not packaged with the
 - [x] Choose passage
   - [x] UI
   - [x] Search field
-  - [ ] Missing chapters (e.g. LXX Prov 25-29)
+  - [x] Missing chapters (e.g. LXX Prov 25-29)
+  - [ ] Missing verses (e.g. ESV Matt 12:47)
 - [ ] ESV version
   - [x] Data
   - [x] Displaying sections
