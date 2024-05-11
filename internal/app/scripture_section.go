@@ -63,6 +63,8 @@ func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 		stmt = db.queries.GntSection
 	case "lxx":
 		stmt = db.queries.LxxSection
+	case "esv":
+		stmt = db.queries.EsvSection
 	default:
 		a.Throw("Unknown version (" + string(s.Range.Version) + ") passed to getScriptureSection")
 	}

@@ -84,7 +84,7 @@ export function appManager(_: HTMLElement) {
   }
 
   // Start the app
-  EventsEmit("app:version", "gnt");
+  EventsEmit("app:version", "esv");
 
   return {
     destroy() {

@@ -7,6 +7,8 @@ func (a *App) GetScriptureWord(version ScriptureVersion, ref ScriptureRef, word_
 		getGNTScriptureWord(a, &w)
 	case "lxx":
 		getLXXScriptureWord(a, &w)
+	case "esv":
+		getESVScriptureWord(a, &w)
 	default:
 		a.Throw("Unknown version (" + string(version) + ") passed to GetScriptureSections")
 	}

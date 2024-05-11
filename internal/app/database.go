@@ -28,6 +28,8 @@ type GrapheQueries struct {
 	LxxWordText           *sqlite3.Stmt
 	LxxWordBasicInfo      *sqlite3.Stmt
 	LxxWordInflectedCount *sqlite3.Stmt
+
+	EsvSection *sqlite3.Stmt
 }
 
 func (a *App) setupDatabasePool() {
@@ -172,6 +174,14 @@ func prepareQueries(a *App, db *GrapheDBConn) {
             LIMIT 1
         )
         LIMIT 1;
+    `)
+	a.check(err)
+
+	// ESV
+	db.queries.EsvSection, err = db.conn.Prepare(`
+        SELECT ref, word_num, text, pre, post
+        FROM esv_text
+        WHERE ref >= ? AND ref <= ?;
     `)
 	a.check(err)
 }

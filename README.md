@@ -30,8 +30,8 @@ Currently requires a large database file that is currently not packaged with the
 - [x] Standardise instant details
 - [ ] Choose passage search field
 - [ ] ESV version
-  - [ ] Data
-  - [ ] Displaying sections
+  - [x] Data
+  - [x] Displaying sections
   - [ ] Instant details
 - [ ] HOT version
   - [ ] Data
