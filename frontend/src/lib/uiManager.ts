@@ -68,9 +68,6 @@ export function uiManager(_: HTMLElement) {
     EventsOn(event, callback);
   }
 
-  // TODO: remove
-  EventsEmit("ui:modal", "text");
-
   return {
     destroy() {
       for (const [event, _] of Object.entries(handlers)) {

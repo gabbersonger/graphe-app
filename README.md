@@ -32,11 +32,9 @@ Currently requires a large database file that is currently not packaged with the
   - [x] UI
   - [x] Search field
   - [x] Missing chapters (e.g. LXX Prov 25-29)
-  - [ ] Missing verses (e.g. ESV Matt 12:47)
-- [ ] ESV version
-  - [x] Data
-  - [x] Displaying sections
-  - [ ] Instant details
+  - [x] Missing verses (e.g. ESV Matt 12:47)
+- [x] ESV data
+- [ ] ESV instant details
 - [ ] LXX updates
   - [ ] Capitalisation
   - [ ] Punctuation in psalms
