@@ -29,6 +29,7 @@ export namespace app {
 	    text: string;
 	    pre: string;
 	    post: string;
+	    no_instant_details?: boolean;
 	
 	    static createFrom(source: any = {}) {
 	        return new ScriptureWord(source);
@@ -40,6 +41,7 @@ export namespace app {
 	        this.text = source["text"];
 	        this.pre = source["pre"];
 	        this.post = source["post"];
+	        this.no_instant_details = source["no_instant_details"];
 	    }
 	}
 	export class ScriptureVerse {

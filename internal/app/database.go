@@ -179,7 +179,7 @@ func prepareQueries(a *App, db *GrapheDBConn) {
 
 	// ESV
 	db.queries.EsvSection, err = db.conn.Prepare(`
-        SELECT ref, word_num, text, pre, post
+        SELECT ref, word_num, text, pre, post, has_instant_details
         FROM esv_text
         WHERE ref >= ? AND ref <= ?;
     `)

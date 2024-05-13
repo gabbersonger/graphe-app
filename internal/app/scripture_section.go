@@ -74,6 +74,7 @@ func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 
 	var ref, word_num int
 	var text, pre, post string
+	has_instant_details := 1
 	createNextBlock := true
 	lastRef := 0
 
@@ -83,7 +84,11 @@ func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 		if !hasRow {
 			break
 		}
-		err = stmt.Scan(&ref, &word_num, &text, &pre, &post)
+		if s.Range.Version == "esv" {
+			err = stmt.Scan(&ref, &word_num, &text, &pre, &post, &has_instant_details)
+		} else {
+			err = stmt.Scan(&ref, &word_num, &text, &pre, &post)
+		}
 		a.check(err)
 
 		// Add block if needed
@@ -138,7 +143,7 @@ func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 		} else if strings.ContainsAny(pre, "_") {
 			pre = strings.ReplaceAll(pre, "_", "—")
 		}
-		newWord := ScriptureWord{word_num, text, pre, post}
+		newWord := ScriptureWord{word_num, text, pre, post, has_instant_details == 0}
 		s.Blocks[lastBlock].Verses[lastVerse].Words = append(s.Blocks[lastBlock].Verses[lastVerse].Words, newWord)
 	}
 	s.Range.End = ScriptureRef(ref)

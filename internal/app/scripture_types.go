@@ -4,10 +4,11 @@ type ScriptureRef int
 type ScriptureVersion string
 
 type ScriptureWord struct {
-	WordNumber int    `json:"word_num"`
-	Text       string `json:"text"`
-	Pre        string `json:"pre"`
-	Post       string `json:"post"`
+	WordNumber       int    `json:"word_num"`
+	Text             string `json:"text"`
+	Pre              string `json:"pre"`
+	Post             string `json:"post"`
+	NoInstantDetails bool   `json:"no_instant_details,omitempty"`
 }
 
 type ScriptureVerse struct {
