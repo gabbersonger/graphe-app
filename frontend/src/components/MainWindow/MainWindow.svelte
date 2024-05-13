@@ -70,11 +70,6 @@
         --font-heading: "SBL Greek";
     }
 
-    *::selection {
-        background: var(--clr-selection);
-        color: var(--clr-background);
-    }
-
     .version-info {
         position: absolute;
         bottom: 1rem;

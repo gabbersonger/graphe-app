@@ -103,4 +103,9 @@
         outline: 0.5ch solid var(--clr-main);
         border-radius: 0.15ch;
     }
+
+    *::selection {
+        background: var(--clr-selection);
+        color: var(--clr-background);
+    }
 </style>
