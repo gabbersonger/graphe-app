@@ -108,6 +108,7 @@ export function isRefBookStart(version: BibleVersion, ref: BibleRef): boolean {
   const verse = getVerse(ref);
 
   const bookDataIndex = getVersionBookIndex(version, book);
+  if (bookDataIndex == -1) return false;
   const bookData = versionData[version].books[bookDataIndex];
 
   if (chapter == 0 && "prologue" in bookData) {
@@ -191,7 +192,8 @@ export function createRef(
 
 /**
  * Convert a BibleRef into a scripture reference string
- * @throws Will throw if `version` or `ref` is not valid
+ * @throws Will throw if `version` is not valid
+ * @returns blank if invalid BibleRef in version
  * @param {BibleVersion} version - The version to check against
  * @param {BibleRef} ref - The reference to be converted
  * @param {"short"|"long"|"chapter"} format - Determines the format of the scripture reference string produced...
@@ -207,10 +209,7 @@ export function refToString(
 ) {
   if (!isValidVersion(version))
     GrapheError(`Invalid version (${version}) passed to \`refToString\``);
-  if (!isValidRef(version, ref))
-    GrapheError(
-      `Invalid ref (${ref}) in context of version (${version}) passed to \`refToString\``,
-    );
+  if (!isValidRef(version, ref)) return "";
 
   const verse = getVerse(ref);
   const chapter = getChapter(ref);
