@@ -66,7 +66,6 @@ Currently requires a large database file that is currently not packaged with the
 
 **Verse 0.4 - Quality of life update**
 
-- [ ] Improve virtualiser speed
 - [ ] Animations
 - [ ] Sound effects
 
@@ -126,5 +125,5 @@ Currently requires a large database file that is currently not packaged with the
 **Bugs**
 
 - [ ] Does not currently handle missing verses well (e.g. goto)
-- [ ] While virtualiser is in locked mode scrollbar breaks functionality temporarily if you scroll too far away
 - [ ] Resizing window does not keep verse at top (currently: only keeps block + scroll offset)
+- [ ] Current verse doesn't update for book title

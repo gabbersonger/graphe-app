@@ -1,58 +1,74 @@
 <script lang="ts">
     import type { app } from "!wails/go/models";
-    import { EventsEmit } from "!wails/runtime/runtime";
-    import { versionData } from "@/lib/Scripture/data";
-    import { getBook, isRefBookStart, refToString } from "@/lib/Scripture/ref";
-    import type { BibleRef } from "@/lib/Scripture/types";
-    import { getVersionBookIndex } from "@/lib/Scripture/version";
     import { app_version } from "@/lib/appManager";
+    import { versionData } from "@/lib/Scripture/data";
+    import type { BibleRef } from "@/lib/Scripture/types";
+    import {
+        getBook,
+        getVerse,
+        isRefBookStart,
+        refToString,
+    } from "@/lib/Scripture/ref";
+    import { getVersionBookIndex } from "@/lib/Scripture/version";
+    import { EventsEmit } from "!wails/runtime/runtime";
 
     export let block: app.ScriptureBlock;
+    export let midway_through_verse: boolean = false;
+    export let preloading: boolean = false;
 
-    let instant_details_timer: ReturnType<typeof setTimeout>;
+    let instant_details_timeout: ReturnType<typeof setTimeout> = null;
+
     const INSTANT_DETAILS_DELAY = 50;
-    function handleWordMouseEnter(ref: BibleRef, word_num: number) {
-        clearTimeout(instant_details_timer);
-        instant_details_timer = setTimeout(
-            () => EventsEmit("app:instantdetails", ref, word_num),
-            INSTANT_DETAILS_DELAY,
-        );
+    function handleMouseEnter(ref: BibleRef, word_num: number) {
+        clearTimeout(instant_details_timeout);
+        instant_details_timeout = setTimeout(() => {
+            EventsEmit("app:instantdetails", ref, word_num);
+        }, INSTANT_DETAILS_DELAY);
     }
 
-    function handleWordMouseLeave(e: MouseEvent) {
-        clearTimeout(instant_details_timer);
+    function handleMouseLeave() {
+        clearTimeout(instant_details_timeout);
         EventsEmit("app:instantdetails:hide");
     }
 </script>
 
 <div class="block">
-    {#if isRefBookStart($app_version, block.range.start)}
-        <div class="heading">
-            {versionData[$app_version].books[
-                getVersionBookIndex($app_version, getBook(block.range.start))
-            ].display_name}
-        </div>
+    {#if !midway_through_verse}
+        {#if isRefBookStart($app_version, block.range.start)}
+            <div class="heading">
+                {versionData[$app_version].books[
+                    getVersionBookIndex(
+                        $app_version,
+                        getBook(block.range.start),
+                    )
+                ].display_name}
+            </div>
+        {/if}
+
+        <span class="ref">
+            {refToString($app_version, block.range.start, "short")}
+        </span>
     {/if}
 
-    <span class="ref">
-        {refToString($app_version, block.range.start, "short")}
-    </span>
     {#each block.verses as verse, index}
-        <div class="verse" style="display: inline">
-            {#if index > 0}
-                <sup>{verse.ref % 1000}</sup>
-            {/if}
+        <div class="verse">
+            {#if index > 0}<sup>{getVerse(verse.ref)}</sup>{/if}
             {#each verse.words as word}
-                {word.pre}<span
-                    class="word"
-                    class:hoverable={!("no_instant_details" in word)}
-                    on:mouseenter={"no_instant_details" in word
-                        ? null
-                        : (e) => handleWordMouseEnter(verse.ref, word.word_num)}
-                    on:mouseleave={"no_instant_details" in word
-                        ? null
-                        : handleWordMouseLeave}>{word.text}</span
-                >{word.post}{" "}
+                {#if preloading}
+                    {word.pre}<span class="word">{word.text}</span
+                    >{word.post}{" "}
+                {:else}
+                    {word.pre}<span
+                        class="word"
+                        class:hoverable={!("no_instant_details" in word)}
+                        on:mouseenter={"no_instant_details" in word
+                            ? null
+                            : (e) => handleMouseEnter(verse.ref, word.word_num)}
+                        on:mouseleave={"no_instant_details" in word
+                            ? null
+                            : handleMouseLeave}>{word.text}</span
+                    >{word.post}{" "}
+                {/if}
             {/each}
         </div>
     {/each}
@@ -60,11 +76,16 @@
 
 <style>
     .block {
+        position: relative;
         display: block;
         padding-bottom: 1rem;
         color: var(--clr-text);
         font-size: 1rem;
         line-height: 1.7;
+    }
+
+    .verse {
+        display: inline;
     }
 
     .heading {
