@@ -27,17 +27,55 @@ func getVersionIndex(version ScriptureVersion) int {
 	return -1
 }
 
-func getVersionBookIndex(version ScriptureVersion, book int) int {
-	version_index := getVersionIndex(version)
+func getVersionBookIndex(v ScriptureVersion, b int) int {
+	version_index := getVersionIndex(v)
 	if version_index == -1 {
 		return -1
 	}
-	for i, b := range versionData[version_index].books {
-		if b.book_number == book {
+	for i, vb := range versionData[version_index].books {
+		if vb.book_number == b {
 			return i
 		}
 	}
 	return -1
+}
+
+func isBookStart(v ScriptureVersion, r ScriptureRef) bool {
+	book := r.getBook()
+	chapter := r.getChapter()
+	verse := r.getVerse()
+
+	vi := getVersionIndex(v)
+	vbi := getVersionBookIndex(v, book)
+	bookData := versionData[vi].books[vbi]
+
+	if chapter == 0 && bookData.prologue > 0 {
+		return verse == 1
+		// This is because no prologue is missing verse 1
+	}
+
+	if chapter != 1 {
+		return false
+	}
+
+	if verse == 0 {
+		return len(bookData.superscripts) > 0 && bookData.superscripts[0] == 1
+	}
+
+	firstVerseInChapter := 1
+	for _, s := range bookData.missing_sections {
+		if s.start.getChapter() == 1 {
+			if s.start.getVerse() <= firstVerseInChapter {
+				firstVerseInChapter = s.end.getVerse() + 1
+				// Don't need to worry about reachign end of chapter
+				// as not book is missing all of chapter 1
+			}
+		} else {
+			break
+		}
+	}
+
+	return verse == firstVerseInChapter
 }
 
 func isSuperscriptChapter(version ScriptureVersion, book int, chapter int) bool {

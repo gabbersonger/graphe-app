@@ -45,10 +45,10 @@
     }
 
     #content[data-language-heading="English"] {
-        --font-heading: "Neuton";
+        --font-title: "Neuton";
     }
 
     #content[data-language-heading="Ancient Greek"] {
-        --font-heading: "SBL Greek";
+        --font-title: "SBL Greek";
     }
 </style>

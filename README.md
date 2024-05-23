@@ -43,8 +43,9 @@ Currently requires a large database file that is currently not packaged with the
   - [ ] UI
 - [ ] Text UI updates
   - [x] Fix basic punctuation
-  - [ ] Chapters starting in middle of paragraph
-  - [ ] Verses split over multiple paragraphs
+  - [x] Chapters starting in middle of paragraph
+  - [x] Verses split over multiple paragraphs
+  - [ ] Italicise psalm superscripts
 
 <br/>
 
@@ -74,6 +75,7 @@ Currently requires a large database file that is currently not packaged with the
 **Version 0.5 – Text details update**
 
 - [ ] Parallel texts
+- [ ] Bible headings
 - [ ] Footnoted variant spelling/meaning
 - [ ] Conjoin word highlighting
 - [ ] Lexicon data

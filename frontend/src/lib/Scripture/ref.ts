@@ -94,51 +94,6 @@ export function isValidRef(version: BibleVersion, ref: BibleRef): boolean {
 }
 
 /**
- * Determines if a BibleRef is the start of a book in the given version
- * @throws Will throw if `version` is invalid
- * @param {BibleRef} version - The version in which to check
- * @param {BibleRef} ref - The reference to be checked for
- */
-export function isRefBookStart(version: BibleVersion, ref: BibleRef): boolean {
-  if (!isValidVersion(version))
-    GrapheError(`Invalid version (${version}) passed to \`isRefBookStart\``);
-
-  const book = getBook(ref);
-  const chapter = getChapter(ref);
-  const verse = getVerse(ref);
-
-  const bookDataIndex = getVersionBookIndex(version, book);
-  if (bookDataIndex == -1) return false;
-  const bookData = versionData[version].books[bookDataIndex];
-
-  if (chapter == 0 && "prologue" in bookData) {
-    return verse == 1;
-    // Note: This is because no prologue is missing verse 1
-  }
-
-  if (chapter != 1) return false;
-
-  if (verse == 0) {
-    return "superscripts" in bookData && bookData.superscripts[0] == 1;
-  }
-
-  let first_verse_in_chapter = 1;
-  for (let i = 0; i < bookData.missing_sections.length; i++) {
-    const section = bookData.missing_sections[i];
-    if (getChapter(section.start) == 1) {
-      const sectionStartVerse = getVerse(section.start);
-      if (sectionStartVerse <= first_verse_in_chapter) {
-        first_verse_in_chapter = getVerse(section.end) + 1;
-        // Note: Don't need to worry about reaching end of chapter
-        // - since no book is missing all of chapter 1
-      }
-    } else break;
-  }
-
-  return verse == first_verse_in_chapter;
-}
-
-/**
  * Create a valid BibleRef
  * @throws Will throw if `version` is invalid or the resulting BibleRef is not valid.
  * @param {BibleVersion} version - The version for the new ref

@@ -24,11 +24,42 @@ export namespace app {
 	        this.logDirectory = source["logDirectory"];
 	    }
 	}
+	export class ScriptureVerseDetail {
+	    type: number;
+	    data: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new ScriptureVerseDetail(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.type = source["type"];
+	        this.data = source["data"];
+	    }
+	}
+	export class ScriptureWordDetail {
+	    position: boolean;
+	    type: number;
+	    data: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new ScriptureWordDetail(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.position = source["position"];
+	        this.type = source["type"];
+	        this.data = source["data"];
+	    }
+	}
 	export class ScriptureWord {
 	    word_num: number;
 	    text: string;
 	    pre: string;
 	    post: string;
+	    details?: ScriptureWordDetail[];
 	    no_instant_details?: boolean;
 	
 	    static createFrom(source: any = {}) {
@@ -41,12 +72,33 @@ export namespace app {
 	        this.text = source["text"];
 	        this.pre = source["pre"];
 	        this.post = source["post"];
+	        this.details = this.convertValues(source["details"], ScriptureWordDetail);
 	        this.no_instant_details = source["no_instant_details"];
 	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
 	}
 	export class ScriptureVerse {
 	    ref: number;
 	    words: ScriptureWord[];
+	    details?: ScriptureVerseDetail[];
+	    continuation?: boolean;
 	
 	    static createFrom(source: any = {}) {
 	        return new ScriptureVerse(source);
@@ -56,6 +108,8 @@ export namespace app {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.ref = source["ref"];
 	        this.words = this.convertValues(source["words"], ScriptureWord);
+	        this.details = this.convertValues(source["details"], ScriptureVerseDetail);
+	        this.continuation = source["continuation"];
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
@@ -159,6 +213,7 @@ export namespace app {
 	}
 	
 	
+	
 	export class ScriptureWordData_Dictionary {
 	    form: string;
 	    gloss: string;
@@ -221,6 +276,7 @@ export namespace app {
 		    return a;
 		}
 	}
+	
 
 }
 

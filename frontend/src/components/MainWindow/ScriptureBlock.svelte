@@ -1,19 +1,11 @@
 <script lang="ts">
     import type { app } from "!wails/go/models";
     import { app_version } from "@/lib/appManager";
-    import { versionData } from "@/lib/Scripture/data";
     import type { BibleRef } from "@/lib/Scripture/types";
-    import {
-        getBook,
-        getVerse,
-        isRefBookStart,
-        refToString,
-    } from "@/lib/Scripture/ref";
-    import { getVersionBookIndex } from "@/lib/Scripture/version";
+    import { getVerse, refToString } from "@/lib/Scripture/ref";
     import { EventsEmit } from "!wails/runtime/runtime";
 
     export let block: app.ScriptureBlock;
-    export let midway_through_verse: boolean = false;
     export let preloading: boolean = false;
 
     let instant_details_timeout: ReturnType<typeof setTimeout> = null;
@@ -33,18 +25,15 @@
 </script>
 
 <div class="block">
-    {#if !midway_through_verse}
-        {#if isRefBookStart($app_version, block.range.start)}
-            <div class="heading">
-                {versionData[$app_version].books[
-                    getVersionBookIndex(
-                        $app_version,
-                        getBook(block.range.start),
-                    )
-                ].display_name}
+    {#if "details" in block.verses[0]}
+        {#each block.verses[0].details as detail}
+            <div class={detail.type == 0 ? "title" : "heading"}>
+                {detail.data}
             </div>
-        {/if}
+        {/each}
+    {/if}
 
+    {#if !("continuation" in block.verses[0])}
         <span class="ref">
             {refToString($app_version, block.range.start, "short")}
         </span>
@@ -88,10 +77,10 @@
         display: inline;
     }
 
-    .heading {
+    .title {
         display: block;
         text-align: center;
-        font-family: var(--font-heading);
+        font-family: var(--font-title);
         font-size: 3em;
         padding-block: 3rem;
     }

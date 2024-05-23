@@ -108,12 +108,23 @@ func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 
 		// Add verse if needed
 		if lastRef != ref || len(s.Blocks[lastBlock].Verses) == 0 {
-			lastRef = ref
-
 			newVerse := ScriptureVerse{}
 			newVerse.Ref = ScriptureRef(ref)
 			newVerse.Words = make([]ScriptureWord, 0, DEFAULT_WORD_COUNT)
+			newVerse.Continuation = lastRef == ref
+			if len(s.Blocks[lastBlock].Verses) == 0 {
+				if lastRef != ref && isBookStart(s.Range.Version, newVerse.Ref) {
+					newVerse.Details = make([]ScriptureVerseDetail, 1)
+					newVerse.Details[0].Type = Title
+					v_index := getVersionIndex(s.Range.Version)
+					vb_index := getVersionBookIndex(s.Range.Version, newVerse.Ref.getBook())
+					newVerse.Details[0].Data = versionData[v_index].books[vb_index].display_name
+				}
+				// TODO: headings
+			}
 			s.Blocks[lastBlock].Verses = append(s.Blocks[lastBlock].Verses, newVerse)
+
+			lastRef = ref
 		}
 		lastVerse := len(s.Blocks[lastBlock].Verses) - 1
 
@@ -143,7 +154,9 @@ func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 		} else if strings.ContainsAny(pre, "_") {
 			pre = strings.ReplaceAll(pre, "_", "—")
 		}
-		newWord := ScriptureWord{word_num, text, pre, post, has_instant_details == 0}
+		var details []ScriptureWordDetail = nil
+		// TODO: footnotes and crossrefs
+		newWord := ScriptureWord{word_num, text, pre, post, details, has_instant_details == 0}
 		s.Blocks[lastBlock].Verses[lastVerse].Words = append(s.Blocks[lastBlock].Verses[lastVerse].Words, newWord)
 	}
 	s.Range.End = ScriptureRef(ref)
