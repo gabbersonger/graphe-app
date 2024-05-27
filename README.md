@@ -33,8 +33,10 @@ Currently requires a large database file that is currently not packaged with the
   - [x] Search field
   - [x] Missing chapters (e.g. LXX Prov 25-29)
   - [x] Missing verses (e.g. ESV Matt 12:47)
-- [x] ESV data
-- [ ] ESV instant details
+- [x] Basic ESV data
+- [ ] More ESV
+  - [ ] Instant details
+  - [ ] Punctuation in psalms
 - [ ] LXX updates
   - [ ] Capitalisation
   - [x] Punctuation in psalms
