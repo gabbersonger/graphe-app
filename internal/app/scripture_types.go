@@ -6,14 +6,15 @@ type ScriptureVersion string
 type ScriptureWordDetailType int
 
 const (
+	NewLine  ScriptureWordDetailType = iota
 	Footnote ScriptureWordDetailType = iota
 	Crossref ScriptureWordDetailType = iota
 )
 
 type ScriptureWordDetail struct {
-	Position bool                    `json:"position"`
-	Type     ScriptureWordDetailType `json:"type"`
-	Data     string                  `json:"data"`
+	Type           ScriptureWordDetailType `json:"type"`
+	PositionBefore bool                    `json:"position,omitempty"`
+	Data           string                  `json:"data,omitempty"`
 }
 
 type ScriptureVerseDetailType int
@@ -25,7 +26,7 @@ const (
 
 type ScriptureVerseDetail struct {
 	Type ScriptureVerseDetailType `json:"type"`
-	Data string                   `json:"data"`
+	Data string                   `json:"data,omitempty"`
 }
 
 type ScriptureWord struct {

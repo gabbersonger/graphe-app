@@ -407,7 +407,6 @@
                         <div bind:this={preloading_elements[index]}>
                             <ScriptureBlock
                                 block={data[vb.section].blocks[vb.block]}
-                                preloading={true}
                             />
                         </div>
                     {/each}

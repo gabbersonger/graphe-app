@@ -6,7 +6,6 @@
     import { EventsEmit } from "!wails/runtime/runtime";
 
     export let block: app.ScriptureBlock;
-    export let preloading: boolean = false;
 
     let instant_details_timeout: ReturnType<typeof setTimeout> = null;
 
@@ -43,20 +42,26 @@
         <div class="verse">
             {#if index > 0}<sup>{getVerse(verse.ref)}</sup>{/if}
             {#each verse.words as word}
-                {#if preloading}
-                    {word.pre}<span class="word">{word.text}</span
-                    >{word.post}{" "}
-                {:else}
-                    {word.pre}<span
-                        class="word"
-                        class:hoverable={!("no_instant_details" in word)}
-                        on:mouseenter={"no_instant_details" in word
-                            ? null
-                            : (e) => handleMouseEnter(verse.ref, word.word_num)}
-                        on:mouseleave={"no_instant_details" in word
-                            ? null
-                            : handleMouseLeave}>{word.text}</span
-                    >{word.post}{word.post != "-" ? " " : ""}
+                {word.pre}<span
+                    class="word"
+                    class:hoverable={!("no_instant_details" in word)}
+                    on:mouseenter={"no_instant_details" in word
+                        ? null
+                        : (e) => handleMouseEnter(verse.ref, word.word_num)}
+                    on:mouseleave={"no_instant_details" in word
+                        ? null
+                        : handleMouseLeave}>{word.text}</span
+                >{word.post}{word.post != "-" ? " " : ""}
+                {#if "details" in word}
+                    {#each word.details as detail}
+                        {#if detail.type == 0}
+                            <br />
+                        {:else if detail.type == 1}
+                            <!-- TODO: handle footnote -->
+                        {:else if detail.type == 2}
+                            <!-- TODO: handle crossref -->
+                        {/if}
+                    {/each}
                 {/if}
             {/each}
         </div>

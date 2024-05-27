@@ -112,13 +112,15 @@ func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 			newVerse.Ref = ScriptureRef(ref)
 			newVerse.Words = make([]ScriptureWord, 0, DEFAULT_WORD_COUNT)
 			newVerse.Continuation = lastRef == ref
+			newVerse.Details = make([]ScriptureVerseDetail, 0)
 			if len(s.Blocks[lastBlock].Verses) == 0 {
 				if lastRef != ref && isBookStart(s.Range.Version, newVerse.Ref) {
-					newVerse.Details = make([]ScriptureVerseDetail, 1)
-					newVerse.Details[0].Type = Title
 					v_index := getVersionIndex(s.Range.Version)
 					vb_index := getVersionBookIndex(s.Range.Version, newVerse.Ref.getBook())
-					newVerse.Details[0].Data = versionData[v_index].books[vb_index].display_name
+					newVerse.Details = append(newVerse.Details, ScriptureVerseDetail{
+						Type: Title,
+						Data: versionData[v_index].books[vb_index].display_name,
+					})
 				}
 				// TODO: headings
 			}
@@ -136,6 +138,8 @@ func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 				createNextBlock = true
 				n = i
 				break
+			} else if rune == '@' {
+
 			}
 		}
 		if n >= 0 {
@@ -143,7 +147,7 @@ func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 			post = string(runes)
 		}
 
-		// Add word
+		// Replace _ with —
 		if len(post) > 0 && post[0] == '_' {
 			post = " —" + post[1:]
 		} else if strings.ContainsAny(post, "_") {
@@ -154,8 +158,20 @@ func getScriptureSection(a *App, wg *sync.WaitGroup, s *ScriptureSection) {
 		} else if strings.ContainsAny(pre, "_") {
 			pre = strings.ReplaceAll(pre, "_", "—")
 		}
-		var details []ScriptureWordDetail = nil
+
+		var details []ScriptureWordDetail = make([]ScriptureWordDetail, 0)
+
 		// TODO: footnotes and crossrefs
+
+		// Check for poetry line-breaks
+		if len(post) > 0 && post[len(post)-1] == '@' {
+			post = post[:len(post)-1]
+			details = append(details, ScriptureWordDetail{
+				Type: NewLine,
+			})
+		}
+
+		// Add word
 		newWord := ScriptureWord{word_num, text, pre, post, details, has_instant_details == 0}
 		s.Blocks[lastBlock].Verses[lastVerse].Words = append(s.Blocks[lastBlock].Verses[lastVerse].Words, newWord)
 	}

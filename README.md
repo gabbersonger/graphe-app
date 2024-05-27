@@ -37,7 +37,7 @@ Currently requires a large database file that is currently not packaged with the
 - [ ] ESV instant details
 - [ ] LXX updates
   - [ ] Capitalisation
-  - [ ] Punctuation in psalms
+  - [x] Punctuation in psalms
 - [ ] Auto-download database files on start-up
   - [ ] Functionality
   - [ ] UI

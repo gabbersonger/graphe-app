@@ -26,7 +26,7 @@ export namespace app {
 	}
 	export class ScriptureVerseDetail {
 	    type: number;
-	    data: string;
+	    data?: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new ScriptureVerseDetail(source);
@@ -39,9 +39,9 @@ export namespace app {
 	    }
 	}
 	export class ScriptureWordDetail {
-	    position: boolean;
 	    type: number;
-	    data: string;
+	    position?: boolean;
+	    data?: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new ScriptureWordDetail(source);
@@ -49,8 +49,8 @@ export namespace app {
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.position = source["position"];
 	        this.type = source["type"];
+	        this.position = source["position"];
 	        this.data = source["data"];
 	    }
 	}
