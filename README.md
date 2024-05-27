@@ -45,7 +45,8 @@ Currently requires a large database file that is currently not packaged with the
   - [x] Fix basic punctuation
   - [x] Chapters starting in middle of paragraph
   - [x] Verses split over multiple paragraphs
-  - [ ] Italicise psalm superscripts
+  - [x] Ends in '-' combine with next
+  - [ ] Verse 1 in middle of paragraph
 
 <br/>
 
@@ -82,6 +83,7 @@ Currently requires a large database file that is currently not packaged with the
 - [ ] Morph code expansions
 - [ ] Cross References
 - [ ] Analysis window in sidebar: top occurances in chapter (filter out regular occurances)
+- [ ] Song of Songs: "SHE", "HE", "OTHERS"
 
 <br/>
 

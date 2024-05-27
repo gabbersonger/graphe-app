@@ -56,7 +56,7 @@
                         on:mouseleave={"no_instant_details" in word
                             ? null
                             : handleMouseLeave}>{word.text}</span
-                    >{word.post}{" "}
+                    >{word.post}{word.post != "-" ? " " : ""}
                 {/if}
             {/each}
         </div>
