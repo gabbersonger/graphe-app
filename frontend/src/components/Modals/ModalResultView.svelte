@@ -1,7 +1,15 @@
 <script lang="ts">
     import ModalWrapper from "@/components/Modals/ModalWrapper.svelte";
     import { onMount, type ComponentType } from "svelte";
-    import { Search, type Icon, ArchiveX, ChevronLeft } from "lucide-svelte";
+    import {
+        Search,
+        type Icon,
+        ArchiveX,
+        ChevronLeft,
+        CornerDownLeft,
+        ArrowUp,
+        ArrowDown,
+    } from "lucide-svelte";
 
     export let icon: ComponentType<Icon> = null;
     export let placeholder: string;
@@ -19,6 +27,7 @@
         selected = results[0].display == "Back" ? 1 : 0;
     }
 
+    const VIEW_GAP = 5;
     function ensureItemInView(item: HTMLButtonElement) {
         mouseEnterLocked = true;
 
@@ -28,9 +37,10 @@
         const itemBottom = itemTop + item.offsetHeight;
 
         if (itemTop < top) {
-            contentElement.scrollTop = itemTop;
+            contentElement.scrollTop = itemTop - VIEW_GAP;
         } else if (itemBottom > bottom) {
-            contentElement.scrollTop = itemBottom - contentElement.offsetHeight;
+            contentElement.scrollTop =
+                itemBottom - contentElement.offsetHeight + VIEW_GAP;
         }
     }
 
@@ -118,6 +128,24 @@
                 <div>{noResults}</div>
             </div>
         {/if}
+    </div>
+
+    <div slot="footer" class="footer">
+        <div class="footer-block">
+            <div class="footer-icon">
+                <ArrowUp />
+            </div>
+            <div class="footer-icon">
+                <ArrowDown />
+            </div>
+            <div class="footer-text">Navigate</div>
+        </div>
+        <div class="footer-block">
+            <div class="footer-icon">
+                <CornerDownLeft />
+            </div>
+            <div class="footer-text">Select</div>
+        </div>
     </div>
 </ModalWrapper>
 
@@ -220,5 +248,38 @@
     .no-results :global(svg) {
         height: 4em;
         width: 4em;
+    }
+
+    .footer {
+        padding: 1rem 1rem;
+        display: flex;
+        flex-direction: row;
+        gap: 2em;
+        font-size: 0.8em;
+        color: var(--clr-text-sub);
+    }
+
+    .footer-block {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5em;
+    }
+
+    .footer-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--clr-background);
+        padding: 0.2em;
+        border-radius: 0.2em;
+        width: 1.5em;
+        aspect-ratio: 1;
+    }
+
+    .footer-icon :global(svg) {
+        height: 1em;
+        width: 1em;
     }
 </style>
