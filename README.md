@@ -43,12 +43,12 @@ Currently requires a large database file that is currently not packaged with the
 - [ ] Auto-download database files on start-up
   - [ ] Functionality
   - [ ] UI
-- [ ] Text UI updates
+- [x] Text UI updates
   - [x] Fix basic punctuation
   - [x] Chapters starting in middle of paragraph
   - [x] Verses split over multiple paragraphs
   - [x] Ends in '-' combine with next
-  - [ ] Verse 1 in middle of paragraph
+  - [x] Verse 1 in middle of paragraph
 
 <br/>
 

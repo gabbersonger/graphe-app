@@ -2,7 +2,7 @@
     import type { app } from "!wails/go/models";
     import { app_version } from "@/lib/appManager";
     import type { BibleRef } from "@/lib/Scripture/types";
-    import { getVerse, refToString } from "@/lib/Scripture/ref";
+    import { getChapter, getVerse, refToString } from "@/lib/Scripture/ref";
     import { EventsEmit } from "!wails/runtime/runtime";
 
     export let block: app.ScriptureBlock;
@@ -40,7 +40,13 @@
 
     {#each block.verses as verse, index}
         <div class="verse">
-            {#if index > 0}<sup>{getVerse(verse.ref)}</sup>{/if}
+            {#if index > 0}
+                <sup>
+                    {getVerse(verse.ref) == 1
+                        ? `${getChapter(verse.ref)}:${getVerse(verse.ref)}`
+                        : getVerse(verse.ref)}
+                </sup>
+            {/if}
             {#each verse.words as word}
                 {word.pre}<span
                     class="word"
