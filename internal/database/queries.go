@@ -14,8 +14,9 @@ type GrapheQueries struct {
 	lxxWordBasicInfo      *sqlite3.Stmt
 	lxxWordInflectedCount *sqlite3.Stmt
 
-	esvSection  *sqlite3.Stmt
-	esvWordText *sqlite3.Stmt
+	esvSection         *sqlite3.Stmt
+	esvWordBasicInfo   *sqlite3.Stmt
+	esvWordStrongsInfo *sqlite3.Stmt
 }
 
 func prepareQueries(g *GrapheDB, db *GrapheDBConn) {
@@ -56,7 +57,7 @@ func prepareQueries(g *GrapheDB, db *GrapheDBConn) {
 				SELECT count(*)
 				FROM gnt_text_dictionary AS t2
 				WHERE t2.form = t1.form
-			) as count
+			) AS count
         FROM gnt_text_dictionary AS t1
         WHERE
            	t1.ref = ?
@@ -105,7 +106,7 @@ func prepareQueries(g *GrapheDB, db *GrapheDBConn) {
                 SELECT count(*)
                 FROM lxx_text_info AS t2
                 WHERE t2.dictionary_form = t1.dictionary_form
-            ) as count
+            ) AS count
         FROM lxx_text_info AS t1
         WHERE
             t1.ref = ?
@@ -137,13 +138,31 @@ func prepareQueries(g *GrapheDB, db *GrapheDBConn) {
     `)
 	g.check(err)
 
-	db.queries.esvWordText, err = db.conn.Prepare(`
-        SELECT text
-        FROM esv_text
+	db.queries.esvWordBasicInfo, err = db.conn.Prepare(`
+        SELECT
+            text, (
+                SELECT count(*)
+                FROM esv_text AS t2
+                WHERE LOWER(t2.text) = LOWER(t1.text)
+            ) AS count
+        FROM esv_text AS t1
         WHERE
             ref = ?
             AND word_num = ?
         LIMIT 1;
+    `)
+	g.check(err)
+
+	db.queries.esvWordStrongsInfo, err = db.conn.Prepare(`
+        SELECT strongs, (
+            SELECT count(*)
+            FROM esv_text_strongs AS t2
+            WHERE t2.strongs = t1.strongs
+        ) AS count
+        FROM esv_text_strongs AS t1
+        WHERE
+            ref = ?
+            AND word_num = ?;
     `)
 	g.check(err)
 }

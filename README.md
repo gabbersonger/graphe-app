@@ -37,11 +37,9 @@ Currently requires a large database file that is currently not packaged with the
   - [x] Missing verses (e.g. ESV Matt 12:47)
 - [x] Basic ESV data
 - [ ] More ESV
-  - [ ] Instant details
+  - [x] Instant details
   - [ ] Punctuation in psalms
-- [ ] LXX updates
-  - [ ] Capitalisation
-  - [x] Punctuation in psalms
+- [x] LXX punctuation in psalms
 - [ ] Auto-download database files on start-up
   - [ ] Functionality
   - [ ] UI
@@ -79,6 +77,7 @@ Currently requires a large database file that is currently not packaged with the
 
 **Version 0.5 – Text details update**
 
+- [ ] LXX Capitalisation
 - [ ] Parallel texts
 - [ ] Bible headings
 - [ ] Footnoted variant spelling/meaning

@@ -1,32 +1,69 @@
 <script lang="ts">
-    import { app_instantDetails } from "@/lib/appManager";
+    import { app_instantDetails, app_version } from "@/lib/appManager";
 
-    $: console.log($app_instantDetails);
+    function count(s: string) {
+        return parseInt(s).toLocaleString();
+    }
 </script>
 
-<!-- {#if $app_instantDetails}
+{#if $app_instantDetails}
     <div class="container">
-        <div>
-            <div class="pill">{$app_instantDetails.english}</div>
-            <span class="word">{$app_instantDetails.text}</span>
-            <span class="translit">{$app_instantDetails.translit}</span>
-            <span class="count">
-                [{$app_instantDetails.inflected_count.toLocaleString()}x]
-            </span>
-        </div>
-
-        {#each $app_instantDetails.dictionary as dictionary_word}
-            <div class="indent">
-                — <span class="word">{dictionary_word.form}</span>
-                <b>{dictionary_word.strong} {dictionary_word.gloss}</b>
-                {dictionary_word.grammar}
+        {#if $app_version == "gnt"}
+            <div>
+                <div class="pill">{$app_instantDetails.fields["English"]}</div>
+                <span class="word">{$app_instantDetails.text}</span>
+                <span class="translit"
+                    >{$app_instantDetails.fields["Translit"]}</span
+                >
                 <span class="count">
-                    [{dictionary_word.count.toLocaleString()}x]
+                    [{count($app_instantDetails.fields["InflectedCount"])}x]
                 </span>
             </div>
-        {/each}
+
+            {#each $app_instantDetails.collections as c}
+                <div class="indent">
+                    — <span class="word">{c["Form"]}</span>
+                    <b>{c["Strong"]} {c["Gloss"]}</b>
+                    {c["Grammar"]}
+                    <span class="count">
+                        [{count(c["FormCount"])}x]
+                    </span>
+                </div>
+            {/each}
+        {:else if $app_version == "lxx"}
+            <div>
+                <div class="pill">{$app_instantDetails.fields["English"]}</div>
+                <span class="word">{$app_instantDetails.text}</span>
+                <span class="translit"
+                    >{$app_instantDetails.fields["Translit"]}</span
+                >
+                <span class="count">
+                    [{count($app_instantDetails.fields["InflectedCount"])}x]
+                </span>
+            </div>
+
+            <div class="indent">
+                — <span class="word">{$app_instantDetails.fields["Form"]}</span>
+                <b
+                    >{$app_instantDetails.fields["Strong"]}
+                    {$app_instantDetails.fields["Gloss"]}</b
+                >
+                {$app_instantDetails.fields["Grammar"]}
+                <span class="count">
+                    [{count($app_instantDetails.fields["FormCount"])}x]
+                </span>
+            </div>
+        {:else if $app_version == "esv"}
+            <div>
+                <span class="word">{$app_instantDetails.text}</span>
+                <span class="count">
+                    [{count($app_instantDetails.fields["EnglishCount"])}x]
+                </span>
+                <div class="pill">{$app_instantDetails.fields}</div>
+            </div>
+        {/if}
     </div>
-{/if} -->
+{/if}
 
 <style>
     .container {
