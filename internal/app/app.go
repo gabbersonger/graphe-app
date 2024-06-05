@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"graphe/internal/database"
 	"os"
 	"path/filepath"
 	"strings"
@@ -23,7 +24,7 @@ type EnvironmentInfo struct {
 type App struct {
 	Env EnvironmentInfo
 	ctx context.Context
-	db  GrapheDB
+	db  *database.GrapheDB
 }
 
 func (a *App) check(e error) {
@@ -63,11 +64,12 @@ func (a *App) Startup(ctx context.Context) {
 	a.Env.BuildType = wailsEnv.BuildType
 	a.Env.Platform = wailsEnv.Platform
 
-	a.setupDatabasePool()
+	dbFile := a.Env.DataDirectory + "/graphe.db"
+	a.db = database.NewDB(a.ctx, dbFile)
 }
 
 func (a *App) Shutdown(ctx context.Context) {
 	runtime.LogInfo(ctx, "Runcycle: Shutdown")
 
-	a.closeDatabasePool()
+	a.db.ClosePool()
 }

@@ -1,8 +1,10 @@
 <script lang="ts">
     import { app_instantDetails } from "@/lib/appManager";
+
+    $: console.log($app_instantDetails);
 </script>
 
-{#if $app_instantDetails}
+<!-- {#if $app_instantDetails}
     <div class="container">
         <div>
             <div class="pill">{$app_instantDetails.english}</div>
@@ -24,7 +26,7 @@
             </div>
         {/each}
     </div>
-{/if}
+{/if} -->
 
 <style>
     .container {
