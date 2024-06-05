@@ -52,7 +52,7 @@ func main() {
 			app,
 		},
 
-		Logger:             internal.NewAppLogger(app.Env.LogDirectory, title+".log"),
+		Logger:             internal.NewAppLogger(app.GetEnvironmentInfo().LogDirectory, title+".log"),
 		LogLevel:           logger.TRACE,
 		LogLevelProduction: logger.INFO,
 

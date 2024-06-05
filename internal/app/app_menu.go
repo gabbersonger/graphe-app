@@ -16,7 +16,7 @@ func menuCallbackEmit(a *App, eventName string, data ...interface{}) func(cd *me
 
 func menuCallbackOpenFolder(a *App, fname string) func(cd *menu.CallbackData) {
 	return func(cd *menu.CallbackData) {
-		switch a.Env.Platform {
+		switch a.env.Platform {
 		case "darwin":
 			exec.Command("open", "--reveal", fname).Run()
 			break
@@ -42,8 +42,8 @@ func (a *App) Menu() *menu.Menu {
 	grapheMenu.AddSeparator()
 	grapheMenu.AddText("Check for Updates", nil, menuCallbackEmit(a, "global:update_check"))
 	grapheMenu.AddSeparator()
-	grapheMenu.AddText("Open Data Directory", nil, menuCallbackOpenFolder(a, a.Env.DataDirectory))
-	grapheMenu.AddText("Open Log Directory", nil, menuCallbackOpenFolder(a, a.Env.LogDirectory))
+	grapheMenu.AddText("Open Data Directory", nil, menuCallbackOpenFolder(a, a.env.DataDirectory))
+	grapheMenu.AddText("Open Log Directory", nil, menuCallbackOpenFolder(a, a.env.LogDirectory))
 	grapheMenu.AddText("Purge logs", nil, menuCallbackEmit(a, "global:purge_logs"))
 	grapheMenu.AddSeparator()
 	grapheMenu.AddText("Hide Graphe", keys.CmdOrCtrl("H"), func(cd *menu.CallbackData) { runtime.Hide(a.ctx) })

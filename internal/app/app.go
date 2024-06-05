@@ -22,7 +22,7 @@ type EnvironmentInfo struct {
 }
 
 type App struct {
-	Env EnvironmentInfo
+	env EnvironmentInfo
 	ctx context.Context
 	db  *database.GrapheDB
 }
@@ -34,7 +34,7 @@ func (a *App) check(e error) {
 }
 
 func (a *App) GetEnvironmentInfo() EnvironmentInfo {
-	return a.Env
+	return a.env
 }
 
 func (a *App) Throw(s string) {
@@ -43,14 +43,14 @@ func (a *App) Throw(s string) {
 
 func NewApp(version string) *App {
 	a := &App{}
-	a.Env.Version = strings.TrimSpace(version)
+	a.env.Version = strings.TrimSpace(version)
 	homeDir, err := os.UserHomeDir()
 	a.check(err)
-	a.Env.HomeDirectory = homeDir
-	a.Env.DataDirectory = filepath.Join(a.Env.HomeDirectory, "/Library/Application Support/Graphe")
-	a.Env.LogDirectory = filepath.Join(a.Env.HomeDirectory, "/Library/Logs/Graphe")
-	os.MkdirAll(a.Env.DataDirectory, os.ModePerm)
-	os.MkdirAll(a.Env.LogDirectory, os.ModePerm)
+	a.env.HomeDirectory = homeDir
+	a.env.DataDirectory = filepath.Join(a.env.HomeDirectory, "/Library/Application Support/Graphe")
+	a.env.LogDirectory = filepath.Join(a.env.HomeDirectory, "/Library/Logs/Graphe")
+	os.MkdirAll(a.env.DataDirectory, os.ModePerm)
+	os.MkdirAll(a.env.LogDirectory, os.ModePerm)
 	return a
 }
 
@@ -60,11 +60,11 @@ func (a *App) Startup(ctx context.Context) {
 	a.ctx = ctx
 
 	wailsEnv := runtime.Environment(ctx)
-	a.Env.Arch = wailsEnv.Arch
-	a.Env.BuildType = wailsEnv.BuildType
-	a.Env.Platform = wailsEnv.Platform
+	a.env.Arch = wailsEnv.Arch
+	a.env.BuildType = wailsEnv.BuildType
+	a.env.Platform = wailsEnv.Platform
 
-	dbFile := a.Env.DataDirectory + "/graphe.db"
+	dbFile := a.env.DataDirectory + "/graphe.db"
 	a.db = database.NewDB(a.ctx, dbFile)
 }
 
