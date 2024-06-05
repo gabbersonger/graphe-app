@@ -25,7 +25,7 @@ func TestGetBook(t *testing.T) {
 
 	r = 10_000_000
 	b = r.GetBook()
-	if b != 1 {
+	if b != 10 {
 		t.Errorf("double digit case for ScriptureRef.getBook() does not work")
 	}
 

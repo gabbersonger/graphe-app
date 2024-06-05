@@ -19,6 +19,8 @@ Live development mode: `wails dev`
 
 Build distributable app: `wails build`
 
+Test go code: `go test ./... -v`
+
 Currently requires a large database file that is currently not packaged with the code. However there are plans to make this downloadable.
 
 <br/>
