@@ -102,6 +102,10 @@ func (r ScriptureRef) IsValid(v ScriptureVersion) bool {
 }
 
 func (r ScriptureRef) IsBookStart(v ScriptureVersion) bool {
+	if !r.IsValid(v) {
+		return false
+	}
+
 	book := r.GetBook()
 	chapter := r.GetChapter()
 	verse := r.GetVerse()
@@ -111,8 +115,8 @@ func (r ScriptureRef) IsBookStart(v ScriptureVersion) bool {
 		return false
 	}
 
-	if chapter == 0 && book_data.Prologue > 0 {
-		return verse == 1
+	if book_data.Prologue > 0 {
+		return chapter == 0 && verse == 1
 		// This is because no prologue is missing verse 1
 	}
 
@@ -125,6 +129,9 @@ func (r ScriptureRef) IsBookStart(v ScriptureVersion) bool {
 	}
 
 	first_verse_in_chapter := 1
+	if len(book_data.Superscripts) > 0 && book_data.Superscripts[0] == 1 {
+		first_verse_in_chapter = 0
+	}
 	for _, s := range book_data.MissingSections {
 		if s.Start.GetChapter() == 1 {
 			if s.Start.GetVerse() <= first_verse_in_chapter {
@@ -149,7 +156,7 @@ const (
 	StringBook
 )
 
-func (r ScriptureRef) toString(v ScriptureVersion, f ScriptureRefStringType) (string, error) {
+func (r ScriptureRef) ToString(v ScriptureVersion, f ScriptureRefStringType) (string, error) {
 	if !r.IsValid(v) {
 		return "", fmt.Errorf("Invalid ref for version in 'toString'. args=(ref: %d, version: %s, format: %d)", r, v, f)
 	}

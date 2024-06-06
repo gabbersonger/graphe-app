@@ -2,8 +2,8 @@ package main
 
 import (
 	"embed"
-	"graphe/internal"
-	"graphe/internal/app"
+	. "graphe/internal/app"
+	. "graphe/internal/logger"
 
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/logger"
@@ -34,7 +34,7 @@ var (
 
 func main() {
 	// Create an instance of the app structure
-	app := app.NewApp(version)
+	app := NewApp(version)
 
 	// Create application with options
 	err := wails.Run(&options.App{
@@ -52,7 +52,7 @@ func main() {
 			app,
 		},
 
-		Logger:             internal.NewAppLogger(app.GetEnvironmentInfo().LogDirectory, title+".log"),
+		Logger:             NewAppLogger(app.GetEnvironmentInfo().LogDirectory, title+".log"),
 		LogLevel:           logger.TRACE,
 		LogLevelProduction: logger.INFO,
 

@@ -26,7 +26,7 @@ func (r ScriptureRange) IsValid() bool {
 }
 
 func (r ScriptureRange) Contains(ref ScriptureRef) bool {
-	if !ref.IsValid(r.Version) {
+	if !ref.IsValid(r.Version) || !r.IsValid() {
 		return false
 	}
 

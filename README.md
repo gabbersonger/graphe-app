@@ -40,9 +40,9 @@ Currently requires a large database file that is currently not packaged with the
   - [x] Instant details
   - [x] Punctuation in psalms
 - [x] LXX punctuation in psalms
-- [ ] Golang scripture features
+- [x] Golang scripture features
   - [x] Port all existing functions from JS to Golang
-  - [ ] Add Golang tests for scripture functions
+  - [x] Add Golang tests for scripture functions
 - [ ] Auto-download database files on start-up
   - [ ] Functionality
   - [ ] UI
