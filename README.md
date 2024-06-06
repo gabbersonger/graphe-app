@@ -27,38 +27,10 @@ Currently requires a large database file that is currently not packaged with the
 
 # Roadmap
 
-**Version 0.2 – Data update**
-
-- [x] Standardise instant details
-- [x] Choose passage
-  - [x] UI
-  - [x] Search field
-  - [x] Missing chapters (e.g. LXX Prov 25-29)
-  - [x] Missing verses (e.g. ESV Matt 12:47)
-- [x] Basic ESV data
-- [x] More ESV
-  - [x] Instant details
-  - [x] Punctuation in psalms
-- [x] LXX punctuation in psalms
-- [x] Golang scripture features
-  - [x] Port all existing functions from JS to Golang
-  - [x] Add Golang tests for scripture functions
-- [ ] Auto-download database files on start-up
-  - [ ] Functionality
-  - [ ] UI
-- [x] Text UI updates
-  - [x] Fix basic punctuation
-  - [x] Chapters starting in middle of paragraph
-  - [x] Verses split over multiple paragraphs
-  - [x] Ends in '-' combine with next
-  - [x] Verse 1 in middle of paragraph
-
-<br/>
-
 **Version 0.3 – Settings update**
 
-- [ ] Menubar
-- [ ] Settings window
+- [ ] Floating settings window
+- [ ] Settings page
   - [ ] General (startup)
   - [ ] Appearence (theme, font/size)
   - [ ] Shortcuts
@@ -67,6 +39,7 @@ Currently requires a large database file that is currently not packaged with the
   - [ ] Instant details (what is display and order?)
   - [ ] Version/updates
 - [ ] Right click functionality
+- [ ] Menubar
 - [ ] Appearance modal
 
 <br/>
@@ -75,6 +48,9 @@ Currently requires a large database file that is currently not packaged with the
 
 - [ ] Animations
 - [ ] Sound effects
+- [ ] Auto-download database files on start-up
+  - [ ] Functionality
+  - [ ] UI
 
 <br/>
 
@@ -136,6 +112,5 @@ Currently requires a large database file that is currently not packaged with the
 
 **Bugs**
 
-- [ ] Does not currently handle missing verses well (e.g. goto)
 - [ ] Resizing window does not keep verse at top (currently: only keeps block + scroll offset)
 - [ ] Current verse doesn't update for book title
