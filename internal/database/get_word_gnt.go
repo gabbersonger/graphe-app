@@ -6,6 +6,7 @@ import (
 )
 
 func getScriptureWord_GNT(g *GrapheDB, d *ScriptureWordData) {
+	prepareScriptureWord_GNT(d)
 	wg := new(sync.WaitGroup)
 	wg.Add(4)
 	go getScriptureWordText_GNT(g, wg, d)
@@ -13,6 +14,13 @@ func getScriptureWord_GNT(g *GrapheDB, d *ScriptureWordData) {
 	go getScriptureWordDictionaryValues_GNT(g, wg, d)
 	go getScriptureWordInflectedCount_GNT(g, wg, d)
 	wg.Wait()
+}
+
+func prepareScriptureWord_GNT(d *ScriptureWordData) {
+	d.Fields = make([]ScriptureWordDataField, 3)
+	d.Fields[0].Name = "Translit"
+	d.Fields[1].Name = "English"
+	d.Fields[2].Name = "InflectedCount[int]"
 }
 
 func getScriptureWordText_GNT(g *GrapheDB, wg *sync.WaitGroup, d *ScriptureWordData) {
@@ -48,8 +56,8 @@ func getScriptureWordBasicInfo_GNT(g *GrapheDB, wg *sync.WaitGroup, d *Scripture
 	var translit, english string
 	err = stmt.Scan(&translit, &english)
 	g.check(err)
-	d.Fields["Translit"] = translit
-	d.Fields["English"] = english
+	d.Fields[0].Data = translit
+	d.Fields[1].Data = english
 
 	stmt.Reset()
 	g.Pool <- db
@@ -62,7 +70,7 @@ func getScriptureWordDictionaryValues_GNT(g *GrapheDB, wg *sync.WaitGroup, d *Sc
 	err := stmt.Bind(int(d.Ref), int(d.WordNumber))
 	g.check(err)
 
-	d.Collections = make([]ScriptureWordDataFields, 0, 1)
+	d.Collections = make([][]ScriptureWordDataField, 0)
 	var form, gloss, strong, grammar string
 	var count int
 	for {
@@ -74,13 +82,18 @@ func getScriptureWordDictionaryValues_GNT(g *GrapheDB, wg *sync.WaitGroup, d *Sc
 		err = stmt.Scan(&form, &gloss, &strong, &grammar, &count)
 		g.check(err)
 
-		c := make(ScriptureWordDataFields)
-		c["Form"] = form
-		c["Gloss"] = gloss
-		c["Strong"] = strong
-		c["Grammar"] = grammar
-		c["FormCount"] = fmt.Sprint(count)
-		d.Collections = append(d.Collections, c)
+		fields := make([]ScriptureWordDataField, 5)
+		fields[0].Name = "Form"
+		fields[0].Data = form
+		fields[1].Name = "Gloss"
+		fields[1].Data = gloss
+		fields[2].Name = "Strong"
+		fields[2].Data = strong
+		fields[3].Name = "Grammar"
+		fields[3].Data = grammar
+		fields[4].Name = "FormCount[int]"
+		fields[4].Data = fmt.Sprint(count)
+		d.Collections = append(d.Collections, fields)
 	}
 
 	stmt.Reset()
@@ -102,7 +115,7 @@ func getScriptureWordInflectedCount_GNT(g *GrapheDB, wg *sync.WaitGroup, d *Scri
 	var count int
 	err = stmt.Scan(&count)
 	g.check(err)
-	d.Fields["InflectedCount"] = fmt.Sprint(count)
+	d.Fields[2].Data = fmt.Sprint(count)
 
 	stmt.Reset()
 	g.Pool <- db

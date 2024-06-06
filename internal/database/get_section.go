@@ -56,6 +56,7 @@ const (
 
 const (
 	NewLine  ScriptureWordDetailType = iota
+	Indent   ScriptureWordDetailType = iota
 	Footnote ScriptureWordDetailType = iota
 	Crossref ScriptureWordDetailType = iota
 )
@@ -201,8 +202,6 @@ func getScriptureSection(g *GrapheDB, wg *sync.WaitGroup, s *ScriptureSection) {
 				createNextBlock = true
 				n = i
 				break
-			} else if rune == '@' {
-
 			}
 		}
 		if n >= 0 {
@@ -231,6 +230,18 @@ func getScriptureSection(g *GrapheDB, wg *sync.WaitGroup, s *ScriptureSection) {
 			post = post[:len(post)-1]
 			details = append(details, ScriptureWordDetail{
 				Type: NewLine,
+			})
+		}
+
+		// Check for poetry line-indents
+		if len(pre) > 0 && pre[0] == '~' {
+			if len(pre) > 1 {
+				pre = pre[1:]
+			} else {
+				pre = ""
+			}
+			details = append(details, ScriptureWordDetail{
+				Type: Indent,
 			})
 		}
 

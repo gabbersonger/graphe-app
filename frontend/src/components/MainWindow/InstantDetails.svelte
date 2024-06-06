@@ -1,66 +1,132 @@
 <script lang="ts">
+    import type { database } from "!wails/go/models";
     import { app_instantDetails, app_version } from "@/lib/appManager";
 
-    function count(s: string) {
-        return parseInt(s).toLocaleString();
+    type InstantDetailsData_Fields = Map<string, string>;
+
+    type InstantDetailsData = {
+        version: string;
+        ref: number;
+        word_number: number;
+        text: string;
+        fields?: InstantDetailsData_Fields;
+        collections?: InstantDetailsData_Fields[];
+    };
+
+    let shown = false;
+    let detail: InstantDetailsData = undefined;
+
+    function addField(
+        fields: InstantDetailsData_Fields,
+        name: string,
+        data: string,
+    ) {
+        if (name.includes("[int]")) {
+            name = name.replace("[int]", "");
+            data = parseInt(data).toLocaleString();
+        }
+        fields.set(name, data);
     }
+
+    function handleData(data: database.ScriptureWordData) {
+        if (data == null) {
+            shown = false;
+            return;
+        }
+
+        detail = {
+            version: data.version,
+            ref: data.ref,
+            word_number: data.word_number,
+            text: data.text,
+        };
+
+        if (data.fields && data.fields.length > 0) {
+            detail.fields = new Map();
+            for (let i = 0; i < data.fields.length; i++) {
+                addField(
+                    detail.fields,
+                    data.fields[i].name,
+                    data.fields[i].data,
+                );
+            }
+        }
+        if (data.collections && data.collections.length > 0) {
+            detail.collections = [];
+            for (let i = 0; i < data.collections.length; i++) {
+                const collection = new Map();
+                for (let j = 0; j < data.collections[i].length; j++) {
+                    addField(
+                        collection,
+                        data.collections[i][j].name,
+                        data.collections[i][j].data,
+                    );
+                }
+                detail.collections.push(collection);
+            }
+        }
+
+        shown = true;
+    }
+
+    $: handleData($app_instantDetails);
 </script>
 
-{#if $app_instantDetails}
+{#if shown}
     <div class="container">
-        {#if $app_version == "gnt"}
+        {#if detail.version == "gnt"}
             <div>
-                <div class="pill">{$app_instantDetails.fields["English"]}</div>
-                <span class="word">{$app_instantDetails.text}</span>
-                <span class="translit"
-                    >{$app_instantDetails.fields["Translit"]}</span
-                >
+                <div class="pill">{detail.fields.get("English")}</div>
+                <span class="word">{detail.text}</span>
+                <span class="translit">{detail.fields.get("Translit")}</span>
                 <span class="count">
-                    [{count($app_instantDetails.fields["InflectedCount"])}x]
+                    [{detail.fields.get("InflectedCount")}x]
                 </span>
             </div>
 
-            {#each $app_instantDetails.collections as c}
+            {#each detail.collections as c}
                 <div class="indent">
-                    — <span class="word">{c["Form"]}</span>
-                    <b>{c["Strong"]} {c["Gloss"]}</b>
-                    {c["Grammar"]}
-                    <span class="count">
-                        [{count(c["FormCount"])}x]
-                    </span>
+                    — <span class="word">{c.get("Form")}</span>
+                    <b>{c.get("Strong")} {c.get("Gloss")}</b>
+                    {c.get("Grammar")}
+                    <span class="count">[{c.get("FormCount")}x]</span>
                 </div>
             {/each}
-        {:else if $app_version == "lxx"}
+        {:else if detail.version == "lxx"}
             <div>
-                <div class="pill">{$app_instantDetails.fields["English"]}</div>
-                <span class="word">{$app_instantDetails.text}</span>
-                <span class="translit"
-                    >{$app_instantDetails.fields["Translit"]}</span
-                >
+                <div class="pill">{detail.fields.get("English")}</div>
+                <span class="word">{detail.text}</span>
+                <span class="translit">{detail.fields.get("Translit")}</span>
                 <span class="count">
-                    [{count($app_instantDetails.fields["InflectedCount"])}x]
+                    [{detail.fields.get("InflectedCount")}x]
                 </span>
             </div>
 
             <div class="indent">
-                — <span class="word">{$app_instantDetails.fields["Form"]}</span>
-                <b
-                    >{$app_instantDetails.fields["Strong"]}
-                    {$app_instantDetails.fields["Gloss"]}</b
-                >
-                {$app_instantDetails.fields["Grammar"]}
-                <span class="count">
-                    [{count($app_instantDetails.fields["FormCount"])}x]
-                </span>
+                — <span class="word">{detail.fields.get("Form")}</span>
+                <b>
+                    {detail.fields.get("Strong")}
+                    {detail.fields.get("Gloss")}
+                </b>
+                {detail.fields.get("Grammar")}
+                <span class="count">[{detail.fields.get("FormCount")}x]</span>
             </div>
-        {:else if $app_version == "esv"}
+        {:else if detail.version == "esv"}
             <div>
-                <span class="word">{$app_instantDetails.text}</span>
+                <span class="word">{detail.text}</span>
                 <span class="count">
-                    [{count($app_instantDetails.fields["EnglishCount"])}x]
+                    [{detail.fields.get("EnglishCount")}x]
                 </span>
-                <div class="pill">{$app_instantDetails.fields}</div>
             </div>
+
+            {#each detail.collections as c}
+                <div class="indent">
+                    — <span class="word">Form</span>
+                    <b>{c.get("Strong")} Gloss</b>
+                    Grammar
+                    <span class="count">[{c.get("StrongCount")}x]</span>
+                </div>
+            {/each}
         {/if}
     </div>
 {/if}

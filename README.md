@@ -36,9 +36,9 @@ Currently requires a large database file that is currently not packaged with the
   - [x] Missing chapters (e.g. LXX Prov 25-29)
   - [x] Missing verses (e.g. ESV Matt 12:47)
 - [x] Basic ESV data
-- [ ] More ESV
+- [x] More ESV
   - [x] Instant details
-  - [ ] Punctuation in psalms
+  - [x] Punctuation in psalms
 - [x] LXX punctuation in psalms
 - [ ] Auto-download database files on start-up
   - [ ] Functionality
@@ -87,6 +87,8 @@ Currently requires a large database file that is currently not packaged with the
 - [ ] Cross References
 - [ ] Analysis window in sidebar: top occurances in chapter (filter out regular occurances)
 - [ ] Song of Songs: "SHE", "HE", "OTHERS"
+- [ ] Psalm book headings
+- [ ] Divine name
 
 <br/>
 

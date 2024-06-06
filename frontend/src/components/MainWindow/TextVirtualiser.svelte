@@ -1,6 +1,6 @@
 <script lang="ts">
     import ScriptureBlock from "@/components/MainWindow/ScriptureBlock.svelte";
-    import type { app } from "!wails/go/models";
+    import type { database } from "!wails/go/models";
     import type { BibleRef } from "@/lib/Scripture/types";
     import { onMount, tick } from "svelte";
     import { EventsOff, EventsOn } from "!wails/runtime/runtime";
@@ -12,7 +12,7 @@
     const RESIZE_DELAY = 50;
     const GOTO_SCROLL_OFFSET = -20;
 
-    export let data: Array<app.ScriptureSection>;
+    export let data: Array<database.ScriptureSection>;
     $: n_blocks = data.reduce((a, c) => a + c.blocks.length, 0) ?? 0;
     $: if (n_blocks == 0) reset();
     $: if (n_blocks > 0) load();

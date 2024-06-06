@@ -1,11 +1,11 @@
 <script lang="ts">
-    import type { app } from "!wails/go/models";
+    import type { database } from "!wails/go/models";
     import { app_version } from "@/lib/appManager";
     import type { BibleRef } from "@/lib/Scripture/types";
     import { getChapter, getVerse, refToString } from "@/lib/Scripture/ref";
     import { EventsEmit } from "!wails/runtime/runtime";
 
-    export let block: app.ScriptureBlock;
+    export let block: database.ScriptureBlock;
 
     let instant_details_timeout: ReturnType<typeof setTimeout> = null;
 
@@ -63,8 +63,10 @@
                         {#if detail.type == 0}
                             <br />
                         {:else if detail.type == 1}
-                            <!-- TODO: handle footnote -->
+                            <!-- TODO: handle indent -->
                         {:else if detail.type == 2}
+                            <!-- TODO: handle footnote -->
+                        {:else if detail.type == 3}
                             <!-- TODO: handle crossref -->
                         {/if}
                     {/each}

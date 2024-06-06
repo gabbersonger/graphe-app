@@ -6,12 +6,25 @@ import (
 )
 
 func getScriptureWord_LXX(g *GrapheDB, d *ScriptureWordData) {
+	prepareScriptureWord_LXX(d)
 	wg := new(sync.WaitGroup)
 	wg.Add(3)
 	go getScriptureWordText_LXX(g, wg, d)
 	go getScriptureWordInfo_LXX(g, wg, d)
 	go getScriptureWordInflectedCount_LXX(g, wg, d)
 	wg.Wait()
+}
+
+func prepareScriptureWord_LXX(d *ScriptureWordData) {
+	d.Fields = make([]ScriptureWordDataField, 8)
+	d.Fields[0].Name = "Translit"
+	d.Fields[1].Name = "English"
+	d.Fields[2].Name = "Strong"
+	d.Fields[3].Name = "Grammar"
+	d.Fields[4].Name = "Form"
+	d.Fields[5].Name = "Gloss"
+	d.Fields[6].Name = "FormCount[int]"
+	d.Fields[7].Name = "InflectedCount[int]"
 }
 
 func getScriptureWordText_LXX(g *GrapheDB, wg *sync.WaitGroup, d *ScriptureWordData) {
@@ -48,13 +61,13 @@ func getScriptureWordInfo_LXX(g *GrapheDB, wg *sync.WaitGroup, d *ScriptureWordD
 	var count int
 	err = stmt.Scan(&translit, &english, &strong, &grammar, &form, &gloss, &count)
 	g.check(err)
-	d.Fields["Translit"] = translit
-	d.Fields["English"] = english
-	d.Fields["Strong"] = strong
-	d.Fields["Grammar"] = grammar
-	d.Fields["Form"] = form
-	d.Fields["Gloss"] = gloss
-	d.Fields["FormCount"] = fmt.Sprint(count)
+	d.Fields[0].Data = translit
+	d.Fields[1].Data = english
+	d.Fields[2].Data = strong
+	d.Fields[3].Data = grammar
+	d.Fields[4].Data = form
+	d.Fields[5].Data = gloss
+	d.Fields[6].Data = fmt.Sprint(count)
 
 	stmt.Reset()
 	g.Pool <- db
@@ -75,7 +88,7 @@ func getScriptureWordInflectedCount_LXX(g *GrapheDB, wg *sync.WaitGroup, d *Scri
 	var count int
 	err = stmt.Scan(&count)
 	g.check(err)
-	d.Fields["InflectedCount"] = fmt.Sprint(count)
+	d.Fields[7].Data = fmt.Sprint(count)
 
 	stmt.Reset()
 	g.Pool <- db

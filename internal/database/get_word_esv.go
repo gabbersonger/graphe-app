@@ -6,11 +6,17 @@ import (
 )
 
 func getScriptureWord_ESV(g *GrapheDB, d *ScriptureWordData) {
+	prepareScriptureWord_ESV(d)
 	wg := new(sync.WaitGroup)
 	wg.Add(2)
 	go getScriptureWordBasicInfo_ESV(g, wg, d)
 	go getScriptureWordStrongsInfo_ESV(g, wg, d)
 	wg.Wait()
+}
+
+func prepareScriptureWord_ESV(d *ScriptureWordData) {
+	d.Fields = make([]ScriptureWordDataField, 1)
+	d.Fields[0].Name = "EnglishCount[int]"
 }
 
 func getScriptureWordBasicInfo_ESV(g *GrapheDB, wg *sync.WaitGroup, d *ScriptureWordData) {
@@ -27,7 +33,7 @@ func getScriptureWordBasicInfo_ESV(g *GrapheDB, wg *sync.WaitGroup, d *Scripture
 	var count int
 	err = stmt.Scan(&(d.Text), &count)
 	g.check(err)
-	d.Fields["EnglishCount"] = fmt.Sprint(count)
+	d.Fields[0].Data = fmt.Sprint(count)
 
 	stmt.Reset()
 	g.Pool <- db
@@ -40,7 +46,7 @@ func getScriptureWordStrongsInfo_ESV(g *GrapheDB, wg *sync.WaitGroup, d *Scriptu
 	err := stmt.Bind(int(d.Ref), int(d.WordNumber))
 	g.check(err)
 
-	d.Collections = make([]ScriptureWordDataFields, 0, 1)
+	d.Collections = make([][]ScriptureWordDataField, 0)
 	var strong string
 	var count int
 	for {
@@ -52,10 +58,12 @@ func getScriptureWordStrongsInfo_ESV(g *GrapheDB, wg *sync.WaitGroup, d *Scriptu
 		err = stmt.Scan(&strong, &count)
 		g.check(err)
 
-		c := make(ScriptureWordDataFields)
-		c["Strong"] = strong
-		c["StrongCount"] = fmt.Sprint(count)
-		d.Collections = append(d.Collections, c)
+		fields := make([]ScriptureWordDataField, 2)
+		fields[0].Name = "Strong"
+		fields[0].Data = strong
+		fields[1].Name = "StrongCount[int]"
+		fields[1].Data = fmt.Sprint(count)
+		d.Collections = append(d.Collections, fields)
 	}
 
 	stmt.Reset()
