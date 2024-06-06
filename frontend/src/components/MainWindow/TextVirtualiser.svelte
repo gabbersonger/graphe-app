@@ -8,7 +8,7 @@
 
     const DEFAULT_BLOCKS_DISPLAY = 15;
     const PRELOAD_INTERVAL = 200;
-    const PRELOAD_BATCH = 100;
+    const PRELOAD_BATCH = 50;
     const RESIZE_DELAY = 50;
     const GOTO_SCROLL_OFFSET = -20;
 

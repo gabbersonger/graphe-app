@@ -1,10 +1,7 @@
 <script lang="ts">
     import NavbarItem from "@/components/Navbar/NavbarItem.svelte";
-    import Button from "@/components/ui/Button.svelte";
     import {
         BookOpenText,
-        PanelRight,
-        PanelRightClose,
         Search,
         Sigma,
         TextSelect,

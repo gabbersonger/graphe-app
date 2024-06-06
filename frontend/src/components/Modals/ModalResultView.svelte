@@ -2,8 +2,8 @@
     import ModalWrapper from "@/components/Modals/ModalWrapper.svelte";
     import { onMount, type ComponentType } from "svelte";
     import {
-        Search,
         type Icon,
+        Search,
         ArchiveX,
         ChevronLeft,
         CornerDownLeft,

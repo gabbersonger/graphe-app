@@ -2,7 +2,7 @@ import { get, writable, type Writable } from "svelte/store";
 import { EventsOn, EventsOff, EventsEmit } from "!wails/runtime/runtime";
 import { ui_modal } from "@/lib/uiManager";
 
-import type { app } from "!wails/go/models";
+import type { app, database, scripture } from "!wails/go/models";
 import type { BibleRef, BibleVersion } from "@/lib/Scripture/types";
 import { instantDetails, updateBaseData } from "@/lib/Scripture/manager";
 import { createVersionRange } from "@/lib/Scripture/version";
@@ -15,13 +15,14 @@ export type SearchResult = {};
 
 // Data stores
 
-export const app_mode: Writable<AppMode> = writable("passage"); // passage/search mode
-export const app_version: Writable<BibleVersion> = writable(); // esv/hot/lxx/gnt
-export const app_range: Writable<app.ScriptureRange> = writable(); // passage mode: what's visible
+export const app_mode: Writable<AppMode> = writable("passage");
+export const app_version: Writable<BibleVersion> = writable();
+export const app_range: Writable<scripture.ScriptureRange> = writable();
 export const app_search_query: Writable<SearchQuery> = writable(); // TODO
-export const app_search_result: Writable<SearchResult> = writable(); // search mode: what's visible
-export const app_data: Writable<app.ScriptureSection[]> = writable([]); // all the data for version
-export const app_instantDetails: Writable<app.ScriptureWordData> = writable(); // TODO
+export const app_search_result: Writable<SearchResult> = writable(); // TODO
+export const app_data: Writable<database.ScriptureSection[]> = writable([]);
+export const app_instantDetails: Writable<database.ScriptureWordData> =
+  writable();
 export const app_currentRef: Writable<BibleRef> = writable(40_001_001);
 
 // Functions to handle events
@@ -46,7 +47,7 @@ function handleAppSearch(query: SearchQuery) {
   console.log(`TODO: handleAppSearch for ${query}`);
 }
 
-function handleAppRange(range: app.ScriptureRange) {
+function handleAppRange(range: scripture.ScriptureRange) {
   console.log(`TODO: handleAppPassageRange for ${range}`);
 }
 

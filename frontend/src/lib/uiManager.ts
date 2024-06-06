@@ -1,7 +1,7 @@
 import { writable, type Writable } from "svelte/store";
 import { sidebarData, type SidebarSection } from "@/components/Sidebar/data";
 import { defaultTheme, themeData, type ThemeName } from "@/static/themes";
-import { EventsEmit, EventsOff, EventsOn } from "!wails/runtime/runtime";
+import { EventsOff, EventsOn } from "!wails/runtime/runtime";
 import type { ModalName } from "@/components/Modals/data";
 import { app_mode } from "@/lib/appManager";
 import { get } from "svelte/store";

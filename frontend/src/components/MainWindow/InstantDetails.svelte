@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { database } from "!wails/go/models";
-    import { app_instantDetails, app_version } from "@/lib/appManager";
+    import { app_instantDetails } from "@/lib/appManager";
 
     type InstantDetailsData_Fields = Map<string, string>;
 
