@@ -139,3 +139,53 @@ func (r ScriptureRef) IsBookStart(v ScriptureVersion) bool {
 
 	return verse == first_verse_in_chapter
 }
+
+type ScriptureRefStringType int
+
+const (
+	StringShort ScriptureRefStringType = iota
+	StringLong
+	StringChapter
+	StringBook
+)
+
+func (r ScriptureRef) toString(v ScriptureVersion, f ScriptureRefStringType) (string, error) {
+	if !r.IsValid(v) {
+		return "", fmt.Errorf("Invalid ref for version in 'toString'. args=(ref: %d, version: %s, format: %d)", r, v, f)
+	}
+
+	verse := r.GetVerse()
+	chapter := r.GetChapter()
+	book := r.GetBook()
+
+	book_data, err := GetVersionBookData(v, book)
+	if err != nil {
+		return "", fmt.Errorf("Could not get version book data in 'toString'. args=(ref: %d, version: %s, format: %d)", r, v, f)
+	}
+	is_single_chapter_book := book_data.NumChapters == 1
+
+	switch f {
+	case StringShort:
+		if is_single_chapter_book {
+			return fmt.Sprintf("%s %d", BibleData[book-1].Short, verse), nil
+		} else {
+			return fmt.Sprintf("%s %d:%d", BibleData[book-1].Short, chapter, verse), nil
+		}
+	case StringLong:
+		if is_single_chapter_book {
+			return fmt.Sprintf("%s %d", BibleData[book-1].Name, verse), nil
+		} else {
+			return fmt.Sprintf("%s %d:%d", BibleData[book-1].Name, chapter, verse), nil
+		}
+	case StringChapter:
+		if is_single_chapter_book {
+			return BibleData[book-1].Short, nil
+		} else {
+			return fmt.Sprintf("%s %d", BibleData[book-1].Short, chapter), nil
+		}
+	case StringBook:
+		return BibleData[book-1].Name, nil
+	default:
+		return "", fmt.Errorf("Invalid format passed in 'toString'. args=(ref: %d, version: %s, format: %d)", r, v, f)
+	}
+}

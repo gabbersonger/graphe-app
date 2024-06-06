@@ -1,6 +1,5 @@
 import type { BibleRef, BibleVersion } from "@/lib/Scripture/types";
 import { getBook, isValidRef } from "@/lib/Scripture/ref";
-import { versionData } from "@/lib/Scripture/data";
 import type { app, scripture } from "!wails/go/models";
 import { GrapheError } from "@/lib/utils";
 import { getVersionBookIndex, isValidVersion } from "@/lib/Scripture/version";

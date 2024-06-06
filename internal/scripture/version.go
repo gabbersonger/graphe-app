@@ -4,6 +4,15 @@ import "fmt"
 
 type ScriptureVersion string
 
+func (v ScriptureVersion) IsValid() bool {
+	for i := 0; i < len(VersionsData); i++ {
+		if VersionsData[i].Name == string(v) {
+			return true
+		}
+	}
+	return false
+}
+
 func GetVersionIndex(v ScriptureVersion) (int, error) {
 	for i, d := range VersionsData {
 		if d.Name == string(v) {
