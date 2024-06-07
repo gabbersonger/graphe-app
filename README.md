@@ -29,7 +29,7 @@ Currently requires a large database file that is currently not packaged with the
 
 **Version 0.3 – Settings update**
 
-- [ ] Floating settings window
+- [x] Settings window
 - [ ] Settings page
   - [ ] General (startup)
   - [ ] Appearence (theme, font/size)

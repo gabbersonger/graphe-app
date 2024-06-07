@@ -1,7 +1,7 @@
-import App from "./App.svelte";
+import Graphe from "./Graphe.svelte";
 import "./main.css";
 
-const app = new App({
+const app = new Graphe({
   target: document.getElementById("app"),
 });
 

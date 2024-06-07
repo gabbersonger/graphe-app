@@ -4,8 +4,7 @@
     import Sidebar from "@/components/Sidebar/Sidebar.svelte";
     import Modals from "@/components/Modals/Modals.svelte";
 
-    import { ui_modal, ui_showSidebar, ui_theme } from "@/lib/uiManager";
-    import { createThemeStyles } from "@/static/themes";
+    import { ui_modal, ui_showSidebar } from "@/lib/uiManager";
     import { WindowIsFullscreen } from "!wails/runtime/runtime";
     import { appManager } from "@/lib/appManager";
     import { uiManager } from "@/lib/uiManager";
@@ -26,7 +25,6 @@
     class:sidebar={$ui_showSidebar}
     class:fullscreen={isFullscreen}
     class:modal={$ui_modal != ""}
-    style={createThemeStyles($ui_theme)}
     use:uiManager
     use:appManager
 >
