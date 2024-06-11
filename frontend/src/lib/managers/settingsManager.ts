@@ -24,7 +24,7 @@ export function settingsManager(_: HTMLElement) {
     EventsOn(event, callback);
   }
 
-  EventsEmit("settings:section", "general");
+  EventsEmit("settings:section", "appearence");
 
   return {
     destroy() {

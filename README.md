@@ -33,7 +33,7 @@ Currently requires a large database file that is currently not packaged with the
 - [ ] Settings page
   - [x] Basic UI
   - [ ] General (startup)
-  - [ ] Appearence (theme, font/size)
+  - [ ] Appearence (e.g. theme, font/size)
   - [ ] Shortcuts
   - [ ] Formatting (e.g. default colours)
   - [ ] Search (e.g. ranges, default text)
