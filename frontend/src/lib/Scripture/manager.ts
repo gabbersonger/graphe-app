@@ -3,7 +3,7 @@ import {
   app_instantDetails,
   app_range,
   app_version,
-} from "@/lib/appManager";
+} from "@/lib/managers/appManager";
 import { GetScriptureSection, GetScriptureWord } from "!wails/go/app/App";
 import { get } from "svelte/store";
 import type { BibleRef } from "@/lib/Scripture/types";

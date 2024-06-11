@@ -3,7 +3,7 @@
 
     import { BookOpenText, StickyNote } from "lucide-svelte";
     import { createRef, isValidRef } from "@/lib/Scripture/ref";
-    import { app_version } from "@/lib/appManager";
+    import { app_version } from "@/lib/managers/appManager";
     import { EventsEmit } from "!wails/runtime/runtime";
     import { bibleData, versionData } from "@/lib/Scripture/data";
     import { getVersionBookIndex } from "@/lib/Scripture/version";

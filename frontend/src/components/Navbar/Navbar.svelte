@@ -8,7 +8,11 @@
         LibraryBig,
         NotepadText,
     } from "lucide-svelte";
-    import { app_mode, app_version, app_currentRef } from "@/lib/appManager";
+    import {
+        app_mode,
+        app_version,
+        app_currentRef,
+    } from "@/lib/managers/appManager";
     import { refToString } from "@/lib/Scripture/ref";
     import { EventsEmit } from "!wails/runtime/runtime";
 

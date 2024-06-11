@@ -4,10 +4,13 @@
     import Sidebar from "@/components/Sidebar/Sidebar.svelte";
     import Modals from "@/components/Modals/Modals.svelte";
 
-    import { ui_modal, ui_showSidebar } from "@/lib/uiManager";
     import { WindowIsFullscreen } from "!wails/runtime/runtime";
-    import { appManager } from "@/lib/appManager";
-    import { uiManager } from "@/lib/uiManager";
+    import {
+        ui_modal,
+        ui_showSidebar,
+        uiManager,
+    } from "@/lib/managers/uiManager";
+    import { appManager } from "@/lib/managers/appManager";
 
     let isFullscreen = false;
     async function checkIfFullscreen(_: number) {

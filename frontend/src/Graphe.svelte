@@ -3,9 +3,9 @@
     import Settings from "@/routes/Settings.svelte";
     import Loading from "@/routes/Loading.svelte";
 
-    import { ui_theme } from "@/lib/uiManager";
+    import { ui_theme } from "@/lib/managers/uiManager";
     import { createThemeStyles } from "@/static/themes";
-    import { graphe_mode, grapheManager } from "@/lib/grapheManager";
+    import { graphe_mode, grapheManager } from "@/lib/managers/grapheManager";
 </script>
 
 <div id="window" style={createThemeStyles($ui_theme)} use:grapheManager>

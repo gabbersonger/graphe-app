@@ -3,7 +3,11 @@
     import InstantDetails from "@/components/MainWindow/InstantDetails.svelte";
     import VersionInfo from "@/components/MainWindow/VersionInfo.svelte";
     import type { BibleRef, BibleVersion } from "@/lib/Scripture/types";
-    import { app_data, app_version, app_currentRef } from "@/lib/appManager";
+    import {
+        app_data,
+        app_version,
+        app_currentRef,
+    } from "@/lib/managers/appManager";
     import { versionData } from "@/lib/Scripture/data";
 
     let current_verse: BibleRef;

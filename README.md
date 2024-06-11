@@ -31,6 +31,7 @@ Currently requires a large database file that is currently not packaged with the
 
 - [x] Settings window
 - [ ] Settings page
+  - [x] Basic UI
   - [ ] General (startup)
   - [ ] Appearence (theme, font/size)
   - [ ] Shortcuts
@@ -38,15 +39,15 @@ Currently requires a large database file that is currently not packaged with the
   - [ ] Search (e.g. ranges, default text)
   - [ ] Instant details (what is display and order?)
   - [ ] Version/updates
-- [ ] Right click functionality
 - [ ] Menubar
-- [ ] Appearance modal
+- [ ] Right click functionality
 
 <br/>
 
 **Verse 0.4 - Quality of life update**
 
 - [ ] Animations
+  - [ ] Entering settings window (look at what Discord does)
 - [ ] Sound effects
 - [ ] Auto-download database files on start-up
   - [ ] Functionality

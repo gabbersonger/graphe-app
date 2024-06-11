@@ -1,4 +1,4 @@
-import { EventsEmit, EventsOn } from "!wails/runtime/runtime";
+import { EventsEmit, EventsOff, EventsOn } from "!wails/runtime/runtime";
 import { writable, type Writable } from "svelte/store";
 
 type GrapheMode = "app" | "settings" | "loading";
@@ -25,9 +25,13 @@ export function grapheManager(_: HTMLElement) {
   }
 
   // Start the app
-  EventsEmit("graphe:mode", "app");
+  EventsEmit("graphe:mode", "settings");
 
   return {
-    destroy() {},
+    destroy() {
+      for (const [event, _] of Object.entries(handlers)) {
+        EventsOff(event);
+      }
+    },
   };
 }

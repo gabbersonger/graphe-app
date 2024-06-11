@@ -1,5 +1,8 @@
 <script lang="ts">
-    import { ui_showSidebar, ui_sidebarSection } from "@/lib/uiManager";
+    import {
+        ui_showSidebar,
+        ui_sidebarSection,
+    } from "@/lib/managers/uiManager";
     import Button from "@/components/ui/Button.svelte";
     import { sidebarData } from "@/components/Sidebar/data";
     import { PanelRightClose, X } from "lucide-svelte";

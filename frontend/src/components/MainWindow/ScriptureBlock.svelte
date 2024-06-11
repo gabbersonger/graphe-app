@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { database } from "!wails/go/models";
-    import { app_version } from "@/lib/appManager";
+    import { app_version } from "@/lib/managers/appManager";
     import type { BibleRef } from "@/lib/Scripture/types";
     import { getChapter, getVerse, refToString } from "@/lib/Scripture/ref";
     import { EventsEmit } from "!wails/runtime/runtime";

@@ -5,7 +5,7 @@
     import { versionData } from "@/lib/Scripture/data";
     import type { BibleVersion } from "@/lib/Scripture/types";
     import { EventsEmit } from "!wails/runtime/runtime";
-    import { app_version } from "@/lib/appManager";
+    import { app_version } from "@/lib/managers/appManager";
 
     function normaliseString(string: string): string {
         return string.toLowerCase().replaceAll(" ", "");

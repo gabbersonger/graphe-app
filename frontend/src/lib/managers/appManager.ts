@@ -1,6 +1,6 @@
 import { get, writable, type Writable } from "svelte/store";
 import { EventsOn, EventsOff, EventsEmit } from "!wails/runtime/runtime";
-import { ui_modal } from "@/lib/uiManager";
+import { ui_modal } from "@/lib/managers/uiManager";
 
 import type { app, database, scripture } from "!wails/go/models";
 import type { BibleRef, BibleVersion } from "@/lib/Scripture/types";
