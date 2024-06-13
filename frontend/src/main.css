@@ -1,3 +1,5 @@
+@import url("@/static/fonts/fonts.css");
+
 :root {
     --size-navbar-height: 55px;
     --size-navbar-clear-left: 68px;
@@ -24,18 +26,4 @@ body {
     font-size: 15px;
     margin: 0;
     padding: 0;
-}
-
-@font-face {
-    font-family: "Neuton";
-    src:
-        local("Neuton"),
-        url("static/fonts/Neuton.ttf") format("truetype");
-}
-
-@font-face {
-    font-family: "SBL Greek";
-    src:
-        local("SBL Greek"),
-        url("static/fonts/SBL\ Greek.ttf") format("truetype");
 }
