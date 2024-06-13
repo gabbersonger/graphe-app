@@ -49,6 +49,7 @@ Currently requires a large database file that is currently not packaged with the
 
 **Verse 0.4 - Quality of life update**
 
+- [ ] Remove JS Scripture functions
 - [ ] Animations
   - [ ] Entering settings window (look at what Discord does)
 - [ ] Sound effects
