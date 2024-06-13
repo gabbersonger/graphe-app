@@ -1,5 +1,5 @@
 import SettingsGeneral from "@/components/Settings/built/SettingsGeneral.svelte";
-import SettingsAppearence from "@/components/Settings/built/SettingsAppearence.svelte";
+import SettingsAppearence from "@/components/Settings/built/Appearence/SettingsAppearence.svelte";
 import SettingsShortcuts from "@/components/Settings/built/SettingsShortcuts.svelte";
 import SettingsFormatting from "@/components/Settings/built/SettingsFormatting.svelte";
 import SettingsSearch from "@/components/Settings/built/SettingsSearch.svelte";
