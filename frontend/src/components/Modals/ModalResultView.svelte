@@ -228,7 +228,7 @@
 
     .results-container .result.selected {
         background: var(--clr-background-sub);
-        color: var(--clr-text);
+        color: var(--clr-main);
     }
 
     .no-results {

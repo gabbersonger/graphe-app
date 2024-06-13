@@ -38,6 +38,32 @@ export const themeData = [
       textMuted: "#545767",
     },
   },
+  {
+    name: "olive",
+    colors: {
+      background: "#e9e5cc",
+      backgroundSub: "#d4cfbc",
+      backgroundDark: "#b7b39e",
+      main: "#92946f",
+      text: "#373731",
+      textSub: "#515148",
+      textHighlight: "#171714",
+      textMuted: "#979787",
+    },
+  },
+  {
+    name: "pulse",
+    colors: {
+      background: "#252525",
+      backgroundSub: "#181818",
+      backgroundDark: "#090909",
+      main: "#17b8bd",
+      text: "#e5f4f4",
+      textSub: "#AEBFBF",
+      textHighlight: "#F4FFFF",
+      textMuted: "#53565a",
+    },
+  },
 ] as const;
 
 export type ThemeName = (typeof themeData)[number]["name"];

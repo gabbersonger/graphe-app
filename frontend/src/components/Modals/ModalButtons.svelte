@@ -108,7 +108,6 @@
     }
 
     button.active {
-        color: var(--clr-text-highlight);
         color: var(--clr-text);
         background: var(--clr-background-sub);
     }
