@@ -53,6 +53,9 @@
         grid-template-columns: var(--size-settings-width) 1fr;
         grid-template-rows: 1fr;
         grid-template-areas: "sidebar" "content";
+        user-select: none;
+        -webkit-user-select: none;
+        cursor: default;
     }
 
     nav,
