@@ -41,7 +41,7 @@
     function chooseVersion(index: number) {
         const version = available_versions[index].value;
         EventsEmit("app:version", version);
-        EventsEmit("ui:modal:close");
+        EventsEmit("app:modal:close");
     }
 </script>
 

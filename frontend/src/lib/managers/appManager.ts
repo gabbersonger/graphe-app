@@ -32,8 +32,8 @@ export const app_currentRef: Writable<BibleRef> = writable(40_001_001);
 
 function handleMode(mode: AppMode) {
   app_mode.set(mode);
-  if (mode == "search") EventsEmit("ui:modal", "search");
-  else if (get(app_modal) != "") EventsEmit("ui:modal:close");
+  if (mode == "search") EventsEmit("app:modal", "search");
+  else if (get(app_modal) != "") EventsEmit("app:modal:close");
 }
 
 function handleModal(data: ModalName) {

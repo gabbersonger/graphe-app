@@ -184,7 +184,7 @@
     ) {
         const ref = createRef($app_version, book, chapter, verse);
         EventsEmit("app:goto", ref);
-        EventsEmit("ui:modal:close");
+        EventsEmit("app:modal:close");
     }
 
     function chooseResult(index: number) {

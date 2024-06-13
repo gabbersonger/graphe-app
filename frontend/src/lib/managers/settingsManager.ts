@@ -9,7 +9,6 @@ export const settings_section: Writable<SettingSection> = writable("general");
 // Functions to handle events
 
 function handleSectionMode(mode: SettingSection) {
-  console.log("HEARD");
   settings_section.set(mode);
 }
 

@@ -47,7 +47,7 @@
             <NavbarItem
                 icon={LibraryBig}
                 text={$app_version}
-                on:click={() => EventsEmit("ui:modal", "version")}
+                on:click={() => EventsEmit("app:modal", "version")}
                 tooltip="Choose Version"
                 command="⌘D"
             />
@@ -57,7 +57,7 @@
                 text={$app_version && $app_currentRef
                     ? refToString($app_version, $app_currentRef, "chapter")
                     : ""}
-                on:click={() => EventsEmit("ui:modal", "text")}
+                on:click={() => EventsEmit("app:modal", "text")}
                 tooltip="Choose Text"
                 command="⌘T"
                 disabled={$app_mode == "search"}
@@ -67,14 +67,14 @@
 
             <NavbarItem
                 icon={Sigma}
-                on:click={() => EventsEmit("ui:sidebar", "functions")}
+                on:click={() => EventsEmit("app:sidebar", "functions")}
                 tooltip="Functions"
                 command="⌘E"
             />
 
             <NavbarItem
                 icon={NotepadText}
-                on:click={() => EventsEmit("ui:sidebar", "analytics")}
+                on:click={() => EventsEmit("app:sidebar", "analytics")}
                 tooltip="Analytics"
                 command="⌘R"
             />
