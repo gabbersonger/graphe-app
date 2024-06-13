@@ -13,14 +13,16 @@
 </script>
 
 <div class="buttons">
-    <div class="title">App Settings</div>
-    {#each settingsData as s}
-        <button
-            on:click={() => selectSection(s.name)}
-            class:selected={$settings_section == s.name}
-        >
-            {s.display}
-        </button>
+    {#each ["App Settings", "Functionality"] as category}
+        <div class="title">{category}</div>
+        {#each settingsData.filter((x) => x.category == category) as s}
+            <button
+                on:click={() => selectSection(s.name)}
+                class:selected={$settings_section == s.name}
+            >
+                {s.display}
+            </button>
+        {/each}
     {/each}
 </div>
 
@@ -36,9 +38,13 @@
     .title {
         font-size: 0.7rem;
         font-weight: bold;
-        color: var(--clr-text);
+        color: var(--clr-text-sub);
         text-transform: uppercase;
         padding-inline: var(--size-button-padding);
+    }
+
+    .title:not(:first-child) {
+        padding-top: 1rem;
     }
 
     button {

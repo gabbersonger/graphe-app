@@ -10,37 +10,44 @@ export const settingsData = [
   {
     name: "general",
     display: "General",
+    category: "App Settings",
     content: SettingsGeneral,
   },
   {
     name: "appearence",
     display: "Appearence",
+    category: "App Settings",
     content: SettingsAppearence,
-  },
-  {
-    name: "formatting",
-    display: "Formatting",
-    content: SettingsFormatting,
-  },
-  {
-    name: "search",
-    display: "Search",
-    content: SettingsSearch,
-  },
-  {
-    name: "instantdetails",
-    display: "Instant Details",
-    content: SettingsInstantDetails,
   },
   {
     name: "shortcuts",
     display: "Shortcuts",
+    category: "App Settings",
     content: SettingsShortcuts,
   },
   {
     name: "version",
     display: "Version",
+    category: "App Settings",
     content: SettingsVersion,
+  },
+  {
+    name: "formatting",
+    display: "Formatting",
+    category: "Functionality",
+    content: SettingsFormatting,
+  },
+  {
+    name: "search",
+    display: "Search",
+    category: "Functionality",
+    content: SettingsSearch,
+  },
+  {
+    name: "instantdetails",
+    display: "Instant Details",
+    category: "Functionality",
+    content: SettingsInstantDetails,
   },
 ] as const;
 
