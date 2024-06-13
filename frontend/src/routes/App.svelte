@@ -5,11 +5,7 @@
     import Modals from "@/components/Modals/Modals.svelte";
 
     import { WindowIsFullscreen } from "!wails/runtime/runtime";
-    import {
-        ui_modal,
-        ui_showSidebar,
-        uiManager,
-    } from "@/lib/managers/uiManager";
+    import { app_modal, app_sidebar } from "@/lib/managers/appManager";
     import { appManager } from "@/lib/managers/appManager";
 
     let isFullscreen = false;
@@ -25,10 +21,9 @@
 
 <div
     id="app"
-    class:sidebar={$ui_showSidebar}
+    class:sidebar={$app_sidebar}
     class:fullscreen={isFullscreen}
-    class:modal={$ui_modal != ""}
-    use:uiManager
+    class:modal={$app_modal != ""}
     use:appManager
 >
     <nav><Navbar /></nav>

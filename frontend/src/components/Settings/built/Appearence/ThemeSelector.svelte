@@ -6,17 +6,20 @@
         createThemeStyles,
         type ThemeName,
     } from "@/static/themes";
-    import { ui_theme } from "@/lib/managers/uiManager";
+    import { graphe_theme } from "@/lib/managers/grapheManager";
 
     function selectTheme(theme: ThemeName) {
-        EventsEmit("ui:theme", theme);
+        EventsEmit("graphe:theme", theme);
     }
 </script>
 
 <div id="themes">
     {#each themeData as theme}
         <button on:click={() => selectTheme(theme.name)}>
-            <div class="theme-display" class:selected={$ui_theme == theme.name}>
+            <div
+                class="theme-display"
+                class:selected={$graphe_theme == theme.name}
+            >
                 <div
                     class="theme-wrapper"
                     style={createThemeStyles(theme.name)}

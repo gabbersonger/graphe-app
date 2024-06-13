@@ -1,8 +1,5 @@
 <script lang="ts">
-    import {
-        ui_showSidebar,
-        ui_sidebarSection,
-    } from "@/lib/managers/uiManager";
+    import { app_sidebar, app_sidebarSection } from "@/lib/managers/appManager";
     import Button from "@/components/ui/Button.svelte";
     import { sidebarData } from "@/components/Sidebar/data";
     import { PanelRightClose, X } from "lucide-svelte";
@@ -18,19 +15,19 @@
             {#each sidebarData as el}
                 <Button
                     icon={el.icon}
-                    active={$ui_sidebarSection == el.name}
-                    on:click={() => ($ui_sidebarSection = el.name)}
+                    active={$app_sidebarSection == el.name}
+                    on:click={() => ($app_sidebarSection = el.name)}
                 />
             {/each}
         </div>
         <Button
             icon={PanelRightClose}
-            on:click={() => ($ui_showSidebar = false)}
+            on:click={() => ($app_sidebar = false)}
         />
     </div>
     <div class="content">
         {#each sidebarData as el}
-            <div class="wrapper" class:hidden={$ui_sidebarSection != el.name}>
+            <div class="wrapper" class:hidden={$app_sidebarSection != el.name}>
                 <svelte:component this={el.window} />
             </div>
         {/each}

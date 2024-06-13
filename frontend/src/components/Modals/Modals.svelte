@@ -1,12 +1,12 @@
 <script lang="ts">
     import { modalData } from "@/components/Modals/data";
-    import { ui_modal } from "@/lib/managers/uiManager";
+    import { app_modal } from "@/lib/managers/appManager";
     import { onMount } from "svelte";
 
     onMount(() => {
         function handleKeyup(event: KeyboardEvent) {
-            if ($ui_modal && event.key == "Escape") {
-                $ui_modal = "";
+            if ($app_modal && event.key == "Escape") {
+                $app_modal = "";
             }
         }
         document.addEventListener("keyup", handleKeyup);
@@ -16,14 +16,14 @@
     });
 </script>
 
-<div class="screen-wrapper" class:open={$ui_modal != ""}>
+<div class="screen-wrapper" class:open={$app_modal != ""}>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <div class="overlay" on:click={() => ($ui_modal = "")}></div>
+    <div class="overlay" on:click={() => ($app_modal = "")}></div>
 
     <div class="modal">
         <div class="container">
             {#each modalData as m}
-                {#if $ui_modal == m.name}
+                {#if $app_modal == m.name}
                     <svelte:component this={m.modal} />
                 {/if}
             {/each}

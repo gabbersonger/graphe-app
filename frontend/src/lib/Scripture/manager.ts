@@ -1,15 +1,16 @@
 import {
   app_data,
   app_instantDetails,
-  app_range,
   app_version,
 } from "@/lib/managers/appManager";
 import { GetScriptureSection, GetScriptureWord } from "!wails/go/app/App";
 import { get } from "svelte/store";
 import type { BibleRef } from "@/lib/Scripture/types";
+import { createVersionRange } from "@/lib/Scripture/version";
 
 export async function updateBaseData() {
-  const data = await GetScriptureSection(get(app_range));
+  const range = createVersionRange(get(app_version));
+  const data = await GetScriptureSection(range);
   app_data.set(data);
 }
 

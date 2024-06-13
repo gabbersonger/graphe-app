@@ -1,11 +1,11 @@
 import { get, writable, type Writable } from "svelte/store";
 import { EventsOn, EventsOff, EventsEmit } from "!wails/runtime/runtime";
-import { ui_modal } from "@/lib/managers/uiManager";
 
-import type { app, database, scripture } from "!wails/go/models";
+import type { database } from "!wails/go/models";
 import type { BibleRef, BibleVersion } from "@/lib/Scripture/types";
 import { instantDetails, updateBaseData } from "@/lib/Scripture/manager";
-import { createVersionRange } from "@/lib/Scripture/version";
+import type { ModalName } from "@/components/Modals/data";
+import { sidebarData, type SidebarSection } from "@/components/Sidebar/data";
 
 // Types
 
@@ -16,10 +16,13 @@ export type SearchResult = {};
 // Data stores
 
 export const app_mode: Writable<AppMode> = writable("passage");
+export const app_modal: Writable<ModalName | ""> = writable("");
+export const app_sidebar: Writable<boolean> = writable(false);
+export const app_sidebarSection: Writable<SidebarSection> = writable(
+  sidebarData[0].name,
+);
+
 export const app_version: Writable<BibleVersion> = writable();
-export const app_range: Writable<scripture.ScriptureRange> = writable();
-export const app_search_query: Writable<SearchQuery> = writable(); // TODO
-export const app_search_result: Writable<SearchResult> = writable(); // TODO
 export const app_data: Writable<database.ScriptureSection[]> = writable([]);
 export const app_instantDetails: Writable<database.ScriptureWordData> =
   writable();
@@ -27,41 +30,50 @@ export const app_currentRef: Writable<BibleRef> = writable(40_001_001);
 
 // Functions to handle events
 
-function handleAppMode(mode: AppMode) {
+function handleMode(mode: AppMode) {
   app_mode.set(mode);
   if (mode == "search") EventsEmit("ui:modal", "search");
-  else if (get(ui_modal) != "") EventsEmit("ui:modal:close");
+  else if (get(app_modal) != "") EventsEmit("ui:modal:close");
 }
 
-function handleAppVersion(version: BibleVersion) {
+function handleModal(data: ModalName) {
+  if (data == "text" && get(app_mode) == "search") return;
+  app_modal.update((val) => (val == data ? "" : data));
+}
+
+function handleModalClose() {
+  app_modal.set("");
+}
+
+function handleSidebar(data: SidebarSection) {
+  app_sidebar.set(true);
+  app_sidebarSection.set(data);
+}
+
+function handleSidebarToggle() {
+  app_sidebar.update((x) => !x);
+}
+
+function handleVersion(version: BibleVersion) {
   if (get(app_version) != version) {
     app_currentRef.set(null);
     app_data.set([]);
     app_version.set(version);
-    app_range.set(createVersionRange(version));
     updateBaseData();
   }
 }
 
-function handleAppSearch(query: SearchQuery) {
-  console.log(`TODO: handleAppSearch for ${query}`);
-}
-
-function handleAppRange(range: scripture.ScriptureRange) {
-  console.log(`TODO: handleAppPassageRange for ${range}`);
-}
-
-function handleAppGoTo(ref: BibleRef) {
+function handleGoTo(ref: BibleRef) {
   EventsEmit("visualiser:goto", ref);
 }
 
-function handleAppInstantDetails(ref: BibleRef, word_num: number) {
+function handleInstantDetails(ref: BibleRef, word_num: number) {
   let current = get(app_instantDetails);
   if (!(current && current.ref == ref && current.word_number == word_num))
     instantDetails(ref, word_num);
 }
 
-function handleAppInstantDetailsHide() {
+function handleInstantDetailsHide() {
   app_instantDetails.set(null);
 }
 
@@ -71,13 +83,15 @@ export function appManager(_: HTMLElement) {
   const handlers: {
     [key: string]: (...data: any) => void;
   } = {
-    "app:mode": handleAppMode,
-    "app:version": handleAppVersion,
-    "app:search": handleAppSearch,
-    "app:range": handleAppRange,
-    "app:goto": handleAppGoTo,
-    "app:instantdetails": handleAppInstantDetails,
-    "app:instantdetails:hide": handleAppInstantDetailsHide,
+    "app:mode": handleMode,
+    "app:modal": handleModal,
+    "app:modal:close": handleModalClose,
+    "app:sidebar": handleSidebar,
+    "app:sidebar:toggle": handleSidebarToggle,
+    "app:version": handleVersion,
+    "app:goto": handleGoTo,
+    "app:instantdetails": handleInstantDetails,
+    "app:instantdetails:hide": handleInstantDetailsHide,
   };
 
   for (const [event, callback] of Object.entries(handlers)) {

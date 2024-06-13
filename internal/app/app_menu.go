@@ -62,7 +62,7 @@ func (a *App) Menu() *menu.Menu {
 	fileMenu.AddSeparator()
 	fileMenu.AddText("Sidebar", keys.CmdOrCtrl("\\"), menuCallbackEmit(a, "ui:sidebar:toggle"))
 	fileMenu.AddSeparator()
-	fileMenu.AddText("Theme toggle", keys.CmdOrCtrl("L"), menuCallbackEmit(a, "ui:theme:toggle"))
+	fileMenu.AddText("Theme toggle", keys.CmdOrCtrl("L"), menuCallbackEmit(a, "graphe:theme:toggle"))
 
 	appMenu.Append(menu.EditMenu())
 
