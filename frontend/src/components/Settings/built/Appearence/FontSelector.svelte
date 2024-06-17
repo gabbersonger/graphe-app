@@ -1,5 +1,6 @@
-<script>
-    import Input from "@/components/ui/Input.svelte";
+<script lang="ts">
+    import Select from "@/components/ui/Select.svelte";
+    import type { Select as SelectPrimitive } from "bits-ui";
 
     const options = [
         {
@@ -19,10 +20,12 @@
             text: "In the beginning God created the heavens and the earth...",
         },
     ];
+
+    let font_values: SelectPrimitive.Props<string>["selected"][] = [];
 </script>
 
 <div class="font-selector">
-    {#each options as option}
+    {#each options as option, i}
         <div class="font-selection">
             <div class="wrapper">
                 <div class="font-selection-heading">{option.name}</div>
@@ -31,7 +34,16 @@
                 </div>
             </div>
 
-            <Input />
+            <Select
+                bind:selected={font_values[i]}
+                items={[
+                    { value: "asd", label: "Asd" },
+                    { value: "qwe", label: "Qwe" },
+                    { value: "zxc", label: "Zxc" },
+                ]}
+                placeholder="Choose a font"
+                label="Font Family"
+            />
         </div>
     {/each}
 </div>
@@ -62,6 +74,6 @@
     }
 
     .font-selection-example {
-        color: var(--clr-text-sub);
+        color: var(--clr-text);
     }
 </style>
