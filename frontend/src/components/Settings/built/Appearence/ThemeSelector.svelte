@@ -2,9 +2,9 @@
     import { EventsEmit } from "!wails/runtime/runtime";
 
     import {
-        themeData,
-        createThemeStyles,
         type ThemeName,
+        themeData,
+        createThemeStylesString,
     } from "@/static/themes";
     import { graphe_theme } from "@/lib/managers/grapheManager";
 
@@ -22,7 +22,7 @@
             >
                 <div
                     class="theme-wrapper"
-                    style={createThemeStyles(theme.name)}
+                    style={createThemeStylesString(theme.name)}
                 >
                     <div class="block">
                         <div class="bubble dark">

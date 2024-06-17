@@ -79,15 +79,49 @@ const hexToSelectionRGBA = (hex: string): string => {
 
 export const createThemeStyles = (themeName: ThemeName) => {
   let theme = themeData.find((t) => t.name == themeName);
-  return `
-    --clr-background: ${theme.colors.background};
-    --clr-background-sub: ${theme.colors.backgroundSub};
-    --clr-background-dark: ${theme.colors.backgroundDark};
-    --clr-main: ${theme.colors.main};
-    --clr-selection: ${hexToSelectionRGBA(theme.colors.main)};
-    --clr-text: ${theme.colors.text};
-    --clr-text-sub: ${theme.colors.textSub};
-    --clr-text-highlight: ${theme.colors.textHighlight};
-    --clr-text-muted: ${theme.colors.textMuted};
-  `;
+  return [
+    {
+      variable: "--clr-background",
+      value: theme.colors.background,
+    },
+    {
+      variable: "--clr-background-sub",
+      value: theme.colors.backgroundSub,
+    },
+    {
+      variable: "--clr-background-dark",
+      value: theme.colors.backgroundDark,
+    },
+    {
+      variable: "--clr-main",
+      value: theme.colors.main,
+    },
+    {
+      variable: "--clr-selection",
+      value: hexToSelectionRGBA(theme.colors.main),
+    },
+    {
+      variable: "--clr-text",
+      value: theme.colors.text,
+    },
+    {
+      variable: "--clr-text-sub",
+      value: theme.colors.textSub,
+    },
+    {
+      variable: "--clr-text-highlight",
+      value: theme.colors.textHighlight,
+    },
+    {
+      variable: "--clr-text-muted",
+      value: theme.colors.textMuted,
+    },
+  ];
+};
+
+export const createThemeStylesString = (themeName: ThemeName) => {
+  return createThemeStyles(themeName).reduce(
+    (acc, cur) => acc + `${cur.variable}: ${cur.value};\n`,
+    "",
+  );
 };

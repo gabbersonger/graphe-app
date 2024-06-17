@@ -3,12 +3,25 @@
     import Settings from "@/routes/Settings.svelte";
     import Loading from "@/routes/Loading.svelte";
 
-    import { graphe_theme } from "@/lib/managers/grapheManager";
+    import {
+        graphe_mode,
+        graphe_theme,
+        grapheManager,
+    } from "@/lib/managers/grapheManager";
     import { createThemeStyles } from "@/static/themes";
-    import { graphe_mode, grapheManager } from "@/lib/managers/grapheManager";
+
+    $: if ($graphe_theme) {
+        const theme_values = createThemeStyles($graphe_theme);
+        for (let i = 0; i < theme_values.length; i++) {
+            document.body.style.setProperty(
+                theme_values[i].variable,
+                theme_values[i].value,
+            );
+        }
+    }
 </script>
 
-<div id="window" style={createThemeStyles($graphe_theme)} use:grapheManager>
+<div id="window" use:grapheManager>
     {#if $graphe_mode != "loading"}
         <div class="app">
             <App />
@@ -33,6 +46,8 @@
         position: relative;
         width: 100%;
         height: 100%;
+        isolation: isolate;
+        z-index: 0;
     }
 
     .app,
