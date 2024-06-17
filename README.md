@@ -30,6 +30,7 @@ Currently requires a large database file that is currently not packaged with the
 **Version 0.3 – Settings update**
 
 - [x] Settings window
+- [ ] Saving settings between sessions
 - [ ] Settings page
   - [x] Basic UI
   - [ ] General (startup)
