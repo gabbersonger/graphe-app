@@ -1,10 +1,10 @@
-import SettingsGeneral from "@/components/Settings/built/SettingsGeneral.svelte";
-import SettingsAppearence from "@/components/Settings/built/Appearence/SettingsAppearence.svelte";
-import SettingsShortcuts from "@/components/Settings/built/SettingsShortcuts.svelte";
-import SettingsFormatting from "@/components/Settings/built/SettingsFormatting.svelte";
-import SettingsSearch from "@/components/Settings/built/SettingsSearch.svelte";
-import SettingsInstantDetails from "@/components/Settings/built/SettingsInstantDetails.svelte";
-import SettingsVersion from "@/components/Settings/built/SettingsVersion.svelte";
+import SettingsGeneral from "@/components/Settings/built/General/index.svelte";
+import SettingsAppearence from "@/components/Settings/built/Appearence/index.svelte";
+import SettingsShortcuts from "@/components/Settings/built/Shortcuts/index.svelte";
+import SettingsFormatting from "@/components/Settings/built/Formatting/index.svelte";
+import SettingsSearch from "@/components/Settings/built/Search/index.svelte";
+import SettingsInstantDetails from "@/components/Settings/built/InstantDetails/index.svelte";
+import SettingsVersion from "@/components/Settings/built/Version/index.svelte";
 
 export const settingsData = [
   {
