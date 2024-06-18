@@ -14,10 +14,18 @@ export function GetScriptureWord(arg1, arg2, arg3) {
   return window['go']['app']['App']['GetScriptureWord'](arg1, arg2, arg3);
 }
 
+export function GetSettings() {
+  return window['go']['app']['App']['GetSettings']();
+}
+
 export function Menu() {
   return window['go']['app']['App']['Menu']();
 }
 
 export function Throw(arg1) {
   return window['go']['app']['App']['Throw'](arg1);
+}
+
+export function UpdateSetting(arg1, arg2, arg3) {
+  return window['go']['app']['App']['UpdateSetting'](arg1, arg2, arg3);
 }

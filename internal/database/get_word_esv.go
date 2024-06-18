@@ -20,7 +20,7 @@ func prepareScriptureWord_ESV(d *ScriptureWordData) {
 }
 
 func getScriptureWordBasicInfo_ESV(g *GrapheDB, wg *sync.WaitGroup, d *ScriptureWordData) {
-	db := <-g.Pool
+	db := <-g.pool
 	stmt := db.queries.esvWordBasicInfo
 	err := stmt.Bind(int(d.Ref), int(d.WordNumber))
 	g.check(err)
@@ -36,12 +36,12 @@ func getScriptureWordBasicInfo_ESV(g *GrapheDB, wg *sync.WaitGroup, d *Scripture
 	d.Fields[0].Data = fmt.Sprint(count)
 
 	stmt.Reset()
-	g.Pool <- db
+	g.pool <- db
 	wg.Done()
 }
 
 func getScriptureWordStrongsInfo_ESV(g *GrapheDB, wg *sync.WaitGroup, d *ScriptureWordData) {
-	db := <-g.Pool
+	db := <-g.pool
 	stmt := db.queries.esvWordStrongsInfo
 	err := stmt.Bind(int(d.Ref), int(d.WordNumber))
 	g.check(err)
@@ -67,6 +67,6 @@ func getScriptureWordStrongsInfo_ESV(g *GrapheDB, wg *sync.WaitGroup, d *Scriptu
 	}
 
 	stmt.Reset()
-	g.Pool <- db
+	g.pool <- db
 	wg.Done()
 }

@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"graphe/internal/database"
+	"graphe/internal/settings"
 	"os"
 	"path/filepath"
 	"strings"
@@ -22,9 +23,10 @@ type EnvironmentInfo struct {
 }
 
 type App struct {
-	env EnvironmentInfo
-	ctx context.Context
-	db  *database.GrapheDB
+	env      EnvironmentInfo
+	ctx      context.Context
+	db       *database.GrapheDB
+	settings *settings.Settings
 }
 
 func (a *App) check(e error) {
@@ -65,11 +67,15 @@ func (a *App) Startup(ctx context.Context) {
 	a.env.Platform = wailsEnv.Platform
 
 	dbFile := a.env.DataDirectory + "/graphe.db"
-	a.db = database.NewDB(a.ctx, dbFile)
+	a.db = database.Startup(a.ctx, dbFile)
+
+	settingsFile := a.env.DataDirectory + "/settings.db"
+	a.settings = settings.Startup(a.ctx, settingsFile)
 }
 
 func (a *App) Shutdown(ctx context.Context) {
 	runtime.LogInfo(ctx, "Runcycle: Shutdown")
 
-	a.db.ClosePool()
+	a.db.Shutdown()
+	a.settings.Shutdown()
 }

@@ -24,7 +24,7 @@ func prepareScriptureWord_GNT(d *ScriptureWordData) {
 }
 
 func getScriptureWordText_GNT(g *GrapheDB, wg *sync.WaitGroup, d *ScriptureWordData) {
-	db := <-g.Pool
+	db := <-g.pool
 	stmt := db.queries.gntWordText
 	err := stmt.Bind(int(d.Ref), int(d.WordNumber))
 	g.check(err)
@@ -38,12 +38,12 @@ func getScriptureWordText_GNT(g *GrapheDB, wg *sync.WaitGroup, d *ScriptureWordD
 	g.check(err)
 
 	stmt.Reset()
-	g.Pool <- db
+	g.pool <- db
 	wg.Done()
 }
 
 func getScriptureWordBasicInfo_GNT(g *GrapheDB, wg *sync.WaitGroup, d *ScriptureWordData) {
-	db := <-g.Pool
+	db := <-g.pool
 	stmt := db.queries.gntWordBasicInfo
 	err := stmt.Bind(int(d.Ref), int(d.WordNumber))
 	g.check(err)
@@ -60,12 +60,12 @@ func getScriptureWordBasicInfo_GNT(g *GrapheDB, wg *sync.WaitGroup, d *Scripture
 	d.Fields[1].Data = english
 
 	stmt.Reset()
-	g.Pool <- db
+	g.pool <- db
 	wg.Done()
 }
 
 func getScriptureWordDictionaryValues_GNT(g *GrapheDB, wg *sync.WaitGroup, d *ScriptureWordData) {
-	db := <-g.Pool
+	db := <-g.pool
 	stmt := db.queries.gntWordDictionary
 	err := stmt.Bind(int(d.Ref), int(d.WordNumber))
 	g.check(err)
@@ -97,12 +97,12 @@ func getScriptureWordDictionaryValues_GNT(g *GrapheDB, wg *sync.WaitGroup, d *Sc
 	}
 
 	stmt.Reset()
-	g.Pool <- db
+	g.pool <- db
 	wg.Done()
 }
 
 func getScriptureWordInflectedCount_GNT(g *GrapheDB, wg *sync.WaitGroup, d *ScriptureWordData) {
-	db := <-g.Pool
+	db := <-g.pool
 	stmt := db.queries.gntWordInflectedCount
 	err := stmt.Bind(int(d.Ref), int(d.WordNumber))
 	g.check(err)
@@ -118,6 +118,6 @@ func getScriptureWordInflectedCount_GNT(g *GrapheDB, wg *sync.WaitGroup, d *Scri
 	d.Fields[2].Data = fmt.Sprint(count)
 
 	stmt.Reset()
-	g.Pool <- db
+	g.pool <- db
 	wg.Done()
 }

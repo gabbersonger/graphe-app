@@ -28,7 +28,7 @@ func prepareScriptureWord_LXX(d *ScriptureWordData) {
 }
 
 func getScriptureWordText_LXX(g *GrapheDB, wg *sync.WaitGroup, d *ScriptureWordData) {
-	db := <-g.Pool
+	db := <-g.pool
 	stmt := db.queries.lxxWordText
 	err := stmt.Bind(int(d.Ref), int(d.WordNumber))
 	g.check(err)
@@ -42,12 +42,12 @@ func getScriptureWordText_LXX(g *GrapheDB, wg *sync.WaitGroup, d *ScriptureWordD
 	g.check(err)
 
 	stmt.Reset()
-	g.Pool <- db
+	g.pool <- db
 	wg.Done()
 }
 
 func getScriptureWordInfo_LXX(g *GrapheDB, wg *sync.WaitGroup, d *ScriptureWordData) {
-	db := <-g.Pool
+	db := <-g.pool
 	stmt := db.queries.lxxWordBasicInfo
 	err := stmt.Bind(int(d.Ref), int(d.WordNumber))
 	g.check(err)
@@ -70,12 +70,12 @@ func getScriptureWordInfo_LXX(g *GrapheDB, wg *sync.WaitGroup, d *ScriptureWordD
 	d.Fields[6].Data = fmt.Sprint(count)
 
 	stmt.Reset()
-	g.Pool <- db
+	g.pool <- db
 	wg.Done()
 }
 
 func getScriptureWordInflectedCount_LXX(g *GrapheDB, wg *sync.WaitGroup, d *ScriptureWordData) {
-	db := <-g.Pool
+	db := <-g.pool
 	stmt := db.queries.lxxWordInflectedCount
 	err := stmt.Bind(int(d.Ref), int(d.WordNumber))
 	g.check(err)
@@ -91,6 +91,6 @@ func getScriptureWordInflectedCount_LXX(g *GrapheDB, wg *sync.WaitGroup, d *Scri
 	d.Fields[7].Data = fmt.Sprint(count)
 
 	stmt.Reset()
-	g.Pool <- db
+	g.pool <- db
 	wg.Done()
 }

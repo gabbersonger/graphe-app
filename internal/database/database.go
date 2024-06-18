@@ -12,23 +12,12 @@ import (
 type GrapheDB struct {
 	ctx       context.Context
 	pool_size int
-	Pool      chan *GrapheDBConn
+	pool      chan *GrapheDBConn
 }
 
 type GrapheDBConn struct {
 	conn    *sqlite3.Conn
 	queries GrapheQueries
-}
-
-func NewDB(ctx context.Context, dbFile string) *GrapheDB {
-	g := &GrapheDB{}
-	g.ctx = ctx
-	g.pool_size = rt.NumCPU()
-	g.Pool = make(chan *GrapheDBConn, g.pool_size)
-	for i := 0; i < g.pool_size; i++ {
-		g.Pool <- newGrapheDBConn(g, dbFile)
-	}
-	return g
 }
 
 func (g *GrapheDB) check(e error) {
@@ -41,9 +30,20 @@ func (g *GrapheDB) throw(s string) {
 	runtime.LogFatal(g.ctx, s)
 }
 
-func (g *GrapheDB) ClosePool() {
+func Startup(ctx context.Context, dbFile string) *GrapheDB {
+	g := &GrapheDB{}
+	g.ctx = ctx
+	g.pool_size = rt.NumCPU()
+	g.pool = make(chan *GrapheDBConn, g.pool_size)
 	for i := 0; i < g.pool_size; i++ {
-		db := <-g.Pool
+		g.pool <- newGrapheDBConn(g, dbFile)
+	}
+	return g
+}
+
+func (g *GrapheDB) Shutdown() {
+	for i := 0; i < g.pool_size; i++ {
+		db := <-g.pool
 		queries := reflect.ValueOf(db.queries)
 		for j := 0; j < queries.NumField(); j++ {
 			if queries.Field(j).Type() == reflect.TypeOf((*sqlite3.Stmt)(nil)) {

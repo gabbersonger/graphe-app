@@ -118,7 +118,7 @@ const DEFAULT_WORD_COUNT = 30
 func getScriptureSection(g *GrapheDB, wg *sync.WaitGroup, s *ScriptureSection) {
 	s.Blocks = make([]ScriptureBlock, 0, 1)
 
-	db := <-g.Pool
+	db := <-g.pool
 	var stmt *sqlite3.Stmt
 	switch s.Range.Version {
 	case "gnt":
@@ -253,6 +253,6 @@ func getScriptureSection(g *GrapheDB, wg *sync.WaitGroup, s *ScriptureSection) {
 	s.Blocks[len(s.Blocks)-1].Range.End = scripture.ScriptureRef(ref)
 
 	stmt.Reset()
-	g.Pool <- db
+	g.pool <- db
 	wg.Done()
 }
