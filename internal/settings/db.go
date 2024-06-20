@@ -3,12 +3,10 @@ package settings
 import (
 	"fmt"
 	"reflect"
-	"strings"
 )
 
 func validateDB(s *Settings) {
 	tables := getSettingsTables()
-	fmt.Println(tables)
 	for _, t := range tables {
 		ensureTableExists(s, t.name)
 		for _, c := range t.columns {
@@ -34,7 +32,7 @@ func getSettingsTables() []SettingTable {
 	fields := reflect.VisibleFields(t)
 	for _, field := range fields {
 		tables = append(tables, SettingTable{
-			name:    strings.ToLower(field.Name),
+			name:    field.Name,
 			columns: getSettingsColumns(field.Type, ""),
 		})
 	}
@@ -45,7 +43,11 @@ func getSettingsColumns(t reflect.Type, prefix string) []SettingColumn {
 	columns := make([]SettingColumn, 0, t.NumField())
 	fields := reflect.VisibleFields(t)
 	for _, field := range fields {
-		n := strings.ToLower(field.Name)
+		n := field.Name
+		if prefix != "" {
+			n = prefix + "_" + n
+		}
+
 		t := ""
 		switch field.Type.Kind() {
 		case reflect.String:
@@ -58,9 +60,7 @@ func getSettingsColumns(t reflect.Type, prefix string) []SettingColumn {
 			columns = append(columns, getSettingsColumns(field.Type, n)...)
 			continue
 		}
-		if prefix != "" {
-			n = prefix + "_" + n
-		}
+
 		columns = append(columns, SettingColumn{
 			name:     n,
 			sql_type: t,
@@ -82,7 +82,6 @@ func getRowInDB(s *Settings, q string, args ...interface{}) bool {
 
 func execInDB(s *Settings, q string, args ...interface{}) {
 	s.db.Begin()
-	fmt.Println(fmt.Sprintf(q, args...))
 	err := s.db.Exec(fmt.Sprintf(q, args...))
 	s.check(err)
 	s.db.Commit()
@@ -110,7 +109,6 @@ func ensureColumnExists(s *Settings, t string, c SettingColumn) {
 		LIMIT 1;
 	`, t, c.name, c.sql_type)
 	if !column_exists {
-		execInDB(s, `ALTER TABLE %s DROP COLUMN %s;`, t, c.name)
 		execInDB(s, `ALTER TABLE %s ADD %s %s;`, t, c.name, c.sql_type)
 	}
 }
