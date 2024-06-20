@@ -19,11 +19,7 @@ type SettingsValues struct {
 }
 
 func (s *Settings) setupValues() {
-	s.values = &SettingsValues{}
-}
 
-func (s *Settings) GetSettings() *SettingsValues {
-	return s.values
 }
 
 func (s *Settings) UpdateSetting(group string, field string, value string) bool {

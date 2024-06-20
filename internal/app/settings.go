@@ -3,9 +3,11 @@ package app
 import "graphe/internal/settings"
 
 func (a *App) GetSettings() *settings.SettingsValues {
-	return a.settings.GetSettings()
+	// TODO
+	return nil
 }
 
 func (a *App) UpdateSetting(group string, field string, value string) bool {
-	return a.settings.UpdateSetting(group, field, value)
+	// TODO
+	return true
 }

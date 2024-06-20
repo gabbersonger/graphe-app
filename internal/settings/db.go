@@ -4,42 +4,45 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
-
-	"github.com/bvinc/go-sqlite-lite/sqlite3"
 )
 
-func (s *Settings) setupDB(dbFile string) {
-	var err error
-	s.db, err = sqlite3.Open("file:" + dbFile)
-	s.check(err)
-	ensureSettingsValuesExist(s)
+func validateDB(s *Settings) {
+	tables := getSettingsTables()
+	fmt.Println(tables)
+	for _, t := range tables {
+		ensureTableExists(s, t.name)
+		for _, c := range t.columns {
+			ensureColumnExists(s, t.name, c)
+		}
+		ensureRowExists(s, t.name)
+	}
 }
 
-func ensureSettingsValuesExist(s *Settings) {
-	fields := reflect.VisibleFields(reflect.TypeFor[SettingsValues]())
-	for _, field := range fields {
-		table := strings.ToLower(field.Name)
-		ensureTableExists(s, table)
-
-		columns := createSettingColumns(field.Type, "")
-		for _, column := range columns {
-			ensureColumnExists(s, table, column)
-		}
-	}
+type SettingTable struct {
+	name    string
+	columns []SettingColumn
 }
 
 type SettingColumn struct {
-	Name string
-	Type string
+	name     string
+	sql_type string
 }
 
-func createSettingColumns(t reflect.Type, prefix string) []SettingColumn {
-	arr := make([]SettingColumn, 0)
-
-	if prefix != "" {
-		prefix += "_"
+func getSettingsTables() []SettingTable {
+	t := reflect.TypeFor[SettingsValues]()
+	tables := make([]SettingTable, 0, t.NumField())
+	fields := reflect.VisibleFields(t)
+	for _, field := range fields {
+		tables = append(tables, SettingTable{
+			name:    strings.ToLower(field.Name),
+			columns: getSettingsColumns(field.Type, ""),
+		})
 	}
+	return tables
+}
 
+func getSettingsColumns(t reflect.Type, prefix string) []SettingColumn {
+	columns := make([]SettingColumn, 0, t.NumField())
 	fields := reflect.VisibleFields(t)
 	for _, field := range fields {
 		n := strings.ToLower(field.Name)
@@ -52,66 +55,74 @@ func createSettingColumns(t reflect.Type, prefix string) []SettingColumn {
 		case reflect.Bool:
 			t = "integer"
 		case reflect.Struct:
-			arr = append(arr, createSettingColumns(field.Type, n)...)
+			columns = append(columns, getSettingsColumns(field.Type, n)...)
 			continue
 		}
-
-		arr = append(arr, SettingColumn{
-			Name: prefix + n,
-			Type: t,
+		if prefix != "" {
+			n = prefix + "_" + n
+		}
+		columns = append(columns, SettingColumn{
+			name:     n,
+			sql_type: t,
 		})
 	}
-
-	return arr
+	return columns
 }
 
-func ensureTableExists(s *Settings, table string) {
-	stmt, err := s.db.Prepare(fmt.Sprintf(`
+func getRowInDB(s *Settings, q string, args ...interface{}) bool {
+	s.db.Begin()
+	stmt, err := s.db.Prepare(fmt.Sprintf(q, args...))
+	s.check(err)
+	hasRow, err := stmt.Step()
+	s.check(err)
+	stmt.Close()
+	s.db.Commit()
+	return hasRow
+}
+
+func execInDB(s *Settings, q string, args ...interface{}) {
+	s.db.Begin()
+	fmt.Println(fmt.Sprintf(q, args...))
+	err := s.db.Exec(fmt.Sprintf(q, args...))
+	s.check(err)
+	s.db.Commit()
+}
+
+func ensureTableExists(s *Settings, t string) {
+	table_exists := getRowInDB(s, `
 		SELECT 1
 		FROM sqlite_master
-		WHERE
-			type = 'table'
-			AND name = '%s';
-	`, table))
-	s.check(err)
-
-	hasRow, err := stmt.Step()
-	s.check(err)
-	if !hasRow {
-		err := s.db.Exec(fmt.Sprintf(`
+		WHERE type = 'table' AND name = '%s';
+	`, t)
+	if !table_exists {
+		execInDB(s, `
 			CREATE TABLE %s (
-				id integer PRIMARY KEY
-			);
-		`, table))
-		s.check(err)
+				id INTEGER PRIMARY KEY
+			);`, t)
 	}
-	stmt.Close()
 }
 
-func ensureColumnExists(s *Settings, table string, column SettingColumn) {
-	stmt, err := s.db.Prepare(fmt.Sprintf(`
+func ensureColumnExists(s *Settings, t string, c SettingColumn) {
+	column_exists := getRowInDB(s, `
 		SELECT 1
 		FROM PRAGMA_TABLE_INFO('%s')
-		WHERE
-			name = '%s'
-			AND lower(type) = '%s';
-	`, table, column.Name, column.Type))
-	s.check(err)
-
-	hasRow, err := stmt.Step()
-	s.check(err)
-	if !hasRow {
-		err := s.db.Exec(fmt.Sprintf(`
-			ALTER TABLE %s
-				DROP COLUMN %s;
-		`, table, column.Name))
-		s.check(err)
-
-		err = s.db.Exec(fmt.Sprintf(`
-			ALTER TABLE %s
-				ADD %s %s;
-		`, table, column.Name, column.Type))
-		s.check(err)
+		WHERE name = '%s' AND lower(type) = '%s'
+		LIMIT 1;
+	`, t, c.name, c.sql_type)
+	if !column_exists {
+		execInDB(s, `ALTER TABLE %s DROP COLUMN %s;`, t, c.name)
+		execInDB(s, `ALTER TABLE %s ADD %s %s;`, t, c.name, c.sql_type)
 	}
-	stmt.Close()
+}
+
+func ensureRowExists(s *Settings, t string) {
+	row_exists := getRowInDB(s, `
+		SELECT 1
+		FROM %s
+		WHERE id = 1
+		LIMIT 1;
+	`, t)
+	if !row_exists {
+		execInDB(s, `INSERT INTO %s (id) VALUES (1);`, t)
+	}
 }

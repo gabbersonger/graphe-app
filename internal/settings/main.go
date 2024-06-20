@@ -8,9 +8,8 @@ import (
 )
 
 type Settings struct {
-	ctx    context.Context
-	db     *sqlite3.Conn
-	values *SettingsValues
+	ctx context.Context
+	db  *sqlite3.Conn
 }
 
 func (s *Settings) check(e error) {
@@ -26,8 +25,10 @@ func (s *Settings) throw(st string) {
 func Startup(ctx context.Context, dbFile string) *Settings {
 	s := &Settings{}
 	s.ctx = ctx
-	s.setupDB(dbFile)
-	s.setupValues()
+	var err error
+	s.db, err = sqlite3.Open("file:" + dbFile)
+	s.check(err)
+	validateDB(s)
 	return s
 }
 
