@@ -26,6 +26,6 @@ export function Throw(arg1) {
   return window['go']['app']['App']['Throw'](arg1);
 }
 
-export function UpdateSetting(arg1, arg2, arg3) {
-  return window['go']['app']['App']['UpdateSetting'](arg1, arg2, arg3);
+export function UpdateSetting(arg1, arg2) {
+  return window['go']['app']['App']['UpdateSetting'](arg1, arg2);
 }

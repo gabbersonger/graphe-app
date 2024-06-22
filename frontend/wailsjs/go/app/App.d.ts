@@ -18,4 +18,4 @@ export function Menu():Promise<menu.Menu>;
 
 export function Throw(arg1:string):Promise<void>;
 
-export function UpdateSetting(arg1:string,arg2:string,arg3:string):Promise<boolean>;
+export function UpdateSetting(arg1:Array<string>,arg2:any):Promise<boolean>;
