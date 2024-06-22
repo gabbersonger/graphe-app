@@ -51,6 +51,7 @@ Currently requires a large database file that is currently not packaged with the
 **Verse 0.4 - Quality of life update**
 
 - [ ] Remove JS Scripture functions
+- [ ] Replace Virtualiser with just loading 10 chapters either side
 - [ ] Animations
   - [ ] Entering settings window (look at what Discord does)
 - [ ] Sound effects
