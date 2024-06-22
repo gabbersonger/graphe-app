@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { settings_section } from "@/lib/managers/settingsManager";
+    import { settings_section } from "@/lib/stores";
     import { settingsData } from "@/components/Settings/data";
 </script>
 

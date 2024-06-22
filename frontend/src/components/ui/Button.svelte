@@ -6,10 +6,9 @@
     export let active: boolean = false;
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<div class="item" class:active on:click>
+<button class="item" class:active on:click>
     <svelte:component this={icon} />
-</div>
+</button>
 
 <style>
     .item {
@@ -18,6 +17,9 @@
         height: 1.2rem;
         aspect-ratio: 1;
         cursor: pointer;
+        background: none;
+        border: none;
+        padding: 0;
     }
 
     .item:hover {

@@ -1,19 +1,20 @@
 <script lang="ts">
     import { EventsEmit } from "!wails/runtime/runtime";
 
-    import { settings_section } from "@/lib/managers/settingsManager";
+    import { settings_section } from "@/lib/stores";
     import {
         settingsData,
+        getSettingCategories,
         type SettingSection,
     } from "@/components/Settings/data";
 
     function selectSection(section: SettingSection) {
-        EventsEmit("settings:section", section);
+        EventsEmit("window:settings:section", section);
     }
 </script>
 
 <div class="buttons">
-    {#each ["App Settings", "Functionality"] as category}
+    {#each getSettingCategories() as category}
         <div class="title">{category}</div>
         {#each settingsData.filter((x) => x.category == category) as s}
             <button
