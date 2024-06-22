@@ -1,6 +1,6 @@
 import { versionData } from "@/lib/Scripture/data";
 import type { BibleVersion } from "@/lib/Scripture/types";
-import { GrapheError } from "../utils";
+import { GrapheLog } from "../utils";
 import type { scripture } from "!wails/go/models";
 import { createRef } from "@/lib/Scripture/ref";
 
@@ -21,7 +21,8 @@ export function isValidVersion(version: string): boolean {
  */
 export function getVersionBookIndex(version: BibleVersion, book: number) {
   if (!isValidVersion(version))
-    GrapheError(
+    GrapheLog(
+      "error",
       `Invalid version (${version}) passed to \`getVersionBookIndex\``,
     );
   return versionData[version].books.findIndex((b) => b.book_number == book);
@@ -36,7 +37,8 @@ export function createVersionRange(
   version: BibleVersion,
 ): scripture.ScriptureRange {
   if (!isValidVersion(version))
-    GrapheError(
+    GrapheLog(
+      "error",
       `Invalid version (${version}) passed to \`createVersionRange\``,
     );
 

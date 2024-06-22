@@ -6,10 +6,10 @@
         themeData,
         createThemeStylesString,
     } from "@/static/themes";
-    import { graphe_theme } from "@/lib/stores";
+    import { graphe_settings } from "@/lib/stores";
 
     function selectTheme(theme: ThemeName) {
-        EventsEmit("setting:theme", theme);
+        EventsEmit("graphe:setting", ["appearence", "theme"], theme);
     }
 </script>
 
@@ -18,7 +18,7 @@
         <button on:click={() => selectTheme(theme.name)}>
             <div
                 class="theme-display"
-                class:selected={$graphe_theme == theme.name}
+                class:selected={$graphe_settings.appearence.theme == theme.name}
             >
                 <div
                     class="theme-wrapper"

@@ -283,35 +283,36 @@ export namespace scripture {
 
 export namespace settings {
 	
-	export class SettingsValues {
-	    // Go type: struct {}
-	    general: any;
-	    // Go type: struct { Theme string "json:\"theme\""; Font struct { System string "json:\"system\""; Greek string "json:\"greek\""; Hebrew string "json:\"hebrew\""; English string "json:\"english\"" } "json:\"font\"" }
-	    appearence: any;
-	    // Go type: struct {}
-	    shortcuts: any;
-	    // Go type: struct {}
-	    version: any;
-	    // Go type: struct {}
-	    formatting: any;
-	    // Go type: struct {}
-	    search: any;
-	    // Go type: struct {}
-	    instantDetails: any;
+	export class SettingsValues_Appearence_Font {
+	    system: string;
+	    greek: string;
+	    hebrew: string;
+	    english: string;
 	
 	    static createFrom(source: any = {}) {
-	        return new SettingsValues(source);
+	        return new SettingsValues_Appearence_Font(source);
 	    }
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.general = this.convertValues(source["general"], Object);
-	        this.appearence = this.convertValues(source["appearence"], Object);
-	        this.shortcuts = this.convertValues(source["shortcuts"], Object);
-	        this.version = this.convertValues(source["version"], Object);
-	        this.formatting = this.convertValues(source["formatting"], Object);
-	        this.search = this.convertValues(source["search"], Object);
-	        this.instantDetails = this.convertValues(source["instantDetails"], Object);
+	        this.system = source["system"];
+	        this.greek = source["greek"];
+	        this.hebrew = source["hebrew"];
+	        this.english = source["english"];
+	    }
+	}
+	export class SettingsValues_Appearence {
+	    theme: string;
+	    font: SettingsValues_Appearence_Font;
+	
+	    static createFrom(source: any = {}) {
+	        return new SettingsValues_Appearence(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.theme = source["theme"];
+	        this.font = this.convertValues(source["font"], SettingsValues_Appearence_Font);
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
@@ -332,6 +333,55 @@ export namespace settings {
 		    return a;
 		}
 	}
+	export class SettingsValues {
+	    // Go type: SettingsValues_General
+	    general: any;
+	    appearence: SettingsValues_Appearence;
+	    // Go type: SettingsValues_Shortcuts
+	    shortcuts: any;
+	    // Go type: SettingsValues_Version
+	    version: any;
+	    // Go type: SettingsValues_Formatting
+	    formatting: any;
+	    // Go type: SettingsValues_Search
+	    search: any;
+	    // Go type: SettingsValues_InstantDetails
+	    instantDetails: any;
+	
+	    static createFrom(source: any = {}) {
+	        return new SettingsValues(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.general = this.convertValues(source["general"], null);
+	        this.appearence = this.convertValues(source["appearence"], SettingsValues_Appearence);
+	        this.shortcuts = this.convertValues(source["shortcuts"], null);
+	        this.version = this.convertValues(source["version"], null);
+	        this.formatting = this.convertValues(source["formatting"], null);
+	        this.search = this.convertValues(source["search"], null);
+	        this.instantDetails = this.convertValues(source["instantDetails"], null);
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
+	
 
 }
 

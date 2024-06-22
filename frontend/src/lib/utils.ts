@@ -1,4 +1,4 @@
-import { LogWarning } from "!wails/runtime/runtime";
+import { LogError, LogInfo } from "!wails/runtime/runtime";
 import { cubicOut } from "svelte/easing";
 import type { TransitionConfig } from "svelte/transition";
 
@@ -6,10 +6,17 @@ export const assertUnreachable = (_: never): never => {
   throw new Error("Cannot reach here");
 };
 
-export const GrapheError = (message: string): never => {
-  LogWarning("Javascript: " + message);
-  throw Error(message);
-};
+export function GrapheLog(severity: "info" | "error", message: string) {
+  const prefix = "[Javascript] ";
+  switch (severity) {
+    case "info":
+      LogInfo(prefix + message);
+      return;
+    case "error":
+      LogError(prefix + message);
+      throw Error(message);
+  }
+}
 
 type FlyAndScaleParams = {
   y?: number;

@@ -1,7 +1,7 @@
 import type { BibleRef, BibleVersion } from "@/lib/Scripture/types";
 import { getBook, isValidRef } from "@/lib/Scripture/ref";
 import type { scripture } from "!wails/go/models";
-import { GrapheError } from "@/lib/utils";
+import { GrapheLog } from "@/lib/utils";
 import { getVersionBookIndex, isValidVersion } from "@/lib/Scripture/version";
 
 /**
@@ -44,7 +44,8 @@ export const isRefInRange = (
   range: scripture.ScriptureRange,
 ): boolean => {
   if (!isValidRange(range))
-    GrapheError(
+    GrapheLog(
+      "error",
       `Invalid range ({version: ${range.version}, start: ${range.start}, end: ${range.end}}) passed to \`isRefInRange\``,
     );
   const version = range.version as BibleVersion;

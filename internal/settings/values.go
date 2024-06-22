@@ -6,24 +6,6 @@ import (
 	"strings"
 )
 
-type SettingsValues struct {
-	General    struct{} `json:"general"`
-	Appearence struct {
-		Theme string `json:"theme"`
-		Font  struct {
-			System  string `json:"system"`
-			Greek   string `json:"greek"`
-			Hebrew  string `json:"hebrew"`
-			English string `json:"english"`
-		} `json:"font"`
-	} `json:"appearence"`
-	Shortcuts      struct{} `json:"shortcuts"`
-	Version        struct{} `json:"version"`
-	Formatting     struct{} `json:"formatting"`
-	Search         struct{} `json:"search"`
-	InstantDetails struct{} `json:"instantDetails"`
-}
-
 func getDefaultSettingsValues() SettingsValues {
 	v := SettingsValues{}
 	v.Appearence.Theme = "hanok"
@@ -86,5 +68,6 @@ func (s *Settings) GetSettings() SettingsValues {
 }
 
 func (s *Settings) UpdateSetting(field []string, value interface{}) bool {
+	// TODO: update the database with the users setting
 	return true
 }

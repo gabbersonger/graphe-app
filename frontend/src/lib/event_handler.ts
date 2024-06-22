@@ -1,4 +1,5 @@
-import { EventsOn, EventsOff, LogInfo } from "!wails/runtime/runtime";
+import { EventsOn, EventsOff } from "!wails/runtime/runtime";
+import { GrapheLog } from "@/lib/utils";
 
 export class EventHandler {
   events: Set<string>;
@@ -10,7 +11,7 @@ export class EventHandler {
   subscribe(event: string, handler: (...data: any) => void) {
     if (!this.events.has(event)) {
       EventsOn(event, (...data) => {
-        LogInfo(`Event Handled: ${event}`);
+        GrapheLog("info", `Event Handled: ${event}`);
         handler(...data);
       });
       this.events.add(event);

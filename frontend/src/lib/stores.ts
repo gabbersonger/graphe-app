@@ -1,18 +1,19 @@
 import { writable, type Writable } from "svelte/store";
 import type { BibleRef, BibleVersion } from "@/lib/Scripture/types";
-import type { database } from "!wails/go/models";
-import type { ThemeName } from "@/static/themes";
+import type { database, settings } from "!wails/go/models";
 import type { SettingSection } from "@/components/Settings/data";
 import type { ModalName } from "@/components/Workspace/Modals/data";
 import {
   sidebarData,
   type SidebarSection,
 } from "@/components/Workspace/Sidebar/data";
+import { defaultSettings } from "@/lib/settings_handler";
 
 // WHOLE APP
 export type GrapheMode = "app" | "settings" | "loading";
 export const graphe_mode: Writable<GrapheMode> = writable("loading");
-export const graphe_theme: Writable<ThemeName> = writable("hanok"); // TODO: replace with all settings
+export const graphe_settings: Writable<settings.SettingsValues> =
+  writable(defaultSettings());
 
 // SETTINGS WINDOW
 export const settings_section: Writable<SettingSection> = writable("general");

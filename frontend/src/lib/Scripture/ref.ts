@@ -1,6 +1,6 @@
 import { bibleData, versionData } from "@/lib/Scripture/data";
 import type { BibleRef, BibleVersion } from "@/lib/Scripture/types";
-import { GrapheError, assertUnreachable } from "@/lib/utils";
+import { GrapheLog, assertUnreachable } from "@/lib/utils";
 import { getVersionBookIndex, isValidVersion } from "@/lib/Scripture/version";
 
 export function getBook(ref: BibleRef): number {
@@ -28,7 +28,8 @@ function isSuperscriptChapter(
   chapter: number,
 ): boolean {
   if (!isValidVersion(version))
-    GrapheError(
+    GrapheLog(
+      "error",
       `Invalid version (${version}) passed to \`isSuperscriptChapter\``,
     );
 
@@ -53,7 +54,8 @@ function isSuperscriptChapter(
  */
 export function isValidRef(version: BibleVersion, ref: BibleRef): boolean {
   if (!isValidVersion(version))
-    GrapheError(
+    GrapheLog(
+      "error",
       `Invalid version (${version}) passed to \`isSuperscriptChapter\``,
     );
   if (ref == null) return false;
@@ -111,7 +113,10 @@ export function createRef(
   verse: number | "start" | "end" = "start",
 ) {
   if (!isValidVersion(version))
-    GrapheError(`Invalid version (${version}) passed to \`createBibleRef\``);
+    GrapheLog(
+      "error",
+      `Invalid version (${version}) passed to \`createBibleRef\``,
+    );
 
   let ref: BibleRef = 0;
 
@@ -139,7 +144,8 @@ export function createRef(
   }
 
   if (!isValidRef(version, ref))
-    GrapheError(
+    GrapheLog(
+      "error",
       `Invalid combination of version (${version}), book (${book}), chapter (${chapter}) and verse (${verse}) passed to \`createRef\``,
     );
   return ref;
@@ -163,7 +169,10 @@ export function refToString(
   format: "short" | "long" | "chapter" | "book",
 ) {
   if (!isValidVersion(version))
-    GrapheError(`Invalid version (${version}) passed to \`refToString\``);
+    GrapheLog(
+      "error",
+      `Invalid version (${version}) passed to \`refToString\``,
+    );
   if (!isValidRef(version, ref)) return "";
 
   const verse = getVerse(ref);
