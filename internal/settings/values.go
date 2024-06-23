@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 func getDefaultSettingsValues() SettingsValues {
@@ -67,7 +70,66 @@ func (s *Settings) GetSettings() SettingsValues {
 	return v
 }
 
+func capitalise(s string) string {
+	return cases.Title(language.English, cases.Compact).String(s)
+}
+
 func (s *Settings) UpdateSetting(field []string, value interface{}) bool {
-	// TODO: update the database with the users setting
+	if len(field) < 2 {
+		s.throw(fmt.Sprintf("UpdateSetting has less than 2 values in `field`: (field: %v, value:...)", field))
+	}
+
+	r := reflect.TypeOf(SettingsValues{})
+
+	table := capitalise(field[0])
+	item, found := r.FieldByName(table)
+	if !found {
+		s.throw(fmt.Sprintf("UpdateSetting had invalid first-value for `field`: (field: %v, value:...)", field))
+	}
+
+	column := ""
+	for i, f := range field[1:] {
+		field_name := capitalise(f)
+		item, found = item.Type.FieldByName(field_name)
+		if !found {
+			s.throw(fmt.Sprintf("UpdateSetting had invalid value (index=%d) for `field`: (field: %v, value:...)", i+1, field))
+		}
+		if i > 0 {
+			column += "_"
+		}
+		column += field_name
+	}
+
+	var err error
+	switch value.(type) {
+	case int:
+		err = s.db.Exec(fmt.Sprintf(`
+			UPDATE %s
+			SET %s = %d
+			WHERE id = 1;
+		`, table, column, value))
+	case string:
+		err = s.db.Exec(fmt.Sprintf(`
+			UPDATE %s
+			SET %s = '%s'
+			WHERE id = 1;
+		`, table, column, value))
+	case bool:
+		int_value := 0
+		if value.(bool) {
+			int_value = 1
+		}
+		err = s.db.Exec(fmt.Sprintf(`
+			UPDATE %s
+			SET %s = %d
+			WHERE id = 1;
+		`, table, column, int_value))
+	default:
+		s.throw(fmt.Sprintf("UpdateSetting had invalid `value` type"))
+	}
+	s.check(err)
+
+	fmt.Println(table, column)
+
 	return true
 }
