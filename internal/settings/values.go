@@ -99,11 +99,20 @@ func (s *Settings) UpdateSetting(field []string, value interface{}) bool {
 			WHERE id = 1;
 		`, table, column, value))
 	case string:
-		err = s.db.Exec(fmt.Sprintf(`
-			UPDATE %s
-			SET %s = '%s'
-			WHERE id = 1;
-		`, table, column, value))
+		if value == "DEFAULT" {
+			err = s.db.Exec(fmt.Sprintf(`
+				UPDATE %s
+				SET %s = NULL
+				WHERE id = 1;
+			`, table, column))
+
+		} else {
+			err = s.db.Exec(fmt.Sprintf(`
+				UPDATE %s
+				SET %s = '%s'
+				WHERE id = 1;
+			`, table, column, value))
+		}
 	case bool:
 		int_value := 0
 		if value.(bool) {
