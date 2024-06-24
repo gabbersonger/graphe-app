@@ -13,15 +13,15 @@ type SettingsValues struct {
 type SettingsValues_General struct{}
 
 type SettingsValues_Appearence struct {
-	Theme string                         `json:"theme"`
+	Theme string                         `json:"theme,omitempty"`
 	Font  SettingsValues_Appearence_Font `json:"font"`
 }
 
 type SettingsValues_Appearence_Font struct {
-	System  string `json:"system"`
-	Greek   string `json:"greek"`
-	Hebrew  string `json:"hebrew"`
-	English string `json:"english"`
+	System  string `json:"system,omitempty"`
+	Greek   string `json:"greek,omitempty"`
+	Hebrew  string `json:"hebrew,omitempty"`
+	English string `json:"english,omitempty"`
 }
 
 type SettingsValues_Shortcuts struct{}

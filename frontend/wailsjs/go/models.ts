@@ -284,10 +284,10 @@ export namespace scripture {
 export namespace settings {
 	
 	export class SettingsValues_Appearence_Font {
-	    system: string;
-	    greek: string;
-	    hebrew: string;
-	    english: string;
+	    system?: string;
+	    greek?: string;
+	    hebrew?: string;
+	    english?: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new SettingsValues_Appearence_Font(source);
@@ -302,7 +302,7 @@ export namespace settings {
 	    }
 	}
 	export class SettingsValues_Appearence {
-	    theme: string;
+	    theme?: string;
 	    font: SettingsValues_Appearence_Font;
 	
 	    static createFrom(source: any = {}) {

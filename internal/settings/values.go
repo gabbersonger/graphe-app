@@ -9,18 +9,8 @@ import (
 	"golang.org/x/text/language"
 )
 
-func getDefaultSettingsValues() SettingsValues {
-	v := SettingsValues{}
-	v.Appearence.Theme = "hanok"
-	v.Appearence.Font.Greek = "default"
-	v.Appearence.Font.System = "default"
-	v.Appearence.Font.Hebrew = "default"
-	v.Appearence.Font.English = "default"
-	return v
-}
-
 func (s *Settings) GetSettings() SettingsValues {
-	v := getDefaultSettingsValues()
+	v := SettingsValues{}
 	tables := getSettingsTables()
 
 	r := reflect.ValueOf(&v).Elem()
@@ -128,8 +118,5 @@ func (s *Settings) UpdateSetting(field []string, value interface{}) bool {
 		s.throw(fmt.Sprintf("UpdateSetting had invalid `value` type"))
 	}
 	s.check(err)
-
-	fmt.Println(table, column)
-
 	return true
 }
