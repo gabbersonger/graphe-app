@@ -260,6 +260,23 @@ export namespace database {
 
 }
 
+export namespace menu {
+	
+	export class Menu {
+	
+	
+	    static createFrom(source: any = {}) {
+	        return new Menu(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	
+	    }
+	}
+
+}
+
 export namespace scripture {
 	
 	export class ScriptureRange {
@@ -283,6 +300,66 @@ export namespace scripture {
 
 export namespace settings {
 	
+	export class SettingsValues_InstantDetails {
+	
+	
+	    static createFrom(source: any = {}) {
+	        return new SettingsValues_InstantDetails(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	
+	    }
+	}
+	export class SettingsValues_Search {
+	
+	
+	    static createFrom(source: any = {}) {
+	        return new SettingsValues_Search(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	
+	    }
+	}
+	export class SettingsValues_Formatting {
+	
+	
+	    static createFrom(source: any = {}) {
+	        return new SettingsValues_Formatting(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	
+	    }
+	}
+	export class SettingsValues_Version {
+	
+	
+	    static createFrom(source: any = {}) {
+	        return new SettingsValues_Version(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	
+	    }
+	}
+	export class SettingsValues_Shortcuts {
+	
+	
+	    static createFrom(source: any = {}) {
+	        return new SettingsValues_Shortcuts(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	
+	    }
+	}
 	export class SettingsValues_Appearence_Font {
 	    system?: string;
 	    greek?: string;
@@ -332,6 +409,18 @@ export namespace settings {
 		    }
 		    return a;
 		}
+	}
+	export class SettingsValues_General {
+	
+	
+	    static createFrom(source: any = {}) {
+	        return new SettingsValues_General(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	
+	    }
 	}
 	export class SettingsValues {
 	    // Go type: SettingsValues_General
