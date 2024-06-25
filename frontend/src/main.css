@@ -19,10 +19,7 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
-    font-family:
-        system-ui,
-        -apple-system,
-        Roboto;
+    font-family: "Homemade Apple"; /* ridiculous font, to show where font not set */
     font-size: 15px;
     margin: 0;
     padding: 0;

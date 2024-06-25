@@ -1153,8 +1153,8 @@ var VersionsData = [...]VersionData{
   {
     Name: "lxx",
     FullName: "Septuagint (LXX)",
-    Language: "Ancient Greek",
-    LanguageHeadings: "English",
+    Language: "greek",
+    LanguageHeadings: "english",
     Books: []VersionBookData{
       {
         BookNumber: 1,
@@ -2633,8 +2633,8 @@ var VersionsData = [...]VersionData{
   {
     Name: "gnt",
     FullName: "Greek New Testament",
-    Language: "Ancient Greek",
-    LanguageHeadings: "Ancient Greek",
+    Language: "greek",
+    LanguageHeadings: "greek",
     Books: []VersionBookData{
       {
         BookNumber: 40,
@@ -2938,8 +2938,8 @@ var VersionsData = [...]VersionData{
   {
     Name: "hot",
     FullName: "Hebrew Old Testament",
-    Language: "English",
-    LanguageHeadings: "undefined",
+    Language: "hebrew",
+    LanguageHeadings: "english",
     Books: []VersionBookData{
       {
         BookNumber: 1,
@@ -3376,8 +3376,8 @@ var VersionsData = [...]VersionData{
   {
     Name: "esv",
     FullName: "English Standard Version",
-    Language: "English",
-    LanguageHeadings: "English",
+    Language: "english",
+    LanguageHeadings: "english",
     Books: []VersionBookData{
       {
         BookNumber: 1,

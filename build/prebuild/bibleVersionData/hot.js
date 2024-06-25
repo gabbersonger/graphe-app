@@ -5,8 +5,8 @@
 
 export const hot = {
   full_name: "Hebrew Old Testament",
-  language: "Ancient Hebrew",
-  language: "English",
+  language: "hebrew",
+  languageHeadings: "english",
   books: [
     {
       book_number: 1,

@@ -2,14 +2,16 @@
     import { Select as SelectPrimitive } from "bits-ui";
     import { Check, ChevronDown } from "lucide-svelte";
 
-    export let selected: SelectPrimitive.Props<string>["selected"];
-    export let items: SelectPrimitive.Props<string>["items"];
-    export let onSelectedChange: SelectPrimitive.Props<string>["onSelectedChange"] =
+    type T = $$Generic;
+
+    export let selected: SelectPrimitive.Props<T>["selected"];
+    export let items: SelectPrimitive.Props<T>["items"];
+    export let onSelectedChange: SelectPrimitive.Props<T>["onSelectedChange"] =
         undefined;
 
     export let placeholder: string;
     export let label: string = undefined;
-    export let disabled: string[] = [];
+    export let disabled: T[] = [];
 </script>
 
 <SelectPrimitive.Root portal={null} bind:selected {onSelectedChange}>
@@ -31,7 +33,9 @@
                     label={item.label}
                     disabled={disabled.includes(item.value)}
                 >
-                    {item.label}
+                    <slot {item}>
+                        {item.label}
+                    </slot>
                     <SelectPrimitive.ItemIndicator class="select-indicator">
                         <Check />
                     </SelectPrimitive.ItemIndicator>
@@ -63,6 +67,7 @@
         justify-content: space-between;
         align-items: center;
         gap: 1rem;
+        font-family: var(--font-system);
     }
 
     .select-trigger [data-placeholder] {
@@ -99,6 +104,7 @@
         align-items: center;
         padding: 0.5rem;
         border-radius: 0.2rem;
+        font-family: var(--font-system);
     }
 
     .select-label {

@@ -1,7 +1,7 @@
 export const esv = {
   full_name: "English Standard Version",
-  language: "English",
-  languageHeadings: "English",
+  language: "english",
+  languageHeadings: "english",
   books: [
     {
       book_number: 1,

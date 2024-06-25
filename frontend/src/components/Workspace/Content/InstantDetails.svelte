@@ -146,6 +146,7 @@
         flex-direction: column;
         gap: 0.5em;
         border-radius: 0.5em;
+        font-family: var(--font-system);
         font-size: 0.8em;
     }
 

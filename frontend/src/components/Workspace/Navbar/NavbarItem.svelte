@@ -35,32 +35,12 @@
     {/if}
 </button>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- <div class="item" on:click class:selected class:disabled>
-    {#if icon}
-        <div class="icon">
-            <svelte:component this={icon} strokeWidth={selected ? 3 : 1.5} />
-        </div>
-    {/if}
-    {#if text}
-        <div class="text">{text.toLowerCase()}</div>
-    {/if}
-
-    {#if tooltip || command}
-        <div class="tooltip-wrapper">
-            <div class="tooltip">
-                {tooltip}
-                {#if command}<span class="command">{command}</span>{/if}
-            </div>
-        </div>
-    {/if}
-</div> -->
-
 <style>
     .item {
         position: relative;
         font-size: 0.8rem;
         line-height: 1rem;
+        font-family: var(--font-system);
         color: var(--clr-text-sub);
         cursor: pointer;
         background: none;

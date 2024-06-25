@@ -37,6 +37,7 @@
     }
 
     .title {
+        font-family: var(--font-system);
         font-size: 0.7rem;
         font-weight: bold;
         color: var(--clr-text-sub);
@@ -58,6 +59,7 @@
         text-align: left;
         padding: 0.3em var(--size-button-padding);
         border-radius: 0.2em;
+        font-family: var(--font-system);
         font-weight: 500;
     }
 

@@ -36,7 +36,7 @@ Currently requires a large database file that is currently not packaged with the
   - [ ] General (startup)
   - [ ] Appearence
     - [ ] Scaling/zoom
-    - [ ] Font size
+    - [x] Font family
     - [x] Theme selector
   - [ ] Shortcuts
   - [ ] Formatting (e.g. default colours)

@@ -84,6 +84,7 @@
         padding: 0;
         margin: 0;
         padding-top: 0.7rem;
+        font-family: var(--font-system);
         font-size: 0.8rem;
         text-transform: capitalize;
         color: var(--clr-text);

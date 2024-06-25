@@ -1119,8 +1119,8 @@ export const bibleData = [
 export const versionData = {
   lxx: {
     full_name: "Septuagint (LXX)",
-    language: "Ancient Greek",
-    languageHeadings: "English",
+    language: "greek",
+    languageHeadings: "english",
     books: [
       {
         book_number: 1,
@@ -2545,8 +2545,8 @@ export const versionData = {
   },
   gnt: {
     full_name: "Greek New Testament",
-    language: "Ancient Greek",
-    languageHeadings: "Ancient Greek",
+    language: "greek",
+    languageHeadings: "greek",
     books: [
       {
         book_number: 40,
@@ -2822,8 +2822,8 @@ export const versionData = {
   },
   hot: {
     full_name: "Hebrew Old Testament",
-    language: "English",
-    languageHeadings: "undefined",
+    language: "hebrew",
+    languageHeadings: "english",
     books: [
       {
         book_number: 1,
@@ -3220,8 +3220,8 @@ export const versionData = {
   },
   esv: {
     full_name: "English Standard Version",
-    language: "English",
-    languageHeadings: "English",
+    language: "english",
+    languageHeadings: "english",
     books: [
       {
         book_number: 1,

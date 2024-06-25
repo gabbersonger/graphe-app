@@ -181,7 +181,7 @@
         background: transparent;
         border: none;
         padding: 1rem 0;
-        font-family: inherit;
+        font-family: var(--font-system);
         font-size: 0.9rem;
         color: var(--clr-text);
         caret-color: var(--clr-main);
@@ -212,6 +212,7 @@
 
         background: none;
         border: none;
+        font-family: var(--font-system);
         font-size: 0.9em;
         color: var(--clr-text-sub);
 
@@ -239,6 +240,7 @@
         justify-content: center;
         gap: 2em;
         padding-block: min(4em, 10vh);
+        font-family: var(--font-system);
         color: var(--clr-text-sub);
         user-select: none;
         -webkit-user-select: none;
@@ -255,6 +257,7 @@
         display: flex;
         flex-direction: row;
         gap: 2em;
+        font-family: var(--font-system);
         font-size: 0.8em;
         color: var(--clr-text-sub);
     }

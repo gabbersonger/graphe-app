@@ -40,19 +40,27 @@
         overflow: hidden;
     }
 
-    #content[data-language="Ancient Greek"] {
-        --font-content: "SBL Greek";
+    #content[data-language="greek"] {
+        --font-content: var(--font-greek);
     }
 
-    #content[data-language="English"] {
-        --font-content: "Neuton";
+    #content[data-language="english"] {
+        --font-content: var(--font-english);
     }
 
-    #content[data-language-heading="English"] {
-        --font-title: "Neuton";
+    #content[data-language="hebrew"] {
+        --font-content: var(--font-hebrew);
     }
 
-    #content[data-language-heading="Ancient Greek"] {
-        --font-title: "SBL Greek";
+    #content[data-language-heading="greek"] {
+        --font-title: var(--font-greek);
+    }
+
+    #content[data-language-heading="english"] {
+        --font-title: var(--font-english);
+    }
+
+    #content[data-language-heading="hebrew"] {
+        --font-title: var(--font-hebrew);
     }
 </style>

@@ -100,6 +100,7 @@
     }
 
     .ref {
+        font-family: var(--font-system);
         font-weight: bold;
         font-size: 0.8rem;
         color: var(--clr-main);
@@ -110,6 +111,7 @@
 
     sup {
         vertical-align: super;
+        font-family: var(--font-system);
         font-weight: bold;
         font-size: 0.7rem;
         color: var(--clr-text-sub);

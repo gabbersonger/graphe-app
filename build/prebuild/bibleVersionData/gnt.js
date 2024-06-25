@@ -2,8 +2,8 @@
 
 export const gnt = {
   full_name: "Greek New Testament",
-  language: "Ancient Greek",
-  languageHeadings: "Ancient Greek",
+  language: "greek",
+  languageHeadings: "greek",
   books: [
     {
       book_number: 40,
