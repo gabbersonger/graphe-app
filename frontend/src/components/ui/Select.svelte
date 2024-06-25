@@ -4,12 +4,15 @@
 
     export let selected: SelectPrimitive.Props<string>["selected"];
     export let items: SelectPrimitive.Props<string>["items"];
+    export let onSelectedChange: SelectPrimitive.Props<string>["onSelectedChange"] =
+        undefined;
+
     export let placeholder: string;
     export let label: string = undefined;
     export let disabled: string[] = [];
 </script>
 
-<SelectPrimitive.Root portal={null} bind:selected>
+<SelectPrimitive.Root portal={null} bind:selected {onSelectedChange}>
     <SelectPrimitive.Trigger class="select-trigger" {...$$restProps}>
         <SelectPrimitive.Value {placeholder} />
         <ChevronDown />

@@ -3,22 +3,12 @@
     import Settings from "@/components/Settings/index.svelte";
     import Loading from "@/components/Loading/index.svelte";
 
-    import { graphe_mode, graphe_settings } from "@/lib/stores";
+    import { graphe_mode } from "@/lib/stores";
     import { grapheManager } from "@/lib/managers/graphe";
-    import { createThemeStyles } from "@/static/themes";
-
-    $: if ($graphe_settings) {
-        const theme_values = createThemeStyles(
-            $graphe_settings.appearence.theme,
-        );
-        for (let i = 0; i < theme_values.length; i++) {
-            document.body.style.setProperty(
-                theme_values[i].variable,
-                theme_values[i].value,
-            );
-        }
-    }
+    import { uiManager } from "@/lib/managers/ui";
 </script>
+
+<svelte:body use:uiManager />
 
 <div id="window" use:grapheManager>
     {#if $graphe_mode != "loading"}

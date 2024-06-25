@@ -11,3 +11,10 @@
         local("SBL Greek"),
         url("static/fonts/SBL\ Greek.ttf") format("truetype");
 }
+
+@font-face {
+    font-family: "SBL Hebrew";
+    src:
+        local("SBL Hebrew"),
+        url("static/fonts/SBL\ Hebrew.ttf") format("truetype");
+}
