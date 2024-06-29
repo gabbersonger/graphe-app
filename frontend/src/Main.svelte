@@ -15,10 +15,8 @@
         <div class="app">
             <Workspace />
         </div>
-    {/if}
 
-    {#if $graphe_mode == "settings"}
-        <div class="settings">
+        <div class="settings" class:shown={$graphe_mode == "settings"}>
             <Settings />
         </div>
     {/if}
@@ -49,5 +47,9 @@
 
     .settings {
         z-index: 1;
+    }
+
+    .settings:not(.shown) {
+        display: none;
     }
 </style>
