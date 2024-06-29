@@ -89,6 +89,8 @@
 
     .verse {
         display: inline;
+        font-family: var(--font-content);
+        font-size: 1.2rem;
     }
 
     .title {
@@ -115,11 +117,6 @@
         font-weight: bold;
         font-size: 0.7rem;
         color: var(--clr-text-sub);
-    }
-
-    .word {
-        font-family: var(--font-content);
-        font-size: 1.2rem;
     }
 
     .hoverable:hover {
