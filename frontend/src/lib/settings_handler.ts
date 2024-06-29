@@ -34,7 +34,6 @@ function deepMerge<T>(a: T, b: T): T {
       a[keys_a[i]] = b[keys_a[i]];
     }
   }
-  console.log(a);
   return a;
 }
 

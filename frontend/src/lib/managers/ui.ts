@@ -7,14 +7,26 @@ export function uiManager(elem: HTMLElement) {
     // Set theme
     const theme_styles = createThemeStyles(value.appearence.theme as ThemeName);
     for (let i = 0; i < theme_styles.length; i++) {
-      elem.style.setProperty(theme_styles[i].variable, theme_styles[i].value);
+      elem.parentElement.style.setProperty(
+        theme_styles[i].variable,
+        theme_styles[i].value,
+      );
     }
 
     // Set font
     const font_styles = createFontStyles(value.appearence.font);
     for (let i = 0; i < font_styles.length; i++) {
-      elem.style.setProperty(font_styles[i].variable, font_styles[i].value);
+      elem.parentElement.style.setProperty(
+        font_styles[i].variable,
+        font_styles[i].value,
+      );
     }
+
+    // Set zoom
+    elem.parentElement.style.setProperty(
+      "--zoom-factor",
+      (value.appearence.zoom / 100).toFixed(1),
+    );
   });
 
   return {

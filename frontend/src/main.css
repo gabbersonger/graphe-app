@@ -13,14 +13,14 @@
 html {
     height: 100%;
     overflow: hidden;
+    font-family: "Homemade Apple"; /* ridiculous font, to show where font not set */
+    font-size: calc(15px * var(--zoom-factor));
 }
 
 body {
     position: absolute;
     width: 100%;
     height: 100%;
-    font-family: "Homemade Apple"; /* ridiculous font, to show where font not set */
-    font-size: 15px;
     margin: 0;
     padding: 0;
 }
