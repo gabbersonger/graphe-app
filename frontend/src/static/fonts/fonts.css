@@ -2,19 +2,19 @@
     font-family: "Neuton";
     src:
         local("Neuton"),
-        url("static/fonts/Neuton.ttf") format("truetype");
+        url("src/static/fonts/Neuton.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "SBL Greek";
     src:
         local("SBL Greek"),
-        url("static/fonts/SBL\ Greek.ttf") format("truetype");
+        url("src/static/fonts/SBL\ Greek.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "SBL Hebrew";
     src:
         local("SBL Hebrew"),
-        url("static/fonts/SBL\ Hebrew.ttf") format("truetype");
+        url("src/static/fonts/SBL\ Hebrew.ttf") format("truetype");
 }
