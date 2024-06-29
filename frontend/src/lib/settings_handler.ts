@@ -16,6 +16,7 @@ export function defaultSettings(): settings.SettingsValues {
         hebrew: "SBL Hebrew",
         english: "Neuton",
       },
+      zoom: 100,
     },
   });
 }
@@ -33,6 +34,7 @@ function deepMerge<T>(a: T, b: T): T {
       a[keys_a[i]] = b[keys_a[i]];
     }
   }
+  console.log(a);
   return a;
 }
 
@@ -57,10 +59,33 @@ function updateSettingStore(setting: string[], value: any) {
   });
 }
 
+function parseSettingValue(setting: string[], value: any): any {
+  if (
+    setting.length == 2 &&
+    setting[0] == "appearence" &&
+    setting[1] == "zoom"
+  ) {
+    const current_zoom = get(graphe_settings).appearence.zoom;
+    if (value == "in") {
+      return Math.min(current_zoom + 10, 200);
+    } else if (value == "out") {
+      return Math.max(current_zoom - 10, 50);
+    } else if (value == "reset") {
+      return 100;
+    }
+  }
+  return value;
+}
+
 export async function updateSetting(setting: string[], value: any) {
-  const setting_updated = await UpdateSetting(setting, value);
+  const parsed_value = parseSettingValue(setting, value);
+  GrapheLog("info", `parsed value: ${parsed_value}`);
+  const setting_updated = await UpdateSetting(setting, parsed_value);
   if (setting_updated) {
-    GrapheLog("info", `Setting updated: ${setting.join("/")} -> ${value}`);
-    updateSettingStore(setting, value);
+    GrapheLog(
+      "info",
+      `Setting updated: ${setting.join("/")} -> ${parsed_value}`,
+    );
+    updateSettingStore(setting, parsed_value);
   }
 }

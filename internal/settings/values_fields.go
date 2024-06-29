@@ -15,6 +15,7 @@ type SettingsValues_General struct{}
 type SettingsValues_Appearence struct {
 	Theme string                         `json:"theme,omitempty"`
 	Font  SettingsValues_Appearence_Font `json:"font"`
+	Zoom  int                            `json:"zoom,omitempty"`
 }
 
 type SettingsValues_Appearence_Font struct {

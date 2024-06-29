@@ -4,7 +4,7 @@
 
     onMount(() => {
         // TODO: actually check stuff before progressing
-        EventsEmit("graphe:mode", "workspace");
+        EventsEmit("graphe:mode", "settings");
     });
 </script>
 

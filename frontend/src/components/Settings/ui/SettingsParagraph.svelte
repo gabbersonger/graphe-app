@@ -8,5 +8,6 @@
         font-family: var(--font-system);
         font-size: 0.8rem;
         color: var(--clr-text);
+        line-height: 1.5;
     }
 </style>

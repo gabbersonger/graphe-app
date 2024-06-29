@@ -381,6 +381,7 @@ export namespace settings {
 	export class SettingsValues_Appearence {
 	    theme?: string;
 	    font: SettingsValues_Appearence_Font;
+	    zoom?: number;
 	
 	    static createFrom(source: any = {}) {
 	        return new SettingsValues_Appearence(source);
@@ -390,6 +391,7 @@ export namespace settings {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.theme = source["theme"];
 	        this.font = this.convertValues(source["font"], SettingsValues_Appearence_Font);
+	        this.zoom = source["zoom"];
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {

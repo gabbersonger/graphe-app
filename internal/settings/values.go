@@ -92,7 +92,8 @@ func (s *Settings) UpdateSetting(field []string, value interface{}) bool {
 
 	var err error
 	switch value.(type) {
-	case int:
+	case float64:
+		value = int(value.(float64))
 		err = s.db.Exec(fmt.Sprintf(`
 			UPDATE %s
 			SET %s = %d
@@ -124,7 +125,7 @@ func (s *Settings) UpdateSetting(field []string, value interface{}) bool {
 			WHERE id = 1;
 		`, table, column, int_value))
 	default:
-		s.throw(fmt.Sprintf("UpdateSetting had invalid `value` type"))
+		s.throw(fmt.Sprintf("UpdateSetting had invalid `value` type (type: %s)", reflect.TypeOf(value).String()))
 	}
 	s.check(err)
 	return true
