@@ -13,6 +13,11 @@ export const fontData = [
     css_line: '"Neuton"',
   },
   {
+    name: "Geist",
+    language: "english",
+    css_line: '"Geist", sans-serif',
+  },
+  {
     name: "SBL Greek",
     language: "greek",
     css_line: '"SBL Greek"',
