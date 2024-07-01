@@ -78,7 +78,6 @@ function parseSettingValue(setting: string[], value: any): any {
 
 export async function updateSetting(setting: string[], value: any) {
   const parsed_value = parseSettingValue(setting, value);
-  GrapheLog("info", `parsed value: ${parsed_value}`);
   const setting_updated = await UpdateSetting(setting, parsed_value);
   if (setting_updated) {
     GrapheLog(
