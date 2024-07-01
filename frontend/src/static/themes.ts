@@ -64,6 +64,19 @@ export const themeData = [
       textMuted: "#53565a",
     },
   },
+  {
+    name: "zinc",
+    colors: {
+      background: "#FFFFFF",
+      backgroundSub: "#F4F4F5",
+      backgroundDark: "#D1D1D1",
+      main: "#18181B",
+      text: "#09090B",
+      textSub: "#717179",
+      textHighlight: "#000000",
+      textMuted: "#B8B8BC",
+    },
+  },
 ] as const;
 
 export type ThemeName = (typeof themeData)[number]["name"];
