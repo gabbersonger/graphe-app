@@ -7,6 +7,7 @@
         TextSelect,
         LibraryBig,
         NotepadText,
+        PanelRight,
     } from "lucide-svelte";
     import {
         workspace_mode,
@@ -15,18 +16,75 @@
     } from "@/lib/stores";
     import { refToString } from "@/lib/Scripture/ref";
     import { EventsEmit } from "!wails/runtime/runtime";
+    import { graphe_settings } from "@/lib/stores";
 
+    export let navFloating = true;
     let width: number;
 
-    const BREAKPOINT = 550;
+    const BREAKPOINTS = [
+        {
+            value: 50,
+            text: 400,
+            nav: 350,
+        },
+        {
+            value: 70,
+            text: 500,
+            nav: 385,
+        },
+        {
+            value: 90,
+            text: 600,
+            nav: 450,
+        },
+        {
+            value: 110,
+            text: 680,
+            nav: 520,
+        },
+        {
+            value: 130,
+            text: 760,
+            nav: 590,
+        },
+        {
+            value: 150,
+            text: 850,
+            nav: 640,
+        },
+        {
+            value: 170,
+            text: 910,
+            nav: 700,
+        },
+        {
+            value: 190,
+            text: 1030,
+            nav: 790,
+        },
+    ] as const;
+
+    function getBreakpoint(zoom: number, type: "text" | "nav"): number {
+        let curr: number;
+        for (let i = 0; i < BREAKPOINTS.length; i++) {
+            if (zoom >= BREAKPOINTS[i].value) {
+                curr = BREAKPOINTS[i][type];
+            } else break;
+        }
+        return curr;
+    }
+
+    $: navBreakpoint = getBreakpoint($graphe_settings.appearence.zoom, "nav");
+    $: textBreakpoint = getBreakpoint($graphe_settings.appearence.zoom, "text");
+    $: navFloating = width > navBreakpoint;
 </script>
 
-<div id="navbar" bind:clientWidth={width}>
+<div id="navbar" class:topbar={width <= navBreakpoint} bind:clientWidth={width}>
     <div class="container">
         <div class="wrapper wrapper-nav">
             <NavbarItem
                 icon={TextSelect}
-                text={width > BREAKPOINT ? "passage" : ""}
+                text={width > textBreakpoint ? "passage" : ""}
                 on:click={() => EventsEmit("window:workspace:mode", "passage")}
                 tooltip="Passage Mode"
                 command="⌘P"
@@ -35,7 +93,7 @@
 
             <NavbarItem
                 icon={Search}
-                text={width > BREAKPOINT ? "search" : ""}
+                text={width > textBreakpoint ? "search" : ""}
                 on:click={() => EventsEmit("window:workspace:mode", "search")}
                 tooltip="Search Mode"
                 command="⌘F"
@@ -67,23 +125,35 @@
                 disabled={$workspace_mode == "search"}
             />
 
-            <div class="separator"></div>
+            {#if width > textBreakpoint || width <= navBreakpoint}
+                <div class="separator"></div>
 
-            <NavbarItem
-                icon={Sigma}
-                on:click={() =>
-                    EventsEmit("window:workspace:sidebar", "functions")}
-                tooltip="Functions"
-                command="⌘E"
-            />
+                <NavbarItem
+                    icon={Sigma}
+                    on:click={() =>
+                        EventsEmit("window:workspace:sidebar", "functions")}
+                    tooltip="Functions"
+                    command="⌘E"
+                />
 
-            <NavbarItem
-                icon={NotepadText}
-                on:click={() =>
-                    EventsEmit("window:workspace:sidebar", "analytics")}
-                tooltip="Analytics"
-                command="⌘R"
-            />
+                <NavbarItem
+                    icon={NotepadText}
+                    on:click={() =>
+                        EventsEmit("window:workspace:sidebar", "analytics")}
+                    tooltip="Analytics"
+                    command="⌘R"
+                />
+            {:else}
+                <div class="separator"></div>
+
+                <NavbarItem
+                    icon={PanelRight}
+                    on:click={() =>
+                        EventsEmit("window:workspace:sidebar:toggle")}
+                    tooltip="Sidebar"
+                    command={`⌘\\`}
+                />
+            {/if}
         </div>
     </div>
 
@@ -99,7 +169,6 @@
         flex-direction: row;
         align-items: center;
         justify-content: flex-start;
-        padding: 0 1em;
         user-select: none;
         -webkit-user-select: none;
     }
@@ -118,19 +187,20 @@
         flex-direction: row;
         align-items: center;
         justify-content: flex-start;
-        gap: 1.2em;
+        gap: 1.2rem;
+        background: red;
     }
 
     .wrapper-nav {
-        height: 36px;
+        height: min(2rem, 85%);
         background: var(--clr-background-sub);
-        border-radius: 0.4em;
+        border-radius: 0.4rem;
         padding: 0 1.8em;
     }
 
     .separator {
         height: 1rem;
-        width: 0.1rem;
+        width: 0.1ch;
         background: var(--clr-text-sub);
     }
 
@@ -148,5 +218,22 @@
         );
         z-index: 1;
         pointer-events: none;
+    }
+
+    #navbar.topbar {
+        background: red;
+        background: var(--clr-background-sub);
+        padding-block: 0;
+    }
+
+    #navbar.topbar .container {
+        justify-content: flex-start;
+        padding-left: 1vw;
+    }
+
+    #navbar.topbar .wrapper-nav {
+        padding: 0;
+        padding-inline: 0.2rem;
+        gap: 0.5rem;
     }
 </style>

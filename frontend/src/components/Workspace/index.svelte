@@ -15,6 +15,8 @@
     }
     let innerWidth: number;
     $: checkIfFullscreen(innerWidth);
+
+    let navFloating: boolean;
 </script>
 
 <svelte:window bind:innerWidth />
@@ -23,10 +25,11 @@
     id="app"
     class:sidebar={$workspace_sidebar}
     class:fullscreen={isFullscreen}
+    class:navfloating={navFloating}
     class:modal={$workspace_modal != ""}
     use:windowWorkspaceManager
 >
-    <nav><Navbar /></nav>
+    <nav><Navbar bind:navFloating /></nav>
     <main><MainWindow /></main>
     <aside><Sidebar /></aside>
     <Modals />
@@ -53,12 +56,16 @@
         display: none;
     }
 
+    #app:not(.navfloating) {
+        grid-template-rows: var(--size-navbar-height-small) 1fr;
+    }
+
     #app nav {
         grid-area: navbar;
         --wails-draggable: drag;
     }
 
-    #app:not(.fullscreen) nav {
+    #app:not(.fullscreen) nav > :global(#navbar) {
         padding-left: var(--size-navbar-clear-left);
     }
 

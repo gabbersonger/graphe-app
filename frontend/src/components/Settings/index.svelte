@@ -42,8 +42,8 @@
 <style>
     .settings {
         --size-settings-width: 270px;
-        --size-settings-padding-outer: 5rem;
-        --size-settings-padding-inner: 2rem;
+        --size-settings-padding-outer: 60px;
+        --size-settings-padding-inner: 24px;
 
         position: relative;
         width: 100%;
@@ -113,13 +113,13 @@
     }
 
     button {
-        --size-button-size: 3em;
+        --size-button-size: 35px;
         position: fixed;
         width: var(--size-button-size);
         height: var(--size-button-size);
         top: var(--size-navbar-height);
         right: calc(
-            var(--size-settings-padding-outer) - var(--size-button-size) - 1rem
+            (var(--size-settings-padding-outer) - var(--size-button-size)) / 2
         );
         background: none;
         color: var(--clr-text-muted);
@@ -139,8 +139,8 @@
     @media (max-width: 700px) {
         .settings {
             --size-settings-width: 200px;
-            --size-settings-padding-outer: 1rem;
-            --size-settings-padding-inner: 1rem;
+            --size-settings-padding-outer: 15px;
+            --size-settings-padding-inner: 15px;
         }
 
         button {

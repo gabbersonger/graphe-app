@@ -31,18 +31,18 @@
     .buttons {
         display: flex;
         flex-direction: column;
-        gap: 0.5em;
+        gap: 0.5rem;
 
         --size-button-padding: 0.6rem;
     }
 
     .title {
+        padding-inline: var(--size-button-padding);
         font-family: var(--font-system);
         font-size: 0.7rem;
         font-weight: bold;
         color: var(--clr-text-sub);
         text-transform: uppercase;
-        padding-inline: var(--size-button-padding);
     }
 
     .title:not(:first-child) {
@@ -52,15 +52,15 @@
     button {
         background: none;
         border: none;
-        font-size: 0.9rem;
-        color: var(--clr-text);
-        cursor: pointer;
         padding: 0;
-        text-align: left;
         padding: 0.3em var(--size-button-padding);
         border-radius: 0.2em;
+        cursor: pointer;
         font-family: var(--font-system);
+        font-size: 0.9rem;
         font-weight: 500;
+        color: var(--clr-text);
+        text-align: left;
     }
 
     button.selected {

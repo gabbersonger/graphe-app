@@ -32,7 +32,7 @@
 
 <style>
     .screen-wrapper {
-        --size-modal-max-width: 500px;
+        --size-modal-max-width: max(35rem, 500px);
         --size-modal-margin: 15vh;
 
         position: absolute;

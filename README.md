@@ -34,8 +34,8 @@ Currently requires a large database file that is currently not packaged with the
 - [ ] Settings page
   - [x] Basic UI
   - [ ] General (startup)
-  - [ ] Appearence
-    - [ ] Scaling/zoom
+  - [x] Appearence
+    - [x] Scaling/zoom
     - [x] Font family
     - [x] Theme selector
   - [ ] Shortcuts
@@ -116,6 +116,11 @@ Currently requires a large database file that is currently not packaged with the
 - [ ] Multiple app states (sidebar keeps them all) - ⌘1, ⌘2, ⌘3 to cycle through screens
 
 <br/><br/>
+
+**Improvements**
+
+- [ ] Zoom that works just for bible window
+
 
 **Bugs**
 

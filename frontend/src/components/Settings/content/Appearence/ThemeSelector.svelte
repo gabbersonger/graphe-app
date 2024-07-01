@@ -71,7 +71,7 @@
     #themes {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1.2rem;
+        gap: 1vw;
     }
 
     #themes button {
@@ -82,20 +82,20 @@
 
     #themes button p {
         padding: 0;
-        margin: 0;
         padding-top: 0.7rem;
+        margin: 0;
         font-family: var(--font-system);
         font-size: 0.8rem;
-        text-transform: capitalize;
         color: var(--clr-text);
+        text-transform: capitalize;
     }
 
     .theme-display {
         position: relative;
         aspect-ratio: 2 / 1;
         background: var(--clr-background-sub);
-        border: 0.3rem solid var(--clr-background-sub);
-        border-radius: 0.3rem;
+        border: 5px solid var(--clr-background-sub);
+        border-radius: 5px;
     }
 
     .theme-display.selected {
@@ -110,8 +110,8 @@
         overflow: hidden;
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
-        padding: 1rem;
+        gap: 5%;
+        padding: 5%;
         border-radius: inherit;
         background: var(--clr-background);
     }
@@ -125,19 +125,19 @@
     }
 
     .theme-display .bubble {
-        height: 2rem;
-        border-radius: 0.2rem;
-        padding-inline: 0.5rem;
+        height: 20px;
+        border-radius: 4px;
+        padding-inline: 6px;
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: flex-start;
-        gap: 0.5rem;
+        gap: 6px;
     }
 
     .theme-display .bubble.small {
-        height: 1.4rem;
-        padding-inline: 0.3rem;
+        height: 20px;
+        padding-inline: 6px;
     }
 
     .theme-display .bubble.long {
@@ -151,14 +151,15 @@
     }
 
     .theme-display .text {
-        width: 10ch;
-        height: 0.8rem;
+        width: 20%;
+        height: 12px;
         background: var(--clr-text);
-        border-radius: 0.3rem;
+        border-radius: 4px;
     }
 
     .theme-display .text.short {
-        width: 5ch;
+        width: 10%;
+        min-width: 14px;
     }
 
     .theme-display .text.long {
@@ -167,14 +168,14 @@
 
     .theme-display .separator {
         width: 2px;
-        height: 1rem;
+        height: 12px;
         background: var(--clr-text-sub);
     }
 
     .theme-display .sub {
-        width: 3ch;
-        height: 0.7rem;
-        border-radius: 0.2rem;
+        width: 10%;
+        height: 10px;
+        border-radius: 3px;
         margin-bottom: 10px;
         background: var(--clr-text-sub);
     }
