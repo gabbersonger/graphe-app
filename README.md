@@ -33,18 +33,28 @@ Currently requires a large database file that is currently not packaged with the
 - [x] Saving settings between sessions
 - [ ] Settings page
   - [x] Basic UI
-  - [ ] General (startup)
+  - [ ] General
+    - [ ] Startup - what to show
+    - [ ] Logs - open, purge
   - [x] Appearence
     - [x] Scaling/zoom
     - [x] Font family
     - [x] Theme selector
   - [ ] Shortcuts
-  - [ ] Formatting (e.g. default colours)
-  - [ ] Search (e.g. ranges, default text)
-  - [ ] Instant details (what is display and order?)
+    - [ ] Menubar
+    - [ ] UI - table with buttons
+    - [ ] Functionality
+    - [ ] Reset
+  - [ ] Instant details
+    - [ ] UI - drag and drop available fields
+    - [ ] Functionality
+    - [ ] Reset
   - [ ] Version/updates
-- [ ] Menubar
-- [ ] Right click functionality
+    - [ ] Show version number
+    - [ ] Check for updates at login
+    - [ ] Application version
+    - [ ] Database version
+    - [ ] User login details
 
 <br/>
 
@@ -52,6 +62,7 @@ Currently requires a large database file that is currently not packaged with the
 
 - [ ] Remove JS Scripture functions
 - [ ] Replace Virtualiser with just loading 10 chapters either side
+- [ ] Right click functionality
 - [ ] Animations
   - [ ] Entering settings window (look at what Discord does)
 - [ ] Sound effects
@@ -78,7 +89,7 @@ Currently requires a large database file that is currently not packaged with the
 
 <br/>
 
-**Version 0.6 – Functions update**
+**Version 0.6 – Formatting Functions update**
 
 - [ ] Functionality, e.g...
   - [ ] N occurances
@@ -88,6 +99,7 @@ Currently requires a large database file that is currently not packaged with the
 - [ ] Combination of functions
 - [ ] Modal
 - [ ] Saved functions
+- [ ] Settings (e.g. default colours)
 
 <br/>
 
@@ -98,6 +110,7 @@ Currently requires a large database file that is currently not packaged with the
   - [ ] Items (e.g. topic, characters, root, strongs)
   - [ ] Commands (e.g. AND, OR, GROUPING, NOT, JOIN)
 - [ ] Modal
+- [ ] Settings (e.g. ranges, default text)
 
 <br/>
 
@@ -109,20 +122,19 @@ Currently requires a large database file that is currently not packaged with the
   - [ ] Displaying sections
   - [ ] Instant details
 
-<br/>
-
-**Later Versions**
-
-- [ ] Multiple app states (sidebar keeps them all) - ⌘1, ⌘2, ⌘3 to cycle through screens
-
 <br/><br/>
 
 **Improvements**
 
-- [ ] Zoom that works just for bible window
-
+- Zoom that works just for bible window
+- Setting to reset zoom to value on startup
+- Scroll to specific verse (that's not at start of paragraph)
+- Add more fonts
+- Add more themes
+- "< Close" button in sidebar for settings at small screen sizes
 
 **Bugs**
 
-- [ ] Resizing window does not keep verse at top (currently: only keeps block + scroll offset)
-- [ ] Current verse doesn't update for book title
+- Resizing window does not keep verse at top (currently: only keeps block + scroll offset)
+- Current verse doesn't update for book title
+- ESV psalm 119:1
