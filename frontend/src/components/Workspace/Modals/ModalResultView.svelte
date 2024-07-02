@@ -166,6 +166,9 @@
     }
 
     .input-container label {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         height: 1rem;
         aspect-ratio: 1;
         color: var(--clr-text-sub);
