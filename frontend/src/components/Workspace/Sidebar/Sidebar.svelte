@@ -1,6 +1,6 @@
 <script lang="ts">
     import { workspace_sidebar, workspace_sidebarSection } from "@/lib/stores";
-    import Button from "@/components/ui/Button.svelte";
+    import SidebarButton from "@/components/Workspace/Sidebar/SidebarButton.svelte";
     import { sidebarData } from "@/components/Workspace/Sidebar/data";
     import { PanelRightClose, X } from "lucide-svelte";
 </script>
@@ -8,19 +8,19 @@
 <div id="sidebar">
     <div class="shelf">
         <div class="invis">
-            <Button icon={PanelRightClose} />
+            <SidebarButton icon={PanelRightClose} />
         </div>
         <div>
             <!-- TODO: make this into a dropdown on left -->
             {#each sidebarData as el}
-                <Button
+                <SidebarButton
                     icon={el.icon}
                     active={$workspace_sidebarSection == el.name}
                     on:click={() => ($workspace_sidebarSection = el.name)}
                 />
             {/each}
         </div>
-        <Button
+        <SidebarButton
             icon={PanelRightClose}
             on:click={() => ($workspace_sidebar = false)}
         />
