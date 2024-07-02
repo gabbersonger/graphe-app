@@ -55,7 +55,6 @@ func NewApp(version string) *App {
 	a.env.LogDirectory = filepath.Join(a.env.HomeDirectory, "/Library/Logs/Graphe")
 	os.MkdirAll(a.env.DataDirectory, os.ModePerm)
 	os.MkdirAll(a.env.LogDirectory, os.ModePerm)
-	a.menu = a.newMenu()
 	return a
 }
 
@@ -74,6 +73,7 @@ func (a *App) Startup(ctx context.Context) {
 
 	settingsFile := a.env.DataDirectory + "/settings.db"
 	a.settings = settings.Startup(a.ctx, settingsFile)
+	a.LoadMenu()
 }
 
 func (a *App) Shutdown(ctx context.Context) {

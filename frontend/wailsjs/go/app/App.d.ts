@@ -6,7 +6,7 @@ import {scripture} from '../models';
 import {database} from '../models';
 import {settings} from '../models';
 
-export function ChangeMenu():Promise<void>;
+export function DisableMenu():Promise<void>;
 
 export function GetEnvironmentInfo():Promise<app.EnvironmentInfo>;
 
@@ -17,6 +17,8 @@ export function GetScriptureSection(arg1:scripture.ScriptureRange):Promise<Array
 export function GetScriptureWord(arg1:scripture.ScriptureVersion,arg2:scripture.ScriptureRef,arg3:number):Promise<database.ScriptureWordData>;
 
 export function GetSettings():Promise<settings.SettingsValues>;
+
+export function LoadMenu():Promise<void>;
 
 export function Throw(arg1:string):Promise<void>;
 
