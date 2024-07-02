@@ -115,7 +115,7 @@
         background: var(--clr-background-sub);
         border: 1px solid var(--clr-background-dark);
         border-radius: 0.4rem;
-        width: 200px;
+        width: 15rem;
         padding: 1rem;
         font-family: var(--font-system);
         font-size: 1rem;
@@ -125,7 +125,7 @@
     }
 
     :global(.shortcut-popover) > :global(.shortcut-tray) {
-        height: 4rem;
+        min-height: 4rem;
         background: var(--clr-background);
         border-radius: 0.4rem;
         margin-bottom: 1rem;
@@ -139,6 +139,7 @@
 
     :global(.shortcut-popover) > :global(.button-tray) {
         display: flex;
+        flex-wrap: wrap;
         gap: 0.5rem;
         flex-direction: row;
         justify-content: center;
