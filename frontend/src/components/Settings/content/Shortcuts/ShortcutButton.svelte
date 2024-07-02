@@ -1,13 +1,19 @@
 <script lang="ts">
     import { Popover } from "bits-ui";
     import Command from "@/components/Settings/ui/Command.svelte";
-    import { CirclePlus, Pencil, X, Check } from "lucide-svelte";
+    import { CirclePlus, Pencil, X, Check, Lock } from "lucide-svelte";
     import Button from "@/components/ui/Button.svelte";
 
     export let shortcut: string = null;
+    export let locked = false;
+    export let onChange: (value: string) => void;
 
     let popoverOpen = false;
     let hover = false;
+
+    function confirmClick() {
+        popoverOpen = false;
+    }
 </script>
 
 <div
@@ -29,38 +35,46 @@
         <div class="empty">–</div>
     {/if}
 
-    <Popover.Root bind:open={popoverOpen}>
-        <Popover.Trigger asChild let:builder>
-            <div
-                use:builder.action
-                {...builder}
-                class={shortcut ? "edit" : "prompt"}
-            >
-                {#if shortcut}
-                    <Pencil />
-                {:else}
-                    <CirclePlus />Create
-                {/if}
-            </div>
-        </Popover.Trigger>
-        <Popover.Content
-            sideOffset={3}
-            side="bottom"
-            align="end"
-            class="shortcut-popover"
-        >
-            <Popover.Arrow class="arrow" />
-            <div class="shortcut-tray">Perform shortcut...</div>
-            <div class="button-tray">
-                <Button
-                    icon={X}
-                    secondary={true}
-                    on:click={() => (popoverOpen = false)}>Cancel</Button
+    {#if !locked}
+        <Popover.Root bind:open={popoverOpen}>
+            <Popover.Trigger asChild let:builder>
+                <div
+                    use:builder.action
+                    {...builder}
+                    class={shortcut ? "edit" : "prompt"}
                 >
-                <Button icon={Check}>Confirm</Button>
-            </div>
-        </Popover.Content>
-    </Popover.Root>
+                    {#if shortcut}
+                        <Pencil />
+                    {:else}
+                        <CirclePlus />Create
+                    {/if}
+                </div>
+            </Popover.Trigger>
+            <Popover.Content
+                sideOffset={3}
+                side="bottom"
+                align="end"
+                class="shortcut-popover"
+            >
+                <Popover.Arrow class="arrow" />
+                <div class="shortcut-tray">Perform shortcut...</div>
+                <div class="button-tray">
+                    <Button
+                        icon={X}
+                        secondary={true}
+                        on:click={() => (popoverOpen = false)}>Cancel</Button
+                    >
+                    <Button icon={Check} on:click={confirmClick}>
+                        Confirm
+                    </Button>
+                </div>
+            </Popover.Content>
+        </Popover.Root>
+    {:else}
+        <div class="locked">
+            <Lock />
+        </div>
+    {/if}
 </div>
 
 <style>
@@ -85,6 +99,11 @@
         cursor: pointer;
     }
 
+    .locked {
+        color: var(--clr-text-muted);
+        cursor: no-drop;
+    }
+
     .prompt {
         display: flex;
         justify-content: center;
@@ -101,7 +120,8 @@
     }
 
     .prompt > :global(svg),
-    .edit > :global(svg) {
+    .edit > :global(svg),
+    .locked > :global(svg) {
         height: 1em;
         width: 1em;
     }

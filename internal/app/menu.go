@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"os/exec"
 
 	"github.com/wailsapp/wails/v2/pkg/menu"
@@ -34,12 +35,16 @@ func menuCallbackOpenFolder(a *App, fname string) func(cd *menu.CallbackData) {
 
 func (a *App) newMenu() *menu.Menu {
 	// TODO: fill this out and make shortcuts based on settings values
+	if a.settings != nil {
+		s := a.settings.GetSettings()
+		fmt.Println(s)
+	}
 
 	appMenu := menu.NewMenu()
 
 	grapheMenu := appMenu.AddSubmenu("Graphe")
 	grapheMenu.AddText("About Graphe", nil, menuCallbackEmit(a, "global:about"))
-	grapheMenu.AddText("Check for Updates", nil, menuCallbackEmit(a, "global:update_check"))
+	grapheMenu.AddText("Check for Updates", nil, menuCallbackEmit(a, "window:settings:section", "version"))
 	grapheMenu.AddSeparator()
 	grapheMenu.AddText("Settings", keys.CmdOrCtrl(","), menuCallbackEmit(a, "graphe:mode", "settings"))
 	grapheMenu.AddText("Workspace", keys.CmdOrCtrl("<"), menuCallbackEmit(a, "graphe:mode", "workspace"))
@@ -49,6 +54,7 @@ func (a *App) newMenu() *menu.Menu {
 	grapheMenu.AddText("Purge logs", nil, menuCallbackEmit(a, "global:purge_logs"))
 	grapheMenu.AddSeparator()
 	grapheMenu.AddText("Hide Graphe", keys.CmdOrCtrl("H"), func(cd *menu.CallbackData) { runtime.Hide(a.ctx) })
+	grapheMenu.AddText("Close Window", keys.CmdOrCtrl("w"), func(cd *menu.CallbackData) { runtime.Quit(a.ctx) })
 	grapheMenu.AddText("Quit Graphe", keys.CmdOrCtrl("Q"), func(cd *menu.CallbackData) { runtime.Quit(a.ctx) })
 
 	appMenu.Append(menu.EditMenu())
@@ -57,19 +63,24 @@ func (a *App) newMenu() *menu.Menu {
 	workspaceMenu.AddText("Passage Mode", keys.CmdOrCtrl("P"), menuCallbackEmit(a, "window:workspace:mode", "passage"))
 	workspaceMenu.AddText("Search Mode", keys.CmdOrCtrl("F"), menuCallbackEmit(a, "window:workspace:mode", "search"))
 	workspaceMenu.AddSeparator()
-	workspaceMenu.AddText("Functions", keys.CmdOrCtrl("]"), menuCallbackEmit(a, "window:workspace:modal", "functions"))
 	workspaceMenu.AddText("Analytics", keys.CmdOrCtrl("\\"), menuCallbackEmit(a, "window:workspace:sidebar", "toggle"))
+	workspaceMenu.AddText("Functions", keys.CmdOrCtrl("]"), menuCallbackEmit(a, "window:workspace:modal", "functions"))
 	workspaceMenu.AddSeparator()
 	workspaceMenu.AddText("Choose Version...", keys.CmdOrCtrl("D"), menuCallbackEmit(a, "window:workspace:modal", "version"))
 	workspaceMenu.AddText("Choose Text...", keys.CmdOrCtrl("T"), menuCallbackEmit(a, "window:workspace:modal", "text"))
 
-	_ = appMenu.AddSubmenu("Search")
-	_ = appMenu.AddSubmenu("Functions")
+	searchMenu := appMenu.AddSubmenu("Search")
+	searchMenu.AddText("TODO", nil, nil)
+
+	functionsMenu := appMenu.AddSubmenu("Functions")
+	functionsMenu.AddText("TODO", nil, nil)
 
 	viewMenu := appMenu.AddSubmenu("View")
 	viewMenu.AddText("Zoom In", keys.CmdOrCtrl("+"), menuCallbackEmit(a, "graphe:setting", []string{"appearence", "zoom"}, "in"))
 	viewMenu.AddText("Zoom Out", keys.CmdOrCtrl("-"), menuCallbackEmit(a, "graphe:setting", []string{"appearence", "zoom"}, "out"))
 	viewMenu.AddText("Reset Zoom", keys.CmdOrCtrl("0"), menuCallbackEmit(a, "graphe:setting", []string{"appearence", "zoom"}, "reset"))
+	viewMenu.AddSeparator()
+	viewMenu.AddText("Minimise Window", keys.CmdOrCtrl("M"), func(cd *menu.CallbackData) { runtime.WindowMinimise(a.ctx) })
 	viewMenu.AddSeparator()
 	viewMenu.AddText("Change Theme...", nil, menuCallbackEmit(a, "window:settings:section", "appearence"))
 	viewMenu.AddSeparator()

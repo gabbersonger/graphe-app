@@ -25,7 +25,27 @@ type SettingsValues_Appearence_Font struct {
 	English string `json:"english,omitempty"`
 }
 
-type SettingsValues_Shortcuts struct{}
+type SettingsValues_Shortcuts struct {
+	AboutGraphe       string `json:"aboutGraphe,omitempty"`
+	CheckForUpdates   string `json:"checkForUpdates,omitempty"`
+	OpenSettings      string `json:"openSettings,omitempty"`
+	OpenWorkspace     string `json:"openWorkspace,omitempty"`
+	OpenDataDirectory string `json:"openDataDirectory,omitempty"`
+	OpenLogDirectory  string `json:"openLogDirectory,omitempty"`
+	PurgeLogs         string `json:"purgeLogs,omitempty"`
+
+	PassageMode   string `json:"passageMode,omitempty"`
+	SearchMode    string `json:"searchMode,omitempty"`
+	OpenAnalytics string `json:"openAnalytics,omitempty"`
+	OpenFunctions string `json:"openFunctions,omitempty"`
+	ChooseVersion string `json:"chooseVersion,omitempty"`
+	ChooseText    string `json:"chooseText,omitempty"`
+
+	ZoomIn      string `json:"zoomIn,omitempty"`
+	ZoomOut     string `json:"zoomOut,omitempty"`
+	ZoomReset   string `json:"zoomReset,omitempty"`
+	ChangeTheme string `json:"changeTheme,omitempty"`
+}
 
 type SettingsValues_Version struct{}
 

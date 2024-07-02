@@ -30,10 +30,6 @@ export const fontData = [
 ] as const;
 
 export type FontName = (typeof fontData)[number]["name"];
-export const defaultSystem: FontName = "System";
-export const defaultGreek: FontName = "SBL Greek";
-export const defaultHebrew: FontName = "SBL Hebrew";
-export const defaultEnglish: FontName = "Neuton";
 
 export function createFontStyles(
   fonts: settings.SettingsValues_Appearence_Font,

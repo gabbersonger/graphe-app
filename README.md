@@ -41,7 +41,7 @@ Currently requires a large database file that is currently not packaged with the
     - [x] Font family
     - [x] Theme selector
   - [ ] Shortcuts
-    - [ ] Menubar
+    - [x] Menubar & default values
     - [x] UI - table with buttons
     - [ ] Functionality
     - [ ] Reset

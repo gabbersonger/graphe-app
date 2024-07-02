@@ -18,7 +18,7 @@
         border: 1px solid var(--clr-background-dark);
         border-radius: 0.1rem;
 
-        font-family: var(--font-system);
+        font-family: monospace;
         font-size: 0.7rem;
         color: var(--clr-text-sub);
     }

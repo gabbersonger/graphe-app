@@ -9,8 +9,44 @@ import (
 	"golang.org/x/text/language"
 )
 
+func getDefaultValues() SettingsValues {
+	return SettingsValues{
+		Appearence: SettingsValues_Appearence{
+			Theme: "hanok",
+			Font: SettingsValues_Appearence_Font{
+				System:  "System",
+				Greek:   "SBL Greek",
+				Hebrew:  "SBL Hebrew",
+				English: "Neuton",
+			},
+			Zoom: 100,
+		},
+		Shortcuts: SettingsValues_Shortcuts{
+			AboutGraphe:       "",
+			CheckForUpdates:   "",
+			OpenSettings:      "⌘,",
+			OpenWorkspace:     "⌘<",
+			OpenDataDirectory: "",
+			OpenLogDirectory:  "",
+			PurgeLogs:         "",
+
+			PassageMode:   "⌘P",
+			SearchMode:    "⌘F",
+			OpenAnalytics: "⌘\\",
+			OpenFunctions: "⌘]",
+			ChooseVersion: "⌘D",
+			ChooseText:    "⌘T",
+
+			ZoomIn:      "⌘+",
+			ZoomOut:     "⌘-",
+			ZoomReset:   "⌘0",
+			ChangeTheme: "",
+		},
+	}
+}
+
 func (s *Settings) GetSettings() SettingsValues {
-	v := SettingsValues{}
+	v := getDefaultValues()
 	tables := getSettingsTables()
 
 	r := reflect.ValueOf(&v).Elem()

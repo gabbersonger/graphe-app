@@ -349,7 +349,23 @@ export namespace settings {
 	    }
 	}
 	export class SettingsValues_Shortcuts {
-	
+	    aboutGraphe?: string;
+	    checkForUpdates?: string;
+	    openSettings?: string;
+	    openWorkspace?: string;
+	    openDataDirectory?: string;
+	    openLogDirectory?: string;
+	    purgeLogs?: string;
+	    passageMode?: string;
+	    searchMode?: string;
+	    openAnalytics?: string;
+	    openFunctions?: string;
+	    chooseVersion?: string;
+	    chooseText?: string;
+	    zoomIn?: string;
+	    zoomOut?: string;
+	    zoomReset?: string;
+	    changeTheme?: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new SettingsValues_Shortcuts(source);
@@ -357,7 +373,23 @@ export namespace settings {
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
-	
+	        this.aboutGraphe = source["aboutGraphe"];
+	        this.checkForUpdates = source["checkForUpdates"];
+	        this.openSettings = source["openSettings"];
+	        this.openWorkspace = source["openWorkspace"];
+	        this.openDataDirectory = source["openDataDirectory"];
+	        this.openLogDirectory = source["openLogDirectory"];
+	        this.purgeLogs = source["purgeLogs"];
+	        this.passageMode = source["passageMode"];
+	        this.searchMode = source["searchMode"];
+	        this.openAnalytics = source["openAnalytics"];
+	        this.openFunctions = source["openFunctions"];
+	        this.chooseVersion = source["chooseVersion"];
+	        this.chooseText = source["chooseText"];
+	        this.zoomIn = source["zoomIn"];
+	        this.zoomOut = source["zoomOut"];
+	        this.zoomReset = source["zoomReset"];
+	        this.changeTheme = source["changeTheme"];
 	    }
 	}
 	export class SettingsValues_Appearence_Font {
@@ -428,8 +460,7 @@ export namespace settings {
 	    // Go type: SettingsValues_General
 	    general: any;
 	    appearence: SettingsValues_Appearence;
-	    // Go type: SettingsValues_Shortcuts
-	    shortcuts: any;
+	    shortcuts: SettingsValues_Shortcuts;
 	    // Go type: SettingsValues_Version
 	    version: any;
 	    // Go type: SettingsValues_Formatting
@@ -447,7 +478,7 @@ export namespace settings {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.general = this.convertValues(source["general"], null);
 	        this.appearence = this.convertValues(source["appearence"], SettingsValues_Appearence);
-	        this.shortcuts = this.convertValues(source["shortcuts"], null);
+	        this.shortcuts = this.convertValues(source["shortcuts"], SettingsValues_Shortcuts);
 	        this.version = this.convertValues(source["version"], null);
 	        this.formatting = this.convertValues(source["formatting"], null);
 	        this.search = this.convertValues(source["search"], null);
@@ -472,6 +503,7 @@ export namespace settings {
 		    return a;
 		}
 	}
+	
 	
 
 }

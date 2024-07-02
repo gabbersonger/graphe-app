@@ -1,11 +1,5 @@
 <script lang="ts">
-    import { EventsEmit } from "!wails/runtime/runtime";
-    import { onMount } from "svelte";
-
-    onMount(() => {
-        // TODO: actually check stuff before progressing
-        EventsEmit("graphe:mode", "settings");
-    });
+    import { loadingManager } from "@/lib/managers/loading";
 </script>
 
-Loading...
+<div id="loading" use:loadingManager>Loading...</div>

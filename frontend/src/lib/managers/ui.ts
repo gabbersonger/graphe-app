@@ -4,6 +4,8 @@ import { createFontStyles } from "@/static/fonts";
 
 export function uiManager(elem: HTMLElement) {
   const unsubscribe = graphe_settings.subscribe((value) => {
+    if (value == null) return;
+
     // Set theme
     const theme_styles = createThemeStyles(value.appearence.theme as ThemeName);
     for (let i = 0; i < theme_styles.length; i++) {

@@ -1,11 +1,15 @@
 <script lang="ts">
     import Input from "@/components/ui/Input.svelte";
     import Button from "@/components/ui/Button.svelte";
-    import { TextSearch, RotateCcw, MoveDown } from "lucide-svelte";
-    import ShortcutButton from "./ShortcutButton.svelte";
+    import ShortcutButton from "@/components/Settings/content/Shortcuts/ShortcutButton.svelte";
+    import Command from "@/components/Settings/ui/Command.svelte";
+    import { TextSearch, RotateCcw, MoveDown, Lock } from "lucide-svelte";
+    import { shortcutsData } from "@/components/Settings/content/Shortcuts/data";
+    import { graphe_settings } from "@/lib/stores";
+    import { type settings } from "!wails/go/models";
+    import { EventsEmit } from "!wails/runtime/runtime";
 
-    let search: string;
-
+    // Limit the height of the table
     let fullHeight: number;
     let tableBody: HTMLDivElement;
     $: if (tableBody && fullHeight > 0) {
@@ -13,20 +17,57 @@
         tableBody.style.maxHeight = `${fullHeight - offset - 56}px`;
     }
 
+    // Display a tag if there is more to scroll
+    let fullyScrolled = false;
+    function checkScroll() {
+        if (tableBody != undefined)
+            fullyScrolled =
+                tableBody.scrollHeight <=
+                tableBody.scrollTop + tableBody.clientHeight;
+        else fullyScrolled = true;
+    }
+    $: if (fullHeight > 0 || filteredShortcuts.length >= 0) checkScroll();
+
+    // Reset all the shortcuts
     function resetAllShortcuts() {
         console.log("TODO");
+        return shortcutsData;
     }
 
-    function checkScroll() {
-        fullyScrolled =
-            tableBody.scrollHeight <=
-            tableBody.scrollTop + tableBody.clientHeight;
-    }
-    $: if (fullHeight > 0) {
-        checkScroll();
+    // Change the value for a shortcut
+    function onShortcutChange(shortcut: string, value: string) {
+        EventsEmit(
+            "graphe:setting",
+            ["appearence", "shortcuts", shortcut],
+            value,
+        );
     }
 
-    let fullyScrolled = false;
+    // Filter the displayed shortcuts
+    let search: string = "";
+    $: filteredShortcuts = filterShortcuts(search, $graphe_settings);
+    function filterShortcuts(
+        searchString: string,
+        data: settings.SettingsValues,
+    ) {
+        return shortcutsData
+            .filter((s) => {
+                const a = s.description.toLowerCase().replaceAll(" ", "");
+                const b = searchString.toLowerCase().replaceAll(" ", "");
+                return a.includes(b);
+            })
+            .map((s) => {
+                if ("value" in s) {
+                    return { ...s, field: "", locked: true };
+                } else {
+                    return {
+                        ...s,
+                        value: data.shortcuts[s.field],
+                        locked: false,
+                    };
+                }
+            });
+    }
 </script>
 
 <svelte:window bind:innerHeight={fullHeight} />
@@ -56,11 +97,20 @@
         on:scroll={() => checkScroll()}
     >
         <table>
-            {#each Array(12) as a}
+            {#each filteredShortcuts as shortcut}
                 <tr>
-                    <td>Open the settings window</td>
-                    <td><ShortcutButton shortcut="⌘4" /></td>
+                    <td>{shortcut.description}</td>
+                    <td>
+                        <ShortcutButton
+                            shortcut={shortcut.value}
+                            locked={shortcut.locked}
+                            onChange={(v) =>
+                                onShortcutChange(shortcut.field, v)}
+                        />
+                    </td>
                 </tr>
+            {:else}
+                <div class="no-results">No results found</div>
             {/each}
         </table>
     </div>
@@ -151,5 +201,16 @@
     .table .scroll-indicator > :global(svg) {
         height: 1em;
         width: 1em;
+    }
+
+    .no-results {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+        background: var(--clr-background-sub);
+        color: var(--clr-text-sub);
+        font-size: 0.8rem;
     }
 </style>
