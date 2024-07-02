@@ -1,7 +1,7 @@
 <script lang="ts">
     import Input from "@/components/ui/Input.svelte";
     import Button from "@/components/ui/Button.svelte";
-    import { TextSearch, RotateCcw } from "lucide-svelte";
+    import { TextSearch, RotateCcw, MoveDown } from "lucide-svelte";
     import ShortcutButton from "./ShortcutButton.svelte";
 
     let search: string;
@@ -16,6 +16,17 @@
     function resetAllShortcuts() {
         console.log("TODO");
     }
+
+    function checkScroll() {
+        fullyScrolled =
+            tableBody.scrollHeight <=
+            tableBody.scrollTop + tableBody.clientHeight;
+    }
+    $: if (fullHeight > 0) {
+        checkScroll();
+    }
+
+    let fullyScrolled = false;
 </script>
 
 <svelte:window bind:innerHeight={fullHeight} />
@@ -39,7 +50,11 @@
             <th>Shortcut</th>
         </tr>
     </table>
-    <div class="table-body" bind:this={tableBody}>
+    <div
+        class="table-body"
+        bind:this={tableBody}
+        on:scroll={() => checkScroll()}
+    >
         <table>
             {#each Array(12) as a}
                 <tr>
@@ -49,6 +64,10 @@
             {/each}
         </table>
     </div>
+
+    {#if !fullyScrolled}
+        <div class="scroll-indicator"><MoveDown />Scroll For More</div>
+    {/if}
 </div>
 
 <style>
@@ -110,5 +129,27 @@
 
     .table .table-body tr:hover {
         background: var(--clr-background-sub);
+    }
+
+    .table .scroll-indicator {
+        position: absolute;
+        bottom: 0;
+        left: calc(50%);
+        transform: translateX(-50%) translateY(50%);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--clr-background-sub);
+        font-family: var(--font-system);
+        font-size: 0.7rem;
+        padding: 0.4rem;
+        border: 1px solid var(--clr-background-dark);
+        border-radius: 0.4rem;
+    }
+
+    .table .scroll-indicator > :global(svg) {
+        height: 1em;
+        width: 1em;
     }
 </style>
