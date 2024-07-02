@@ -12,7 +12,7 @@
 
 <div id="window" use:grapheManager>
     {#if $graphe_mode != "loading"}
-        <div class="app">
+        <div class="workspace">
             <Workspace />
         </div>
 
@@ -37,7 +37,7 @@
         z-index: 0;
     }
 
-    .app,
+    .workspace,
     .settings,
     .loading {
         position: absolute;

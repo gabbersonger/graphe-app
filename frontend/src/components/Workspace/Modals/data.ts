@@ -1,6 +1,7 @@
 import ModalSearch from "@/components/Workspace/Modals/content/ModalSearch.svelte";
 import ModalVersion from "@/components/Workspace/Modals/content/ModalVersion.svelte";
 import ModalText from "@/components/Workspace/Modals/content/ModalText.svelte";
+import ModalFunctions from "@/components/Workspace/Modals/content/ModalFunctions.svelte";
 
 export const modalData = [
   {
@@ -14,6 +15,10 @@ export const modalData = [
   {
     name: "text",
     modal: ModalText,
+  },
+  {
+    name: "functions",
+    modal: ModalFunctions,
   },
 ] as const;
 

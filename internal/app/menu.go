@@ -39,11 +39,10 @@ func (a *App) newMenu() *menu.Menu {
 
 	grapheMenu := appMenu.AddSubmenu("Graphe")
 	grapheMenu.AddText("About Graphe", nil, menuCallbackEmit(a, "global:about"))
+	grapheMenu.AddText("Check for Updates", nil, menuCallbackEmit(a, "global:update_check"))
 	grapheMenu.AddSeparator()
 	grapheMenu.AddText("Settings", keys.CmdOrCtrl(","), menuCallbackEmit(a, "graphe:mode", "settings"))
-	grapheMenu.AddText("App", keys.CmdOrCtrl("<"), menuCallbackEmit(a, "graphe:mode", "app"))
-	grapheMenu.AddSeparator()
-	grapheMenu.AddText("Check for Updates", nil, menuCallbackEmit(a, "global:update_check"))
+	grapheMenu.AddText("Workspace", keys.CmdOrCtrl("<"), menuCallbackEmit(a, "graphe:mode", "workspace"))
 	grapheMenu.AddSeparator()
 	grapheMenu.AddText("Open Data Directory", nil, menuCallbackOpenFolder(a, a.env.DataDirectory))
 	grapheMenu.AddText("Open Log Directory", nil, menuCallbackOpenFolder(a, a.env.LogDirectory))
@@ -52,23 +51,28 @@ func (a *App) newMenu() *menu.Menu {
 	grapheMenu.AddText("Hide Graphe", keys.CmdOrCtrl("H"), func(cd *menu.CallbackData) { runtime.Hide(a.ctx) })
 	grapheMenu.AddText("Quit Graphe", keys.CmdOrCtrl("Q"), func(cd *menu.CallbackData) { runtime.Quit(a.ctx) })
 
-	fileMenu := appMenu.AddSubmenu("File")
-	fileMenu.AddText("Passage Mode", keys.CmdOrCtrl("P"), menuCallbackEmit(a, "window:workspace:mode", "passage"))
-	fileMenu.AddText("Search Mode", keys.CmdOrCtrl("F"), menuCallbackEmit(a, "window:workspace:mode", "search"))
-	fileMenu.AddSeparator()
-	fileMenu.AddText("Choose Version...", keys.CmdOrCtrl("D"), menuCallbackEmit(a, "window:workspace:modal", "version"))
-	fileMenu.AddText("Choose Text...", keys.CmdOrCtrl("T"), menuCallbackEmit(a, "window:workspace:modal", "text"))
-	fileMenu.AddSeparator()
-	fileMenu.AddText("Functions", keys.CmdOrCtrl("E"), menuCallbackEmit(a, "window:workspace:sidebar", "functions"))
-	fileMenu.AddText("Appearence", keys.CmdOrCtrl("R"), menuCallbackEmit(a, "window:workspace:sidebar", "appearence"))
-	fileMenu.AddSeparator()
-	fileMenu.AddText("Sidebar", keys.CmdOrCtrl("\\"), menuCallbackEmit(a, "window:workspace:sidebar:toggle"))
-	fileMenu.AddSeparator()
-	fileMenu.AddText("Reset Zoom", keys.CmdOrCtrl("0"), menuCallbackEmit(a, "graphe:setting", []string{"appearence", "zoom"}, "reset"))
-	fileMenu.AddText("Zoom In", keys.CmdOrCtrl("+"), menuCallbackEmit(a, "graphe:setting", []string{"appearence", "zoom"}, "in"))
-	fileMenu.AddText("Zoom Out", keys.CmdOrCtrl("-"), menuCallbackEmit(a, "graphe:setting", []string{"appearence", "zoom"}, "out"))
-
 	appMenu.Append(menu.EditMenu())
+
+	workspaceMenu := appMenu.AddSubmenu("Workspace")
+	workspaceMenu.AddText("Passage Mode", keys.CmdOrCtrl("P"), menuCallbackEmit(a, "window:workspace:mode", "passage"))
+	workspaceMenu.AddText("Search Mode", keys.CmdOrCtrl("F"), menuCallbackEmit(a, "window:workspace:mode", "search"))
+	workspaceMenu.AddSeparator()
+	workspaceMenu.AddText("Functions", keys.CmdOrCtrl("]"), menuCallbackEmit(a, "window:workspace:modal", "functions"))
+	workspaceMenu.AddText("Analytics", keys.CmdOrCtrl("\\"), menuCallbackEmit(a, "window:workspace:sidebar", "toggle"))
+	workspaceMenu.AddSeparator()
+	workspaceMenu.AddText("Choose Version...", keys.CmdOrCtrl("D"), menuCallbackEmit(a, "window:workspace:modal", "version"))
+	workspaceMenu.AddText("Choose Text...", keys.CmdOrCtrl("T"), menuCallbackEmit(a, "window:workspace:modal", "text"))
+
+	_ = appMenu.AddSubmenu("Search")
+	_ = appMenu.AddSubmenu("Functions")
+
+	viewMenu := appMenu.AddSubmenu("View")
+	viewMenu.AddText("Zoom In", keys.CmdOrCtrl("+"), menuCallbackEmit(a, "graphe:setting", []string{"appearence", "zoom"}, "in"))
+	viewMenu.AddText("Zoom Out", keys.CmdOrCtrl("-"), menuCallbackEmit(a, "graphe:setting", []string{"appearence", "zoom"}, "out"))
+	viewMenu.AddText("Reset Zoom", keys.CmdOrCtrl("0"), menuCallbackEmit(a, "graphe:setting", []string{"appearence", "zoom"}, "reset"))
+	viewMenu.AddSeparator()
+	viewMenu.AddText("Change Theme...", nil, menuCallbackEmit(a, "window:settings:section", "appearence"))
+	viewMenu.AddSeparator()
 
 	return appMenu
 }

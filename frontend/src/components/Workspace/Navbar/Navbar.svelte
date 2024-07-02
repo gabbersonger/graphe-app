@@ -7,7 +7,6 @@
         TextSelect,
         LibraryBig,
         NotepadText,
-        PanelRight,
     } from "lucide-svelte";
     import {
         workspace_mode,
@@ -16,7 +15,7 @@
     } from "@/lib/stores";
     import { refToString } from "@/lib/Scripture/ref";
     import { EventsEmit } from "!wails/runtime/runtime";
-    import { graphe_settings } from "@/lib/stores";
+    import { graphe_settings, workspace_sidebar } from "@/lib/stores";
 
     export let navFloating = true;
     let width: number;
@@ -125,35 +124,23 @@
                 disabled={$workspace_mode == "search"}
             />
 
-            {#if width > textBreakpoint || width <= navBreakpoint}
-                <div class="separator"></div>
+            <div class="separator"></div>
 
-                <NavbarItem
-                    icon={Sigma}
-                    on:click={() =>
-                        EventsEmit("window:workspace:sidebar", "functions")}
-                    tooltip="Functions"
-                    command="⌘E"
-                />
+            <NavbarItem
+                icon={Sigma}
+                on:click={() =>
+                    EventsEmit("window:workspace:modal", "functions")}
+                tooltip="Functions"
+                command="⌘]"
+            />
 
-                <NavbarItem
-                    icon={NotepadText}
-                    on:click={() =>
-                        EventsEmit("window:workspace:sidebar", "analytics")}
-                    tooltip="Analytics"
-                    command="⌘R"
-                />
-            {:else}
-                <div class="separator"></div>
-
-                <NavbarItem
-                    icon={PanelRight}
-                    on:click={() =>
-                        EventsEmit("window:workspace:sidebar:toggle")}
-                    tooltip="Sidebar"
-                    command={`⌘\\`}
-                />
-            {/if}
+            <NavbarItem
+                icon={NotepadText}
+                on:click={() => EventsEmit("window:workspace:sidebar")}
+                tooltip="Analytics"
+                command={`⌘\\`}
+                selected={$workspace_sidebar}
+            />
         </div>
     </div>
 

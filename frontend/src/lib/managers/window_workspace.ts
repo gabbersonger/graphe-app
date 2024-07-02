@@ -8,12 +8,10 @@ import {
   workspace_modal,
   workspace_mode,
   workspace_sidebar,
-  workspace_sidebarSection,
   workspace_version,
   type WorkspaceMode,
 } from "@/lib/stores";
 import { type ModalName } from "@/components/Workspace/Modals/data";
-import { type SidebarSection } from "@/components/Workspace/Sidebar/data";
 import type { BibleRef, BibleVersion } from "@/lib/Scripture/types";
 import { GetScriptureSection, GetScriptureWord } from "!wails/go/app/App";
 import { createVersionRange } from "../Scripture/version";
@@ -33,13 +31,10 @@ function handleModalClose() {
   workspace_modal.set("");
 }
 
-function handleSidebar(section: SidebarSection) {
-  workspace_sidebar.set(true);
-  workspace_sidebarSection.set(section);
-}
-
-function handleSidebarToggle() {
-  workspace_sidebar.update((val) => !val);
+function handleSidebar(mode: boolean | "toggle") {
+  if (typeof mode == "boolean") {
+    workspace_sidebar.set(mode);
+  } else workspace_sidebar.set(!get(workspace_sidebar));
 }
 
 async function updateBaseData() {
@@ -83,7 +78,6 @@ export function windowWorkspaceManager(_: HTMLElement) {
   events.subscribe("window:workspace:modal", handleModal);
   events.subscribe("window:workspace:modal:close", handleModalClose);
   events.subscribe("window:workspace:sidebar", handleSidebar);
-  events.subscribe("window:workspace:sidebar:toggle", handleSidebarToggle);
 
   events.subscribe("window:workspace:version", handleVersion);
   events.subscribe("window:workspace:goto", handleGoTo);
