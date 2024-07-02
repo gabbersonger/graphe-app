@@ -32,7 +32,9 @@ func menuCallbackOpenFolder(a *App, fname string) func(cd *menu.CallbackData) {
 	}
 }
 
-func (a *App) Menu() *menu.Menu {
+func (a *App) newMenu() *menu.Menu {
+	// TODO: fill this out and make shortcuts based on settings values
+
 	appMenu := menu.NewMenu()
 
 	grapheMenu := appMenu.AddSubmenu("Graphe")
@@ -69,4 +71,10 @@ func (a *App) Menu() *menu.Menu {
 	appMenu.Append(menu.EditMenu())
 
 	return appMenu
+}
+
+func (a *App) ChangeMenu() {
+	a.menu = a.newMenu()
+	runtime.MenuSetApplicationMenu(a.ctx, a.menu)
+	runtime.MenuUpdateApplicationMenu(a.ctx)
 }

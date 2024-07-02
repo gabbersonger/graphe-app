@@ -44,10 +44,11 @@ func main() {
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
-		BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
-		Menu:             app.Menu(),
-		OnStartup:        app.Startup,
-		OnShutdown:       app.Shutdown,
+		BackgroundColour:         &options.RGBA{R: 27, G: 38, B: 54, A: 1},
+		EnableDefaultContextMenu: false,
+		Menu:                     app.GetMenu(),
+		OnStartup:                app.Startup,
+		OnShutdown:               app.Shutdown,
 		Bind: []interface{}{
 			app,
 		},

@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/wailsapp/wails/v2/pkg/menu"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
@@ -27,6 +28,7 @@ type App struct {
 	ctx      context.Context
 	db       *database.GrapheDB
 	settings *settings.Settings
+	menu     *menu.Menu
 }
 
 func (a *App) check(e error) {
@@ -53,6 +55,7 @@ func NewApp(version string) *App {
 	a.env.LogDirectory = filepath.Join(a.env.HomeDirectory, "/Library/Logs/Graphe")
 	os.MkdirAll(a.env.DataDirectory, os.ModePerm)
 	os.MkdirAll(a.env.LogDirectory, os.ModePerm)
+	a.menu = a.newMenu()
 	return a
 }
 
@@ -78,4 +81,8 @@ func (a *App) Shutdown(ctx context.Context) {
 
 	a.db.Shutdown()
 	a.settings.Shutdown()
+}
+
+func (a *App) GetMenu() *menu.Menu {
+	return a.menu
 }
