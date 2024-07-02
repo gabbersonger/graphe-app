@@ -42,7 +42,7 @@ Currently requires a large database file that is currently not packaged with the
     - [x] Theme selector
   - [ ] Shortcuts
     - [ ] Menubar
-    - [ ] UI - table with buttons
+    - [x] UI - table with buttons
     - [ ] Functionality
     - [ ] Reset
   - [ ] Instant details
