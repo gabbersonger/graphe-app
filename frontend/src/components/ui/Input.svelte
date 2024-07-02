@@ -46,6 +46,8 @@
         color: inherit;
         inset: 0;
         padding: 0.5rem;
+        font-family: inherit;
+        font-size: inherit;
     }
 
     .input-wrapper input::placeholder {
