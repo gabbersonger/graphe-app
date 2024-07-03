@@ -32,7 +32,7 @@
         border-radius: 0.2rem;
         color: var(--clr-main);
         font-family: var(--font-system);
-        font-weight: bold;
+        font-weight: 500;
         font-size: 0.8rem;
         line-height: 1.5;
     }

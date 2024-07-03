@@ -10,9 +10,9 @@
     import { EventsEmit } from "!wails/runtime/runtime";
 
     // Limit the height of the table
-    let fullHeight: number;
+    let fullHeight: number, fullWidth: number;
     let tableBody: HTMLDivElement;
-    $: if (tableBody && fullHeight > 0) {
+    $: if (tableBody && fullHeight > 0 && fullWidth > 0) {
         const offset = tableBody.getBoundingClientRect().top;
         tableBody.style.maxHeight = `${fullHeight - offset - 56}px`;
     }
@@ -26,7 +26,8 @@
                 tableBody.scrollTop + tableBody.clientHeight;
         else fullyScrolled = true;
     }
-    $: if (fullHeight > 0 || filteredShortcuts.length >= 0) checkScroll();
+    $: if (fullHeight > 0 || fullWidth > 0 || filteredShortcuts.length >= 0)
+        checkScroll();
 
     // Reset all the shortcuts
     function resetAllShortcuts() {
@@ -70,7 +71,7 @@
     }
 </script>
 
-<svelte:window bind:innerHeight={fullHeight} />
+<svelte:window bind:innerHeight={fullHeight} bind:innerWidth={fullWidth} />
 
 <div class="item-wrapper">
     <Input
