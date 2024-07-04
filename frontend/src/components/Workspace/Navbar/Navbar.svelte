@@ -86,7 +86,7 @@
                 text={width > textBreakpoint ? "passage" : ""}
                 on:click={() => EventsEmit("window:workspace:mode", "passage")}
                 tooltip="Passage Mode"
-                command="⌘P"
+                command={$graphe_settings.shortcuts.passageMode}
                 selected={$workspace_mode == "passage"}
             />
 
@@ -95,7 +95,7 @@
                 text={width > textBreakpoint ? "search" : ""}
                 on:click={() => EventsEmit("window:workspace:mode", "search")}
                 tooltip="Search Mode"
-                command="⌘F"
+                command={$graphe_settings.shortcuts.searchMode}
                 selected={$workspace_mode == "search"}
             />
 
@@ -106,7 +106,7 @@
                 text={$workspace_version}
                 on:click={() => EventsEmit("window:workspace:modal", "version")}
                 tooltip="Choose Version"
-                command="⌘D"
+                command={$graphe_settings.shortcuts.chooseVersion}
             />
 
             <NavbarItem
@@ -120,7 +120,7 @@
                     : ""}
                 on:click={() => EventsEmit("window:workspace:modal", "text")}
                 tooltip="Choose Text"
-                command="⌘T"
+                command={$graphe_settings.shortcuts.chooseText}
                 disabled={$workspace_mode == "search"}
             />
 
@@ -131,14 +131,14 @@
                 on:click={() =>
                     EventsEmit("window:workspace:modal", "functions")}
                 tooltip="Functions"
-                command="⌘]"
+                command={$graphe_settings.shortcuts.openFunctions}
             />
 
             <NavbarItem
                 icon={NotepadText}
                 on:click={() => EventsEmit("window:workspace:sidebar")}
                 tooltip="Analytics"
-                command={`⌘\\`}
+                command={$graphe_settings.shortcuts.openAnalytics}
                 selected={$workspace_sidebar}
             />
         </div>

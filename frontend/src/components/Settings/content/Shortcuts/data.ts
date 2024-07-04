@@ -70,42 +70,42 @@ export const shortcutsData = [
   // Unchangeable
   {
     description: "Quit the application",
-    value: "⌘Q",
+    value: "cmdorctrl+Q",
   },
   {
     description: "Close the application window",
-    value: "⌘W",
+    value: "cmdorctrl+W",
   },
   {
     description: "Hide the application window",
-    value: "⌘H",
+    value: "cmdorctrl+H",
   },
   {
     description: "Minimise the application window",
-    value: "⌘M",
+    value: "cmdorctrl+M",
   },
   {
     description: "Select all text",
-    value: "⌘A",
+    value: "cmdorctrl+A",
   },
   {
     description: "Copy the selected item to the clipboard",
-    value: "⌘C",
+    value: "cmdorctrl+C",
   },
   {
     description: "Paste the item from the clipboard",
-    value: "⌘V",
+    value: "cmdorctrl+V",
   },
   {
     description: "Cut the selected item and put it in clipboard",
-    value: "⌘X",
+    value: "cmdorctrl+X",
   },
   {
     description: "Undo last action",
-    value: "⌘Z",
+    value: "cmdorctrl+Z",
   },
   {
     description: "Redo last undone action",
-    value: "⌘⇧Z",
+    value: "cmdorctrl+shift+Z",
   },
 ] as const;

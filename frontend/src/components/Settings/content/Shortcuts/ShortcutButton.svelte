@@ -1,7 +1,26 @@
 <script lang="ts">
     import { Popover } from "bits-ui";
-    import Command from "@/components/Settings/ui/Command.svelte";
-    import { CirclePlus, Pencil, X, Check, Lock } from "lucide-svelte";
+    import Command from "@/components/ui/Command.svelte";
+    import {
+        CirclePlus,
+        Pencil,
+        X,
+        Check,
+        Lock,
+        Command as Meta,
+        ArrowBigUp,
+        ChevronUp,
+        Option,
+        Delete,
+        CornerDownLeft,
+        CircleArrowOutUpLeft,
+        ArrowUp,
+        ArrowRightToLine,
+        Space,
+        ArrowDown,
+        ArrowLeft,
+        ArrowRight,
+    } from "lucide-svelte";
     import Button from "@/components/ui/Button.svelte";
 
     export let shortcut: string = null;
@@ -11,8 +30,115 @@
     let popoverOpen = false;
     let hover = false;
 
+    function resetShortcutValue() {
+        return {
+            cmdorctrl: false,
+            shift: false,
+            control: false,
+            alt: false,
+            key: "",
+        };
+    }
+    let shortcutValue = resetShortcutValue();
+
+    const VALID_KEYS = {
+        KeyA: "A",
+        KeyB: "B",
+        KeyC: "C",
+        KeyD: "D",
+        KeyE: "E",
+        KeyF: "F",
+        KeyG: "G",
+        KeyH: "H",
+        KeyI: "I",
+        KeyJ: "J",
+        KeyK: "K",
+        KeyL: "L",
+        KeyM: "M",
+        KeyN: "N",
+        KeyO: "O",
+        KeyP: "P",
+        KeyQ: "Q",
+        KeyR: "R",
+        KeyS: "S",
+        KeyU: "U",
+        KeyV: "V",
+        KeyW: "W",
+        KeyX: "X",
+        KeyY: "Y",
+        KeyZ: "Z",
+        Digit0: "0",
+        Digit1: "1",
+        Digit2: "2",
+        Digit3: "3",
+        Digit4: "4",
+        Digit5: "5",
+        Digit6: "6",
+        Digit7: "7",
+        Digit8: "8",
+        Digit9: "9",
+        Backquote: "`",
+        Minus: "-",
+        Equal: "=",
+        Backspace: "backspace",
+        BracketLeft: "[",
+        BracketRight: "]",
+        Backslash: "\\",
+        Semicolon: ";",
+        Quote: "'",
+        Enter: "enter",
+        Comma: ",",
+        Period: ".",
+        Slash: "/",
+        ArrowLeft: "left",
+        ArrowRight: "right",
+        ArrowUp: "up",
+        ArrowDown: "down",
+        Tab: "tab",
+        " ": "space",
+        Escape: "escape",
+    };
+
+    function keyListener(event: KeyboardEvent) {
+        event.preventDefault();
+        if (
+            event.code in VALID_KEYS &&
+            (event.metaKey || event.ctrlKey || event.altKey)
+        ) {
+            shortcutValue = {
+                cmdorctrl: event.metaKey,
+                shift: event.shiftKey,
+                control: event.ctrlKey,
+                alt: event.altKey,
+                key: VALID_KEYS[event.code],
+            };
+            return;
+        }
+        shortcutValue = resetShortcutValue();
+    }
+
+    function onOpenChange(v: boolean) {
+        if (v) {
+            document.addEventListener("keydown", keyListener);
+        } else {
+            shortcutValue = resetShortcutValue();
+            document.removeEventListener("keydown", keyListener);
+        }
+    }
+
     function confirmClick() {
         popoverOpen = false;
+        let value_array = [];
+        for (const key in shortcutValue) {
+            console.log(key, shortcutValue[key]);
+            if (key == "key") {
+                value_array.push(shortcutValue[key]);
+            } else if (shortcutValue[key]) {
+                value_array.push(key);
+            }
+        }
+        onChange(value_array.join("+"));
+        shortcutValue = resetShortcutValue();
     }
 </script>
 
@@ -36,7 +162,11 @@
     {/if}
 
     {#if !locked}
-        <Popover.Root bind:open={popoverOpen}>
+        <Popover.Root
+            bind:open={popoverOpen}
+            {onOpenChange}
+            closeOnEscape={false}
+        >
             <Popover.Trigger asChild let:builder>
                 <div
                     use:builder.action
@@ -57,7 +187,40 @@
                 class="shortcut-popover"
             >
                 <Popover.Arrow class="arrow" />
-                <div class="shortcut-tray">Perform shortcut...</div>
+                <div class="shortcut-tray">
+                    {#if shortcutValue.key != ""}
+                        <div class="value">
+                            {#if shortcutValue.cmdorctrl}<Meta />{/if}
+                            {#if shortcutValue.shift}<ArrowBigUp />{/if}
+                            {#if shortcutValue.control}<ChevronUp />{/if}
+                            {#if shortcutValue.alt}<Option />{/if}
+
+                            {#if shortcutValue.key.length == 1}
+                                <span>{shortcutValue.key}</span>
+                            {:else if shortcutValue.key == "backspace"}
+                                <Delete />
+                            {:else if shortcutValue.key == "enter"}
+                                <CornerDownLeft />
+                            {:else if shortcutValue.key == "escape"}
+                                <CircleArrowOutUpLeft />
+                            {:else if shortcutValue.key == "space"}
+                                <Space />
+                            {:else if shortcutValue.key == "tab"}
+                                <ArrowRightToLine />
+                            {:else if shortcutValue.key == "up"}
+                                <ArrowUp />
+                            {:else if shortcutValue.key == "down"}
+                                <ArrowDown />
+                            {:else if shortcutValue.key == "left"}
+                                <ArrowLeft />
+                            {:else if shortcutValue.key == "right"}
+                                <ArrowRight />
+                            {/if}
+                        </div>
+                    {:else}
+                        <div class="placeholder">Perform shortcut...</div>
+                    {/if}
+                </div>
                 <div class="button-tray">
                     <Button
                         icon={X}
@@ -155,6 +318,25 @@
         justify-content: center;
         font-size: 0.7rem;
         color: var(--clr-text-muted);
+    }
+
+    :global(.shortcut-popover) > :global(.shortcut-tray) > :global(.value) {
+        font-family: var(--font-system);
+        font-size: 1.5rem;
+        line-height: 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 0.2rem;
+    }
+
+    :global(.shortcut-popover)
+        > :global(.shortcut-tray)
+        > :global(.value)
+        > :global(svg) {
+        height: 1.2rem;
+        width: 1.2rem;
     }
 
     :global(.shortcut-popover) > :global(.button-tray) {

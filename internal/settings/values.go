@@ -24,22 +24,22 @@ func getDefaultValues() SettingsValues {
 		Shortcuts: SettingsValues_Shortcuts{
 			AboutGraphe:       "",
 			CheckForUpdates:   "",
-			OpenSettings:      "⌘,",
-			OpenWorkspace:     "⌘<",
+			OpenSettings:      "cmdorctrl+,",
+			OpenWorkspace:     "cmdorctrl+shift+,",
 			OpenDataDirectory: "",
 			OpenLogDirectory:  "",
 			PurgeLogs:         "",
 
-			PassageMode:   "⌘P",
-			SearchMode:    "⌘F",
-			OpenAnalytics: "⌘\\",
-			OpenFunctions: "⌘]",
-			ChooseVersion: "⌘D",
-			ChooseText:    "⌘T",
+			PassageMode:   "cmdorctrl+P",
+			SearchMode:    "cmdorctrl+F",
+			OpenAnalytics: "cmdorctrl+\\",
+			OpenFunctions: "cmdorctrl+]",
+			ChooseVersion: "cmdorctrl+D",
+			ChooseText:    "cmdorctrl+T",
 
-			ZoomIn:      "⌘+",
-			ZoomOut:     "⌘-",
-			ZoomReset:   "⌘0",
+			ZoomIn:      "cmdorctrl+plus",
+			ZoomOut:     "cmdorctrl+-",
+			ZoomReset:   "cmdorctrl+0",
 			ChangeTheme: "",
 		},
 	}
@@ -97,7 +97,7 @@ func (s *Settings) GetSettings() SettingsValues {
 }
 
 func capitalise(s string) string {
-	return cases.Title(language.English, cases.Compact).String(s)
+	return cases.Title(language.English, cases.Compact).String(string(s[0])) + s[1:]
 }
 
 func (s *Settings) UpdateSetting(field []string, value interface{}) bool {

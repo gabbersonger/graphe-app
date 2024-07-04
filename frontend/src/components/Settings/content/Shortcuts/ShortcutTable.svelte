@@ -2,7 +2,7 @@
     import Input from "@/components/ui/Input.svelte";
     import Button from "@/components/ui/Button.svelte";
     import ShortcutButton from "@/components/Settings/content/Shortcuts/ShortcutButton.svelte";
-    import Command from "@/components/Settings/ui/Command.svelte";
+    import Command from "@/components/ui/Command.svelte";
     import { TextSearch, RotateCcw, MoveDown, Lock } from "lucide-svelte";
     import { shortcutsData } from "@/components/Settings/content/Shortcuts/data";
     import { graphe_settings } from "@/lib/stores";
@@ -37,11 +37,7 @@
 
     // Change the value for a shortcut
     function onShortcutChange(shortcut: string, value: string) {
-        EventsEmit(
-            "graphe:setting",
-            ["appearence", "shortcuts", shortcut],
-            value,
-        );
+        EventsEmit("graphe:setting", ["shortcuts", shortcut], value);
     }
 
     // Filter the displayed shortcuts

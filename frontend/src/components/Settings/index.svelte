@@ -2,21 +2,8 @@
     import SettingsSidebar from "@/components/Settings/SettingsSidebar.svelte";
     import SettingsContent from "@/components/Settings/SettingsContent.svelte";
     import { X } from "lucide-svelte";
-
-    import { onMount } from "svelte";
     import { EventsEmit } from "!wails/runtime/runtime";
     import { windowSettingsManager } from "@/lib/managers/window_settings";
-
-    onMount(() => {
-        function handleKeyup(event: KeyboardEvent) {
-            if (event.key == "Escape") closeSettings();
-            event.preventDefault();
-        }
-        document.addEventListener("keyup", handleKeyup);
-        return () => {
-            document.removeEventListener("keyup", handleKeyup);
-        };
-    });
 
     function closeSettings() {
         EventsEmit("graphe:mode", "workspace");

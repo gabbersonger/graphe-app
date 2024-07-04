@@ -1,4 +1,5 @@
 <script lang="ts">
+    import Command from "@/components/ui/Command.svelte";
     import type { ComponentType } from "svelte";
     import type { Icon } from "lucide-svelte";
 
@@ -29,7 +30,9 @@
         <div class="tooltip-wrapper">
             <div class="tooltip">
                 {tooltip}
-                {#if command}<span class="command">{command}</span>{/if}
+                {#if command}
+                    <Command text={command} styling={false} />
+                {/if}
             </div>
         </div>
     {/if}
@@ -100,6 +103,7 @@
     .item .tooltip-wrapper .tooltip {
         --size-triangle-height: 0.6em;
         position: relative;
+        height: 1.8rem;
         width: min-content;
         transform: translateX(-50%);
         background: var(--clr-text);
@@ -109,6 +113,11 @@
         z-index: 2;
         margin-top: var(--size-triangle-height);
         white-space: nowrap;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.4rem;
+        line-height: 0;
     }
 
     .item .tooltip-wrapper .tooltip::after {
@@ -122,10 +131,5 @@
         border-left: calc(var(--size-triangle-height) / 1.2) solid transparent;
         border-right: calc(var(--size-triangle-height) / 1.2) solid transparent;
         border-bottom: var(--size-triangle-height) solid var(--clr-text);
-    }
-
-    .item .tooltip-wrapper .tooltip .command {
-        color: var(--clr-background-dark);
-        padding-left: 0.2rem;
     }
 </style>

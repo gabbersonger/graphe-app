@@ -43,7 +43,7 @@ Currently requires a large database file that is currently not packaged with the
   - [ ] Shortcuts
     - [x] Menubar & default values
     - [x] UI - table with buttons
-    - [ ] Functionality
+    - [x] Functionality
     - [ ] Reset
   - [ ] Instant details
     - [ ] UI - drag and drop available fields
