@@ -40,12 +40,12 @@ Currently requires a large database file that is currently not packaged with the
     - [x] Scaling/zoom
     - [x] Font family
     - [x] Theme selector
-  - [ ] Shortcuts
+  - [x] Shortcuts
     - [x] Menubar & default values
     - [x] UI - table with buttons
     - [x] Functionality
     - [x] Reset
-    - [ ] Reset All
+    - [x] Reset All
   - [ ] Instant details
     - [ ] UI - drag and drop available fields
     - [ ] Functionality
@@ -139,3 +139,4 @@ Currently requires a large database file that is currently not packaged with the
 - Resizing window does not keep verse at top (currently: only keeps block + scroll offset)
 - Current verse doesn't update for book title
 - ESV psalm 119:1
+- Creating shortcut with ' key (as this screws with mysql string)

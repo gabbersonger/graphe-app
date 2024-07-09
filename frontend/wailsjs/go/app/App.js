@@ -30,6 +30,10 @@ export function LoadMenu() {
   return window['go']['app']['App']['LoadMenu']();
 }
 
+export function ResetSetting(arg1) {
+  return window['go']['app']['App']['ResetSetting'](arg1);
+}
+
 export function Throw(arg1) {
   return window['go']['app']['App']['Throw'](arg1);
 }

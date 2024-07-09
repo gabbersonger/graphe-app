@@ -27,6 +27,7 @@
     export let shortcut: string = null;
     export let locked = false;
     export let onChange: (value: string) => void;
+    export let onReset: () => void;
 
     let popoverOpen = false;
     let hover = false;
@@ -128,14 +129,14 @@
     }
 
     function resetClick() {
-        onChange("reset");
+        popoverOpen = false;
+        onReset();
     }
 
     function confirmClick() {
         popoverOpen = false;
         let value_array = [];
         for (const key in shortcutValue) {
-            console.log(key, shortcutValue[key]);
             if (key == "key") {
                 value_array.push(shortcutValue[key]);
             } else if (shortcutValue[key]) {

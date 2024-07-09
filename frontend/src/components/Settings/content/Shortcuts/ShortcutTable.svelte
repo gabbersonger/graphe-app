@@ -31,9 +31,12 @@
 
     // Reset all the shortcuts
     function resetAllShortcuts() {
-        console.log("TODO");
+        EventsEmit("graphe:setting:reset", ["shortcuts"]);
+    }
 
-        return shortcutsData;
+    // Reset invidual shortcut
+    function resetShortcut(shortcut: string) {
+        EventsEmit("graphe:setting:reset", ["shortcuts", shortcut]);
     }
 
     // Change the value for a shortcut
@@ -104,6 +107,7 @@
                             locked={shortcut.locked}
                             onChange={(v) =>
                                 onShortcutChange(shortcut.field, v)}
+                            onReset={() => resetShortcut(shortcut.field)}
                         />
                     </td>
                 </tr>

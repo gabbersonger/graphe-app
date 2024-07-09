@@ -20,6 +20,8 @@ export function GetSettings():Promise<settings.SettingsValues>;
 
 export function LoadMenu():Promise<void>;
 
+export function ResetSetting(arg1:Array<string>):Promise<any>;
+
 export function Throw(arg1:string):Promise<void>;
 
-export function UpdateSetting(arg1:Array<string>,arg2:any):Promise<any>;
+export function UpdateSetting(arg1:Array<string>,arg2:any):Promise<boolean>;

@@ -1,5 +1,5 @@
 import { graphe_settings } from "@/lib/stores";
-import { GetSettings, UpdateSetting } from "!wails/go/app/App";
+import { GetSettings, UpdateSetting, ResetSetting } from "!wails/go/app/App";
 import { GrapheLog } from "@/lib/utils";
 import { get } from "svelte/store";
 
@@ -48,8 +48,17 @@ export async function updateSetting(setting: string[], value: any) {
   if (setting_updated) {
     GrapheLog(
       "info",
-      `Setting updated: ${setting.join("/")} -> ${setting_updated}`,
+      `Setting updated: ${setting.join("/")} -> ${parsed_value}`,
     );
-    updateSettingStore(setting, setting_updated);
+    updateSettingStore(setting, parsed_value);
   }
+}
+
+export async function resetSetting(setting: string[]) {
+  const setting_updated = await ResetSetting(setting);
+  GrapheLog(
+    "info",
+    `Setting reset: ${setting.join("/")} -> default value: ${setting_updated}`,
+  );
+  updateSettingStore(setting, setting_updated);
 }
