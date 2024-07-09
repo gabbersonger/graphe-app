@@ -100,13 +100,24 @@ func capitalise(s string) string {
 	return cases.Title(language.English, cases.Compact).String(string(s[0])) + s[1:]
 }
 
-func (s *Settings) UpdateSetting(field []string, value interface{}) bool {
+func (s *Settings) GetDefaultSetting(field []string) (interface{}, error) {
+	default_item := reflect.ValueOf(getDefaultValues())
+	for i, f := range field {
+		field_name := capitalise(f)
+		default_item = reflect.Indirect(default_item).FieldByName(field_name)
+		if !default_item.IsValid() {
+			return nil, fmt.Errorf("GetDefaultSetting had invalid value (index=%d) for `field`: (field: %v)", i, field)
+		}
+	}
+	return default_item.Interface(), nil
+}
+
+func (s *Settings) UpdateSetting(field []string, value interface{}) interface{} {
 	if len(field) < 2 {
 		s.throw(fmt.Sprintf("UpdateSetting has less than 2 values in `field`: (field: %v, value:...)", field))
 	}
 
-	r := reflect.TypeOf(SettingsValues{})
-
+	r := reflect.TypeOf(getDefaultValues())
 	table := capitalise(field[0])
 	item, found := r.FieldByName(table)
 	if !found {
@@ -118,7 +129,7 @@ func (s *Settings) UpdateSetting(field []string, value interface{}) bool {
 		field_name := capitalise(f)
 		item, found = item.Type.FieldByName(field_name)
 		if !found {
-			s.throw(fmt.Sprintf("UpdateSetting had invalid value (index=%d) for `field`: (field: %v, value:...)", i+1, field))
+			s.throw(fmt.Sprintf("UpdateSetting had invalid value (index=%d) for `field`: (field: %v, value:...)", i, field))
 		}
 		if i > 0 {
 			column += "_"
@@ -126,8 +137,18 @@ func (s *Settings) UpdateSetting(field []string, value interface{}) bool {
 		column += field_name
 	}
 
+	if value == "reset" {
+		value, _ = s.GetDefaultSetting(field) // no error can happen because above passes
+	}
+
 	var err error
 	switch value.(type) {
+	case int:
+		err = s.db.Exec(fmt.Sprintf(`
+			UPDATE %s
+			SET %s = %d
+			WHERE id = 1;
+		`, table, column, value))
 	case float64:
 		value = int(value.(float64))
 		err = s.db.Exec(fmt.Sprintf(`
@@ -164,5 +185,5 @@ func (s *Settings) UpdateSetting(field []string, value interface{}) bool {
 		s.throw(fmt.Sprintf("UpdateSetting had invalid `value` type (type: %s)", reflect.TypeOf(value).String()))
 	}
 	s.check(err)
-	return true
+	return value
 }

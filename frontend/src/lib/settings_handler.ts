@@ -26,6 +26,7 @@ function updateSettingStore(setting: string[], value: any) {
 }
 
 function parseSettingValue(setting: string[], value: any): any {
+  // Handle zoom
   if (
     setting.length == 2 &&
     setting[0] == "appearence" &&
@@ -36,8 +37,6 @@ function parseSettingValue(setting: string[], value: any): any {
       return Math.min(current_zoom + 10, 200);
     } else if (value == "out") {
       return Math.max(current_zoom - 10, 50);
-    } else if (value == "reset") {
-      return 100;
     }
   }
   return value;
@@ -49,8 +48,8 @@ export async function updateSetting(setting: string[], value: any) {
   if (setting_updated) {
     GrapheLog(
       "info",
-      `Setting updated: ${setting.join("/")} -> ${parsed_value}`,
+      `Setting updated: ${setting.join("/")} -> ${setting_updated}`,
     );
-    updateSettingStore(setting, parsed_value);
+    updateSettingStore(setting, setting_updated);
   }
 }

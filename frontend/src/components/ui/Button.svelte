@@ -3,10 +3,10 @@
     import type { Icon } from "lucide-svelte";
 
     export let icon: ComponentType<Icon> = null;
-    export let secondary = false;
+    export let disabled = false;
 </script>
 
-<button on:click class:secondary>
+<button on:click class:disabled>
     {#if icon}
         <div class="icon">
             <svelte:component this={icon} />
@@ -37,8 +37,9 @@
         line-height: 0;
     }
 
-    button.secondary {
+    button.disabled {
         color: var(--clr-text-sub);
+        pointer-events: none;
     }
 
     button:hover {

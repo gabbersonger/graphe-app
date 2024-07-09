@@ -44,7 +44,8 @@ Currently requires a large database file that is currently not packaged with the
     - [x] Menubar & default values
     - [x] UI - table with buttons
     - [x] Functionality
-    - [ ] Reset
+    - [x] Reset
+    - [ ] Reset All
   - [ ] Instant details
     - [ ] UI - drag and drop available fields
     - [ ] Functionality

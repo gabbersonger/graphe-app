@@ -54,7 +54,7 @@ func (l *AppLogger) Trace(message string) {
 }
 
 func (l *AppLogger) Debug(message string) {
-	if strings.HasPrefix(message, "[ExternalAssetHandler]") {
+	if strings.HasPrefix(message, "[ExternalAssetHandler]") || strings.HasPrefix(message, "[AssetHandler]") {
 		return
 	}
 	l.Println("DEBUG | " + message)

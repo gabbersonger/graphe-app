@@ -32,6 +32,7 @@
     // Reset all the shortcuts
     function resetAllShortcuts() {
         console.log("TODO");
+
         return shortcutsData;
     }
 

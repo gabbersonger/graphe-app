@@ -22,4 +22,4 @@ export function LoadMenu():Promise<void>;
 
 export function Throw(arg1:string):Promise<void>;
 
-export function UpdateSetting(arg1:Array<string>,arg2:any):Promise<boolean>;
+export function UpdateSetting(arg1:Array<string>,arg2:any):Promise<any>;
