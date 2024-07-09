@@ -193,6 +193,7 @@
         align-items: center;
         gap: 0.5rem;
         background: var(--clr-background-sub);
+        color: var(--clr-text);
         font-family: var(--font-system);
         font-size: 0.7rem;
         padding: 0.4rem;
