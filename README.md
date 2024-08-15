@@ -31,11 +31,8 @@ Currently requires a large database file that is currently not packaged with the
 
 - [x] Settings window
 - [x] Saving settings between sessions
-- [ ] Settings page
+- [x] Settings page
   - [x] Basic UI
-  - [ ] General
-    - [ ] Startup - what to show
-    - [ ] Logs - open, purge
   - [x] Appearence
     - [x] Scaling/zoom
     - [x] Font family
@@ -46,16 +43,6 @@ Currently requires a large database file that is currently not packaged with the
     - [x] Functionality
     - [x] Reset
     - [x] Reset All
-  - [ ] Instant details
-    - [ ] UI - drag and drop available fields
-    - [ ] Functionality
-    - [ ] Reset
-  - [ ] Version/updates
-    - [ ] Show version number
-    - [ ] Check for updates at login
-    - [ ] Application version
-    - [ ] Database version
-    - [ ] User login details
 
 <br/>
 
@@ -70,6 +57,20 @@ Currently requires a large database file that is currently not packaged with the
 - [ ] Auto-download database files on start-up
   - [ ] Functionality
   - [ ] UI
+- [ ] More settings updates
+  - [ ] General
+    - [ ] Startup - what to show
+    - [ ] Logs - open, purge
+  - [ ] Version / updates
+    - [ ] Show version number
+    - [ ] Check for updates at login
+    - [ ] Application version
+    - [ ] Database version
+    - [ ] User login details
+  - [ ] Instant details
+    - [ ] UI - drag and drop available fields
+    - [ ] Functionality
+    - [ ] Reset
 
 <br/>
 

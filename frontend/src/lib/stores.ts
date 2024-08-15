@@ -11,7 +11,7 @@ export const graphe_settings: Writable<settings.SettingsValues> =
   writable(null);
 
 // SETTINGS WINDOW
-export const settings_section: Writable<SettingSection> = writable("shortcuts");
+export const settings_section: Writable<SettingSection> = writable("general");
 
 // WORKSPACE WINDOW
 export type WorkspaceMode = "passage" | "search";

@@ -6,7 +6,7 @@ export function loadingManager(_: HTMLElement) {
   const events = new EventHandler();
 
   getSavedSettings().then((x) => {
-    EventsEmit("graphe:mode", "settings");
+    EventsEmit("graphe:mode", "workspace");
   });
 
   return {
