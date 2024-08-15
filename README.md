@@ -9,7 +9,7 @@ Features include:
 
 - Support for ESV, GNT and LXX
 - Instant details while hovering original language
-- Minimalistic design with built-in themes
+- Minimalistic design with built-in themes and fonts
 
 <br/>
 
@@ -26,25 +26,6 @@ Currently requires a large database file that is currently not packaged with the
 <br/>
 
 # Roadmap
-
-**Version 0.3 – Settings update**
-
-- [x] Settings window
-- [x] Saving settings between sessions
-- [x] Settings page
-  - [x] Basic UI
-  - [x] Appearence
-    - [x] Scaling/zoom
-    - [x] Font family
-    - [x] Theme selector
-  - [x] Shortcuts
-    - [x] Menubar & default values
-    - [x] UI - table with buttons
-    - [x] Functionality
-    - [x] Reset
-    - [x] Reset All
-
-<br/>
 
 **Verse 0.4 - Quality of life update**
 
