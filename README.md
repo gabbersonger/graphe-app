@@ -30,6 +30,7 @@ Currently requires a large database file that is currently not packaged with the
 **Verse 0.4 - Quality of life update**
 
 - [x] Refactor Go code to include asserts
+- [ ] Wails v.3
 - [ ] Remove JS Scripture functions
 - [ ] Replace Virtualiser with just loading 10 chapters either side
 - [ ] Right click functionality

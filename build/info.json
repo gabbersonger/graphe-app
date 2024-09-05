@@ -1,0 +1,15 @@
+{
+  "fixed": {
+    "file_version": "0.1.0"
+  },
+  "info": {
+    "0000": {
+      "ProductVersion": "0.1.0",
+      "CompanyName": "Gabriel Aravena",
+      "FileDescription": "Original language Bible study",
+      "LegalCopyright": "© 2024, Gabriel Aravena",
+      "ProductName": "Graphe",
+      "Comments": "Original language Bible study"
+    }
+  }
+}

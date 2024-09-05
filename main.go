@@ -2,74 +2,42 @@ package main
 
 import (
 	"embed"
-	. "graphe/internal/app"
-	. "graphe/internal/logger"
+	"log"
 
-	"github.com/wailsapp/wails/v2"
-	"github.com/wailsapp/wails/v2/pkg/logger"
-	"github.com/wailsapp/wails/v2/pkg/options"
-	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
-	"github.com/wailsapp/wails/v2/pkg/options/mac"
+	"github.com/wailsapp/wails/v3/pkg/application"
 )
 
-var (
-	//go:embed all:frontend/dist
-	assets embed.FS
-
-	//go:embed build/appicon.png
-	appIcon []byte
-
-	//go:embed build/info/title.txt
-	title string
-
-	//go:embed build/info/version.txt
-	version string
-
-	//go:embed build/info/comment.txt
-	comment string
-
-	//go:embed build/info/copyright.txt
-	copyright string
-)
+//go:embed frontend/dist
+var assets embed.FS
 
 func main() {
-	// Create an instance of the app structure
-	app := NewApp(version)
-
-	// Create application with options
-	err := wails.Run(&options.App{
-		Title:     title,
-		Width:     1080,
-		Height:    768,
-		MinWidth:  500,
-		MinHeight: 350,
-		AssetServer: &assetserver.Options{
-			Assets: assets,
+	app := application.New(application.Options{
+		Name:        "Graphe",
+		Description: "Original language Bible study",
+		Services:    []application.Service{
+			// application.NewService(&data.DataService{}),
 		},
-		BackgroundColour:         &options.RGBA{R: 27, G: 38, B: 54, A: 1},
-		EnableDefaultContextMenu: false,
-		Menu:                     app.GetMenu(),
-		OnStartup:                app.Startup,
-		OnShutdown:               app.Shutdown,
-		Bind: []interface{}{
-			app,
+		Assets: application.AssetOptions{
+			Handler: application.AssetFileServerFS(assets),
 		},
-
-		Logger:             NewAppLogger(app.GetEnvironmentInfo().LogDirectory, title+".log"),
-		LogLevel:           logger.TRACE,
-		LogLevelProduction: logger.INFO,
-
-		Mac: &mac.Options{
-			TitleBar: mac.TitleBarHiddenInset(),
-			About: &mac.AboutInfo{
-				Title:   title + "\n" + comment,
-				Message: copyright,
-				Icon:    appIcon,
-			},
+		Mac: application.MacOptions{
+			ApplicationShouldTerminateAfterLastWindowClosed: true,
 		},
 	})
 
+	app.NewWebviewWindowWithOptions(application.WebviewWindowOptions{
+		Title: "Graphe",
+		Mac: application.MacWindow{
+			InvisibleTitleBarHeight: 50,
+			Backdrop:                application.MacBackdropTranslucent,
+			TitleBar:                application.MacTitleBarHiddenInset,
+		},
+		BackgroundColour: application.NewRGB(27, 38, 54),
+		URL:              "/",
+	})
+
+	err := app.Run()
 	if err != nil {
-		println("Error:", err.Error())
+		log.Fatal(err)
 	}
 }
