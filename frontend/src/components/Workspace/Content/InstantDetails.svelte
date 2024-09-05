@@ -1,8 +1,9 @@
 <script lang="ts">
-    import type { database } from "!wails/go/models";
+    import type { data } from "!wails/go/models";
     import { workspace_instantDetailsData } from "@/lib/stores";
+    import { GrapheLog } from "@/lib/utils";
 
-    type InstantDetailsData_Fields = Map<string, string>;
+    type InstantDetailsData_Fields = Map<string, string | number>;
 
     type InstantDetailsData = {
         version: string;
@@ -16,19 +17,7 @@
     let shown = false;
     let detail: InstantDetailsData = undefined;
 
-    function addField(
-        fields: InstantDetailsData_Fields,
-        name: string,
-        data: string,
-    ) {
-        if (name.includes("[int]")) {
-            name = name.replace("[int]", "");
-            data = parseInt(data).toLocaleString();
-        }
-        fields.set(name, data);
-    }
-
-    function handleData(data: database.ScriptureWordData) {
+    function handleData(data: data.ScriptureWordData) {
         if (data == null) {
             shown = false;
             return;
@@ -39,33 +28,41 @@
             ref: data.ref,
             word_number: data.word_number,
             text: data.text,
+            fields: new Map(),
+            collections: [],
         };
 
-        if (data.fields && data.fields.length > 0) {
-            detail.fields = new Map();
-            for (let i = 0; i < data.fields.length; i++) {
-                addField(
-                    detail.fields,
-                    data.fields[i].name,
-                    data.fields[i].data,
-                );
-            }
-        }
-        if (data.collections && data.collections.length > 0) {
-            detail.collections = [];
-            for (let i = 0; i < data.collections.length; i++) {
-                const collection = new Map();
-                for (let j = 0; j < data.collections[i].length; j++) {
-                    addField(
-                        collection,
-                        data.collections[i][j].name,
-                        data.collections[i][j].data,
+        for (let i = 0; i < data.fields.length; i++) {
+            const field = data.fields[i];
+            switch (typeof field.data) {
+                case "string":
+                case "number":
+                    detail.fields.set(field.name, field.data);
+                    break;
+                case "object":
+                    if (
+                        field.data != null &&
+                        field.data.constructor.name == "Array"
+                    ) {
+                        for (let j = 0; j < field.data.length; j++) {
+                            const collection = new Map();
+                            for (let k = 0; k < field.data[j].length; k++) {
+                                collection.set(
+                                    field.data[j][k].name,
+                                    field.data[j][k].data,
+                                );
+                            }
+                            detail.collections.push(collection);
+                        }
+                        break;
+                    }
+                default:
+                    GrapheLog(
+                        "error",
+                        `Invalid type in instant details data (field: \`${field.name}\`, type: \`${typeof field.data}\`)`,
                     );
-                }
-                detail.collections.push(collection);
             }
         }
-
         shown = true;
     }
 

@@ -1,10 +1,13 @@
 package internal
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"path"
 	"strings"
+
+	xerrors "github.com/mdobak/go-xerrors"
 )
 
 var showError = true
@@ -73,6 +76,9 @@ func (l *AppLogger) Error(message string) {
 }
 
 func (l *AppLogger) Fatal(message string) {
+	fmt.Println(message)
+	fmt.Println(xerrors.StackTrace(xerrors.New("")))
+
 	l.Println("FATAL | " + message)
 	os.Exit(1)
 }

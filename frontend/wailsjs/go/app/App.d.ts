@@ -3,7 +3,7 @@
 import {app} from '../models';
 import {menu} from '../models';
 import {scripture} from '../models';
-import {database} from '../models';
+import {data} from '../models';
 import {settings} from '../models';
 
 export function DisableMenu():Promise<void>;
@@ -12,16 +12,14 @@ export function GetEnvironmentInfo():Promise<app.EnvironmentInfo>;
 
 export function GetMenu():Promise<menu.Menu>;
 
-export function GetScriptureSection(arg1:scripture.ScriptureRange):Promise<Array<database.ScriptureSection>>;
+export function GetScriptureSection(arg1:scripture.ScriptureRange):Promise<Array<data.ScriptureSection>>;
 
-export function GetScriptureWord(arg1:scripture.ScriptureVersion,arg2:scripture.ScriptureRef,arg3:number):Promise<database.ScriptureWordData>;
+export function GetScriptureWord(arg1:scripture.ScriptureVersion,arg2:scripture.ScriptureRef,arg3:number):Promise<data.ScriptureWordData>;
 
 export function GetSettings():Promise<settings.SettingsValues>;
 
 export function LoadMenu():Promise<void>;
 
 export function ResetSetting(arg1:Array<string>):Promise<any>;
-
-export function Throw(arg1:string):Promise<void>;
 
 export function UpdateSetting(arg1:Array<string>,arg2:any):Promise<boolean>;

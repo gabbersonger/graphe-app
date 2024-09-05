@@ -10,43 +10,27 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
-func menuCallbackEmit(a *App, eventName string, data ...interface{}) func(cd *menu.CallbackData) {
-	return func(cd *menu.CallbackData) {
-		runtime.EventsEmit(a.ctx, eventName, data...)
-	}
+func (a *App) GetMenu() *menu.Menu {
+	return a.menu
 }
 
-func menuCallbackOpenFolder(a *App, fname string) func(cd *menu.CallbackData) {
-	return func(cd *menu.CallbackData) {
-		switch a.env.Platform {
-		case "darwin":
-			exec.Command("open", "--reveal", fname).Run()
-			break
-		case "linux":
-			exec.Command("xdg-open", fname).Run()
-			break
-		case "windows":
-			exec.Command("explorer", fname).Run()
-			break
-		default:
-			a.Throw("Unknown operating system for revealing folder")
-		}
-	}
+func (a *App) LoadMenu() {
+	settings := a.settings.GetSettings()
+	a.updateMenu(settings.Shortcuts)
 }
 
-func (a *App) shortcutToKeyCode(s string) *keys.Accelerator {
-	if len(s) == 0 {
-		return nil
-	}
-	shortcut, err := keys.Parse(s)
-	if err != nil {
-		fmt.Println(err.Error())
-		a.Throw(fmt.Sprintf("Error parsing shortcut: %s", s))
-	}
-	return shortcut
+func (a *App) DisableMenu() {
+	s := settings.SettingsValues_Shortcuts{}
+	a.updateMenu(s)
 }
 
-func (a *App) newMenu(s settings.SettingsValues_Shortcuts) *menu.Menu {
+func (a *App) updateMenu(s settings.SettingsValues_Shortcuts) {
+	a.menu = newMenu(a, s)
+	runtime.MenuSetApplicationMenu(a.ctx, a.menu)
+	runtime.MenuUpdateApplicationMenu(a.ctx)
+}
+
+func newMenu(a *App, s settings.SettingsValues_Shortcuts) *menu.Menu {
 	appMenu := menu.NewMenu()
 
 	grapheMenu := appMenu.AddSubmenu("Graphe")
@@ -95,17 +79,36 @@ func (a *App) newMenu(s settings.SettingsValues_Shortcuts) *menu.Menu {
 	return appMenu
 }
 
-func (a *App) LoadMenu() {
-	a.updateMenu(a.settings.GetSettings().Shortcuts)
+func menuCallbackEmit(a *App, event_name string, data ...interface{}) func(cd *menu.CallbackData) {
+	return func(cd *menu.CallbackData) {
+		runtime.EventsEmit(a.ctx, event_name, data...)
+	}
 }
 
-func (a *App) DisableMenu() {
-	s := settings.SettingsValues_Shortcuts{}
-	a.updateMenu(s)
+func menuCallbackOpenFolder(a *App, folder_name string) func(cd *menu.CallbackData) {
+	return func(cd *menu.CallbackData) {
+		a.assert(len(folder_name) > 0, "Invalid folder name (length = 0)")
+		var cmd *exec.Cmd
+		switch a.env.Platform {
+		case "darwin":
+			cmd = exec.Command("open", "--reveal", folder_name)
+		case "linux":
+			cmd = exec.Command("xdg-open", folder_name)
+		case "windows":
+			cmd = exec.Command("explorer", folder_name)
+		default:
+			a.assert(false, "Invalid operating system")
+		}
+		err := cmd.Run()
+		a.assert(err == nil, fmt.Sprintf("Error opening folder (folder name: `%s`)", folder_name))
+	}
 }
 
-func (a *App) updateMenu(s settings.SettingsValues_Shortcuts) {
-	a.menu = a.newMenu(s)
-	runtime.MenuSetApplicationMenu(a.ctx, a.menu)
-	runtime.MenuUpdateApplicationMenu(a.ctx)
+func (a *App) shortcutToKeyCode(s string) *keys.Accelerator {
+	if len(s) == 0 {
+		return nil
+	}
+	shortcut, err := keys.Parse(s)
+	a.assert(err == nil, fmt.Sprintf("Error parsing shortcut (shortcut: `%s`)", s))
+	return shortcut
 }

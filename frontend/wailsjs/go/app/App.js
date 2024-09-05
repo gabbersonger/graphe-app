@@ -34,10 +34,6 @@ export function ResetSetting(arg1) {
   return window['go']['app']['App']['ResetSetting'](arg1);
 }
 
-export function Throw(arg1) {
-  return window['go']['app']['App']['Throw'](arg1);
-}
-
 export function UpdateSetting(arg1, arg2) {
   return window['go']['app']['App']['UpdateSetting'](arg1, arg2);
 }

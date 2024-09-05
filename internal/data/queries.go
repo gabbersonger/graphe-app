@@ -1,8 +1,8 @@
-package database
+package data
 
 import "github.com/bvinc/go-sqlite-lite/sqlite3"
 
-type GrapheQueries struct {
+type DataDBQueries struct {
 	gntSection            *sqlite3.Stmt
 	gntWordText           *sqlite3.Stmt
 	gntWordBasicInfo      *sqlite3.Stmt
@@ -19,16 +19,16 @@ type GrapheQueries struct {
 	esvWordStrongsInfo *sqlite3.Stmt
 }
 
-func prepareQueries(g *GrapheDB, db *GrapheDBConn) {
+func (d *DataDB) prepareQueries(db *DataDBConn) {
 	var err error
-	db.queries = GrapheQueries{}
+	db.queries = DataDBQueries{}
 
 	db.queries.gntSection, err = db.conn.Prepare(`
-        SELECT ref, word_num, text, pre, post
+        SELECT ref, word_num, text, pre, post, 1 as has_instant_details
         FROM gnt_text
         WHERE ref >= ? AND ref <= ?;
     `)
-	g.check(err)
+	d.assert(err == nil, "Error preparing query `gntSection`")
 
 	db.queries.gntWordText, err = db.conn.Prepare(`
         SELECT text
@@ -38,7 +38,7 @@ func prepareQueries(g *GrapheDB, db *GrapheDBConn) {
             AND word_num = ?
         LIMIT 1;
     `)
-	g.check(err)
+	d.assert(err == nil, "Error preparing query `gntWordText`")
 
 	db.queries.gntWordBasicInfo, err = db.conn.Prepare(`
         SELECT translit, english
@@ -48,7 +48,7 @@ func prepareQueries(g *GrapheDB, db *GrapheDBConn) {
             AND word_num = ?
         LIMIT 1;
     `)
-	g.check(err)
+	d.assert(err == nil, "Error preparing query `gntWordBasicInfo`")
 
 	db.queries.gntWordDictionary, err = db.conn.Prepare(`
 		SELECT
@@ -63,7 +63,7 @@ func prepareQueries(g *GrapheDB, db *GrapheDBConn) {
            	t1.ref = ?
            	AND t1.word_num = ?;
     `)
-	g.check(err)
+	d.assert(err == nil, "Error preparing query `gntWordDictionary`")
 
 	db.queries.gntWordInflectedCount, err = db.conn.Prepare(`
         SELECT count(*)
@@ -78,15 +78,15 @@ func prepareQueries(g *GrapheDB, db *GrapheDBConn) {
         )
         LIMIT 1;
     `)
-	g.check(err)
+	d.assert(err == nil, "Error preparing query `gntWordInflectedCount`")
 
 	// LXX
 	db.queries.lxxSection, err = db.conn.Prepare(`
-        SELECT ref, word_num, text, pre, post
+        SELECT ref, word_num, text, pre, post, 1 as has_instant_details
         FROM lxx_text
         WHERE ref >= ? AND ref <= ?;
     `)
-	g.check(err)
+	d.assert(err == nil, "Error preparing query `lxxSection`")
 
 	db.queries.lxxWordText, err = db.conn.Prepare(`
         SELECT text
@@ -96,7 +96,7 @@ func prepareQueries(g *GrapheDB, db *GrapheDBConn) {
             AND word_num = ?
         LIMIT 1;
     `)
-	g.check(err)
+	d.assert(err == nil, "Error preparing query `lxxWordText`")
 
 	db.queries.lxxWordBasicInfo, err = db.conn.Prepare(`
         SELECT
@@ -113,7 +113,7 @@ func prepareQueries(g *GrapheDB, db *GrapheDBConn) {
             AND t1.word_num = ?
         LIMIT 1;
     `)
-	g.check(err)
+	d.assert(err == nil, "Error preparing query `lxxWordBasicInfo`")
 
 	db.queries.lxxWordInflectedCount, err = db.conn.Prepare(`
         SELECT count(*)
@@ -128,7 +128,7 @@ func prepareQueries(g *GrapheDB, db *GrapheDBConn) {
         )
         LIMIT 1;
     `)
-	g.check(err)
+	d.assert(err == nil, "Error preparing query `lxxWordInflectedCount`")
 
 	// ESV
 	db.queries.esvSection, err = db.conn.Prepare(`
@@ -136,7 +136,7 @@ func prepareQueries(g *GrapheDB, db *GrapheDBConn) {
         FROM esv_text
         WHERE ref >= ? AND ref <= ?;
     `)
-	g.check(err)
+	d.assert(err == nil, "Error preparing query `esvSection`")
 
 	db.queries.esvWordBasicInfo, err = db.conn.Prepare(`
         SELECT
@@ -151,7 +151,7 @@ func prepareQueries(g *GrapheDB, db *GrapheDBConn) {
             AND word_num = ?
         LIMIT 1;
     `)
-	g.check(err)
+	d.assert(err == nil, "Error preparing query `esvWordBasicInfo`")
 
 	db.queries.esvWordStrongsInfo, err = db.conn.Prepare(`
         SELECT strongs, (
@@ -164,5 +164,5 @@ func prepareQueries(g *GrapheDB, db *GrapheDBConn) {
             ref = ?
             AND word_num = ?;
     `)
-	g.check(err)
+	d.assert(err == nil, "Error preparing query `esvWordStrongsInfo`")
 }

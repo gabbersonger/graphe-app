@@ -1,11 +1,11 @@
 <script lang="ts">
-    import type { database } from "!wails/go/models";
+    import type { data } from "!wails/go/models";
     import { workspace_version } from "@/lib/stores";
     import type { BibleRef } from "@/lib/Scripture/types";
     import { getChapter, getVerse, refToString } from "@/lib/Scripture/ref";
     import { EventsEmit } from "!wails/runtime/runtime";
 
-    export let block: database.ScriptureBlock;
+    export let block: data.ScriptureBlock;
 
     let instant_details_timeout: ReturnType<typeof setTimeout> = null;
 

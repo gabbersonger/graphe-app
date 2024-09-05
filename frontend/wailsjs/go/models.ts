@@ -27,7 +27,7 @@ export namespace app {
 
 }
 
-export namespace database {
+export namespace data {
 	
 	export class ScriptureVerseDetail {
 	    type: number;
@@ -204,7 +204,7 @@ export namespace database {
 	
 	export class ScriptureWordDataField {
 	    name: string;
-	    data: string;
+	    data: any;
 	
 	    static createFrom(source: any = {}) {
 	        return new ScriptureWordDataField(source);
@@ -222,7 +222,6 @@ export namespace database {
 	    word_number: number;
 	    text: string;
 	    fields: ScriptureWordDataField[];
-	    collections: ScriptureWordDataField[][];
 	
 	    static createFrom(source: any = {}) {
 	        return new ScriptureWordData(source);
@@ -235,7 +234,6 @@ export namespace database {
 	        this.word_number = source["word_number"];
 	        this.text = source["text"];
 	        this.fields = this.convertValues(source["fields"], ScriptureWordDataField);
-	        this.collections = this.convertValues(source["collections"], ScriptureWordDataField);
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {

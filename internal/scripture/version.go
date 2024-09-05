@@ -5,44 +5,42 @@ import "fmt"
 type ScriptureVersion string
 
 func (v ScriptureVersion) IsValid() bool {
-	for i := 0; i < len(VersionsData); i++ {
-		if VersionsData[i].Name == string(v) {
+	for _, vd := range VersionsData {
+		if vd.Name == string(v) {
 			return true
 		}
 	}
 	return false
 }
 
-func GetVersionIndex(v ScriptureVersion) (int, error) {
-	for i, d := range VersionsData {
-		if d.Name == string(v) {
-			return i, nil
+func getVersionIndex(version ScriptureVersion) int {
+	for i, vd := range VersionsData {
+		if vd.Name == string(version) {
+			return i
 		}
 	}
-	return -1, fmt.Errorf("Could not find version in GetVersionIndex. args=(%s)", v)
+	assert(false, fmt.Sprintf("Invalid version (version: `%s`)", version))
+	return -1
 }
 
-func GetVersionBookIndex(v ScriptureVersion, b int) (int, error) {
-	v_i, err := GetVersionIndex(v)
-	if err != nil {
-		return -1, err
-	}
-	for i, vb := range VersionsData[v_i].Books {
-		if vb.BookNumber == b {
-			return i, nil
+func getVersionBookIndex(version ScriptureVersion, book int) int {
+	version_index := getVersionIndex(version)
+	assert(version_index >= 0 && version_index < len(VersionsData), fmt.Sprintf("Invalid version index (version: `%s`, index: %d)", version, version_index))
+	for i, v_book := range VersionsData[version_index].Books {
+		if v_book.BookNumber == book {
+			return i
 		}
 	}
-	return -1, fmt.Errorf("Could not find book for version in GetVersionBookIndex. args=(%s, %d)", v, b)
+	return -1
 }
 
-func GetVersionBookData(v ScriptureVersion, b int) (*VersionBookData, error) {
-	v_i, err := GetVersionIndex(v)
-	if err != nil {
-		return nil, err
+func getVersionBookData(version ScriptureVersion, book int) *VersionBookData {
+	version_index := getVersionIndex(version)
+	assert(version_index >= 0 && version_index < len(VersionsData), fmt.Sprintf("Invalid version index (version: `%s`, index: %d)", version, version_index))
+	for _, v_book := range VersionsData[version_index].Books {
+		if v_book.BookNumber == book {
+			return &v_book
+		}
 	}
-	vb_i, err := GetVersionBookIndex(v, b)
-	if err != nil {
-		return nil, err
-	}
-	return &VersionsData[v_i].Books[vb_i], nil
+	return nil
 }

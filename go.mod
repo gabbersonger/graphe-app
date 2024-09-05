@@ -6,6 +6,7 @@ toolchain go1.21.1
 
 require (
 	github.com/bvinc/go-sqlite-lite v0.6.1
+	github.com/mdobak/go-xerrors v0.3.1
 	github.com/wailsapp/wails/v2 v2.9.1
 )
 

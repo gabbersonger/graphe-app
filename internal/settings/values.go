@@ -9,6 +9,147 @@ import (
 	"golang.org/x/text/language"
 )
 
+func (s *SettingsDB) GetSettings() SettingsValues {
+	v := getDefaultValues()
+
+	r := reflect.ValueOf(&v).Elem()
+	for _, t := range getSettingsTables() {
+		t_item := r.FieldByName(t.name)
+		for _, c := range t.columns {
+			// Get item for column (e.g. Appearence>Theme for "appearence_theme")
+			item := t_item
+			for _, part := range strings.Split(c.name, "_") {
+				item = item.FieldByName(part)
+				s.assert(item.IsValid(), "Error matchings struct to column name from getSettingsTables()")
+			}
+
+			// Get item from db
+			stmt, err := s.db.Prepare(fmt.Sprintf(`
+				SELECT %s
+				FROM %s
+				WHERE id = 1
+				LIMIT 1;
+			`, c.name, t.name))
+			s.assert(err == nil, fmt.Sprintf("Error preparing query for getting setting value (table: %s, column: %s)", t.name, c.name))
+			has_row, err := stmt.Step()
+			s.assert(err == nil, fmt.Sprintf("Error executing query for getting setting value (table: %s, column: %s)", t.name, c.name))
+			s.assert(has_row, fmt.Sprintf("Error getting row for setting (table: %s, column: %s)", t.name, c.name))
+
+			// Place item into the struct
+			switch item.Kind() {
+			case reflect.Int:
+				val, ok, err := stmt.ColumnInt64(0)
+				s.assert(err == nil, fmt.Sprintf("Error getting setting as int (table: %s, column: %s)", t.name, c.name))
+				if ok {
+					item.SetInt(val)
+				}
+			case reflect.String:
+				val, ok, err := stmt.ColumnText(0)
+				s.assert(err == nil, fmt.Sprintf("Error getting setting as string (table: %s, column: %s)", t.name, c.name))
+				if ok {
+					item.SetString(val)
+				}
+			case reflect.Bool:
+				val, ok, err := stmt.ColumnInt(0)
+				s.assert(err == nil, fmt.Sprintf("Error getting setting as string (table: %s, column: %s)", t.name, c.name))
+				if ok {
+					item.SetBool(val == 1)
+				}
+			default:
+				s.assert(false, fmt.Sprintf("Invalid variable format (table: %s, column: %s)", t.name, c.name))
+			}
+		}
+	}
+
+	return v
+}
+
+func (s *SettingsDB) ResetSetting(key []string) interface{} {
+	item := reflect.ValueOf(getDefaultValues())
+	for i, k := range key {
+		k_name := capitalise(k)
+		item = reflect.Indirect(item).FieldByName(k_name)
+		s.assert(item.IsValid(), fmt.Sprintf("Invalid key (key: %v, index: %d)", key, i))
+	}
+	resetValue(s, item, key)
+	return nil
+}
+
+func resetValue(s *SettingsDB, item reflect.Value, key []string) {
+	s.assert(item.IsValid(), fmt.Sprintf("Invalid item (item: %v, key: %v)", item, key))
+	s.assert(len(key) > 0, "Invalid key (length = 0)")
+	switch item.Kind() {
+	case reflect.Struct:
+		fields := reflect.VisibleFields(item.Type())
+		new_key := append(key, "")
+		for _, f := range fields {
+			child_item := item.FieldByName(f.Name)
+			new_key[len(new_key)-1] = f.Name
+			resetValue(s, child_item, new_key)
+		}
+	default:
+		s.UpdateSetting(key, item.Interface())
+	}
+}
+
+func (s *SettingsDB) UpdateSetting(key []string, val interface{}) bool {
+	s.assert(len(key) >= 2, fmt.Sprintf("Not enough values in key provided (key: %v, val: %v)", key, val))
+
+	// Get the table
+	table_name := capitalise(key[0])
+	r := reflect.TypeOf(getDefaultValues())
+	item, found := r.FieldByName(table_name)
+	s.assert(found, fmt.Sprintf("Invalid first value (table name) in key (key: %v, val: %v)", key, val))
+
+	// Get the specific field's column name
+	column_name := ""
+	for i, k := range key[1:] {
+		k_name := capitalise(k)
+		item, found = item.Type.FieldByName(k_name)
+		s.assert(found, fmt.Sprintf("Invalid value in key - did not match struct (key: %v [index: %d], val: %v)", key, i, val))
+		if i > 0 {
+			column_name += "_"
+		}
+		column_name += k_name
+	}
+
+	// Update the value in the db
+	switch val.(type) {
+	case float64:
+		val := int(val.(float64))
+		execUpdate(s, fmt.Sprintf(`
+			UPDATE %s SET %s = %d WHERE id = 1;
+		`, table_name, column_name, val))
+	case string:
+		if val == "DEFAULT" {
+			execUpdate(s, fmt.Sprintf(`
+				UPDATE %s SET %s = NULL WHERE id = 1;
+			`, table_name, column_name))
+		} else {
+			execUpdate(s, fmt.Sprintf(`
+				UPDATE %s SET %s = '%s' WHERE id = 1;
+			`, table_name, column_name, val))
+		}
+	case bool:
+		int_val := 0
+		if val.(bool) {
+			int_val = 1
+		}
+		execUpdate(s, fmt.Sprintf(`
+			UPDATE %s SET %s = %d WHERE id = 1;
+		`, table_name, column_name, int_val))
+	default:
+		s.assert(false, fmt.Sprintf("Invalid value format (key: %v, val: %v)", key, val))
+	}
+
+	s.log(fmt.Sprintf("Updated setting (key: %v, val: %v)", key, val))
+	return true
+}
+
+func capitalise(s string) string {
+	return cases.Title(language.English, cases.Compact).String(string(s[0])) + s[1:]
+}
+
 func getDefaultValues() SettingsValues {
 	return SettingsValues{
 		Appearence: SettingsValues_Appearence{
@@ -45,151 +186,14 @@ func getDefaultValues() SettingsValues {
 	}
 }
 
-func (s *Settings) GetSettings() SettingsValues {
-	v := getDefaultValues()
-	tables := getSettingsTables()
-
-	r := reflect.ValueOf(&v).Elem()
-	for _, table := range tables {
-		item := r.FieldByName(table.name)
-		for _, column := range table.columns {
-			cur_item := item
-			parts := strings.Split(column.name, "_")
-			for _, part := range parts {
-				cur_item = cur_item.FieldByName(part)
-			}
-
-			stmt, err := s.db.Prepare(fmt.Sprintf(`
-				SELECT %s
-				FROM %s
-				WHERE id = 1
-				LIMIT 1;
-			`, column.name, table.name))
-			s.check(err)
-			hasRow, err := stmt.Step()
-			s.check(err)
-			if !hasRow {
-				s.throw(fmt.Sprintf("Could not find row for setting (table=%s, column=%s)", table.name, column.name))
-			}
-			switch cur_item.Kind() {
-			case reflect.Int:
-				val, ok, err := stmt.ColumnInt64(0)
-				s.check(err)
-				if ok {
-					cur_item.SetInt(val)
-				}
-			case reflect.String:
-				val, ok, err := stmt.ColumnText(0)
-				s.check(err)
-				if ok {
-					cur_item.SetString(val)
-				}
-			case reflect.Bool:
-				val, ok, err := stmt.ColumnInt(0)
-				s.check(err)
-				if ok {
-					cur_item.SetBool(val == 1)
-				}
-			}
-		}
+func execUpdate(s *SettingsDB, query string) {
+	err := s.db.Begin()
+	s.assert(err == nil, "Error beginning transaction")
+	err = s.db.Exec(query)
+	s.assert(err == nil, fmt.Sprintf("Error executing query (q: `%s`)", query))
+	if s.db.TotalChanges() != 1 {
+		s.db.Rollback()
+		s.assert(false, fmt.Sprintf("More than one row was updated for query (q: `%s`)", query))
 	}
-	return v
-}
-
-func capitalise(s string) string {
-	return cases.Title(language.English, cases.Compact).String(string(s[0])) + s[1:]
-}
-
-func (s *Settings) ResetSetting(field []string) interface{} {
-	default_item := reflect.ValueOf(getDefaultValues())
-	for i, f := range field {
-		field_name := capitalise(f)
-		default_item = reflect.Indirect(default_item).FieldByName(field_name)
-		if !default_item.IsValid() {
-			s.throw(fmt.Sprintf("GetDefaultSetting had invalid value (index=%d) for `field`: (field: %v)", i, field))
-		}
-	}
-	s.handleUpdatingOnReset(default_item, field)
-	return default_item.Interface()
-}
-
-func (s *Settings) handleUpdatingOnReset(r reflect.Value, field []string) {
-	switch r.Kind() {
-	case reflect.Struct:
-		vfs := reflect.VisibleFields(r.Type())
-		new_field := append(field, "")
-		for _, f := range vfs {
-			rf := r.FieldByName(f.Name)
-			new_field[len(new_field)-1] = f.Name
-			s.handleUpdatingOnReset(rf, new_field)
-		}
-	default:
-		s.UpdateSetting(field, r.Interface())
-	}
-}
-
-func (s *Settings) UpdateSetting(field []string, value interface{}) bool {
-	if len(field) < 2 {
-		s.throw(fmt.Sprintf("UpdateSetting has less than 2 values in `field`: (field: %v, value:...)", field))
-	}
-
-	r := reflect.TypeOf(getDefaultValues())
-	table := capitalise(field[0])
-	item, found := r.FieldByName(table)
-	if !found {
-		s.throw(fmt.Sprintf("UpdateSetting had invalid first-value for `field`: (field: %v, value:...)", field))
-	}
-
-	column := ""
-	for i, f := range field[1:] {
-		field_name := capitalise(f)
-		item, found = item.Type.FieldByName(field_name)
-		if !found {
-			s.throw(fmt.Sprintf("UpdateSetting had invalid value (index=%d) for `field`: (field: %v, value:...)", i, field))
-		}
-		if i > 0 {
-			column += "_"
-		}
-		column += field_name
-	}
-
-	var err error
-	switch value.(type) {
-	case float64:
-		value = int(value.(float64))
-		err = s.db.Exec(fmt.Sprintf(`
-			UPDATE %s
-			SET %s = %d
-			WHERE id = 1;
-		`, table, column, value))
-	case string:
-		if value == "DEFAULT" {
-			err = s.db.Exec(fmt.Sprintf(`
-				UPDATE %s
-				SET %s = NULL
-				WHERE id = 1;
-			`, table, column))
-
-		} else {
-			err = s.db.Exec(fmt.Sprintf(`
-				UPDATE %s
-				SET %s = '%s'
-				WHERE id = 1;
-			`, table, column, value))
-		}
-	case bool:
-		int_value := 0
-		if value.(bool) {
-			int_value = 1
-		}
-		err = s.db.Exec(fmt.Sprintf(`
-			UPDATE %s
-			SET %s = %d
-			WHERE id = 1;
-		`, table, column, int_value))
-	default:
-		s.throw(fmt.Sprintf("UpdateSetting had invalid `value` type (type: %s)", reflect.TypeOf(value).String()))
-	}
-	s.check(err)
-	return true
+	s.db.Commit()
 }
