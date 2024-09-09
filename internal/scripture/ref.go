@@ -7,31 +7,30 @@ import (
 )
 
 func padLeftString(text string, length int) string {
-	assert(length >= 0, "Length was less than 0")
 	if len(text) >= length {
 		return text
 	}
 	return strings.Repeat("0", length-len(text)) + text
 }
 
-func CreateRef(book, chapter, verse int) ScriptureRef {
-	assert(book >= 0 && book <= 999, fmt.Sprintf("Invalid book (book: %d)", book))
-	assert(chapter >= 0 && chapter <= 999, fmt.Sprintf("Invalid chapter (chapter: %d)", chapter))
-	assert(verse >= 0 && verse <= 999, fmt.Sprintf("Invalid verse (verse: %d)", verse))
+func (s *ScriptureService) CreateRef(book, chapter, verse int) ScriptureRef {
+	s.assert(book >= 0 && book <= 999, fmt.Sprintf("Invalid book (book: %d)", book))
+	s.assert(chapter >= 0 && chapter <= 999, fmt.Sprintf("Invalid chapter (chapter: %d)", chapter))
+	s.assert(verse >= 0 && verse <= 999, fmt.Sprintf("Invalid verse (verse: %d)", verse))
 
 	ref_string := fmt.Sprint(book)
 	ref_string += padLeftString(fmt.Sprint(chapter), 3)
 	ref_string += padLeftString(fmt.Sprint(verse), 3)
 	r, err := strconv.Atoi(ref_string)
-	assert(err == nil, fmt.Sprintf("Error creating ref (book: %d, chapter: %d, verse: %d)", book, chapter, verse))
+	s.assert(err == nil, fmt.Sprintf("Error creating ref (book: %d, chapter: %d, verse: %d)", book, chapter, verse))
 	return ScriptureRef(r)
 }
 
-func CreateFirstValidRef(version ScriptureVersion, book int) ScriptureRef {
-	version_index := getVersionIndex(version)
-	assert(version_index >= 0 && version_index < len(VersionsData), fmt.Sprintf("Error getting version index (version: `%s`)", version))
-	vb_index := getVersionBookIndex(version, book)
-	assert(vb_index >= 0 && vb_index < len(VersionsData[version_index].Books), fmt.Sprintf("Error getting version book index (version: `%s`, book: %d, index: %d)", version, book, vb_index))
+func (s *ScriptureService) CreateFirstValidRef(version ScriptureVersion, book int) ScriptureRef {
+	version_index := s.getVersionIndex(version)
+	s.assert(version_index >= 0 && version_index < len(VersionsData), fmt.Sprintf("Error getting version index (version: `%s`)", version))
+	vb_index := s.getVersionBookIndex(version, book)
+	s.assert(vb_index >= 0 && vb_index < len(VersionsData[version_index].Books), fmt.Sprintf("Error getting version book index (version: `%s`, book: %d, index: %d)", version, book, vb_index))
 	vb_data := VersionsData[version_index].Books[vb_index]
 
 	chapter := 1
@@ -50,42 +49,42 @@ func CreateFirstValidRef(version ScriptureVersion, book int) ScriptureRef {
 	// Handle missing sections
 	for i := 0; i < len(vb_data.MissingSections); i++ {
 		section := vb_data.MissingSections[i]
-		if section.Start.GetChapter() == chapter &&
-			verse >= section.Start.GetVerse() &&
-			verse <= section.End.GetVerse() {
-			verse = section.End.GetVerse() + 1
+		if s.GetRefChapter(section.Start) == chapter &&
+			verse >= s.GetRefVerse(section.Start) &&
+			verse <= s.GetRefVerse(section.End) {
+			verse = s.GetRefVerse(section.End) + 1
 			// Assumed: no book missing all of chapter 0 and 1
 		}
 	}
 
-	return CreateRef(book, chapter, verse)
+	return s.CreateRef(book, chapter, verse)
 }
 
-func (r ScriptureRef) GetBook() int {
+func (s *ScriptureService) GetRefBook(r ScriptureRef) int {
 	return (int(r) - int(r)%1_000_000) / 1_000_000
 }
 
-func (r ScriptureRef) GetChapter() int {
+func (s *ScriptureService) GetRefChapter(r ScriptureRef) int {
 	return ((int(r) - int(r)%1_000) / 1_000) % 1_000
 }
 
-func (r ScriptureRef) GetVerse() int {
+func (s *ScriptureService) GetRefVerse(r ScriptureRef) int {
 	return int(r) % 1000
 }
 
-func (r ScriptureRef) BCV() (int, int, int) {
-	return r.GetBook(), r.GetChapter(), r.GetVerse()
+func (s *ScriptureService) BCV(r ScriptureRef) (int, int, int) {
+	return s.GetRefBook(r), s.GetRefChapter(r), s.GetRefVerse(r)
 }
 
-func (r ScriptureRef) IsBookStart(version ScriptureVersion) bool {
-	assert(version.IsValid(), fmt.Sprintf("Invalid version (version: `%s`)", version))
-	if !r.IsValid(version) {
+func (s *ScriptureService) IsRefBookStart(ref ScriptureRef, version ScriptureVersion) bool {
+	s.assert(s.IsVersionValid(version), fmt.Sprintf("Invalid version (version: `%s`)", version))
+	if !s.IsRefValid(ref, version) {
 		return false
 	}
 
-	book, chapter, verse := r.BCV()
-	vb_data := getVersionBookData(version, book)
-	assert(vb_data != nil, fmt.Sprintf("Error getting version book data (version: `%s`, ref: %d)", version, int(r)))
+	book, chapter, verse := s.BCV(ref)
+	vb_data := s.getVersionBookData(version, book)
+	s.assert(vb_data != nil, fmt.Sprintf("Error getting version book data (version: `%s`, ref: %d)", version, int(ref)))
 
 	if vb_data.Prologue > 0 {
 		return chapter == 0 && verse == 1
@@ -104,10 +103,10 @@ func (r ScriptureRef) IsBookStart(version ScriptureVersion) bool {
 	if len(vb_data.Superscripts) > 0 && vb_data.Superscripts[0] == 1 {
 		first_verse_in_chapter = 0
 	} else {
-		for _, s := range vb_data.MissingSections {
-			if s.Start.GetChapter() == 1 {
-				if s.Start.GetVerse() <= first_verse_in_chapter {
-					first_verse_in_chapter = s.End.GetVerse() + 1
+		for _, ms := range vb_data.MissingSections {
+			if s.GetRefChapter(ms.Start) == 1 {
+				if s.GetRefVerse(ms.Start) <= first_verse_in_chapter {
+					first_verse_in_chapter = s.GetRefVerse(ms.End) + 1
 					// Assumed: no book missing all of chapter 1
 				}
 			} else {
@@ -118,12 +117,12 @@ func (r ScriptureRef) IsBookStart(version ScriptureVersion) bool {
 	return verse == first_verse_in_chapter
 }
 
-func (r ScriptureRef) isSuperscriptChapter(version ScriptureVersion) bool {
-	assert(version.IsValid(), fmt.Sprintf("Invalid version (version: `%s`)", version))
-	vb_data := getVersionBookData(version, r.GetBook())
-	assert(vb_data != nil, fmt.Sprintf("Error getting version book data (version: `%s`, ref: %d)", version, int(r)))
+func (s *ScriptureService) isRefSuperscriptChapter(ref ScriptureRef, version ScriptureVersion) bool {
+	s.assert(s.IsVersionValid(version), fmt.Sprintf("Invalid version (version: `%s`)", version))
+	vb_data := s.getVersionBookData(version, s.GetRefBook(ref))
+	s.assert(vb_data != nil, fmt.Sprintf("Error getting version book data (version: `%s`, ref: %d)", version, int(ref)))
 
-	chapter := r.GetChapter()
+	chapter := s.GetRefChapter(ref)
 	if vb_data.Superscripts != nil && len(vb_data.Superscripts) > 0 {
 		for _, c := range vb_data.Superscripts {
 			if c == chapter {
@@ -134,11 +133,11 @@ func (r ScriptureRef) isSuperscriptChapter(version ScriptureVersion) bool {
 	return false
 }
 
-func (r ScriptureRef) IsValid(version ScriptureVersion) bool {
-	assert(version.IsValid(), fmt.Sprintf("Invalid version (version: `%s`)", version))
+func (s *ScriptureService) IsRefValid(ref ScriptureRef, version ScriptureVersion) bool {
+	s.assert(s.IsVersionValid(version), fmt.Sprintf("Invalid version (version: `%s`)", version))
 
-	book, chapter, verse := r.BCV()
-	vb_data := getVersionBookData(version, book)
+	book, chapter, verse := s.BCV(ref)
+	vb_data := s.getVersionBookData(version, book)
 	if vb_data == nil {
 		return false
 	}
@@ -155,7 +154,7 @@ func (r ScriptureRef) IsValid(version ScriptureVersion) bool {
 
 	// Handle verse invalid
 	if verse == 0 {
-		return r.isSuperscriptChapter(version)
+		return s.isRefSuperscriptChapter(ref, version)
 	}
 	if verse < 0 || verse > vb_data.NumVerses[chapter-1] {
 		return false
@@ -164,9 +163,9 @@ func (r ScriptureRef) IsValid(version ScriptureVersion) bool {
 	// Handle missing sections
 	for i := 0; i < len(vb_data.MissingSections); i++ {
 		section := vb_data.MissingSections[i]
-		if section.Start.GetChapter() == chapter &&
-			verse >= section.Start.GetVerse() &&
-			verse <= section.End.GetVerse() {
+		if s.GetRefChapter(section.Start) == chapter &&
+			verse >= s.GetRefVerse(section.Start) &&
+			verse <= s.GetRefVerse(section.End) {
 			return false
 		}
 	}
@@ -184,12 +183,12 @@ const (
 	StringVersionBook
 )
 
-func (r ScriptureRef) ToString(version ScriptureVersion, format ScriptureRefStringType) string {
-	assert(r.IsValid(version), fmt.Sprintf("Invalid ref and version pair (ref: %d, version: `%s`)", r, version))
+func (s *ScriptureService) RefToString(ref ScriptureRef, version ScriptureVersion, format ScriptureRefStringType) string {
+	s.assert(s.IsRefValid(ref, version), fmt.Sprintf("Invalid ref and version pair (ref: %d, version: `%s`)", ref, version))
 
-	book, chapter, verse := r.BCV()
-	vb_data := getVersionBookData(version, book)
-	assert(vb_data != nil, fmt.Sprintf("Error getting version book data (version: `%s`, book: %d)", version, book))
+	book, chapter, verse := s.BCV(ref)
+	vb_data := s.getVersionBookData(version, book)
+	s.assert(vb_data != nil, fmt.Sprintf("Error getting version book data (version: `%s`, book: %d)", version, book))
 
 	is_single_chapter_book := vb_data.NumChapters == 1
 
@@ -217,7 +216,7 @@ func (r ScriptureRef) ToString(version ScriptureVersion, format ScriptureRefStri
 	case StringVersionBook:
 		return vb_data.DisplayName
 	default:
-		assert(false, fmt.Sprintf("Invalid format (format: %d)", format))
+		s.assert(false, fmt.Sprintf("Invalid format (format: %d)", format))
 	}
 	return "" // Unreachable
 }

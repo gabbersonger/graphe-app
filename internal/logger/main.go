@@ -1,84 +1,121 @@
-package internal
+package logger
 
 import (
+	"bytes"
+	"context"
 	"fmt"
 	"log"
+	"log/slog"
 	"os"
 	"path"
-	"strings"
+	"path/filepath"
+	"strconv"
+	"sync"
 
 	xerrors "github.com/mdobak/go-xerrors"
 )
 
-var showError = true
+const (
+	reset = "\033[0m"
 
-type AppLogger struct {
+	black        = 30
+	red          = 31
+	green        = 32
+	yellow       = 33
+	blue         = 34
+	magenta      = 35
+	cyan         = 36
+	lightGray    = 37
+	darkGray     = 90
+	lightRed     = 91
+	lightGreen   = 92
+	lightYellow  = 93
+	lightBlue    = 94
+	lightMagenta = 95
+	lightCyan    = 96
+	white        = 97
+)
+
+func colorize(colorCode int, v string) string {
+	return fmt.Sprintf("\033[%sm%s%s", strconv.Itoa(colorCode), v, reset)
+}
+
+type Handler struct {
 	directory string
 	filename  string
 	filepath  string
+	h         slog.Handler
+	b         *bytes.Buffer
+	m         *sync.Mutex
 }
 
-func NewAppLogger(directory, filename string) *AppLogger {
-	return &AppLogger{
-		directory: directory,
-		filename:  filename,
-		filepath:  path.Join(directory, filename),
-	}
+func (h *Handler) Enabled(ctx context.Context, level slog.Level) bool {
+	return h.h.Enabled(ctx, level)
 }
 
-func (l *AppLogger) Print(message string) {
-	os.MkdirAll(l.directory, os.ModePerm)
-	f, err := os.OpenFile(l.filepath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+func (h *Handler) WithAttrs(attrs []slog.Attr) slog.Handler {
+	return &Handler{h: h.h.WithAttrs(attrs), b: h.b, m: h.m}
+}
 
-	if err != nil && showError {
-		log.Fatal("Could not open logfile")
+func (h *Handler) WithGroup(name string) slog.Handler {
+	return &Handler{h: h.h.WithGroup(name), b: h.b, m: h.m}
+}
+
+func (h *Handler) StdError(message string) {
+	fmt.Printf("%s | %s\n", colorize(red, "ERROR"), message)
+}
+
+func (h *Handler) Print(message string) {
+	os.MkdirAll(h.directory, os.ModePerm)
+	f, err := os.OpenFile(h.filepath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		h.StdError("Could not open log file")
 	}
-
-	if _, err = f.WriteString(message); err != nil {
-		if showError {
-			log.Fatal("Could not write to logfile")
-			showError = false
-		} else {
-			showError = true
-		}
-	} else {
-		showError = true
+	_, err = f.WriteString(message)
+	if err != nil {
+		h.StdError("Could not write to log file")
 	}
-
 	f.Close()
 }
 
-func (l *AppLogger) Println(message string) {
-	l.Print(message + "\n")
-}
-
-func (l *AppLogger) Trace(message string) {
-	l.Println("TRACE | " + message)
-}
-
-func (l *AppLogger) Debug(message string) {
-	if strings.HasPrefix(message, "[ExternalAssetHandler]") || strings.HasPrefix(message, "[AssetHandler]") {
-		return
+func (h *Handler) Handle(ctx context.Context, r slog.Record) error {
+	switch r.Level {
+	case slog.LevelDebug:
+		h.Print(fmt.Sprintf("%s | %s\n", colorize(darkGray, "DEBUG"), r.Message))
+	case slog.LevelInfo:
+		h.Print(fmt.Sprintf("%s | %s\n", colorize(cyan, "INFO"), r.Message))
+	case slog.LevelWarn:
+		h.Print(fmt.Sprintf("%s | %s\n", colorize(yellow, "WARN"), r.Message))
+	case slog.LevelError:
+		h.StdError(r.Message)
+		fmt.Println(xerrors.StackTrace(xerrors.New("")))
+		h.Print(fmt.Sprintf("%s | %s\n", colorize(red, "ERROR"), r.Message))
+		os.Exit(1)
+	default:
+		panic(fmt.Sprintf("Unknown log level: %v\n", r.Level))
 	}
-	l.Println("DEBUG | " + message)
+	return nil
 }
 
-func (l *AppLogger) Info(message string) {
-	l.Println("INFO  | " + message)
-}
+const LOG_FILE_NAME = "graphe.log"
 
-func (l *AppLogger) Warning(message string) {
-	l.Println("WARN  | " + message)
-}
+func NewGrapheLogger() *slog.Logger {
+	home_dir, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatal("No home directory")
+	}
+	log_directory := filepath.Join(home_dir, "/Library/Logs/Graphe")
+	err = os.MkdirAll(log_directory, os.ModePerm)
 
-func (l *AppLogger) Error(message string) {
-	l.Println("ERROR | " + message)
-}
+	b := &bytes.Buffer{}
+	handler := &Handler{
+		directory: log_directory,
+		filename:  LOG_FILE_NAME,
+		filepath:  path.Join(log_directory, LOG_FILE_NAME),
 
-func (l *AppLogger) Fatal(message string) {
-	fmt.Println(message)
-	fmt.Println(xerrors.StackTrace(xerrors.New("")))
-
-	l.Println("FATAL | " + message)
-	os.Exit(1)
+		b: b,
+		h: slog.NewTextHandler(b, &slog.HandlerOptions{Level: slog.LevelDebug}),
+		m: &sync.Mutex{},
+	}
+	return slog.New(handler)
 }

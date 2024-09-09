@@ -65,7 +65,7 @@ const (
 // FUNCTIONS
 
 func (d *DataDB) GetScriptureSection(r scripture.ScriptureRange) []ScriptureSection {
-	d.assert(r.IsValid(), fmt.Sprintf("Invalid range (version: `%s`, start: %d, end: %d)", r.Version, int(r.Start), int(r.End)))
+	d.assert(d.scripture_service.IsRangeValid(r), fmt.Sprintf("Invalid range (version: `%s`, start: %d, end: %d)", r.Version, int(r.Start), int(r.End)))
 
 	data := createEmptyBookSections(d, r)
 	d.assert(len(data) > 0, "Error creating empty sections for range")
@@ -81,8 +81,10 @@ func (d *DataDB) GetScriptureSection(r scripture.ScriptureRange) []ScriptureSect
 }
 
 func createEmptyBookSections(d *DataDB, r scripture.ScriptureRange) []ScriptureSection {
-	ranges := r.DivideIntoBookRanges()
-	d.assert(len(ranges) > 0, fmt.Sprintf("Error dividing range into books (version: `%s`, start: %d, %d)", r.Version, int(r.Start), int(r.End)))
+	ranges := d.scripture_service.DivideIntoBookRanges(r)
+	d.assert(len(ranges) > 0, fmt.Sprintf("Error dividing range into books (version: `%s`, start: %d, end: %d)", r.Version, int(r.Start), int(r.End)))
+	d.assert(ranges[0].Start == r.Start, fmt.Sprintf("Error in created range: start not included (version: `%s`, start: %d, end: %d)", r.Version, int(r.Start), int(r.End)))
+	d.assert(ranges[len(ranges)-1].End == r.End, fmt.Sprintf("Error in created range: end not included (version: `%s`, start: %d, end: %d)", r.Version, int(r.Start), int(r.End)))
 
 	sections := make([]ScriptureSection, 0, len(ranges))
 	for _, r := range ranges {
@@ -144,7 +146,7 @@ func getScriptureSection(d *DataDB, wg *sync.WaitGroup, section *ScriptureSectio
 
 		// Add verse if necessary
 		if ref != last_ref || len(section.Blocks[last_block].Verses) == 0 {
-			addScriptureVerse(section, scripture.ScriptureRef(ref), last_ref == ref)
+			addScriptureVerse(d, section, scripture.ScriptureRef(ref), last_ref == ref)
 			last_ref = ref
 		}
 		last_verse := len(section.Blocks[last_block].Verses) - 1
@@ -211,7 +213,7 @@ func addScriptureBlock(section *ScriptureSection, ref scripture.ScriptureRef) {
 	section.Blocks = append(section.Blocks, new_block)
 }
 
-func addScriptureVerse(section *ScriptureSection, ref scripture.ScriptureRef, continuation bool) {
+func addScriptureVerse(d *DataDB, section *ScriptureSection, ref scripture.ScriptureRef, continuation bool) {
 	last_block := len(section.Blocks) - 1
 
 	new_verse := ScriptureVerse{}
@@ -223,10 +225,10 @@ func addScriptureVerse(section *ScriptureSection, ref scripture.ScriptureRef, co
 	// Add book titles
 	if len(section.Blocks[last_block].Verses) == 0 &&
 		!continuation &&
-		ref.IsBookStart(section.Range.Version) {
+		d.scripture_service.IsRefBookStart(ref, section.Range.Version) {
 		new_verse.Details = append(new_verse.Details, ScriptureVerseDetail{
 			Type: Title,
-			Data: ref.ToString(section.Range.Version, scripture.StringVersionBook),
+			Data: d.scripture_service.RefToString(ref, section.Range.Version, scripture.StringVersionBook),
 		})
 	}
 

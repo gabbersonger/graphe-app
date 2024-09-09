@@ -9,6 +9,42 @@ import (
 	"golang.org/x/text/language"
 )
 
+func getDefaultValues() SettingsValues {
+	return SettingsValues{
+		Appearence: SettingsValues_Appearence{
+			Theme: "hanok",
+			Font: SettingsValues_Appearence_Font{
+				System:  "System",
+				Greek:   "SBL Greek",
+				Hebrew:  "SBL Hebrew",
+				English: "Neuton",
+			},
+			Zoom: 100,
+		},
+		Shortcuts: SettingsValues_Shortcuts{
+			AboutGraphe:       "",
+			CheckForUpdates:   "",
+			OpenSettings:      "cmdorctrl+,",
+			OpenWorkspace:     "cmdorctrl+shift+,",
+			OpenDataDirectory: "",
+			OpenLogDirectory:  "",
+			PurgeLogs:         "",
+
+			PassageMode:   "cmdorctrl+P",
+			SearchMode:    "cmdorctrl+F",
+			OpenAnalytics: "cmdorctrl+\\",
+			OpenFunctions: "cmdorctrl+]",
+			ChooseVersion: "cmdorctrl+D",
+			ChooseText:    "cmdorctrl+T",
+
+			ZoomIn:      "cmdorctrl+plus",
+			ZoomOut:     "cmdorctrl+-",
+			ZoomReset:   "cmdorctrl+0",
+			ChangeTheme: "",
+		},
+	}
+}
+
 func (s *SettingsDB) GetSettings() SettingsValues {
 	v := getDefaultValues()
 
@@ -73,6 +109,10 @@ func (s *SettingsDB) ResetSetting(key []string) interface{} {
 	}
 	resetValue(s, item, key)
 	return nil
+}
+
+func capitalise(s string) string {
+	return cases.Title(language.English, cases.Compact).String(string(s[0])) + s[1:]
 }
 
 func resetValue(s *SettingsDB, item reflect.Value, key []string) {
@@ -142,48 +182,8 @@ func (s *SettingsDB) UpdateSetting(key []string, val interface{}) bool {
 		s.assert(false, fmt.Sprintf("Invalid value format (key: %v, val: %v)", key, val))
 	}
 
-	s.log(fmt.Sprintf("Updated setting (key: %v, val: %v)", key, val))
+	s.logger.Info(fmt.Sprintf("Updated setting (key: %v, val: %v)", key, val))
 	return true
-}
-
-func capitalise(s string) string {
-	return cases.Title(language.English, cases.Compact).String(string(s[0])) + s[1:]
-}
-
-func getDefaultValues() SettingsValues {
-	return SettingsValues{
-		Appearence: SettingsValues_Appearence{
-			Theme: "hanok",
-			Font: SettingsValues_Appearence_Font{
-				System:  "System",
-				Greek:   "SBL Greek",
-				Hebrew:  "SBL Hebrew",
-				English: "Neuton",
-			},
-			Zoom: 100,
-		},
-		Shortcuts: SettingsValues_Shortcuts{
-			AboutGraphe:       "",
-			CheckForUpdates:   "",
-			OpenSettings:      "cmdorctrl+,",
-			OpenWorkspace:     "cmdorctrl+shift+,",
-			OpenDataDirectory: "",
-			OpenLogDirectory:  "",
-			PurgeLogs:         "",
-
-			PassageMode:   "cmdorctrl+P",
-			SearchMode:    "cmdorctrl+F",
-			OpenAnalytics: "cmdorctrl+\\",
-			OpenFunctions: "cmdorctrl+]",
-			ChooseVersion: "cmdorctrl+D",
-			ChooseText:    "cmdorctrl+T",
-
-			ZoomIn:      "cmdorctrl+plus",
-			ZoomOut:     "cmdorctrl+-",
-			ZoomReset:   "cmdorctrl+0",
-			ChangeTheme: "",
-		},
-	}
 }
 
 func execUpdate(s *SettingsDB, query string) {

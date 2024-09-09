@@ -1,60 +1,50 @@
 package settings
 
 import (
-	"context"
 	"fmt"
+	"log/slog"
+	"os"
+	"path/filepath"
 
 	"github.com/bvinc/go-sqlite-lite/sqlite3"
-	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 type SettingsDB struct {
-	ctx context.Context
-	db  *sqlite3.Conn
+	logger *slog.Logger
+	db     *sqlite3.Conn
 }
 
 func (s *SettingsDB) assert(cond bool, msg string) {
 	if !cond {
-		if s.ctx != nil {
-			runtime.LogFatal(s.ctx, fmt.Sprintf("[SettingsDB] %s", msg))
+		if s.logger != nil {
+			s.logger.Error(fmt.Sprintf("[SettingsDB] %s", msg))
 		} else {
 			panic(msg)
 		}
 	}
 }
 
-func (d *SettingsDB) log(msg string) {
-	runtime.LogInfo(d.ctx, fmt.Sprintf("[SettingsDB] %s", msg))
+func (s *SettingsDB) OnShutdown() error {
+	err := s.db.Close()
+	s.assert(err == nil, "Error closing connection")
+	s.logger.Info("Closed connection sucessfully")
+	return nil
 }
 
-func CreateDB(ctx context.Context, dbFile string) *SettingsDB {
-	var err error
-	s := &SettingsDB{}
+func NewSettingsDB(logger *slog.Logger) *SettingsDB {
+	s := &SettingsDB{
+		logger: logger,
+	}
 
-	s.ctx = ctx
-	s.assert(s.ctx != nil, "Invalid context")
+	home_directory, err := os.UserHomeDir()
+	s.assert(err == nil, "Error getting user home directory")
+	data_directory := filepath.Join(home_directory, "/Library/Application Support/Graphe")
+	file_name := filepath.Join(data_directory, "/settings.db")
+	s.db, err = sqlite3.Open("file:" + file_name)
+	s.assert(err == nil, fmt.Sprintf("Error connecting to db (file_name: `%s`)", file_name))
+	s.logger.Info(fmt.Sprintf("Connection created successfully (file_name: `%s`)", file_name))
 
-	s.assert(len(dbFile) > 0, "Invalid dbFile (0 length)")
-	s.db, err = sqlite3.Open("file:" + dbFile)
-	s.assert(err == nil, fmt.Sprintf("Error connecting to settings db (file name: `%s`)", dbFile))
-	s.log(fmt.Sprintf("Connection created successfully (file: `%s`)", dbFile))
-
-	s.assert(s.validateDB(), "Error validating settings db")
-	s.log("Validated settings in database")
+	s.assert(s.validateDB(), "Error validating db")
+	s.logger.Info("Validated settings in database")
 	return s
-}
-
-func (s *SettingsDB) Ping() bool {
-	stmt, err := s.db.Prepare(`SELECT 1 FROM sqlite_master WHERE type = 'table' LIMIT 1;`)
-	s.assert(err == nil, "Error preparing ping query ")
-	has_row, err := stmt.Step()
-	s.assert(err == nil, "Error getting ping query value from database")
-	stmt.Close()
-	s.log("Connection pinged successfully")
-	return has_row
-}
-
-func (s *SettingsDB) Shutdown() {
-	s.db.Close()
-	s.log("Closed connection sucessfully")
 }
