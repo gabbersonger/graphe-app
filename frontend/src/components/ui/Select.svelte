@@ -10,7 +10,7 @@
         undefined;
 
     export let placeholder: string;
-    export let label: string = undefined;
+    export let label: string;
     export let disabled: T[] = [];
 </script>
 
@@ -26,29 +26,31 @@
                     {label}
                 </SelectPrimitive.Label>
             {/if}
-            {#each items as item}
-                <SelectPrimitive.Item
-                    class="select-item"
-                    value={item.value}
-                    label={item.label}
-                    disabled={disabled.includes(item.value)}
-                >
-                    <slot {item}>
-                        {item.label}
-                    </slot>
-                    <SelectPrimitive.ItemIndicator class="select-indicator">
-                        <Check />
-                    </SelectPrimitive.ItemIndicator>
-                </SelectPrimitive.Item>
-            {/each}
+            {#if items}
+                {#each items as item}
+                    <SelectPrimitive.Item
+                        class="select-item"
+                        value={item.value}
+                        label={item.label}
+                        disabled={disabled.includes(item.value)}
+                    >
+                        <slot {item}>
+                            {item.label}
+                        </slot>
+                        <SelectPrimitive.ItemIndicator class="select-indicator">
+                            <Check />
+                        </SelectPrimitive.ItemIndicator>
+                    </SelectPrimitive.Item>
+                {/each}
+            {/if}
         </SelectPrimitive.Group>
     </SelectPrimitive.Content>
     <SelectPrimitive.Input />
 </SelectPrimitive.Root>
 
-<style global>
-    .select-trigger,
-    .select-content {
+<style>
+    :global(.select-trigger),
+    :global(.select-content) {
         border: 1px solid var(--clr-background-sub);
         border-radius: 0.2rem;
         background: var(--clr-background);
@@ -56,7 +58,7 @@
         color: var(--clr-text);
     }
 
-    .select-trigger {
+    :global(.select-trigger) {
         min-width: 8rem;
         min-width: 15ch;
         padding: 0.5rem;
@@ -70,16 +72,16 @@
         font-family: var(--font-system);
     }
 
-    .select-trigger [data-placeholder] {
+    :global(.select-trigger [data-placeholder]) {
         color: var(--clr-text-sub);
     }
 
-    .select-trigger:focus {
+    :global(.select-trigger:focus) {
         outline: 3px solid var(--clr-background-dark);
         outline-offset: 2px;
     }
 
-    .select-content {
+    :global(.select-content) {
         display: flex;
         flex-direction: column;
         gap: 0.2rem;
@@ -89,15 +91,15 @@
         overflow: scroll;
     }
 
-    .select-group {
+    :global(.select-group) {
         display: flex;
         flex-direction: column;
         gap: 0.2rem;
         padding: 0.2rem;
     }
 
-    .select-label,
-    .select-item {
+    :global(.select-label),
+    :global(.select-item) {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -107,31 +109,31 @@
         font-family: var(--font-system);
     }
 
-    .select-label {
+    :global(.select-label) {
         font-weight: 500;
         color: var(--clr-text-highlight);
     }
 
-    .select-item:not([data-disabled]) {
+    :global(.select-item:not([data-disabled])) {
         cursor: pointer;
     }
 
-    .select-item[data-highlighted] {
+    :global(.select-item[data-highlighted]) {
         background: var(--clr-background-sub);
     }
 
-    .select-item[data-disabled] {
+    :global(.select-item[data-disabled]) {
         color: var(--clr-text-muted);
         pointer-events: none;
     }
 
-    .select-indicator {
+    :global(.select-indicator) {
         height: 1em;
         width: 1em;
     }
 
-    .select-indicator > svg,
-    .select-trigger > svg {
+    :global(.select-indicator > svg),
+    :global(.select-trigger > svg) {
         height: 1em;
         color: inherit;
     }

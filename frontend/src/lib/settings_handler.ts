@@ -1,24 +1,40 @@
 import { graphe_settings } from "@/lib/stores";
-import { GetSettings, UpdateSetting, ResetSetting } from "!wails/go/app/App";
+import { SettingsDB } from "!/graphe/internal/settings";
 import { GrapheLog } from "@/lib/utils";
 import { get } from "svelte/store";
 
 export async function getSavedSettings() {
-  const settings = await GetSettings();
+  const settings = await SettingsDB.GetSettings();
   graphe_settings.set(settings);
   return true;
 }
 
 function updateSettingStore(setting: string[], value: any) {
   graphe_settings.update((s) => {
+    if (s == undefined) {
+      GrapheLog(
+        "error",
+        `Setting store is null, while trying to update \`${setting.join("/")}\` to \`${value}\``,
+      );
+      return;
+    }
+
     try {
-      let item = s;
-      for (let i = 0; i < setting.length - 1; i++) item = item[setting[i]];
+      let item: any = s;
+      for (let i = 0; i < setting.length - 1; i++) {
+        if (!(setting[i] in item)) {
+          GrapheLog(
+            "error",
+            `Error accessing parameter \`${setting[i]}\` in settings store, while trying to update \`${setting.join("/")}\` to \`${value}\``,
+          );
+        }
+        item = item[setting[i]];
+      }
       item[setting[setting.length - 1]] = value;
     } catch (e) {
       GrapheLog(
         "error",
-        `Error updating setting store for ${setting.join("/")} to ${value}`,
+        `Error updating setting store for \`${setting.join("/")}\` to \`${value}\` (error: ${e})`,
       );
     }
     return s;
@@ -32,7 +48,14 @@ function parseSettingValue(setting: string[], value: any): any {
     setting[0] == "appearence" &&
     setting[1] == "zoom"
   ) {
-    const current_zoom = get(graphe_settings).appearence.zoom;
+    const current_graphe_settings = get(graphe_settings);
+    if (current_graphe_settings == undefined) {
+      return GrapheLog(
+        "error",
+        "Trying to parse setting value when settings is null",
+      );
+    }
+    const current_zoom = current_graphe_settings.appearence.zoom;
     if (value == "in") {
       return Math.min(current_zoom + 10, 200);
     } else if (value == "out") {
@@ -42,20 +65,24 @@ function parseSettingValue(setting: string[], value: any): any {
   return value;
 }
 
-export async function updateSetting(setting: string[], value: any) {
-  const parsed_value = parseSettingValue(setting, value);
-  const setting_updated = await UpdateSetting(setting, parsed_value);
+export async function updateSetting(data: { setting: string[]; value: any }) {
+  const parsed_value = parseSettingValue(data.setting, data.value);
+  const setting_updated = await SettingsDB.UpdateSetting(
+    data.setting,
+    parsed_value,
+  );
+
   if (setting_updated) {
     GrapheLog(
       "info",
-      `Setting updated: ${setting.join("/")} -> ${parsed_value}`,
+      `Setting updated: ${data.setting.join("/")} -> ${parsed_value}`,
     );
-    updateSettingStore(setting, parsed_value);
+    updateSettingStore(data.setting, parsed_value);
   }
 }
 
 export async function resetSetting(setting: string[]) {
-  const setting_updated = await ResetSetting(setting);
+  const setting_updated = await SettingsDB.ResetSetting(setting);
   GrapheLog(
     "info",
     `Setting reset: ${setting.join("/")} -> default value: ${setting_updated}`,

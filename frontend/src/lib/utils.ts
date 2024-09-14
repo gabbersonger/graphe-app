@@ -1,17 +1,17 @@
-import { LogError, LogInfo } from "!wails/runtime/runtime";
+import { Logger } from "!/log/slog";
 
 export const assertUnreachable = (_: never): never => {
   throw new Error("Cannot reach here");
 };
 
 export function GrapheLog(severity: "info" | "error", message: string) {
-  const prefix = "[Javascript] ";
+  const prefix = "Javascript: ";
   switch (severity) {
     case "info":
-      LogInfo(prefix + message);
+      Logger.Info(prefix + message);
       return;
     case "error":
-      LogError(prefix + message);
+      Logger.Error(prefix + message);
       throw Error(message);
   }
 }

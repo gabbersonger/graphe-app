@@ -4,13 +4,13 @@
     import Sidebar from "@/components/Workspace/Sidebar/Sidebar.svelte";
     import Modals from "@/components/Workspace/Modals/Modals.svelte";
 
-    import { WindowIsFullscreen } from "!wails/runtime/runtime";
+    import { Window } from "@wailsio/runtime";
     import { workspace_modal, workspace_sidebar } from "@/lib/stores";
     import { windowWorkspaceManager } from "@/lib/managers/window_workspace";
 
     let isFullscreen = false;
     async function checkIfFullscreen(_: number) {
-        let temp = await WindowIsFullscreen();
+        let temp = await Window.IsFullscreen();
         isFullscreen = temp;
     }
     let innerWidth: number;

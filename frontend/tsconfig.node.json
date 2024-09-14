@@ -8,7 +8,7 @@
   "baseUrl": ".",
   "paths": {
     "@/*": ["src/*"],
-    "!wails/*": ["bindings/graphe/*"]
+    "!/*": ["bindings/*"]
   },
   "include": ["vite.config.ts"]
 }

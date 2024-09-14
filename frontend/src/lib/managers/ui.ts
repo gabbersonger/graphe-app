@@ -5,9 +5,11 @@ import { createFontStyles } from "@/static/fonts";
 export function uiManager(elem: HTMLElement) {
   const unsubscribe = graphe_settings.subscribe((value) => {
     if (value == null) return;
+    if (elem == null || elem.parentElement == null) return;
 
     // Set theme
-    const theme_styles = createThemeStyles(value.appearence.theme as ThemeName);
+    const theme_name = value.appearence.theme as ThemeName;
+    const theme_styles = createThemeStyles(theme_name);
     for (let i = 0; i < theme_styles.length; i++) {
       elem.parentElement.style.setProperty(
         theme_styles[i].variable,

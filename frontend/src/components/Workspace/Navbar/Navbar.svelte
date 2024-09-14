@@ -14,8 +14,9 @@
         workspace_currentRef,
     } from "@/lib/stores";
     import { refToString } from "@/lib/Scripture/ref";
-    import { EventsEmit } from "!wails/runtime/runtime";
+    import { Events } from "@wailsio/runtime";
     import { graphe_settings, workspace_sidebar } from "@/lib/stores";
+    import type { SettingsValues } from "!/graphe/internal/settings";
 
     export let navFloating = true;
     let width: number;
@@ -63,8 +64,14 @@
         },
     ] as const;
 
-    function getBreakpoint(zoom: number, type: "text" | "nav"): number {
-        let curr: number;
+    function getBreakpoint(
+        settings: SettingsValues | undefined,
+        type: "text" | "nav",
+    ): number {
+        if (settings == undefined) return 0;
+
+        const zoom = settings.appearence.zoom;
+        let curr = 0;
         for (let i = 0; i < BREAKPOINTS.length; i++) {
             if (zoom >= BREAKPOINTS[i].value) {
                 curr = BREAKPOINTS[i][type];
@@ -73,8 +80,8 @@
         return curr;
     }
 
-    $: navBreakpoint = getBreakpoint($graphe_settings.appearence.zoom, "nav");
-    $: textBreakpoint = getBreakpoint($graphe_settings.appearence.zoom, "text");
+    $: navBreakpoint = getBreakpoint($graphe_settings, "nav");
+    $: textBreakpoint = getBreakpoint($graphe_settings, "text");
     $: navFloating = width > navBreakpoint;
 </script>
 
@@ -84,18 +91,26 @@
             <NavbarItem
                 icon={TextSelect}
                 text={width > textBreakpoint ? "passage" : ""}
-                on:click={() => EventsEmit("window:workspace:mode", "passage")}
+                on:click={() =>
+                    Events.Emit({
+                        name: "window:workspace:mode",
+                        data: "passage",
+                    })}
                 tooltip="Passage Mode"
-                command={$graphe_settings.shortcuts.passageMode}
+                command={$graphe_settings?.shortcuts.passageMode}
                 selected={$workspace_mode == "passage"}
             />
 
             <NavbarItem
                 icon={Search}
                 text={width > textBreakpoint ? "search" : ""}
-                on:click={() => EventsEmit("window:workspace:mode", "search")}
+                on:click={() =>
+                    Events.Emit({
+                        name: "window:workspace:mode",
+                        data: "search",
+                    })}
                 tooltip="Search Mode"
-                command={$graphe_settings.shortcuts.searchMode}
+                command={$graphe_settings?.shortcuts.searchMode}
                 selected={$workspace_mode == "search"}
             />
 
@@ -104,9 +119,13 @@
             <NavbarItem
                 icon={LibraryBig}
                 text={$workspace_version}
-                on:click={() => EventsEmit("window:workspace:modal", "version")}
+                on:click={() =>
+                    Events.Emit({
+                        name: "window:workspace:modal",
+                        data: "version",
+                    })}
                 tooltip="Choose Version"
-                command={$graphe_settings.shortcuts.chooseVersion}
+                command={$graphe_settings?.shortcuts.chooseVersion}
             />
 
             <NavbarItem
@@ -118,9 +137,13 @@
                           "chapter",
                       )
                     : ""}
-                on:click={() => EventsEmit("window:workspace:modal", "text")}
+                on:click={() =>
+                    Events.Emit({
+                        name: "window:workspace:modal",
+                        data: "text",
+                    })}
                 tooltip="Choose Text"
-                command={$graphe_settings.shortcuts.chooseText}
+                command={$graphe_settings?.shortcuts.chooseText}
                 disabled={$workspace_mode == "search"}
             />
 
@@ -129,16 +152,23 @@
             <NavbarItem
                 icon={Sigma}
                 on:click={() =>
-                    EventsEmit("window:workspace:modal", "functions")}
+                    Events.Emit({
+                        name: "window:workspace:modal",
+                        data: "functions",
+                    })}
                 tooltip="Functions"
-                command={$graphe_settings.shortcuts.openFunctions}
+                command={$graphe_settings?.shortcuts.openFunctions}
             />
 
             <NavbarItem
                 icon={NotepadText}
-                on:click={() => EventsEmit("window:workspace:sidebar")}
+                on:click={() =>
+                    Events.Emit({
+                        name: "window:workspace:sidebar",
+                        data: null,
+                    })}
                 tooltip="Analytics"
-                command={$graphe_settings.shortcuts.openAnalytics}
+                command={$graphe_settings?.shortcuts.openAnalytics}
                 selected={$workspace_sidebar}
             />
         </div>

@@ -79,14 +79,20 @@ export class SettingsValues {
 }
 
 export class SettingsValues_Appearence {
-    "theme"?: string;
+    "theme": string;
     "font": SettingsValues_Appearence_Font;
-    "zoom"?: number;
+    "zoom": number;
 
     /** Creates a new SettingsValues_Appearence instance. */
     constructor($$source: Partial<SettingsValues_Appearence> = {}) {
+        if (!("theme" in $$source)) {
+            this["theme"] = "";
+        }
         if (!("font" in $$source)) {
             this["font"] = (new SettingsValues_Appearence_Font());
+        }
+        if (!("zoom" in $$source)) {
+            this["zoom"] = 0;
         }
 
         Object.assign(this, $$source);
@@ -106,13 +112,25 @@ export class SettingsValues_Appearence {
 }
 
 export class SettingsValues_Appearence_Font {
-    "system"?: string;
-    "greek"?: string;
-    "hebrew"?: string;
-    "english"?: string;
+    "system": string;
+    "greek": string;
+    "hebrew": string;
+    "english": string;
 
     /** Creates a new SettingsValues_Appearence_Font instance. */
     constructor($$source: Partial<SettingsValues_Appearence_Font> = {}) {
+        if (!("system" in $$source)) {
+            this["system"] = "";
+        }
+        if (!("greek" in $$source)) {
+            this["greek"] = "";
+        }
+        if (!("hebrew" in $$source)) {
+            this["hebrew"] = "";
+        }
+        if (!("english" in $$source)) {
+            this["english"] = "";
+        }
 
         Object.assign(this, $$source);
     }
@@ -195,26 +213,77 @@ export class SettingsValues_Search {
 }
 
 export class SettingsValues_Shortcuts {
-    "aboutGraphe"?: string;
-    "checkForUpdates"?: string;
-    "openSettings"?: string;
-    "openWorkspace"?: string;
-    "openDataDirectory"?: string;
-    "openLogDirectory"?: string;
-    "purgeLogs"?: string;
-    "passageMode"?: string;
-    "searchMode"?: string;
-    "openAnalytics"?: string;
-    "openFunctions"?: string;
-    "chooseVersion"?: string;
-    "chooseText"?: string;
-    "zoomIn"?: string;
-    "zoomOut"?: string;
-    "zoomReset"?: string;
-    "changeTheme"?: string;
+    "aboutGraphe": string;
+    "checkForUpdates": string;
+    "openSettings": string;
+    "openWorkspace": string;
+    "openDataDirectory": string;
+    "openLogDirectory": string;
+    "purgeLogs": string;
+    "passageMode": string;
+    "searchMode": string;
+    "openAnalytics": string;
+    "openFunctions": string;
+    "chooseVersion": string;
+    "chooseText": string;
+    "zoomIn": string;
+    "zoomOut": string;
+    "zoomReset": string;
+    "changeTheme": string;
 
     /** Creates a new SettingsValues_Shortcuts instance. */
     constructor($$source: Partial<SettingsValues_Shortcuts> = {}) {
+        if (!("aboutGraphe" in $$source)) {
+            this["aboutGraphe"] = "";
+        }
+        if (!("checkForUpdates" in $$source)) {
+            this["checkForUpdates"] = "";
+        }
+        if (!("openSettings" in $$source)) {
+            this["openSettings"] = "";
+        }
+        if (!("openWorkspace" in $$source)) {
+            this["openWorkspace"] = "";
+        }
+        if (!("openDataDirectory" in $$source)) {
+            this["openDataDirectory"] = "";
+        }
+        if (!("openLogDirectory" in $$source)) {
+            this["openLogDirectory"] = "";
+        }
+        if (!("purgeLogs" in $$source)) {
+            this["purgeLogs"] = "";
+        }
+        if (!("passageMode" in $$source)) {
+            this["passageMode"] = "";
+        }
+        if (!("searchMode" in $$source)) {
+            this["searchMode"] = "";
+        }
+        if (!("openAnalytics" in $$source)) {
+            this["openAnalytics"] = "";
+        }
+        if (!("openFunctions" in $$source)) {
+            this["openFunctions"] = "";
+        }
+        if (!("chooseVersion" in $$source)) {
+            this["chooseVersion"] = "";
+        }
+        if (!("chooseText" in $$source)) {
+            this["chooseText"] = "";
+        }
+        if (!("zoomIn" in $$source)) {
+            this["zoomIn"] = "";
+        }
+        if (!("zoomOut" in $$source)) {
+            this["zoomOut"] = "";
+        }
+        if (!("zoomReset" in $$source)) {
+            this["zoomReset"] = "";
+        }
+        if (!("changeTheme" in $$source)) {
+            this["changeTheme"] = "";
+        }
 
         Object.assign(this, $$source);
     }

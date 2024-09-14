@@ -4,7 +4,7 @@
     import { BookOpenText, StickyNote } from "lucide-svelte";
     import { createRef, isValidRef } from "@/lib/Scripture/ref";
     import { workspace_version } from "@/lib/stores";
-    import { EventsEmit } from "!wails/runtime/runtime";
+    import { Events } from "@wailsio/runtime";
     import { bibleData, versionData } from "@/lib/Scripture/data";
     import { getVersionBookIndex } from "@/lib/Scripture/version";
     import type { BibleVersion } from "@/lib/Scripture/types";
@@ -182,6 +182,7 @@
         if (mode == "book") return createBookResults(query);
         else if (mode == "chapter") return createChapterResults(query);
         else if (mode == "verse") return createVerseResults(query);
+        return [];
     }
 
     function goto(
@@ -190,8 +191,8 @@
         verse: number | "start" = "start",
     ) {
         const ref = createRef($workspace_version, book, chapter, verse);
-        EventsEmit("window:workspace:goto", ref);
-        EventsEmit("window:workspace:modal:close");
+        Events.Emit({ name: "window:workspace:goto", data: ref });
+        Events.Emit({ name: "window:workspace:modal:close", data: null });
     }
 
     function chooseResult(index: number) {

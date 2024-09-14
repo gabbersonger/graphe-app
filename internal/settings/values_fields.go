@@ -13,38 +13,38 @@ type SettingsValues struct {
 type SettingsValues_General struct{}
 
 type SettingsValues_Appearence struct {
-	Theme string                         `json:"theme,omitempty"`
+	Theme string                         `json:"theme"`
 	Font  SettingsValues_Appearence_Font `json:"font"`
-	Zoom  int                            `json:"zoom,omitempty"`
+	Zoom  int                            `json:"zoom"`
 }
 
 type SettingsValues_Appearence_Font struct {
-	System  string `json:"system,omitempty"`
-	Greek   string `json:"greek,omitempty"`
-	Hebrew  string `json:"hebrew,omitempty"`
-	English string `json:"english,omitempty"`
+	System  string `json:"system"`
+	Greek   string `json:"greek"`
+	Hebrew  string `json:"hebrew"`
+	English string `json:"english"`
 }
 
 type SettingsValues_Shortcuts struct {
-	AboutGraphe       string `json:"aboutGraphe,omitempty"`
-	CheckForUpdates   string `json:"checkForUpdates,omitempty"`
-	OpenSettings      string `json:"openSettings,omitempty"`
-	OpenWorkspace     string `json:"openWorkspace,omitempty"`
-	OpenDataDirectory string `json:"openDataDirectory,omitempty"`
-	OpenLogDirectory  string `json:"openLogDirectory,omitempty"`
-	PurgeLogs         string `json:"purgeLogs,omitempty"`
+	AboutGraphe       string `json:"aboutGraphe"`
+	CheckForUpdates   string `json:"checkForUpdates"`
+	OpenSettings      string `json:"openSettings"`
+	OpenWorkspace     string `json:"openWorkspace"`
+	OpenDataDirectory string `json:"openDataDirectory"`
+	OpenLogDirectory  string `json:"openLogDirectory"`
+	PurgeLogs         string `json:"purgeLogs"`
 
-	PassageMode   string `json:"passageMode,omitempty"`
-	SearchMode    string `json:"searchMode,omitempty"`
-	OpenAnalytics string `json:"openAnalytics,omitempty"`
-	OpenFunctions string `json:"openFunctions,omitempty"`
-	ChooseVersion string `json:"chooseVersion,omitempty"`
-	ChooseText    string `json:"chooseText,omitempty"`
+	PassageMode   string `json:"passageMode"`
+	SearchMode    string `json:"searchMode"`
+	OpenAnalytics string `json:"openAnalytics"`
+	OpenFunctions string `json:"openFunctions"`
+	ChooseVersion string `json:"chooseVersion"`
+	ChooseText    string `json:"chooseText"`
 
-	ZoomIn      string `json:"zoomIn,omitempty"`
-	ZoomOut     string `json:"zoomOut,omitempty"`
-	ZoomReset   string `json:"zoomReset,omitempty"`
-	ChangeTheme string `json:"changeTheme,omitempty"`
+	ZoomIn      string `json:"zoomIn"`
+	ZoomOut     string `json:"zoomOut"`
+	ZoomReset   string `json:"zoomReset"`
+	ChangeTheme string `json:"changeTheme"`
 }
 
 type SettingsValues_Version struct{}

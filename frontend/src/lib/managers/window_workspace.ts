@@ -1,4 +1,4 @@
-import { EventsEmit } from "!wails/runtime/runtime";
+import { Events } from "@wailsio/runtime";
 import { get } from "svelte/store";
 import { EventHandler } from "@/lib/event_handler";
 import {
@@ -13,13 +13,16 @@ import {
 } from "@/lib/stores";
 import { type ModalName } from "@/components/Workspace/Modals/data";
 import type { BibleRef, BibleVersion } from "@/lib/Scripture/types";
-import { GetScriptureSection, GetScriptureWord } from "!wails/go/app/App";
+import { DataDB } from "!/graphe/internal/data";
 import { createVersionRange } from "../Scripture/version";
+import { GrapheLog } from "../utils";
 
 function handleMode(mode: WorkspaceMode) {
   workspace_mode.set(mode);
-  if (mode == "search") EventsEmit("window:workspace:modal", "search");
-  else if (get(workspace_modal) != "") EventsEmit("window:workspace:modal", "");
+  if (mode == "search")
+    Events.Emit({ name: "window:workspace:modal", data: "search" });
+  else if (get(workspace_modal) != "")
+    Events.Emit({ name: "window:workspace:modal", data: "" });
 }
 
 function handleModal(modal: ModalName) {
@@ -39,7 +42,7 @@ function handleSidebar(mode: boolean | "toggle") {
 
 async function updateBaseData() {
   const range = createVersionRange(get(workspace_version));
-  const data = await GetScriptureSection(range);
+  const data = await DataDB.GetScriptureSection(range);
   workspace_data.set(data);
 }
 
@@ -53,11 +56,15 @@ function handleVersion(version: BibleVersion) {
 }
 
 function handleGoTo(ref: BibleRef) {
-  EventsEmit("window:workspace:visualiser:goto", ref);
+  Events.Emit({ name: "window:workspace:visualiser:goto", data: ref });
 }
 
 async function instantDetails(ref: BibleRef, word_number: number) {
-  let data = await GetScriptureWord(get(workspace_version), ref, word_number);
+  let data = await DataDB.GetScriptureWord(
+    get(workspace_version),
+    ref,
+    word_number,
+  );
   workspace_instantDetailsData.set(data);
 }
 
@@ -87,7 +94,7 @@ export function windowWorkspaceManager(_: HTMLElement) {
     handleInstantDetailsHide,
   );
 
-  EventsEmit("window:workspace:version", "esv");
+  Events.Emit({ name: "window:workspace:version", data: "esv" });
 
   return {
     destroy() {

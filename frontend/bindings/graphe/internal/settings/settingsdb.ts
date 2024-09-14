@@ -18,6 +18,11 @@ export function GetSettings(): Promise<$models.SettingsValues> & { cancel(): voi
     return $typingPromise;
 }
 
+export function Name(): Promise<string> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(1894351416) as any;
+    return $resultPromise;
+}
+
 export function OnShutdown(): Promise<void> & { cancel(): void } {
     let $resultPromise = $Call.ByID(921268848) as any;
     return $resultPromise;

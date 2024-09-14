@@ -1,4 +1,4 @@
-import { EventsOn, EventsOff } from "!wails/runtime/runtime";
+import { Events } from "@wailsio/runtime";
 import { GrapheLog } from "@/lib/utils";
 
 export class EventHandler {
@@ -10,9 +10,9 @@ export class EventHandler {
 
   subscribe(event: string, handler: (...data: any) => void) {
     if (!this.events.has(event)) {
-      EventsOn(event, (...data) => {
-        GrapheLog("info", `Event Handled: ${event}`);
-        handler(...data);
+      Events.On(event, function (event_data: any) {
+        GrapheLog("info", `Event handled by frontend (event: \`${event}\`)`);
+        handler(event_data.data);
       });
       this.events.add(event);
     }
@@ -20,7 +20,7 @@ export class EventHandler {
 
   shutdown() {
     for (const event of this.events.values()) {
-      EventsOff(event);
+      Events.Off(event);
     }
   }
 }

@@ -31,6 +31,8 @@ Currently requires a large database file that is currently not packaged with the
 
 - [x] Refactor Go code to include asserts
 - [ ] Wails v.3
+  - [x] Basic update
+  - [ ] Reinstate menu & shortcuts
 - [ ] Remove JS Scripture functions
 - [ ] Replace Virtualiser with just loading 10 chapters either side
 - [ ] Right click functionality
@@ -54,6 +56,7 @@ Currently requires a large database file that is currently not packaged with the
     - [ ] UI - drag and drop available fields
     - [ ] Functionality
     - [ ] Reset
+  - [ ] Shortcuts reset (see bugs below)
 
 <br/>
 
@@ -125,3 +128,4 @@ Currently requires a large database file that is currently not packaged with the
 - ESV psalm 119:1
 - Creating shortcut with ' key (as this screws with mysql string)
 - LXX go to Susanna 1 fails (Susanna 1:1 does not exist) -> use go function CreateFirstValidRef()
+- Resetting shortcuts clears the display, even though it is doing correct update in db

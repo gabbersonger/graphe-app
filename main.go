@@ -24,6 +24,7 @@ func main() {
 		Name:        "Graphe",
 		Description: "Original language Bible study",
 		Services: []application.Service{
+			application.NewService(logger),
 			application.NewService(scripture_service),
 			application.NewService(settings_db),
 			application.NewService(data_db),

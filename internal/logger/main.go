@@ -3,6 +3,7 @@ package logger
 import (
 	"bytes"
 	"context"
+	"errors"
 	"fmt"
 	"log"
 	"log/slog"
@@ -10,6 +11,7 @@ import (
 	"path"
 	"path/filepath"
 	"strconv"
+	"strings"
 	"sync"
 
 	xerrors "github.com/mdobak/go-xerrors"
@@ -78,18 +80,93 @@ func (h *Handler) Print(message string) {
 	f.Close()
 }
 
+// func (h *Handler) prettyPrint_assetRequest(r slog.Record) (error, string) {
+// 	message := r.Message + " "
+// 	r.Attrs(func(a slog.Attr) bool {
+// 		switch a.Key {
+// 		case "code":
+// 			message += fmt.Sprintf("[%s] ", a.Value)
+// 		case "method":
+// 			message += fmt.Sprintf("%s ", a.Value)
+// 		case "path":
+// 			message += fmt.Sprintf("%s ", a.Value)
+// 		case "duration":
+// 			message += fmt.Sprintf("(duration: %s)", a.Value)
+// 		}
+// 		return true
+// 	})
+// 	return nil, message
+// }
+
+func (h *Handler) prettyPrint_callBinding(r slog.Record) (error, string) {
+	message := r.Message + " "
+	error := false
+	r.Attrs(func(a slog.Attr) bool {
+		switch a.Key {
+		case "method":
+			if strings.HasPrefix(a.Value.String(), "log/slog.Logger") {
+				error = true
+			}
+			message += fmt.Sprintf("method: %s ", a.Value)
+		case "args":
+			message += fmt.Sprintf("args: %s ", a.Value)
+		}
+		return true
+	})
+	if error {
+		return errors.New("Don't print"), ""
+	}
+	return nil, message
+}
+
+func (h *Handler) prettyPrint_info(r slog.Record) (error, string) {
+	message := r.Message
+	r.Attrs(func(a slog.Attr) bool {
+		message += fmt.Sprintf("\n\t[%s] %s", a.Key, a.Value)
+		return true
+	})
+	return nil, message
+}
+
+func (h *Handler) prettyPrint(r slog.Record) (error, string) {
+	switch r.Message {
+	case "Asset Request:":
+		return errors.New("Don't print"), ""
+		// return h.prettyPrint_assetRequest(r)
+	case "Call Binding:":
+		return h.prettyPrint_callBinding(r)
+	case "Runtime Call:":
+		return errors.New("Don't print"), ""
+	case "Adding method:":
+		return errors.New("Don't print"), ""
+	case "Build Info:":
+		return h.prettyPrint_info(r)
+	case "Platform Info:":
+		return h.prettyPrint_info(r)
+	case "AssetServer Info:":
+		return h.prettyPrint_info(r)
+	}
+	return nil, r.Message
+}
+
 func (h *Handler) Handle(ctx context.Context, r slog.Record) error {
+
+	err, message := h.prettyPrint(r)
+	if err != nil {
+		return nil
+	}
+
 	switch r.Level {
 	case slog.LevelDebug:
-		h.Print(fmt.Sprintf("%s | %s\n", colorize(darkGray, "DEBUG"), r.Message))
+		h.Print(fmt.Sprintf("DEBUG | %s\n", message))
 	case slog.LevelInfo:
-		h.Print(fmt.Sprintf("%s | %s\n", colorize(cyan, "INFO"), r.Message))
+		h.Print(fmt.Sprintf("INFO | %s\n", message))
 	case slog.LevelWarn:
-		h.Print(fmt.Sprintf("%s | %s\n", colorize(yellow, "WARN"), r.Message))
+		h.Print(fmt.Sprintf("WARN | %s\n", message))
 	case slog.LevelError:
-		h.StdError(r.Message)
+		h.StdError(colorize(red, message))
 		fmt.Println(xerrors.StackTrace(xerrors.New("")))
-		h.Print(fmt.Sprintf("%s | %s\n", colorize(red, "ERROR"), r.Message))
+		h.Print(fmt.Sprintf("ERROR | %s\n", message))
 		os.Exit(1)
 	default:
 		panic(fmt.Sprintf("Unknown log level: %v\n", r.Level))

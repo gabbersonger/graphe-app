@@ -94,6 +94,8 @@ func (s *SettingsDB) GetSettings() SettingsValues {
 			default:
 				s.assert(false, fmt.Sprintf("Invalid variable format (table: %s, column: %s)", t.name, c.name))
 			}
+
+			stmt.Close()
 		}
 	}
 
@@ -190,10 +192,11 @@ func execUpdate(s *SettingsDB, query string) {
 	err := s.db.Begin()
 	s.assert(err == nil, "Error beginning transaction")
 	err = s.db.Exec(query)
-	s.assert(err == nil, fmt.Sprintf("Error executing query (q: `%s`)", query))
-	if s.db.TotalChanges() != 1 {
+	s.assert(err == nil, fmt.Sprintf("Error executing query (query: `%s`)", strings.TrimSpace(query)))
+	num_updates := s.db.Changes()
+	if num_updates > 1 {
 		s.db.Rollback()
-		s.assert(false, fmt.Sprintf("More than one row was updated for query (q: `%s`)", query))
+		s.assert(false, fmt.Sprintf("More than one row was updated for query (query: `%s`, num_updates: %d)", strings.TrimSpace(query), num_updates))
 	}
 	s.db.Commit()
 }

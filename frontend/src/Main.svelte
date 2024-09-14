@@ -1,15 +1,55 @@
 <script lang="ts">
-    import { DataDB } from "!wails/internal/data";
+    import Workspace from "@/components/Workspace/index.svelte";
+    import Settings from "@/components/Settings/index.svelte";
+    import Loading from "@/components/Loading/index.svelte";
 
-    async function Init() {
-        const a = await DataDB.GetScriptureSection({
-            version: "esv",
-            start: 1_001_001,
-            end: 1_002_001,
-        });
-        return a;
-    }
-    console.log(Init());
+    import { graphe_mode } from "@/lib/stores";
+    import { grapheManager } from "@/lib/managers/graphe";
+    import { uiManager } from "@/lib/managers/ui";
 </script>
 
-hi
+<svelte:body use:uiManager />
+
+<div id="window" use:grapheManager>
+    {#if $graphe_mode != "loading"}
+        <div class="workspace">
+            <Workspace />
+        </div>
+
+        <div class="settings" class:shown={$graphe_mode == "settings"}>
+            <Settings />
+        </div>
+    {/if}
+
+    {#if $graphe_mode == "loading"}
+        <div class="loading">
+            <Loading />
+        </div>
+    {/if}
+</div>
+
+<style>
+    #window {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        isolation: isolate;
+        z-index: 0;
+    }
+
+    .workspace,
+    .settings,
+    .loading {
+        position: absolute;
+        inset: 0;
+        isolation: isolate;
+    }
+
+    .settings {
+        z-index: 1;
+    }
+
+    .settings:not(.shown) {
+        display: none;
+    }
+</style>

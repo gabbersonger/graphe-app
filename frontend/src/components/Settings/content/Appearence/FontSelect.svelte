@@ -1,0 +1,35 @@
+<script lang="ts">
+    import Select from "@/components/ui/Select.svelte";
+    import type { Select as SelectPrimitive } from "bits-ui";
+    import { Events, Create } from "@wailsio/runtime";
+
+    export let name: string;
+    export let values:
+        | {
+              selected: SelectPrimitive.Props<string>["selected"];
+              items: SelectPrimitive.Props<string>["items"];
+          }
+        | undefined;
+
+    function onFontChange(font: string | undefined) {
+        if (font != undefined) {
+            Events.Emit({
+                name: "graphe:setting",
+                data: {
+                    setting: ["appearence", "font", name],
+                    value: font,
+                },
+            });
+        }
+    }
+</script>
+
+{#if values != undefined}
+    <Select
+        bind:selected={values.selected}
+        onSelectedChange={(v) => onFontChange(v?.label)}
+        items={values.items}
+        placeholder="Choose a font"
+        label="Font Family"
+    />
+{/if}

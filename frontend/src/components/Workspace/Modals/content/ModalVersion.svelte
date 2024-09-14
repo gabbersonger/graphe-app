@@ -4,7 +4,7 @@
 
     import { versionData } from "@/lib/Scripture/data";
     import type { BibleVersion } from "@/lib/Scripture/types";
-    import { EventsEmit } from "!wails/runtime/runtime";
+    import { Events } from "@wailsio/runtime";
     import { workspace_version } from "@/lib/stores";
 
     function normaliseString(string: string): string {
@@ -14,11 +14,11 @@
     const search_strings = Object.keys(versionData).map((x) => ({
         name: x as BibleVersion,
         string:
-            normaliseString(versionData[x].full_name) +
+            normaliseString(versionData[x as BibleVersion].full_name) +
             "|" +
             normaliseString(x) +
             "|" +
-            normaliseString(versionData[x].language),
+            normaliseString(versionData[x as BibleVersion].language),
     }));
 
     function filterVersions(query: string) {
@@ -40,8 +40,8 @@
 
     function chooseVersion(index: number) {
         const version = available_versions[index].value;
-        EventsEmit("window:workspace:version", version);
-        EventsEmit("window:workspace:modal:close");
+        Events.Emit({ name: "window:workspace:version", data: version });
+        Events.Emit({ name: "window:workspace:modal:close", data: null });
     }
 </script>
 

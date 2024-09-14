@@ -1,12 +1,18 @@
 <script lang="ts">
     import { Slider } from "bits-ui";
     import { graphe_settings } from "@/lib/stores";
-    import { EventsEmit } from "!wails/runtime/runtime";
+    import { Events } from "@wailsio/runtime";
 
-    $: value = [$graphe_settings.appearence.zoom];
+    $: value = [$graphe_settings?.appearence.zoom ?? 100];
 
     function onZoomChange(zoom: number) {
-        EventsEmit("graphe:setting", ["appearence", "zoom"], zoom);
+        Events.Emit({
+            name: "graphe:setting",
+            data: {
+                setting: ["appearence", "zoom"],
+                value: zoom,
+            },
+        });
     }
 </script>
 

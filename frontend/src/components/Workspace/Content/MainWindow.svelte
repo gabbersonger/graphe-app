@@ -1,7 +1,6 @@
 <script lang="ts">
     import TextVirtualiser from "@/components/Workspace/Content/TextVirtualiser.svelte";
     import InstantDetails from "@/components/Workspace/Content/InstantDetails.svelte";
-    import VersionInfo from "@/components/Workspace/Content/VersionInfo.svelte";
     import type { BibleRef, BibleVersion } from "@/lib/Scripture/types";
     import {
         workspace_data,
@@ -28,7 +27,6 @@
     data-language-heading={languageHeadings}
 >
     <TextVirtualiser data={$workspace_data} bind:current_verse />
-    <VersionInfo />
     <InstantDetails />
 </div>
 

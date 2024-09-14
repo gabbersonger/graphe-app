@@ -24,6 +24,10 @@ func (s *SettingsDB) assert(cond bool, msg string) {
 	}
 }
 
+func (s *SettingsDB) Name() string {
+	return "SettingsDB"
+}
+
 func (s *SettingsDB) OnShutdown() error {
 	err := s.db.Close()
 	s.assert(err == nil, "Error closing connection")
