@@ -103,12 +103,12 @@ github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXf
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
 github.com/stretchr/testify v1.8.4 h1:CcVxjf3Q8PM0mHUKJCdn+eZZtm5yQwehR5yeSVQQcUk=
 github.com/stretchr/testify v1.8.4/go.mod h1:sz/lmYIOXD/1dqDmKjjqLyZ2RngseejIcXlSw2iwfAo=
-github.com/wailsapp/go-webview2 v1.0.11 h1:CDbU4UQpaERY6M/FGObPGzUsFOHH3Yz+go12qnJINNY=
-github.com/wailsapp/go-webview2 v1.0.11/go.mod h1:Uk2BePfCRzttBBjFrBmqKGJd41P6QIHeV9kTgIeOZNo=
+github.com/wailsapp/go-webview2 v1.0.15 h1:IeQFoWmsHp32y64I41J+Zod3SopjHs918KSO4jUqEnY=
+github.com/wailsapp/go-webview2 v1.0.15/go.mod h1:Uk2BePfCRzttBBjFrBmqKGJd41P6QIHeV9kTgIeOZNo=
 github.com/wailsapp/mimetype v1.4.1 h1:pQN9ycO7uo4vsUUuPeHEYoUkLVkaRntMnHJxVwYhwHs=
 github.com/wailsapp/mimetype v1.4.1/go.mod h1:9aV5k31bBOv5z6u+QP8TltzvNGJPmNJD4XlAL3U+j3o=
-github.com/wailsapp/wails/v3 v3.0.0-alpha.6 h1:aIEdP0OBCQlivSCrs6hTeDgMhCEMxOF57QZxm8nlvAE=
-github.com/wailsapp/wails/v3 v3.0.0-alpha.6/go.mod h1:BXhtWcuC4ZT+pCfQSj/t5xshcRHnsS8r0yoQrJzeQJU=
+github.com/wailsapp/wails/v3 v3.0.0-alpha.7 h1:LNX2EnbxTEYJYICJT8UkuzoGVNalRizTNGBY47endmk=
+github.com/wailsapp/wails/v3 v3.0.0-alpha.7/go.mod h1:lBz4zedFxreJBoVpMe9u89oo4IE3IlyHJg5rOWnGNR0=
 github.com/xanzy/ssh-agent v0.3.3 h1:+/15pJfg/RsTxqYcX6fHqOXZwwMP+2VyYWJeWM2qQFM=
 github.com/xanzy/ssh-agent v0.3.3/go.mod h1:6dzNDKs0J9rVPHPhaGCukekBHKqfl+L3KghI1Bc68Uw=
 github.com/yuin/goldmark v1.4.13/go.mod h1:6yULJ656Px+3vBD8DxQVa3kxgyrAnzto9xy5taEt/CY=

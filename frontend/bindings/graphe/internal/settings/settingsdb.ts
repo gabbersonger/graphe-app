@@ -23,11 +23,6 @@ export function Name(): Promise<string> & { cancel(): void } {
     return $resultPromise;
 }
 
-export function OnShutdown(): Promise<void> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(921268848) as any;
-    return $resultPromise;
-}
-
 export function ResetSetting(key: string[]): Promise<any> & { cancel(): void } {
     let $resultPromise = $Call.ByID(373731326, key) as any;
     return $resultPromise;

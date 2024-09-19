@@ -31,11 +31,6 @@ export function GetScriptureWord(version: scripture$0.ScriptureVersion, ref: scr
     return $typingPromise;
 }
 
-export function OnShutdown(): Promise<void> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(3836713270) as any;
-    return $resultPromise;
-}
-
 // Private type creation functions
 const $$createType0 = $models.ScriptureSection.createFrom;
 const $$createType1 = $Create.Array($$createType0);
