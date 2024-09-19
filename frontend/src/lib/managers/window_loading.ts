@@ -13,7 +13,7 @@ export function loadingManager(_: HTMLElement) {
   const events = new EventHandler();
 
   getSavedSettings().then((x) => {
-    Events.Emit({ name: "graphe:mode", data: "settings" });
+    Events.Emit({ name: "graphe:mode", data: "workspace" });
   });
 
   return {

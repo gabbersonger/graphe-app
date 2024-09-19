@@ -19,8 +19,8 @@
     let language: string;
     let languageHeadings: string;
     $: updateLanguages($workspace_version);
-    async function updateLanguages(version: string) {
-        if (!version || version == "") {
+    async function updateLanguages(version: string | undefined) {
+        if (!version || version == undefined) {
             return;
         }
         language = await ScriptureService.GetVersionLanguage(version);

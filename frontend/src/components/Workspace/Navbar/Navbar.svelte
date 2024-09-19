@@ -91,7 +91,7 @@
     async function getCurrentRefString() {
         ScriptureService.RefToString(
             $workspace_ref as number,
-            $workspace_version,
+            $workspace_version as string,
             ScriptureRefStringType.StringChapter,
         ).then((value) => {
             current_ref_string = value;
@@ -99,13 +99,13 @@
 
         let value = await ScriptureService.RefToString(
             $workspace_ref as number,
-            $workspace_version,
+            $workspace_version as string,
             ScriptureRefStringType.StringChapter,
         );
         console.log("asd");
         return value;
     }
-    $: if ($workspace_version && $workspace_ref != null) {
+    $: if ($workspace_version != undefined && $workspace_ref != null) {
         getCurrentRefString();
     }
 </script>

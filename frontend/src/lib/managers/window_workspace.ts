@@ -18,6 +18,11 @@ import {
   type ScriptureRef,
   type ScriptureVersion,
 } from "!/graphe/internal/scripture";
+import { GrapheLog } from "../utils";
+
+function handleReset() {
+  handleVersion("esv");
+}
 
 function handleMode(mode: WorkspaceMode) {
   workspace_mode.set(mode);
@@ -43,12 +48,26 @@ function handleSidebar(mode: boolean | "toggle") {
 }
 
 async function updateBaseData() {
-  const range = await ScriptureService.GetVersionRange(get(workspace_version));
+  const version = get(workspace_version);
+  if (version == undefined) {
+    return GrapheLog(
+      "error",
+      `Invalid version when doing updateBaseData (version: \`${version}\`)`,
+    );
+  }
+  const range = await ScriptureService.GetVersionRange(version);
   const data = await DataDB.GetScriptureSection(range);
+  workspace_ref.set(undefined);
   workspace_data.set(data);
 }
 
 function handleVersion(version: ScriptureVersion) {
+  if (version == undefined) {
+    return GrapheLog(
+      "error",
+      `Invalid version passed to handleVersion (version: \`${version}\`)`,
+    );
+  }
   if (get(workspace_version) != version) {
     workspace_ref.set(undefined);
     workspace_data.set([]);
@@ -62,11 +81,14 @@ function handleGoTo(ref: ScriptureRef) {
 }
 
 async function instantDetails(ref: ScriptureRef, word_number: number) {
-  let data = await DataDB.GetScriptureWord(
-    get(workspace_version),
-    ref,
-    word_number,
-  );
+  const version = get(workspace_version);
+  if (version == undefined) {
+    return GrapheLog(
+      "error",
+      `Invalid version when doing instantDetails (version: \`${version}\`)`,
+    );
+  }
+  let data = await DataDB.GetScriptureWord(version, ref, word_number);
   workspace_instantDetailsData.set(data);
 }
 
@@ -78,11 +100,13 @@ function handleInstantDetails(ref: ScriptureRef, word_number: number) {
 }
 
 function handleInstantDetailsHide() {
-  workspace_instantDetailsData.set(undefined);
+  workspace_instantDetailsData.set(null);
 }
 
 export function windowWorkspaceManager(_: HTMLElement) {
   const events = new EventHandler();
+  events.subscribe("window:workspace:reset", handleReset);
+
   events.subscribe("window:workspace:mode", handleMode);
   events.subscribe("window:workspace:modal", handleModal);
   events.subscribe("window:workspace:modal:close", handleModalClose);
@@ -96,7 +120,7 @@ export function windowWorkspaceManager(_: HTMLElement) {
     handleInstantDetailsHide,
   );
 
-  Events.Emit({ name: "window:workspace:version", data: "esv" });
+  Events.Emit({ name: "window:workspace:reset", data: null });
 
   return {
     destroy() {

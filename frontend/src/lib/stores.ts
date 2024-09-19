@@ -27,11 +27,11 @@ export const workspace_mode: Writable<WorkspaceMode> = writable("passage");
 export const workspace_modal: Writable<ModalName | ""> = writable("");
 export const workspace_sidebar: Writable<boolean> = writable(false);
 
-export const workspace_version: Writable<ScriptureVersion> = writable("esv");
+export const workspace_version: Writable<ScriptureVersion | undefined> =
+  writable(undefined);
 export const workspace_ref: Writable<ScriptureRef | undefined> =
   writable(undefined);
 
 export const workspace_data: Writable<ScriptureSection[]> = writable([]);
-export const workspace_instantDetailsData: Writable<
-  ScriptureWordData | undefined
-> = writable();
+export const workspace_instantDetailsData: Writable<ScriptureWordData | null> =
+  writable(null);

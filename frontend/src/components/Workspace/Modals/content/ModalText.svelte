@@ -12,7 +12,7 @@
     import { Events } from "@wailsio/runtime";
 
     let initialised = false;
-    let current_version: string = "";
+    let current_version: string | undefined = undefined;
     $: init($workspace_version);
 
     let version_data: VersionData;
@@ -23,11 +23,11 @@
         search_string: string;
     }> = [];
 
-    async function init(version: string) {
+    async function init(version: string | undefined) {
         if (current_version == version) return;
         current_version = version;
         initialised = false;
-        if (version == "") return;
+        if (version == undefined) return;
 
         let data: any = await ScriptureService.GetVersionData(version);
         version_data = data as VersionData;
@@ -221,7 +221,7 @@
             );
             const is_valid = ScriptureService.IsRefValid(
                 possible_ref,
-                $workspace_version,
+                current_version ?? "",
             ); // FIX: this only works because IsRefValid is fast (no await)
             if (!is_valid) continue;
             if (`${i + 1}`.indexOf(query) < 0) continue;
@@ -269,6 +269,7 @@
 
     async function goto(book: number, chapter: number, verse: number) {
         const ref = await ScriptureService.CreateRef(book, chapter, verse);
+        if ($workspace_version == undefined) return;
         const valid = await ScriptureService.IsRefValid(
             ref,
             $workspace_version,
