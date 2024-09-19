@@ -1,5 +1,8 @@
 import { writable, type Writable } from "svelte/store";
-import type { BibleRef, BibleVersion } from "@/lib/Scripture/types";
+import type {
+  ScriptureRef,
+  ScriptureVersion,
+} from "!/graphe/internal/scripture";
 import type {
   ScriptureSection,
   ScriptureWordData,
@@ -23,9 +26,12 @@ export type WorkspaceMode = "passage" | "search";
 export const workspace_mode: Writable<WorkspaceMode> = writable("passage");
 export const workspace_modal: Writable<ModalName | ""> = writable("");
 export const workspace_sidebar: Writable<boolean> = writable(false);
-export const workspace_version: Writable<BibleVersion> = writable();
+
+export const workspace_version: Writable<ScriptureVersion> = writable("esv");
+export const workspace_ref: Writable<ScriptureRef | undefined> =
+  writable(undefined);
+
 export const workspace_data: Writable<ScriptureSection[]> = writable([]);
 export const workspace_instantDetailsData: Writable<
   ScriptureWordData | undefined
 > = writable();
-export const workspace_currentRef: Writable<BibleRef | null> = writable(null);

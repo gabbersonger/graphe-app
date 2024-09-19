@@ -2,7 +2,7 @@ import { Events } from "@wailsio/runtime";
 import { get } from "svelte/store";
 import { EventHandler } from "@/lib/event_handler";
 import {
-  workspace_currentRef,
+  workspace_ref,
   workspace_data,
   workspace_instantDetailsData,
   workspace_modal,
@@ -12,10 +12,12 @@ import {
   type WorkspaceMode,
 } from "@/lib/stores";
 import { type ModalName } from "@/components/Workspace/Modals/data";
-import type { BibleRef, BibleVersion } from "@/lib/Scripture/types";
 import { DataDB } from "!/graphe/internal/data";
-import { createVersionRange } from "../Scripture/version";
-import { GrapheLog } from "../utils";
+import {
+  ScriptureService,
+  type ScriptureRef,
+  type ScriptureVersion,
+} from "!/graphe/internal/scripture";
 
 function handleMode(mode: WorkspaceMode) {
   workspace_mode.set(mode);
@@ -41,25 +43,25 @@ function handleSidebar(mode: boolean | "toggle") {
 }
 
 async function updateBaseData() {
-  const range = createVersionRange(get(workspace_version));
+  const range = await ScriptureService.GetVersionRange(get(workspace_version));
   const data = await DataDB.GetScriptureSection(range);
   workspace_data.set(data);
 }
 
-function handleVersion(version: BibleVersion) {
+function handleVersion(version: ScriptureVersion) {
   if (get(workspace_version) != version) {
-    workspace_currentRef.set(null);
+    workspace_ref.set(undefined);
     workspace_data.set([]);
     workspace_version.set(version);
     updateBaseData();
   }
 }
 
-function handleGoTo(ref: BibleRef) {
+function handleGoTo(ref: ScriptureRef) {
   Events.Emit({ name: "window:workspace:visualiser:goto", data: ref });
 }
 
-async function instantDetails(ref: BibleRef, word_number: number) {
+async function instantDetails(ref: ScriptureRef, word_number: number) {
   let data = await DataDB.GetScriptureWord(
     get(workspace_version),
     ref,
@@ -68,7 +70,7 @@ async function instantDetails(ref: BibleRef, word_number: number) {
   workspace_instantDetailsData.set(data);
 }
 
-function handleInstantDetails(ref: BibleRef, word_number: number) {
+function handleInstantDetails(ref: ScriptureRef, word_number: number) {
   let current = get(workspace_instantDetailsData);
   if (!(current && current.ref == ref && current.word_number == word_number)) {
     instantDetails(ref, word_number);

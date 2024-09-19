@@ -5,6 +5,39 @@
 // @ts-ignore: Unused imports
 import {Create as $Create} from "@wailsio/runtime";
 
+export class BookData {
+    "name": string;
+    "short": string;
+    "abbreviations": string[];
+
+    /** Creates a new BookData instance. */
+    constructor($$source: Partial<BookData> = {}) {
+        if (!("name" in $$source)) {
+            this["name"] = "";
+        }
+        if (!("short" in $$source)) {
+            this["short"] = "";
+        }
+        if (!("abbreviations" in $$source)) {
+            this["abbreviations"] = [];
+        }
+
+        Object.assign(this, $$source);
+    }
+
+    /**
+     * Creates a new BookData instance from a string or object.
+     */
+    static createFrom($$source: any = {}): BookData {
+        const $$createField2_0 = $$createType0;
+        let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
+        if ("abbreviations" in $$parsedSource) {
+            $$parsedSource["abbreviations"] = $$createField2_0($$parsedSource["abbreviations"]);
+        }
+        return new BookData($$parsedSource as Partial<BookData>);
+    }
+}
+
 export class ScriptureRange {
     "version": ScriptureVersion;
     "start": ScriptureRef;
@@ -50,3 +83,171 @@ export enum ScriptureRefStringType {
 };
 
 export type ScriptureVersion = string;
+
+export class ScriptureVersionBasicInfo {
+    "name": string;
+    "full_name": string;
+    "language": string;
+
+    /** Creates a new ScriptureVersionBasicInfo instance. */
+    constructor($$source: Partial<ScriptureVersionBasicInfo> = {}) {
+        if (!("name" in $$source)) {
+            this["name"] = "";
+        }
+        if (!("full_name" in $$source)) {
+            this["full_name"] = "";
+        }
+        if (!("language" in $$source)) {
+            this["language"] = "";
+        }
+
+        Object.assign(this, $$source);
+    }
+
+    /**
+     * Creates a new ScriptureVersionBasicInfo instance from a string or object.
+     */
+    static createFrom($$source: any = {}): ScriptureVersionBasicInfo {
+        let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
+        return new ScriptureVersionBasicInfo($$parsedSource as Partial<ScriptureVersionBasicInfo>);
+    }
+}
+
+export class VersionBibleRange {
+    "start": ScriptureRef;
+    "end": ScriptureRef;
+
+    /** Creates a new VersionBibleRange instance. */
+    constructor($$source: Partial<VersionBibleRange> = {}) {
+        if (!("start" in $$source)) {
+            this["start"] = (0 as ScriptureRef);
+        }
+        if (!("end" in $$source)) {
+            this["end"] = (0 as ScriptureRef);
+        }
+
+        Object.assign(this, $$source);
+    }
+
+    /**
+     * Creates a new VersionBibleRange instance from a string or object.
+     */
+    static createFrom($$source: any = {}): VersionBibleRange {
+        let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
+        return new VersionBibleRange($$parsedSource as Partial<VersionBibleRange>);
+    }
+}
+
+export class VersionBookData {
+    "book_number": number;
+    "display_name": string;
+    "num_chapters": number;
+    "num_verses": number[];
+    "superscripts": number[];
+    "prologue": number;
+    "parallels": VersionBibleRange[];
+    "missing_sections": VersionBibleRange[];
+
+    /** Creates a new VersionBookData instance. */
+    constructor($$source: Partial<VersionBookData> = {}) {
+        if (!("book_number" in $$source)) {
+            this["book_number"] = 0;
+        }
+        if (!("display_name" in $$source)) {
+            this["display_name"] = "";
+        }
+        if (!("num_chapters" in $$source)) {
+            this["num_chapters"] = 0;
+        }
+        if (!("num_verses" in $$source)) {
+            this["num_verses"] = [];
+        }
+        if (!("superscripts" in $$source)) {
+            this["superscripts"] = [];
+        }
+        if (!("prologue" in $$source)) {
+            this["prologue"] = 0;
+        }
+        if (!("parallels" in $$source)) {
+            this["parallels"] = [];
+        }
+        if (!("missing_sections" in $$source)) {
+            this["missing_sections"] = [];
+        }
+
+        Object.assign(this, $$source);
+    }
+
+    /**
+     * Creates a new VersionBookData instance from a string or object.
+     */
+    static createFrom($$source: any = {}): VersionBookData {
+        const $$createField3_0 = $$createType1;
+        const $$createField4_0 = $$createType1;
+        const $$createField6_0 = $$createType3;
+        const $$createField7_0 = $$createType3;
+        let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
+        if ("num_verses" in $$parsedSource) {
+            $$parsedSource["num_verses"] = $$createField3_0($$parsedSource["num_verses"]);
+        }
+        if ("superscripts" in $$parsedSource) {
+            $$parsedSource["superscripts"] = $$createField4_0($$parsedSource["superscripts"]);
+        }
+        if ("parallels" in $$parsedSource) {
+            $$parsedSource["parallels"] = $$createField6_0($$parsedSource["parallels"]);
+        }
+        if ("missing_sections" in $$parsedSource) {
+            $$parsedSource["missing_sections"] = $$createField7_0($$parsedSource["missing_sections"]);
+        }
+        return new VersionBookData($$parsedSource as Partial<VersionBookData>);
+    }
+}
+
+export class VersionData {
+    "name": string;
+    "full_name": string;
+    "language": string;
+    "language_headings": string;
+    "books": VersionBookData[];
+
+    /** Creates a new VersionData instance. */
+    constructor($$source: Partial<VersionData> = {}) {
+        if (!("name" in $$source)) {
+            this["name"] = "";
+        }
+        if (!("full_name" in $$source)) {
+            this["full_name"] = "";
+        }
+        if (!("language" in $$source)) {
+            this["language"] = "";
+        }
+        if (!("language_headings" in $$source)) {
+            this["language_headings"] = "";
+        }
+        if (!("books" in $$source)) {
+            this["books"] = [];
+        }
+
+        Object.assign(this, $$source);
+    }
+
+    /**
+     * Creates a new VersionData instance from a string or object.
+     */
+    static createFrom($$source: any = {}): VersionData {
+        const $$createField4_0 = $$createType5;
+        let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
+        if ("books" in $$parsedSource) {
+            $$parsedSource["books"] = $$createField4_0($$parsedSource["books"]);
+        }
+        return new VersionData($$parsedSource as Partial<VersionData>);
+    }
+}
+
+// Private type creation functions
+const $$createType0 = $Create.Array($Create.Any);
+const $$createType1 = $Create.Array($Create.Any);
+const $$createType2 = VersionBibleRange.createFrom;
+const $$createType3 = $Create.Array($$createType2);
+const $$createType4 = VersionBookData.createFrom;
+const $$createType5 = $Create.Array($$createType4);

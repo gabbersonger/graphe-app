@@ -62,7 +62,7 @@ func (s *ScriptureService) DivideIntoBookRanges(rang ScriptureRange) []Scripture
 		book_data := VersionsData[version_index].Books[i]
 
 		book_start := s.CreateFirstValidRef(rang.Version, book_data.BookNumber)
-		book_end := s.CreateRef(book_data.BookNumber, book_data.NumChapters, book_data.NumVerses[len(book_data.NumVerses)-1])
+		book_end := s.CreateLastValidRef(rang.Version, book_data.BookNumber)
 		s.assert(s.IsRefValid(book_start, rang.Version), fmt.Sprintf("Invalid start ref for book created (version: `%s`, version book index: %d, created: %d)", rang.Version, int(i), int(book_start)))
 		s.assert(s.IsRefValid(book_end, rang.Version), fmt.Sprintf("Invalid end ref for book created (version: `%s`, version book index: %d, created: %d)", rang.Version, int(i), int(book_end)))
 

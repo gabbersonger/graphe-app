@@ -33,7 +33,7 @@ Currently requires a large database file that is currently not packaged with the
 - [ ] Wails v.3
   - [x] Basic update
   - [ ] Reinstate menu & shortcuts
-- [ ] Remove JS Scripture functions
+- [x] Remove JS Scripture functions
 - [ ] Replace Virtualiser with just loading 10 chapters either side
 - [ ] Right click functionality
 - [ ] Animations

@@ -11,14 +11,17 @@
     import {
         workspace_mode,
         workspace_version,
-        workspace_currentRef,
+        workspace_ref,
     } from "@/lib/stores";
-    import { refToString } from "@/lib/Scripture/ref";
     import { Events } from "@wailsio/runtime";
     import { graphe_settings, workspace_sidebar } from "@/lib/stores";
     import type { SettingsValues } from "!/graphe/internal/settings";
+    import {
+        ScriptureRefStringType,
+        ScriptureService,
+    } from "!/graphe/internal/scripture";
 
-    export let navFloating = true;
+    export let nav_floating = true;
     let width: number;
 
     const BREAKPOINTS = [
@@ -80,17 +83,43 @@
         return curr;
     }
 
-    $: navBreakpoint = getBreakpoint($graphe_settings, "nav");
-    $: textBreakpoint = getBreakpoint($graphe_settings, "text");
-    $: navFloating = width > navBreakpoint;
+    $: nav_breakpoint = getBreakpoint($graphe_settings, "nav");
+    $: text_breakpoint = getBreakpoint($graphe_settings, "text");
+    $: nav_floating = width > nav_breakpoint;
+
+    let current_ref_string = "";
+    async function getCurrentRefString() {
+        ScriptureService.RefToString(
+            $workspace_ref as number,
+            $workspace_version,
+            ScriptureRefStringType.StringChapter,
+        ).then((value) => {
+            current_ref_string = value;
+        });
+
+        let value = await ScriptureService.RefToString(
+            $workspace_ref as number,
+            $workspace_version,
+            ScriptureRefStringType.StringChapter,
+        );
+        console.log("asd");
+        return value;
+    }
+    $: if ($workspace_version && $workspace_ref != null) {
+        getCurrentRefString();
+    }
 </script>
 
-<div id="navbar" class:topbar={width <= navBreakpoint} bind:clientWidth={width}>
+<div
+    id="navbar"
+    class:topbar={width <= nav_breakpoint}
+    bind:clientWidth={width}
+>
     <div class="container">
         <div class="wrapper wrapper-nav">
             <NavbarItem
                 icon={TextSelect}
-                text={width > textBreakpoint ? "passage" : ""}
+                text={width > text_breakpoint ? "passage" : ""}
                 on:click={() =>
                     Events.Emit({
                         name: "window:workspace:mode",
@@ -103,7 +132,7 @@
 
             <NavbarItem
                 icon={Search}
-                text={width > textBreakpoint ? "search" : ""}
+                text={width > text_breakpoint ? "search" : ""}
                 on:click={() =>
                     Events.Emit({
                         name: "window:workspace:mode",
@@ -130,13 +159,7 @@
 
             <NavbarItem
                 icon={BookOpenText}
-                text={$workspace_version && $workspace_currentRef
-                    ? refToString(
-                          $workspace_version,
-                          $workspace_currentRef,
-                          "chapter",
-                      )
-                    : ""}
+                text={current_ref_string}
                 on:click={() =>
                     Events.Emit({
                         name: "window:workspace:modal",
