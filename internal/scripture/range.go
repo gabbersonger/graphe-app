@@ -23,7 +23,7 @@ func (s *ScriptureService) IsRangeValid(rang ScriptureRange) bool {
 	return start_vb_index == end_vb_index && rang.Start <= rang.End
 }
 
-func (s *ScriptureService) Contains(rang ScriptureRange, ref ScriptureRef) bool {
+func (s *ScriptureService) RangeContains(rang ScriptureRange, ref ScriptureRef) bool {
 	s.assert(s.IsRangeValid(rang), fmt.Sprintf("Invalid range (version: `%s`, start: %d, end: %d)", rang.Version, int(rang.Start), int(rang.End)))
 	s.assert(s.IsRefValid(ref, rang.Version), fmt.Sprintf("Invalid ref for version (version: `%s`, ref: %d)", rang.Version, int(ref)))
 

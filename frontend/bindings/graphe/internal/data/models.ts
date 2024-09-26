@@ -80,6 +80,7 @@ export class ScriptureSection {
 
 export class ScriptureVerse {
     "ref": scripture$0.ScriptureRef;
+    "ref_string": string;
     "words": ScriptureWord[];
     "details"?: ScriptureVerseDetail[];
     "continuation"?: boolean;
@@ -88,6 +89,9 @@ export class ScriptureVerse {
     constructor($$source: Partial<ScriptureVerse> = {}) {
         if (!("ref" in $$source)) {
             this["ref"] = (0 as scripture$0.ScriptureRef);
+        }
+        if (!("ref_string" in $$source)) {
+            this["ref_string"] = "";
         }
         if (!("words" in $$source)) {
             this["words"] = [];
@@ -100,14 +104,14 @@ export class ScriptureVerse {
      * Creates a new ScriptureVerse instance from a string or object.
      */
     static createFrom($$source: any = {}): ScriptureVerse {
-        const $$createField1_0 = $$createType6;
-        const $$createField2_0 = $$createType8;
+        const $$createField2_0 = $$createType6;
+        const $$createField3_0 = $$createType8;
         let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
         if ("words" in $$parsedSource) {
-            $$parsedSource["words"] = $$createField1_0($$parsedSource["words"]);
+            $$parsedSource["words"] = $$createField2_0($$parsedSource["words"]);
         }
         if ("details" in $$parsedSource) {
-            $$parsedSource["details"] = $$createField2_0($$parsedSource["details"]);
+            $$parsedSource["details"] = $$createField3_0($$parsedSource["details"]);
         }
         return new ScriptureVerse($$parsedSource as Partial<ScriptureVerse>);
     }

@@ -14,11 +14,6 @@ export function BCV(r: $models.ScriptureRef): Promise<[number, number, number]> 
     return $resultPromise;
 }
 
-export function Contains(rang: $models.ScriptureRange, ref: $models.ScriptureRef): Promise<boolean> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(949381613, rang, ref) as any;
-    return $resultPromise;
-}
-
 export function CreateFirstValidRef(version: $models.ScriptureVersion, book: number): Promise<$models.ScriptureRef> & { cancel(): void } {
     let $resultPromise = $Call.ByID(2368684349, version, book) as any;
     return $resultPromise;
@@ -121,6 +116,11 @@ export function IsRefValid(ref: $models.ScriptureRef, version: $models.Scripture
 
 export function IsVersionValid(v: $models.ScriptureVersion): Promise<boolean> & { cancel(): void } {
     let $resultPromise = $Call.ByID(2537419090, v) as any;
+    return $resultPromise;
+}
+
+export function RangeContains(rang: $models.ScriptureRange, ref: $models.ScriptureRef): Promise<boolean> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(2816720236, rang, ref) as any;
     return $resultPromise;
 }
 

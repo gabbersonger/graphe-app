@@ -22,6 +22,7 @@ type ScriptureBlock struct {
 
 type ScriptureVerse struct {
 	Ref          scripture.ScriptureRef `json:"ref"`
+	RefString    string                 `json:"ref_string"`
 	Words        []ScriptureWord        `json:"words"`
 	Details      []ScriptureVerseDetail `json:"details,omitempty"`
 	Continuation bool                   `json:"continuation,omitempty"`
@@ -218,6 +219,11 @@ func addScriptureVerse(d *DataDB, section *ScriptureSection, ref scripture.Scrip
 
 	new_verse := ScriptureVerse{}
 	new_verse.Ref = ref
+	if len(section.Blocks[last_block].Verses) == 0 {
+		new_verse.RefString = d.scripture_service.RefToString(ref, section.Range.Version, scripture.StringShort)
+	} else {
+		new_verse.RefString = fmt.Sprintf("%d", d.scripture_service.GetRefVerse(ref))
+	}
 	new_verse.Words = make([]ScriptureWord, 0, ESTIMATED_WORD_COUNT)
 	new_verse.Continuation = continuation
 	new_verse.Details = make([]ScriptureVerseDetail, 0)

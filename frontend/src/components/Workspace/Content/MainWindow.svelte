@@ -1,5 +1,5 @@
 <script lang="ts">
-    import TextVirtualiser from "@/components/Workspace/Content/TextVirtualiser.svelte";
+    import TextDisplayer from "@/components/Workspace/Content/TextDisplayer.svelte";
     import InstantDetails from "@/components/Workspace/Content/InstantDetails.svelte";
 
     import {
@@ -34,7 +34,7 @@
     data-language={language}
     data-language-heading={languageHeadings}
 >
-    <TextVirtualiser data={$workspace_data} bind:current_verse />
+    <TextDisplayer data={$workspace_data} bind:current_verse />
     <InstantDetails />
 </div>
 

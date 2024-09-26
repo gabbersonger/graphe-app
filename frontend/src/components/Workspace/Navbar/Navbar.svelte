@@ -102,7 +102,6 @@
             $workspace_version as string,
             ScriptureRefStringType.StringChapter,
         );
-        console.log("asd");
         return value;
     }
     $: if ($workspace_version != undefined && $workspace_ref != null) {
