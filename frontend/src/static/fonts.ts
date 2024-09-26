@@ -18,6 +18,11 @@ export const fontData = [
     css_line: '"Geist", sans-serif',
   },
   {
+    name: "Geist Mono",
+    language: "english",
+    css_line: '"Geist Mono", sans-serif',
+  },
+  {
     name: "SBL Greek",
     language: "greek",
     css_line: '"SBL Greek"',
