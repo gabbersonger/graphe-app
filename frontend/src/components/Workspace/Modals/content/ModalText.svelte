@@ -44,7 +44,7 @@
             if (!book_data)
                 GrapheLog(
                     "error",
-                    `Invalid book number found in version data (version: \`${current_version}\`, book_number: ${book_number}`,
+                    `[ModalText] Invalid book number found in version data (version: \`${current_version}\`, book_number: ${book_number}`,
                 );
 
             possible_books.set(book_data.name.toLowerCase(), book_number);
@@ -182,7 +182,7 @@
         if (book_data == undefined) {
             GrapheLog(
                 "error",
-                `Invalid book number selected (version: \`${current_version}\` selected_book_number: ${selected_book})`,
+                `[ModalText] Invalid book number selected (version: \`${current_version}\` selected_book_number: ${selected_book})`,
             );
             return [];
         }
@@ -208,7 +208,7 @@
         if (book_data == undefined) {
             GrapheLog(
                 "error",
-                `Invalid book number selected (version: \`${current_version}\` selected_book_number: ${selected_book})`,
+                `[ModalText] Invalid book number selected (version: \`${current_version}\` selected_book_number: ${selected_book})`,
             );
             return [];
         }
@@ -277,7 +277,7 @@
         if (!valid)
             return GrapheLog(
                 "error",
-                `Invalid reference made (ref: ${ref}, version: \`${$workspace_version}\`)`,
+                `[ModalText] Invalid reference made (ref: ${ref}, version: \`${$workspace_version}\`)`,
             );
         Events.Emit({ name: "window:workspace:goto", data: ref });
         Events.Emit({ name: "window:workspace:modal:close", data: null });

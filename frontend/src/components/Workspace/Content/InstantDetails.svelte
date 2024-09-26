@@ -59,7 +59,7 @@
                 default:
                     GrapheLog(
                         "error",
-                        `Invalid type in instant details data (field: \`${field.name}\`, type: \`${typeof field.data}\`)`,
+                        `[InstantDetails] Invalid type in instant details data (field: \`${field.name}\`, type: \`${typeof field.data}\`)`,
                     );
             }
         }

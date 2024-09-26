@@ -52,7 +52,7 @@ async function updateBaseData() {
   if (version == undefined) {
     return GrapheLog(
       "error",
-      `Invalid version when doing updateBaseData (version: \`${version}\`)`,
+      `[Workspace Manager] Invalid version when doing updateBaseData (version: \`${version}\`)`,
     );
   }
   const range = await ScriptureService.GetVersionRange(version);
@@ -65,7 +65,7 @@ function handleVersion(version: ScriptureVersion) {
   if (version == undefined) {
     return GrapheLog(
       "error",
-      `Invalid version passed to handleVersion (version: \`${version}\`)`,
+      `[Workspace Manager] Invalid version passed to handleVersion (version: \`${version}\`)`,
     );
   }
   if (get(workspace_version) != version) {
@@ -85,7 +85,7 @@ async function instantDetails(ref: ScriptureRef, word_number: number) {
   if (version == undefined) {
     return GrapheLog(
       "error",
-      `Invalid version when doing instantDetails (version: \`${version}\`)`,
+      `[Workspace Manager] Invalid version when doing instantDetails (version: \`${version}\`)`,
     );
   }
   let data = await DataDB.GetScriptureWord(version, ref, word_number);

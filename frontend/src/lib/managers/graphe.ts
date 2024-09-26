@@ -23,7 +23,7 @@ function _updateSettingStore(setting: string[], value: any) {
     if (s == undefined) {
       GrapheLog(
         "error",
-        `Setting store is null, while trying to update \`${setting.join("/")}\` to \`${value}\``,
+        `[Graphe Manager] Setting store is null, while trying to update \`${setting.join("/")}\` to \`${value}\``,
       );
       return;
     }
@@ -34,7 +34,7 @@ function _updateSettingStore(setting: string[], value: any) {
         if (!(setting[i] in item)) {
           GrapheLog(
             "error",
-            `Error accessing parameter \`${setting[i]}\` in settings store, while trying to update \`${setting.join("/")}\` to \`${value}\``,
+            `[Graphe Manager] Error accessing parameter \`${setting[i]}\` in settings store, while trying to update \`${setting.join("/")}\` to \`${value}\``,
           );
         }
         item = item[setting[i]];
@@ -43,7 +43,7 @@ function _updateSettingStore(setting: string[], value: any) {
     } catch (e) {
       GrapheLog(
         "error",
-        `Error updating setting store for \`${setting.join("/")}\` to \`${value}\` (error: ${e})`,
+        `[Graphe Manager] Error updating setting store for \`${setting.join("/")}\` to \`${value}\` (error: ${e})`,
       );
     }
     return s;
@@ -61,7 +61,7 @@ function _parseSettingValue(setting: string[], value: any): any {
     if (current_graphe_settings == undefined) {
       return GrapheLog(
         "error",
-        "Trying to parse setting value when settings is null",
+        "[Graphe Manager] Trying to parse setting value when settings is null",
       );
     }
     const current_zoom = current_graphe_settings.appearence.zoom;

@@ -39,28 +39,28 @@ export function createFontStyles(fonts: SettingsValues_Appearence_Font) {
   if (system == undefined) {
     GrapheLog(
       "error",
-      `Invalid system font passed to \`createFontStyles\` (font: \`${fonts.system}\`)`,
+      `[Static Fonts] Invalid system font passed to \`createFontStyles\` (font: \`${fonts.system}\`)`,
     );
     return [];
   }
   if (greek == undefined) {
     GrapheLog(
       "error",
-      `Invalid greek font passed to \`createFontStyles\`: "${fonts.greek}"`,
+      `[Static Fonts] Invalid greek font passed to \`createFontStyles\`: "${fonts.greek}"`,
     );
     return [];
   }
   if (hebrew == undefined) {
     GrapheLog(
       "error",
-      `Invalid hebrew font passed to \`createFontStyles\`: "${fonts.hebrew}"`,
+      `[Static Fonts] Invalid hebrew font passed to \`createFontStyles\`: "${fonts.hebrew}"`,
     );
     return [];
   }
   if (english == undefined) {
     GrapheLog(
       "error",
-      `Invalid english font passed to \`createFontStyles\`: "${fonts.english}"`,
+      `[Static Fonts] Invalid english font passed to \`createFontStyles\`: "${fonts.english}"`,
     );
     return [];
   }

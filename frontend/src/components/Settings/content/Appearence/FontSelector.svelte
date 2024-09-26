@@ -53,7 +53,7 @@
             if (selected_font_data == undefined) {
                 GrapheLog(
                     "error",
-                    `Invalid font (type: \`${language.name}\`, font: \`${selected_font}\`)`,
+                    `[FontSelector] Invalid font (type: \`${language.name}\`, font: \`${selected_font}\`)`,
                 );
                 return;
             }
