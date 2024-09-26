@@ -9,10 +9,10 @@
     import { onMount } from "svelte";
     import { Events } from "@wailsio/runtime";
 
-    const NUM_BLOCKS_DISPLAY = 15;
-    const MAX_HEIGHT = 100_000;
+    const NUM_BLOCKS_DISPLAY = 20;
+    const DEFAULT_HEIGHT = 100_000;
 
-    export let data: Array<ScriptureSection>;
+    export let data: ScriptureSection[];
     $: n_blocks = data.reduce((a, c) => a + c.blocks.length, 0) ?? 0;
     $: if (n_blocks == 0) reset();
     $: if (n_blocks > 0) load();
@@ -30,7 +30,7 @@
     let visible_above_elements: HTMLDivElement[] = [];
     let visible_below_elements: HTMLDivElement[] = [];
     let pivot_height = 0;
-    let min_height = MAX_HEIGHT;
+    let min_height = DEFAULT_HEIGHT;
 
     function reset() {
         current_verse = undefined;
@@ -39,7 +39,7 @@
         visible_above_elements.length = 0;
         visible_below_elements.length = 0;
         pivot_height = 0;
-        min_height = MAX_HEIGHT;
+        min_height = DEFAULT_HEIGHT;
     }
 
     // Called when new data is loaded
@@ -170,10 +170,6 @@
         visible_below = getVirtualBlocks(visible_below, new_pivot);
     }
 
-    function resize(width: number) {
-        // TODO
-    }
-
     function goto(block: number) {
         // TODO
     }
@@ -201,15 +197,9 @@
         }
     }
 
-    let content: HTMLDivElement;
-    const resize_observer = new ResizeObserver((e) =>
-        resize(e[0].contentRect.width),
-    );
     onMount(() => {
-        resize_observer.observe(content);
         Events.On("window:workspace:visualiser:goto", gotoRef);
         return () => {
-            resize_observer.unobserve(content);
             Events.Off("window:workspace:visualiser:goto");
         };
     });
@@ -217,7 +207,7 @@
 
 <div class="container">
     <div class="viewport" bind:this={viewport} on:scroll={refresh}>
-        <div class="content" bind:this={content}>
+        <div class="content">
             <div
                 class="rows"
                 style="--pivot-height: {pivot_height}px; min-height: {min_height}px"
