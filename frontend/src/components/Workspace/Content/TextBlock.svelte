@@ -7,10 +7,12 @@
 <div class="block">
     {#each block.verses as verse, index}
         <div class="verse">
-            {#if index == 0}
-                <span class="ref">{verse.ref_string}</span>
-            {:else}
-                <sup>{verse.ref_string}</sup>
+            {#if !verse.continuation}
+                {#if index == 0}
+                    <span class="ref">{verse.ref_string}</span>
+                {:else}
+                    <sup>{verse.ref_string}</sup>
+                {/if}
             {/if}
 
             {#each verse.words as word}
