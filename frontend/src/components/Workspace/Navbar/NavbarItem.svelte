@@ -86,6 +86,7 @@
 
     .item .text {
         line-height: 0;
+        white-space: nowrap;
     }
 
     .item .tooltip-wrapper {
