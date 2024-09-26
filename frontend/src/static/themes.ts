@@ -1,3 +1,5 @@
+import { GrapheLog } from "@/lib/utils";
+
 export const themeData = [
   {
     name: "serika dark",
@@ -91,6 +93,13 @@ const hexToSelectionRGBA = (hex: string): string => {
 
 export const createThemeStyles = (themeName: ThemeName) => {
   let theme = themeData.find((t) => t.name == themeName);
+  if (theme == undefined) {
+    GrapheLog(
+      "error",
+      `[Static Themes] Invalid theme passed to \`createThemeStyles\` (theme: \`${themeName}\`)`,
+    );
+    return [];
+  }
   return [
     {
       variable: "--clr-background",
