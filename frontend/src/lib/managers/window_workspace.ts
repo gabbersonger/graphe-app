@@ -77,7 +77,7 @@ function handleVersion(version: ScriptureVersion) {
 }
 
 function handleGoTo(ref: ScriptureRef) {
-  Events.Emit({ name: "window:workspace:visualiser:goto", data: ref });
+  Events.Emit({ name: "window:workspace:text:goto", data: ref });
 }
 
 async function instantDetails(ref: ScriptureRef, word_number: number) {

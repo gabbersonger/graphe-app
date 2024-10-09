@@ -6,11 +6,16 @@
         ScriptureService,
         type ScriptureRef,
     } from "!/graphe/internal/scripture";
-    import { onMount } from "svelte";
+    import { onMount, tick } from "svelte";
     import { Events } from "@wailsio/runtime";
 
     const NUM_BLOCKS_DISPLAY = 20;
-    const DEFAULT_HEIGHT = 100_000;
+    const FULL_HEIGHT = 100_000; // This should be large
+    const BUFFER_ZONE = 10_000;
+
+    let viewport: HTMLDivElement;
+    let visible_above_container: HTMLDivElement;
+    let visible_below_container: HTMLDivElement;
 
     export let data: ScriptureSection[];
     $: n_blocks = data.reduce((a, c) => a + c.blocks.length, 0) ?? 0;
@@ -24,13 +29,12 @@
         section: number;
         block: number;
     };
-
     let visible_above: VirtualBlock[] = [];
     let visible_below: VirtualBlock[] = [];
     let visible_above_elements: HTMLDivElement[] = [];
     let visible_below_elements: HTMLDivElement[] = [];
     let pivot_height = 0;
-    let min_height = DEFAULT_HEIGHT;
+    let mode: "exact" | "middle" | "top" | "bottom" = "top";
 
     function reset() {
         current_verse = undefined;
@@ -39,17 +43,14 @@
         visible_above_elements.length = 0;
         visible_below_elements.length = 0;
         pivot_height = 0;
-        min_height = DEFAULT_HEIGHT;
+        mode = "top";
     }
 
     // Called when new data is loaded
     function load() {
         reset();
-        getVirtualBlocks(visible_below, 0);
         current_verse = data[0].blocks[0].verses[0].ref;
-        if (visible_below.length == n_blocks) {
-            min_height = 0;
-        }
+        displayAroundPivot(0);
     }
 
     function getVirtualBlocks(
@@ -58,7 +59,10 @@
         length: number | undefined = undefined,
     ) {
         if (length == undefined) length = NUM_BLOCKS_DISPLAY;
-        if (start < 0 || start >= n_blocks || length < 0) return [];
+        if (start < 0 || start >= n_blocks || length <= 0) {
+            output.length = 0;
+            return output;
+        }
         if (start + length > n_blocks) length = n_blocks - start;
 
         // Ensure the output array is of right length
@@ -102,7 +106,6 @@
         return getVirtualBlocks(output, start, length);
     }
 
-    let viewport: HTMLDivElement;
     async function refresh() {
         if (n_blocks == 0) return;
         let scroll = viewport.scrollTop;
@@ -166,12 +169,34 @@
 
         // Update data being displayed
         const new_pivot = visible_below[0].index + new_pivot_offset;
-        visible_above = getVirtualBlocksAbove(visible_above, new_pivot);
-        visible_below = getVirtualBlocks(visible_below, new_pivot);
+        displayAroundPivot(new_pivot);
+    }
+
+    async function displayAroundPivot(pivot: number) {
+        visible_above = getVirtualBlocksAbove(visible_above, pivot);
+        visible_below = getVirtualBlocks(visible_below, pivot);
+
+        const top_reached =
+            visible_above.length > 0 && visible_above[0].index == 0;
+        const bottom_reached =
+            visible_below.length > 0 &&
+            visible_below[visible_below.length - 1].index == n_blocks - 1;
+
+        if (top_reached && bottom_reached) {
+            mode = "exact";
+        } else if (top_reached) {
+            mode = "top";
+        } else if (bottom_reached) {
+            mode = "bottom";
+        } else {
+            mode = "middle";
+        }
     }
 
     function goto(block: number) {
-        // TODO
+        pivot_height = FULL_HEIGHT / 2;
+        displayAroundPivot(block);
+        viewport.scrollTop = pivot_height;
     }
 
     async function gotoRef(ref: ScriptureRef) {
@@ -197,10 +222,14 @@
         }
     }
 
+    function handleEvent(event_data: any) {
+        gotoRef(event_data.data as ScriptureRef);
+    }
+
     onMount(() => {
-        Events.On("window:workspace:visualiser:goto", gotoRef);
+        Events.On("window:workspace:text:goto", handleEvent);
         return () => {
-            Events.Off("window:workspace:visualiser:goto");
+            Events.Off("window:workspace:text:goto");
         };
     });
 </script>
@@ -210,14 +239,20 @@
         <div class="content">
             <div
                 class="rows"
-                style="--pivot-height: {pivot_height}px; min-height: {min_height}px"
+                data-mode={mode}
+                style:--full-height="{FULL_HEIGHT}px"
+                style:--pivot-height="{pivot_height}px"
             >
                 <div
                     class="collection"
+                    bind:this={visible_above_container}
                     style:bottom={`calc(100% - ${pivot_height}px)`}
                 >
                     {#each visible_above as vb, index (vb.index)}
-                        <div bind:this={visible_above_elements[index]}>
+                        <div
+                            bind:this={visible_above_elements[index]}
+                            style="outline: 2px solid red;"
+                        >
                             <TextBlock
                                 block={data[vb.section].blocks[vb.block]}
                             />
@@ -225,9 +260,16 @@
                     {/each}
                 </div>
 
-                <div class="collection" style:top={`${pivot_height}px`}>
+                <div
+                    class="collection"
+                    bind:this={visible_below_container}
+                    style:top={`${pivot_height}px`}
+                >
                     {#each visible_below as vb, index (vb.index)}
-                        <div bind:this={visible_below_elements[index]}>
+                        <div
+                            bind:this={visible_below_elements[index]}
+                            style="outline: 2px solid blue;"
+                        >
                             <TextBlock
                                 block={data[vb.section].blocks[vb.block]}
                             />
@@ -252,9 +294,9 @@
         overflow-y: scroll;
     }
 
-    .viewport::-webkit-scrollbar {
+    /* .viewport::-webkit-scrollbar {
         display: none;
-    }
+    } */
 
     .content {
         position: relative;
@@ -265,10 +307,31 @@
 
     .rows {
         position: relative;
+        height: var(--full-height);
     }
 
     .collection {
-        position: absolute;
         width: 100%;
+    }
+
+    .rows[data-mode="exact"] {
+        height: unset;
+    }
+
+    .rows[data-mode="exact"],
+    .rows[data-mode="top"] {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .rows[data-mode="middle"] .collection {
+        position: absolute;
+    }
+
+    .rows[data-mode="bottom"] {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
     }
 </style>
