@@ -1,4 +1,4 @@
-package settings
+package internal
 
 type SettingsValues struct {
 	General        SettingsValues_General        `json:"general"`

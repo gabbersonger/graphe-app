@@ -2,6 +2,7 @@ package settings
 
 import (
 	"fmt"
+	"graphe/internal"
 	"reflect"
 	"strings"
 
@@ -9,11 +10,11 @@ import (
 	"golang.org/x/text/language"
 )
 
-func getDefaultValues() SettingsValues {
-	return SettingsValues{
-		Appearence: SettingsValues_Appearence{
+func getDefaultValues() internal.SettingsValues {
+	return internal.SettingsValues{
+		Appearence: internal.SettingsValues_Appearence{
 			Theme: "hanok",
-			Font: SettingsValues_Appearence_Font{
+			Font: internal.SettingsValues_Appearence_Font{
 				System:  "System",
 				Greek:   "SBL Greek",
 				Hebrew:  "SBL Hebrew",
@@ -21,7 +22,7 @@ func getDefaultValues() SettingsValues {
 			},
 			Zoom: 100,
 		},
-		Shortcuts: SettingsValues_Shortcuts{
+		Shortcuts: internal.SettingsValues_Shortcuts{
 			AboutGraphe:       "",
 			CheckForUpdates:   "",
 			OpenSettings:      "cmdorctrl+,",
@@ -45,7 +46,7 @@ func getDefaultValues() SettingsValues {
 	}
 }
 
-func (s *SettingsDB) GetSettings() SettingsValues {
+func (s *SettingsDB) GetSettings() internal.SettingsValues {
 	v := getDefaultValues()
 
 	r := reflect.ValueOf(&v).Elem()

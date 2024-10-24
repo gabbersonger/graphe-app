@@ -1,6 +1,9 @@
 package settings
 
-import "reflect"
+import (
+	"graphe/internal"
+	"reflect"
+)
 
 type SettingTable struct {
 	name    string
@@ -13,7 +16,7 @@ type SettingColumn struct {
 }
 
 func getSettingsTables() []SettingTable {
-	r := reflect.TypeFor[SettingsValues]()
+	r := reflect.TypeFor[internal.SettingsValues]()
 	tables := make([]SettingTable, 0, r.NumField())
 	for _, field := range reflect.VisibleFields(r) {
 		tables = append(tables, SettingTable{
