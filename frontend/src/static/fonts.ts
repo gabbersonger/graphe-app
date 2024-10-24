@@ -1,4 +1,4 @@
-import { settings } from "!wails/go/models";
+import { SettingsValues_Appearence_Font } from "!/graphe/internal/settings";
 import { GrapheLog } from "@/lib/utils";
 
 export const fontData = [
@@ -18,6 +18,11 @@ export const fontData = [
     css_line: '"Geist", sans-serif',
   },
   {
+    name: "Geist Mono",
+    language: "english",
+    css_line: '"Geist Mono", sans-serif',
+  },
+  {
     name: "SBL Greek",
     language: "greek",
     css_line: '"SBL Greek"',
@@ -31,9 +36,7 @@ export const fontData = [
 
 export type FontName = (typeof fontData)[number]["name"];
 
-export function createFontStyles(
-  fonts: settings.SettingsValues_Appearence_Font,
-) {
+export function createFontStyles(fonts: SettingsValues_Appearence_Font) {
   const system = fontData.find((f) => f.name == fonts.system);
   const greek = fontData.find((f) => f.name == fonts.greek);
   const hebrew = fontData.find((f) => f.name == fonts.hebrew);
@@ -41,23 +44,30 @@ export function createFontStyles(
   if (system == undefined) {
     GrapheLog(
       "error",
-      `Invalid system font passed to \`createFontStyles\`: "${fonts.system}"`,
+      `[Static Fonts] Invalid system font passed to \`createFontStyles\` (font: \`${fonts.system}\`)`,
     );
-  } else if (greek == undefined) {
+    return [];
+  }
+  if (greek == undefined) {
     GrapheLog(
       "error",
-      `Invalid greek font passed to \`createFontStyles\`: "${fonts.greek}"`,
+      `[Static Fonts] Invalid greek font passed to \`createFontStyles\`: "${fonts.greek}"`,
     );
-  } else if (hebrew == undefined) {
+    return [];
+  }
+  if (hebrew == undefined) {
     GrapheLog(
       "error",
-      `Invalid hebrew font passed to \`createFontStyles\`: "${fonts.hebrew}"`,
+      `[Static Fonts] Invalid hebrew font passed to \`createFontStyles\`: "${fonts.hebrew}"`,
     );
-  } else if (english == undefined) {
+    return [];
+  }
+  if (english == undefined) {
     GrapheLog(
       "error",
-      `Invalid english font passed to \`createFontStyles\`: "${fonts.english}"`,
+      `[Static Fonts] Invalid english font passed to \`createFontStyles\`: "${fonts.english}"`,
     );
+    return [];
   }
   return [
     {

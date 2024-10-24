@@ -1,6 +1,9 @@
 package settings
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func (s *SettingsDB) validateDB() bool {
 	for _, t := range getSettingsTables() {
@@ -14,15 +17,16 @@ func (s *SettingsDB) validateDB() bool {
 }
 
 func getRowInDB(s *SettingsDB, q string, args ...interface{}) bool {
+	query := strings.TrimSpace(fmt.Sprintf(q, args...))
 	err := s.db.Begin()
 	s.assert(err == nil, "Error beginning transaction")
-	stmt, err := s.db.Prepare(fmt.Sprintf(q, args...))
-	s.assert(err == nil, fmt.Sprintf("Error preparing query (q: `%s`)", fmt.Sprintf(q, args...)))
+	stmt, err := s.db.Prepare(query)
+	s.assert(err == nil, fmt.Sprintf("Error preparing query (query: `%s`)", query))
 	has_row, err := stmt.Step()
-	s.assert(err == nil, fmt.Sprintf("Error getting first row (q: `%s`)", fmt.Sprintf(q, args...)))
+	s.assert(err == nil, fmt.Sprintf("Error getting first row (query: `%s`)", query))
 	if s.db.TotalChanges() > 0 {
 		s.db.Rollback()
-		s.assert(false, "No rows should be changed")
+		s.assert(false, fmt.Sprintf("No rows should be changed (query: `%s`", query))
 	}
 	err = stmt.Close()
 	s.assert(err == nil, "Error closing statement")
@@ -32,10 +36,11 @@ func getRowInDB(s *SettingsDB, q string, args ...interface{}) bool {
 }
 
 func execInDB(s *SettingsDB, q string, args ...interface{}) {
+	query := strings.TrimSpace(fmt.Sprintf(q, args...))
 	err := s.db.Begin()
 	s.assert(err == nil, "Error beginning transaction")
-	err = s.db.Exec(fmt.Sprintf(q, args...))
-	s.assert(err == nil, fmt.Sprintf("Error executing query (q: `%s`)", fmt.Sprintf(q, args...)))
+	err = s.db.Exec(query)
+	s.assert(err == nil, fmt.Sprintf("Error executing query (query: `%s`)", query))
 	s.db.Commit()
 }
 
@@ -54,7 +59,7 @@ func ensureTableExists(s *SettingsDB, t string) {
 				id INTEGER PRIMARY KEY
 			);
 		`, t)
-		s.assert(checkTableExists(s, t), fmt.Sprintf("Error creating table (table name: `%s`", t))
+		s.assert(checkTableExists(s, t), fmt.Sprintf("Error creating table (table_name: `%s`", t))
 	}
 }
 
@@ -72,7 +77,7 @@ func ensureColumnExists(s *SettingsDB, t string, c SettingColumn) {
 		execInDB(s, `
 			ALTER TABLE %s ADD %s %s;
 		`, t, c.name, c.sql_type)
-		s.assert(checkColumnExists(s, t, c), fmt.Sprintf("Error creating column (table name: `%s`, column name: `%s`", t, c))
+		s.assert(checkColumnExists(s, t, c), fmt.Sprintf("Error creating column (table_name: `%s`, column_name: `%s`", t, c))
 	}
 }
 
@@ -90,6 +95,6 @@ func ensureRowExists(s *SettingsDB, t string) {
 		execInDB(s, `
 			INSERT INTO %s (id) VALUES (1);
 		`, t)
-		s.assert(checkRowExists(s, t), fmt.Sprintf("Error creating row (table name: `%s`", t))
+		s.assert(checkRowExists(s, t), fmt.Sprintf("Error creating row (table_name: `%s`", t))
 	}
 }

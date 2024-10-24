@@ -30,8 +30,11 @@ Currently requires a large database file that is currently not packaged with the
 **Verse 0.4 - Quality of life update**
 
 - [x] Refactor Go code to include asserts
-- [ ] Remove JS Scripture functions
-- [ ] Replace Virtualiser with just loading 10 chapters either side
+- [ ] Wails v.3
+  - [x] Basic update
+  - [ ] Reinstate menu & shortcuts
+- [x] Remove JS Scripture functions
+- [x] Replace Virtualiser with just loading 10 chapters either side
 - [ ] Right click functionality
 - [ ] Animations
   - [ ] Entering settings window (look at what Discord does)
@@ -53,6 +56,7 @@ Currently requires a large database file that is currently not packaged with the
     - [ ] UI - drag and drop available fields
     - [ ] Functionality
     - [ ] Reset
+  - [ ] Shortcuts reset (see bugs below)
 
 <br/>
 
@@ -119,8 +123,8 @@ Currently requires a large database file that is currently not packaged with the
 
 **Bugs**
 
-- Resizing window does not keep verse at top (currently: only keeps block + scroll offset)
-- Current verse doesn't update for book title
+- Scroll too fast breaks text virtualiser
 - ESV psalm 119:1
 - Creating shortcut with ' key (as this screws with mysql string)
 - LXX go to Susanna 1 fails (Susanna 1:1 does not exist) -> use go function CreateFirstValidRef()
+- Resetting shortcuts clears the display, even though it is doing correct update in db

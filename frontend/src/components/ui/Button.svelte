@@ -2,12 +2,12 @@
     import type { ComponentType } from "svelte";
     import type { Icon } from "lucide-svelte";
 
-    export let icon: ComponentType<Icon> = null;
+    export let icon: ComponentType<Icon> | null = null;
     export let disabled = false;
 </script>
 
 <button on:click class:disabled>
-    {#if icon}
+    {#if icon != null}
         <div class="icon">
             <svelte:component this={icon} />
         </div>

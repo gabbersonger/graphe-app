@@ -6,19 +6,15 @@
     "useDefineForClassFields": true,
     "module": "ESNext",
     "resolveJsonModule": true,
-    "baseUrl": ".",
     "allowJs": true,
     "checkJs": true,
     "isolatedModules": true,
+    "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "!wails/*": ["wailsjs/*"]
+      "!/*": ["bindings/*"]
     }
   },
-  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte"],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ]
+  "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

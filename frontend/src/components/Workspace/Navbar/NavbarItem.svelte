@@ -3,7 +3,7 @@
     import type { ComponentType } from "svelte";
     import type { Icon } from "lucide-svelte";
 
-    export let icon: ComponentType<Icon> = null;
+    export let icon: ComponentType<Icon> | null = null;
     export let text: string = "";
     export let tooltip: string = "";
     export let command: string = "";
@@ -13,7 +13,7 @@
 
 <button class="item" on:click class:selected class:disabled>
     <div class="wrapper">
-        {#if icon}
+        {#if icon != null}
             <div class="icon">
                 <svelte:component
                     this={icon}
@@ -86,6 +86,7 @@
 
     .item .text {
         line-height: 0;
+        white-space: nowrap;
     }
 
     .item .tooltip-wrapper {

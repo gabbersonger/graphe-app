@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { EventsEmit } from "!wails/runtime/runtime";
+    import { Events } from "@wailsio/runtime";
 
     import {
         type ThemeName,
@@ -9,7 +9,13 @@
     import { graphe_settings } from "@/lib/stores";
 
     function selectTheme(theme: ThemeName) {
-        EventsEmit("graphe:setting", ["appearence", "theme"], theme);
+        Events.Emit({
+            name: "graphe:setting",
+            data: {
+                setting: ["appearence", "theme"],
+                value: theme,
+            },
+        });
     }
 </script>
 
@@ -18,7 +24,8 @@
         <button on:click={() => selectTheme(theme.name)}>
             <div
                 class="theme-display"
-                class:selected={$graphe_settings.appearence.theme == theme.name}
+                class:selected={$graphe_settings?.appearence.theme ==
+                    theme.name}
             >
                 <div
                     class="theme-wrapper"

@@ -1,41 +1,103 @@
 <script lang="ts">
     import ModalResultView from "@/components/Workspace/Modals/ModalResultView.svelte";
-
     import { BookOpenText, StickyNote } from "lucide-svelte";
-    import { createRef, isValidRef } from "@/lib/Scripture/ref";
+
     import { workspace_version } from "@/lib/stores";
-    import { EventsEmit } from "!wails/runtime/runtime";
-    import { bibleData, versionData } from "@/lib/Scripture/data";
-    import { getVersionBookIndex } from "@/lib/Scripture/version";
-    import type { BibleVersion } from "@/lib/Scripture/types";
+    import {
+        BookData,
+        ScriptureService,
+        type VersionData,
+    } from "!/graphe/internal/scripture";
+    import { GrapheLog } from "@/lib/utils";
+    import { Events } from "@wailsio/runtime";
 
-    type Mode = "book" | "chapter" | "verse";
-    let mode: Mode = "book";
+    let initialised = false;
+    let current_version: string | undefined = undefined;
+    $: init($workspace_version);
 
-    let value = "";
-    let search_results: { value: string | number; display: string }[] = [];
-    $: search_results = filterResults(value);
-    let selected_book = 0;
-    let selected_chapter = 0;
+    let version_data: VersionData;
+    let bible_data: BookData[];
+    let possible_books: Map<string, number> = new Map();
+    let search_books: Array<{
+        book_number: number;
+        search_string: string;
+    }> = [];
 
-    const possible_books: Map<string, number> = new Map();
-    for (let i = 0; i < versionData[$workspace_version].books.length; i++) {
-        const book_number =
-            versionData[$workspace_version].books[i].book_number;
-        const book_data = bibleData[book_number - 1];
+    async function init(version: string | undefined) {
+        if (current_version == version) return;
+        current_version = version;
+        initialised = false;
+        if (version == undefined) return;
 
-        possible_books.set(book_data.name.toLowerCase(), book_number);
-        possible_books.set(book_data.short.toLowerCase(), book_number);
-        for (let j = 0; j < book_data.abbreviations.length; j++) {
-            possible_books.set(
-                book_data.abbreviations[j].toLowerCase(),
-                book_number,
-            );
+        let data: any = await ScriptureService.GetVersionData(version);
+        version_data = data as VersionData;
+
+        data = await ScriptureService.GetBibleData();
+        bible_data = data as BookData[];
+
+        possible_books.clear();
+        search_books = [];
+
+        for (let i = 0; i < version_data.books.length; i++) {
+            const book_number = version_data.books[i].book_number;
+            const book_data = bible_data[book_number - 1];
+            if (!book_data)
+                GrapheLog(
+                    "error",
+                    `[ModalText] Invalid book number found in version data (version: \`${current_version}\`, book_number: ${book_number}`,
+                );
+
+            possible_books.set(book_data.name.toLowerCase(), book_number);
+            possible_books.set(book_data.short.toLowerCase(), book_number);
+            for (let j = 0; j < book_data.abbreviations.length; j++) {
+                possible_books.set(
+                    book_data.abbreviations[j].toLowerCase(),
+                    book_number,
+                );
+            }
+
+            search_books.push({
+                book_number: book_number,
+                search_string:
+                    normaliseString(book_data.name) +
+                    "|" +
+                    normaliseString(book_data.short) +
+                    "|" +
+                    book_data.abbreviations
+                        .map((a: string) => normaliseString(a))
+                        .join("|"),
+            });
         }
+
+        initialised = true;
+        search_results = filterResults(value);
+    }
+
+    // DISPLAYING RESULTS
+    type Mode = "book" | "chapter" | "verse";
+    type ResultData = { value: string | number; display: string };
+
+    let mode: Mode = "book";
+    let value = "";
+    let search_results: ResultData[] = [];
+    $: search_results = filterResults(value);
+
+    function filterResults(query: string): ResultData[] {
+        query = normaliseString(query);
+        query = updateMode(query);
+
+        if (mode == "book") return createBookResults(query);
+        else if (mode == "chapter") return createChapterResults(query);
+        else if (mode == "verse") return createVerseResults(query);
+        return [];
+    }
+
+    function normaliseString(string: string): string {
+        return string.trim().toLowerCase();
     }
 
     function updateMode(query: string): string {
-        if (query.length == 0) {
+        if (query.length == 0 || version_data == undefined) {
             return "";
         }
 
@@ -66,10 +128,10 @@
                 return post_capture;
             } else if (groups.length == 2) {
                 const potential_chapter = Number(groups[0]);
-                const book_data =
-                    versionData[$workspace_version].books[
-                        getVersionBookIndex($workspace_version, selected_book)
-                    ];
+                const book_data = version_data.books.find(
+                    (b) => b.book_number == selected_book,
+                );
+                if (!book_data) return "";
                 if (
                     !isNaN(potential_chapter) &&
                     potential_chapter > 0 &&
@@ -88,39 +150,18 @@
         return query;
     }
 
-    function normaliseString(string: string): string {
-        return string.trim().toLowerCase();
-    }
-
-    const SEARCH_BOOKS = versionData[$workspace_version].books.map(
-        (b: (typeof versionData)[BibleVersion]["books"][number]) => ({
-            book_number: b.book_number,
-            string:
-                normaliseString(bibleData[b.book_number - 1].name) +
-                "|" +
-                normaliseString(bibleData[b.book_number - 1].short) +
-                "|" +
-                bibleData[b.book_number - 1].abbreviations
-                    .map((a: string) => normaliseString(a))
-                    .join("|"),
-        }),
-    );
-
-    type ResultData = { value: string | number; display: string };
-
     function createBookResults(query: string): ResultData[] {
         let temp_results: (ResultData & { query_location: number })[] = [];
-        for (let i = 0; i < SEARCH_BOOKS.length; i++) {
-            const book_num = SEARCH_BOOKS[i].book_number;
-            const book_string = SEARCH_BOOKS[i].string;
-            const found_at = book_string.indexOf(query);
+        for (let i = 0; i < search_books.length; i++) {
+            const found_at = search_books[i].search_string.indexOf(query);
             if (found_at < 0) continue;
             temp_results.push({
-                value: book_num,
-                display: bibleData[book_num - 1].name,
+                value: search_books[i].book_number,
+                display: bible_data[search_books[i].book_number - 1].name,
                 query_location: found_at,
             });
         }
+
         temp_results.sort((a, b) => a.query_location - b.query_location);
         let results: ResultData[] = [];
         for (let i = 0; i < temp_results.length; i++)
@@ -134,17 +175,24 @@
     function createChapterResults(query: string): ResultData[] {
         let results: ResultData[] = [];
         if (query.length == 0) results.push({ value: "Back", display: "Back" });
-        const v_b_index = getVersionBookIndex(
-            $workspace_version,
-            selected_book,
+
+        const book_data = version_data.books.find(
+            (vb) => vb.book_number == selected_book,
         );
-        const book_data = versionData[$workspace_version].books[v_b_index];
+        if (book_data == undefined) {
+            GrapheLog(
+                "error",
+                `[ModalText] Invalid book number selected (version: \`${current_version}\` selected_book_number: ${selected_book})`,
+            );
+            return [];
+        }
+
         for (let i = 0; i < book_data.num_chapters; i++) {
             if (book_data.num_verses[i] == 0) continue;
             if (`${i + 1}`.indexOf(query) < 0) continue;
             results.push({
                 value: i + 1,
-                display: `${bibleData[selected_book - 1].name} ${i + 1}`,
+                display: `${bible_data[selected_book - 1].name} ${i + 1}`,
             });
         }
         return results;
@@ -154,46 +202,40 @@
         let results: ResultData[] = [];
         if (query.length == 0) results.push({ value: "Back", display: "Back" });
 
-        const v_b_index = getVersionBookIndex(
-            $workspace_version,
-            selected_book,
+        const book_data = version_data.books.find(
+            (vb) => vb.book_number == selected_book,
         );
-        const book_data = versionData[$workspace_version].books[v_b_index];
+        if (book_data == undefined) {
+            GrapheLog(
+                "error",
+                `[ModalText] Invalid book number selected (version: \`${current_version}\` selected_book_number: ${selected_book})`,
+            );
+            return [];
+        }
+
         const ref_start =
             String(selected_book) + String(selected_chapter).padStart(3, "0");
         for (let i = 0; i < book_data.num_verses[selected_chapter - 1]; i++) {
             const possible_ref = parseInt(
                 ref_start + String(i + 1).padStart(3, "0"),
             );
-            if (!isValidRef($workspace_version, possible_ref)) continue;
+            const is_valid = ScriptureService.IsRefValid(
+                possible_ref,
+                current_version ?? "",
+            ); // FIX: this only works because IsRefValid is fast (no await)
+            if (!is_valid) continue;
             if (`${i + 1}`.indexOf(query) < 0) continue;
             results.push({
                 value: i + 1,
-                display: `${bibleData[selected_book - 1].name} ${selected_chapter}:${i + 1}`,
+                display: `${bible_data[selected_book - 1].name} ${selected_chapter}:${i + 1}`,
             });
         }
         return results;
     }
 
-    function filterResults(query: string) {
-        query = normaliseString(query);
-        query = updateMode(query);
-
-        if (mode == "book") return createBookResults(query);
-        else if (mode == "chapter") return createChapterResults(query);
-        else if (mode == "verse") return createVerseResults(query);
-    }
-
-    function goto(
-        book: number,
-        chapter: number,
-        verse: number | "start" = "start",
-    ) {
-        const ref = createRef($workspace_version, book, chapter, verse);
-        EventsEmit("window:workspace:goto", ref);
-        EventsEmit("window:workspace:modal:close");
-    }
-
+    // CHOOSING BOOK
+    let selected_book = 0;
+    let selected_chapter = 0;
     function chooseResult(index: number) {
         // Deal with clicking back button
         if (search_results[index].value == "Back") {
@@ -218,18 +260,37 @@
             value = "";
             search_results = filterResults(value);
         } else if (mode == "chapter") {
-            goto(selected_book, result);
+            goto(selected_book, result, 1);
+            // TODO: fix the above line to go to the first verse of the chapter
         } else if (mode == "verse") {
             goto(selected_book, selected_chapter, result);
         }
     }
+
+    async function goto(book: number, chapter: number, verse: number) {
+        const ref = await ScriptureService.CreateRef(book, chapter, verse);
+        if ($workspace_version == undefined) return;
+        const valid = await ScriptureService.IsRefValid(
+            ref,
+            $workspace_version,
+        );
+        if (!valid)
+            return GrapheLog(
+                "error",
+                `[ModalText] Invalid reference made (ref: ${ref}, version: \`${$workspace_version}\`)`,
+            );
+        Events.Emit({ name: "window:workspace:goto", data: ref });
+        Events.Emit({ name: "window:workspace:modal:close", data: null });
+    }
 </script>
 
-<ModalResultView
-    icon={mode == "book" ? BookOpenText : StickyNote}
-    placeholder="Choose a Passage"
-    bind:value
-    results={search_results}
-    {chooseResult}
-    noResults="We couldn't find a passage that matches your search"
-/>
+{#if initialised}
+    <ModalResultView
+        icon={mode == "book" ? BookOpenText : StickyNote}
+        placeholder="Choose a Passage"
+        bind:value
+        results={search_results}
+        {chooseResult}
+        noResults="We couldn't find a passage that matches your search"
+    />
+{/if}

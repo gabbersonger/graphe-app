@@ -2,12 +2,11 @@
     import Input from "@/components/ui/Input.svelte";
     import Button from "@/components/ui/Button.svelte";
     import ShortcutButton from "@/components/Settings/content/Shortcuts/ShortcutButton.svelte";
-    import Command from "@/components/ui/Command.svelte";
     import { TextSearch, RotateCcw, MoveDown, Lock } from "lucide-svelte";
     import { shortcutsData } from "@/components/Settings/content/Shortcuts/data";
     import { graphe_settings } from "@/lib/stores";
-    import { type settings } from "!wails/go/models";
-    import { EventsEmit } from "!wails/runtime/runtime";
+    import { Events } from "@wailsio/runtime";
+    import type { SettingsValues } from "!/graphe/internal/settings";
 
     // Limit the height of the table
     let fullHeight: number, fullWidth: number;
@@ -31,17 +30,26 @@
 
     // Reset all the shortcuts
     function resetAllShortcuts() {
-        EventsEmit("graphe:setting:reset", ["shortcuts"]);
+        Events.Emit({ name: "graphe:setting:reset", data: ["shortcuts"] });
     }
 
     // Reset invidual shortcut
     function resetShortcut(shortcut: string) {
-        EventsEmit("graphe:setting:reset", ["shortcuts", shortcut]);
+        Events.Emit({
+            name: "graphe:setting:reset",
+            data: ["shortcuts", shortcut],
+        });
     }
 
     // Change the value for a shortcut
     function onShortcutChange(shortcut: string, value: string) {
-        EventsEmit("graphe:setting", ["shortcuts", shortcut], value);
+        Events.Emit({
+            name: "graphe:setting",
+            data: {
+                setting: ["shortcuts", shortcut],
+                value: value,
+            },
+        });
     }
 
     // Filter the displayed shortcuts
@@ -49,8 +57,9 @@
     $: filteredShortcuts = filterShortcuts(search, $graphe_settings);
     function filterShortcuts(
         searchString: string,
-        data: settings.SettingsValues,
+        data: SettingsValues | undefined,
     ) {
+        if (data == undefined) return [];
         return shortcutsData
             .filter((s) => {
                 const a = s.description.toLowerCase().replaceAll(" ", "");

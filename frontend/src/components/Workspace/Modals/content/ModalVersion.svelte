@@ -1,47 +1,60 @@
 <script lang="ts">
-    import ModalResultView from "../ModalResultView.svelte";
+    import ModalResultView from "@/components/Workspace/Modals/ModalResultView.svelte";
     import { LibraryBig } from "lucide-svelte";
 
-    import { versionData } from "@/lib/Scripture/data";
-    import type { BibleVersion } from "@/lib/Scripture/types";
-    import { EventsEmit } from "!wails/runtime/runtime";
+    import { onMount } from "svelte";
+    import { Events } from "@wailsio/runtime";
     import { workspace_version } from "@/lib/stores";
+    import {
+        ScriptureService,
+        ScriptureVersionBasicInfo,
+    } from "!/graphe/internal/scripture";
 
     function normaliseString(string: string): string {
         return string.toLowerCase().replaceAll(" ", "");
     }
 
-    const search_strings = Object.keys(versionData).map((x) => ({
-        name: x as BibleVersion,
-        string:
-            normaliseString(versionData[x].full_name) +
-            "|" +
-            normaliseString(x) +
-            "|" +
-            normaliseString(versionData[x].language),
-    }));
+    let search_data: ScriptureVersionBasicInfo[] = [];
+    let search_strings: Array<{
+        name: string;
+        full_name: string;
+        search_string: string;
+    }> = [];
+    onMount(async () => {
+        search_data = await ScriptureService.GetVersionsBasicData();
+        search_strings = search_data.map((v) => ({
+            name: v.name,
+            full_name: v.full_name,
+            search_string:
+                normaliseString(v.full_name) +
+                "|" +
+                normaliseString(v.name) +
+                "|" +
+                normaliseString(v.language),
+        }));
+    });
 
-    function filterVersions(query: string) {
+    function filterVersions(query: string, _: any[]) {
         query = normaliseString(query);
         return search_strings
-            .map((x) => ({ ...x, index: x.string.indexOf(query) }))
+            .map((x) => ({ ...x, index: x.search_string.indexOf(query) }))
             .filter((x) => x.index >= 0)
             .filter((x) => x.name != $workspace_version)
             .sort((a, b) => a.index - b.index)
             .map((x) => ({
                 value: x.name,
-                display: versionData[x.name].full_name,
+                display: x.full_name,
             }));
     }
 
     let value = "";
     let available_versions: { value: string; display: string }[] = [];
-    $: available_versions = filterVersions(value);
+    $: available_versions = filterVersions(value, search_strings);
 
     function chooseVersion(index: number) {
         const version = available_versions[index].value;
-        EventsEmit("window:workspace:version", version);
-        EventsEmit("window:workspace:modal:close");
+        Events.Emit({ name: "window:workspace:version", data: version });
+        Events.Emit({ name: "window:workspace:modal:close", data: null });
     }
 </script>
 

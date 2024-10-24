@@ -19,8 +19,9 @@ type ScriptureWordData struct {
 }
 
 func (d *DataDB) GetScriptureWord(version scripture.ScriptureVersion, ref scripture.ScriptureRef, word_num int) ScriptureWordData {
-	d.assert(version.IsValid(), fmt.Sprintf("Invalid ref (version: `%s`, ref: %d, word_num: %d)", version, int(ref), word_num))
-	d.assert(ref.IsValid(version), fmt.Sprintf("Invalid ref (version: `%s`, ref: %d, word_num: %d)", version, int(ref), word_num))
+	fmt.Println("hi")
+	d.assert(d.scripture_service.IsVersionValid(version), fmt.Sprintf("Invalid ref (version: `%s`, ref: %d, word_num: %d)", version, int(ref), word_num))
+	d.assert(d.scripture_service.IsRefValid(ref, version), fmt.Sprintf("Invalid ref (version: `%s`, ref: %d, word_num: %d)", version, int(ref), word_num))
 	d.assert(word_num > 0, fmt.Sprintf("Invalid word number (version: `%s`, ref: %d, word_num: %d)", version, int(ref), word_num))
 
 	wd := ScriptureWordData{Version: version, Ref: ref, WordNumber: word_num}

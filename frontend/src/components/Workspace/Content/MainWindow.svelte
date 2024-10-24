@@ -1,24 +1,31 @@
 <script lang="ts">
-    import TextVirtualiser from "@/components/Workspace/Content/TextVirtualiser.svelte";
+    import TextDisplayer from "@/components/Workspace/Content/TextDisplayer.svelte";
     import InstantDetails from "@/components/Workspace/Content/InstantDetails.svelte";
-    import VersionInfo from "@/components/Workspace/Content/VersionInfo.svelte";
-    import type { BibleRef, BibleVersion } from "@/lib/Scripture/types";
+
     import {
         workspace_data,
         workspace_version,
-        workspace_currentRef,
+        workspace_ref,
     } from "@/lib/stores";
-    import { versionData } from "@/lib/Scripture/data";
+    import {
+        ScriptureService,
+        type ScriptureRef,
+    } from "!/graphe/internal/scripture";
 
-    let current_verse: BibleRef;
+    let current_verse: ScriptureRef;
     $: if ($workspace_data.length > 0 && current_verse)
-        $workspace_currentRef = current_verse;
+        $workspace_ref = current_verse;
 
-    let language: (typeof versionData)[BibleVersion]["language"];
-    let languageHeadings: (typeof versionData)[BibleVersion]["languageHeadings"];
-    $: if ($workspace_version) {
-        language = versionData[$workspace_version].language;
-        languageHeadings = versionData[$workspace_version].languageHeadings;
+    let language: string;
+    let languageHeadings: string;
+    $: updateLanguages($workspace_version);
+    async function updateLanguages(version: string | undefined) {
+        if (!version || version == undefined) {
+            return;
+        }
+        language = await ScriptureService.GetVersionLanguage(version);
+        languageHeadings =
+            await ScriptureService.GetVersionLanguageHeadings(version);
     }
 </script>
 
@@ -27,8 +34,7 @@
     data-language={language}
     data-language-heading={languageHeadings}
 >
-    <TextVirtualiser data={$workspace_data} bind:current_verse />
-    <VersionInfo />
+    <TextDisplayer data={$workspace_data} bind:current_verse />
     <InstantDetails />
 </div>
 

@@ -1,89 +1,101 @@
 <script lang="ts">
     import Select from "@/components/ui/Select.svelte";
-
     import type { Select as SelectPrimitive } from "bits-ui";
-    import { EventsEmit } from "!wails/runtime/runtime";
-    import { graphe_settings } from "@/lib/stores";
     import { fontData } from "@/static/fonts";
-    import { GrapheLog } from "@/lib/utils";
+    import { graphe_settings } from "@/lib/stores";
+    import type { SettingsValues } from "!/graphe/internal/settings";
+    import FontSelect from "./FontSelect.svelte";
 
-    function makeSelectValue(
-        value: string,
-    ): SelectPrimitive.Props<string>["selected"] {
-        const font = fontData.find((f) => f.name == value);
-        if (!font) {
-            GrapheLog(
-                "error",
-                `Invalid font (${value}) passed to \`makeSelectValue\``,
-            );
-        }
-        return {
-            label: font.name,
-            value: font.css_line,
-        };
-    }
-
-    const languages = [
+    const language_info = [
         {
-            name: "System",
+            name: "system",
             category: "english",
-            option: makeSelectValue($graphe_settings.appearence.font.system),
             text: "This is an example of some system text.",
         },
         {
-            name: "Greek",
+            name: "greek",
             category: "greek",
-            option: makeSelectValue($graphe_settings.appearence.font.greek),
             text: "ἐν ἀρχῇ ἐποίησεν ὁ θεὸς τὸν οὐρανὸν καὶ τὴν γῆν...",
         },
         {
-            name: "Hebrew",
+            name: "hebrew",
             category: "hebrew",
-            option: makeSelectValue($graphe_settings.appearence.font.hebrew),
             text: "בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים אֵ֥ת הַשָּׁמַ֖יִם וְאֵ֥ת הָאָֽרֶץ׃",
         },
         {
-            name: "English",
+            name: "english",
             category: "english",
-            option: makeSelectValue($graphe_settings.appearence.font.english),
             text: "In the beginning God created the heavens and the earth...",
         },
     ] as const;
 
-    function onFontChange(
-        lang: (typeof languages)[number]["name"],
-        font: string,
-    ) {
-        EventsEmit(
-            "graphe:setting",
-            ["appearence", "font", lang.toLowerCase()],
-            font,
-        );
+    type Languages = (typeof language_info)[number]["name"];
+    const language_selects: Map<
+        Languages,
+        {
+            selected: SelectPrimitive.Props<string>["selected"];
+            items: SelectPrimitive.Props<string>["items"];
+        }
+    > = new Map();
+
+    function makeLanguageSelects(settings: SettingsValues | undefined) {
+        language_selects.clear();
+        if (settings == undefined) return;
+
+        for (const language of language_info) {
+            const available_fonts = fontData.filter(
+                (f) => f.language == language.category,
+            );
+            const selected_font = settings.appearence.font[language.name];
+            const selected_font_data = available_fonts.find(
+                (f) => f.name == selected_font,
+            );
+            if (selected_font_data == undefined) {
+                GrapheLog(
+                    "error",
+                    `[FontSelector] Invalid font (type: \`${language.name}\`, font: \`${selected_font}\`)`,
+                );
+                return;
+            }
+
+            language_selects.set(language.name, {
+                selected: {
+                    label: selected_font_data.name,
+                    value: selected_font_data.css_line,
+                },
+                items: available_fonts.map((font) => ({
+                    label: font.name,
+                    value: font.css_line,
+                })),
+            });
+        }
+    }
+    $: makeLanguageSelects($graphe_settings);
+
+    function GrapheLog(arg0: string, arg1: string) {
+        throw new Error("Function not implemented.");
     }
 </script>
 
 <div class="font-selector">
-    {#each languages as lang}
+    {#each language_info as language}
         <div class="font-selection">
             <div class="wrapper">
-                <div class="font-selection-heading">{lang.name}</div>
+                <div class="font-selection-heading">{language.name}</div>
                 <div
                     class="font-selection-example"
-                    data-lang={lang.name.toLowerCase()}
+                    data-lang={language.name.toLowerCase()}
                 >
-                    {lang.text}
+                    {language.text}
                 </div>
             </div>
 
-            <Select
-                bind:selected={lang.option}
-                onSelectedChange={(v) => onFontChange(lang.name, v.label)}
-                items={fontData
-                    .filter((f) => f.language == lang.category)
-                    .map((f) => makeSelectValue(f.name))}
-                placeholder="Choose a font"
-                label="Font Family"
-            />
+            {#if language_selects.has(language.name)}
+                <FontSelect
+                    name={language.name}
+                    values={language_selects.get(language.name)}
+                />
+            {/if}
         </div>
     {/each}
 </div>
@@ -110,6 +122,7 @@
     .font-selection-heading {
         font-family: var(--font-system);
         font-weight: 500;
+        text-transform: capitalize;
         color: var(--clr-text);
         padding-bottom: 0.2rem;
     }

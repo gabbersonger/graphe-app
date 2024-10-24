@@ -82,3 +82,74 @@
     font-display: swap;
     src: url("src/static/fonts/Geist/Geist-UltraBlack.ttf") format("truetype");
 }
+
+@font-face {
+    font-family: "Geist Mono";
+    font-style: normal;
+    font-weight: 100;
+    font-display: swap;
+    src: url("src/static/fonts/GeistMono/GeistMono-Thin.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Geist Mono";
+    font-style: normal;
+    font-weight: 200;
+    font-display: swap;
+    src: url("src/static/fonts/GeistMono/GeistMono-UltraLight.ttf")
+        format("truetype");
+}
+@font-face {
+    font-family: "Geist Mono";
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: url("src/static/fonts/GeistMono/GeistMono-Light.ttf")
+        format("truetype");
+}
+@font-face {
+    font-family: "Geist Mono";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("src/static/fonts/GeistMono/GeistMono-Regular.ttf")
+        format("truetype");
+}
+@font-face {
+    font-family: "Geist Mono";
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url("src/static/fonts/GeistMono/GeistMono-Medium.ttf")
+        format("truetype");
+}
+@font-face {
+    font-family: "Geist Mono";
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url("src/static/fonts/GeistMono/GeistMono-SemiBold.ttf")
+        format("truetype");
+}
+@font-face {
+    font-family: "Geist Mono";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url("src/static/fonts/GeistMono/GeistMono-Bold.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Geist Mono";
+    font-style: normal;
+    font-weight: 800;
+    font-display: swap;
+    src: url("src/static/fonts/GeistMono/GeistMono-Black.ttf")
+        format("truetype");
+}
+@font-face {
+    font-family: "Geist Mono";
+    font-style: normal;
+    font-weight: 900;
+    font-display: swap;
+    src: url("src/static/fonts/GeistMono/GeistMono-UltraBlack.ttf")
+        format("truetype");
+}

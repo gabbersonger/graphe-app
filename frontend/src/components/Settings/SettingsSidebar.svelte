@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { EventsEmit } from "!wails/runtime/runtime";
+    import { Events } from "@wailsio/runtime";
 
     import { settings_section } from "@/lib/stores";
     import {
@@ -9,7 +9,7 @@
     } from "@/components/Settings/data";
 
     function selectSection(section: SettingSection) {
-        EventsEmit("window:settings:section", section);
+        Events.Emit({ name: "window:settings:section", data: section });
     }
 </script>
 

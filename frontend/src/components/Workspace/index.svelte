@@ -4,32 +4,32 @@
     import Sidebar from "@/components/Workspace/Sidebar/Sidebar.svelte";
     import Modals from "@/components/Workspace/Modals/Modals.svelte";
 
-    import { WindowIsFullscreen } from "!wails/runtime/runtime";
+    import { Window } from "@wailsio/runtime";
     import { workspace_modal, workspace_sidebar } from "@/lib/stores";
     import { windowWorkspaceManager } from "@/lib/managers/window_workspace";
 
-    let isFullscreen = false;
+    let is_fullscreen = false;
     async function checkIfFullscreen(_: number) {
-        let temp = await WindowIsFullscreen();
-        isFullscreen = temp;
+        let temp = await Window.IsFullscreen();
+        is_fullscreen = temp;
     }
-    let innerWidth: number;
-    $: checkIfFullscreen(innerWidth);
+    let inner_width: number;
+    $: checkIfFullscreen(inner_width);
 
-    let navFloating: boolean;
+    let nav_floating: boolean;
 </script>
 
-<svelte:window bind:innerWidth />
+<svelte:window bind:innerWidth={inner_width} />
 
 <div
     id="app"
     class:sidebar={$workspace_sidebar}
-    class:fullscreen={isFullscreen}
-    class:navfloating={navFloating}
+    class:fullscreen={is_fullscreen}
+    class:navfloating={nav_floating}
     class:modal={$workspace_modal != ""}
     use:windowWorkspaceManager
 >
-    <nav><Navbar bind:navFloating /></nav>
+    <nav><Navbar bind:nav_floating /></nav>
     <main><MainWindow /></main>
     <aside><Sidebar /></aside>
     <Modals />
