@@ -1,26 +1,19 @@
 package scripture
 
 import (
-	"fmt"
-	"log/slog"
+	"graphe/internal/logger"
 )
 
 type ScriptureService struct {
-	logger *slog.Logger
+	logger *logger.Logger
 }
 
-func NewScriptureService(logger *slog.Logger) *ScriptureService {
+func NewScriptureService(logger *logger.Logger) *ScriptureService {
 	return &ScriptureService{
 		logger: logger,
 	}
 }
 
 func (s *ScriptureService) assert(cond bool, msg string) {
-	if !cond {
-		if s.logger != nil {
-			s.logger.Error(fmt.Sprintf("[ScriptureService] %s", msg))
-		} else {
-			panic(msg)
-		}
-	}
+	s.logger.Assert("ScriptureService", cond, msg)
 }

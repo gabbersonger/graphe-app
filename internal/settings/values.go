@@ -10,44 +10,8 @@ import (
 	"golang.org/x/text/language"
 )
 
-func getDefaultValues() internal.SettingsValues {
-	return internal.SettingsValues{
-		Appearence: internal.SettingsValues_Appearence{
-			Theme: "hanok",
-			Font: internal.SettingsValues_Appearence_Font{
-				System:  "System",
-				Greek:   "SBL Greek",
-				Hebrew:  "SBL Hebrew",
-				English: "Neuton",
-			},
-			Zoom: 100,
-		},
-		Shortcuts: internal.SettingsValues_Shortcuts{
-			AboutGraphe:       "",
-			CheckForUpdates:   "",
-			OpenSettings:      "cmdorctrl+,",
-			OpenWorkspace:     "cmdorctrl+shift+,",
-			OpenDataDirectory: "",
-			OpenLogDirectory:  "",
-			PurgeLogs:         "",
-
-			PassageMode:   "cmdorctrl+P",
-			SearchMode:    "cmdorctrl+F",
-			OpenAnalytics: "cmdorctrl+\\",
-			OpenFunctions: "cmdorctrl+]",
-			ChooseVersion: "cmdorctrl+D",
-			ChooseText:    "cmdorctrl+T",
-
-			ZoomIn:      "cmdorctrl+plus",
-			ZoomOut:     "cmdorctrl+-",
-			ZoomReset:   "cmdorctrl+0",
-			ChangeTheme: "",
-		},
-	}
-}
-
 func (s *SettingsDB) GetSettings() internal.SettingsValues {
-	v := getDefaultValues()
+	v := internal.GetDefaultValues()
 
 	r := reflect.ValueOf(&v).Elem()
 	for _, t := range getSettingsTables() {
@@ -104,7 +68,7 @@ func (s *SettingsDB) GetSettings() internal.SettingsValues {
 }
 
 func (s *SettingsDB) ResetSetting(key []string) interface{} {
-	item := reflect.ValueOf(getDefaultValues())
+	item := reflect.ValueOf(internal.GetDefaultValues())
 	for i, k := range key {
 		k_name := capitalise(k)
 		item = reflect.Indirect(item).FieldByName(k_name)
@@ -140,7 +104,7 @@ func (s *SettingsDB) UpdateSetting(key []string, val interface{}) bool {
 
 	// Get the table
 	table_name := capitalise(key[0])
-	r := reflect.TypeOf(getDefaultValues())
+	r := reflect.TypeOf(internal.GetDefaultValues())
 	item, found := r.FieldByName(table_name)
 	s.assert(found, fmt.Sprintf("Invalid first value (table name) in key (key: %v, val: %v)", key, val))
 
@@ -185,7 +149,13 @@ func (s *SettingsDB) UpdateSetting(key []string, val interface{}) bool {
 		s.assert(false, fmt.Sprintf("Invalid value format (key: %v, val: %v)", key, val))
 	}
 
-	s.logger.Info(fmt.Sprintf("Updated setting (key: %v, val: %v)", key, val))
+	s.log(fmt.Sprintf("Updated setting (key: %v, val: %v)", key, val))
+
+	// If shortcut -> trigger menu change
+	if table_name == "shortcuts" {
+		s.menu_manager.UpdateShortcut(column_name, "hi")
+	}
+
 	return true
 }
 

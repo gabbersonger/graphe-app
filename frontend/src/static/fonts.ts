@@ -1,4 +1,4 @@
-import { SettingsValues_Appearence_Font } from "!/graphe/internal/settings";
+import { SettingsValues_Appearence_Font } from "!/graphe/internal";
 import { GrapheLog } from "@/lib/utils";
 
 export const fontData = [

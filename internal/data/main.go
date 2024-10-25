@@ -2,8 +2,8 @@ package data
 
 import (
 	"fmt"
+	"graphe/internal/logger"
 	"graphe/internal/scripture"
-	"log/slog"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -13,7 +13,7 @@ import (
 )
 
 type DataDB struct {
-	logger            *slog.Logger
+	logger            *logger.Logger
 	scripture_service *scripture.ScriptureService
 	pool_size         int
 	pool              chan *DataDBConn
@@ -25,13 +25,11 @@ type DataDBConn struct {
 }
 
 func (d *DataDB) assert(cond bool, msg string) {
-	if !cond {
-		if d.logger != nil {
-			d.logger.Error(fmt.Sprintf("[SettingsDB] %s", msg))
-		} else {
-			panic(msg)
-		}
-	}
+	d.logger.Assert("SettingsDB", cond, msg)
+}
+
+func (d *DataDB) log(msg string) {
+	d.logger.Log("SettingsDB", msg)
 }
 
 func (d *DataDB) OnShutdown() error {
@@ -45,11 +43,11 @@ func (d *DataDB) OnShutdown() error {
 		}
 		db.conn.Close()
 	}
-	d.logger.Info(fmt.Sprintf("Closed %d pooled connections", d.pool_size))
+	d.log(fmt.Sprintf("Closed %d pooled connections", d.pool_size))
 	return nil
 }
 
-func NewDataDB(logger *slog.Logger, scripture_service *scripture.ScriptureService) *DataDB {
+func NewDataDB(logger *logger.Logger, scripture_service *scripture.ScriptureService) *DataDB {
 	d := &DataDB{
 		logger:            logger,
 		scripture_service: scripture_service,
@@ -66,7 +64,7 @@ func NewDataDB(logger *slog.Logger, scripture_service *scripture.ScriptureServic
 	for i := 0; i < d.pool_size; i++ {
 		d.pool <- newDataDBConn(d, file_name)
 	}
-	d.logger.Info(fmt.Sprintf("Created %d pooled connections (file: `%s`)", d.pool_size, file_name))
+	d.log(fmt.Sprintf("Created %d pooled connections (file: `%s`)", d.pool_size, file_name))
 	return d
 }
 

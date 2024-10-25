@@ -54,3 +54,39 @@ type SettingsValues_Formatting struct{}
 type SettingsValues_Search struct{}
 
 type SettingsValues_InstantDetails struct{}
+
+func GetDefaultValues() SettingsValues {
+	return SettingsValues{
+		Appearence: SettingsValues_Appearence{
+			Theme: "hanok",
+			Font: SettingsValues_Appearence_Font{
+				System:  "System",
+				Greek:   "SBL Greek",
+				Hebrew:  "SBL Hebrew",
+				English: "Neuton",
+			},
+			Zoom: 100,
+		},
+		Shortcuts: SettingsValues_Shortcuts{
+			AboutGraphe:       "",
+			CheckForUpdates:   "",
+			OpenSettings:      "cmdorctrl+,",
+			OpenWorkspace:     "cmdorctrl+shift+,",
+			OpenDataDirectory: "",
+			OpenLogDirectory:  "",
+			PurgeLogs:         "",
+
+			PassageMode:   "cmdorctrl+P",
+			SearchMode:    "cmdorctrl+F",
+			OpenAnalytics: "cmdorctrl+\\",
+			OpenFunctions: "cmdorctrl+]",
+			ChooseVersion: "cmdorctrl+D",
+			ChooseText:    "cmdorctrl+T",
+
+			ZoomIn:      "cmdorctrl+plus",
+			ZoomOut:     "cmdorctrl+-",
+			ZoomReset:   "cmdorctrl+0",
+			ChangeTheme: "",
+		},
+	}
+}

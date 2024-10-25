@@ -80,24 +80,6 @@ func (h *Handler) Print(message string) {
 	f.Close()
 }
 
-// func (h *Handler) prettyPrint_assetRequest(r slog.Record) (error, string) {
-// 	message := r.Message + " "
-// 	r.Attrs(func(a slog.Attr) bool {
-// 		switch a.Key {
-// 		case "code":
-// 			message += fmt.Sprintf("[%s] ", a.Value)
-// 		case "method":
-// 			message += fmt.Sprintf("%s ", a.Value)
-// 		case "path":
-// 			message += fmt.Sprintf("%s ", a.Value)
-// 		case "duration":
-// 			message += fmt.Sprintf("(duration: %s)", a.Value)
-// 		}
-// 		return true
-// 	})
-// 	return nil, message
-// }
-
 func (h *Handler) prettyPrint_callBinding(r slog.Record) (error, string) {
 	message := r.Message + " "
 	error := false
@@ -176,7 +158,25 @@ func (h *Handler) Handle(ctx context.Context, r slog.Record) error {
 
 const LOG_FILE_NAME = "graphe.log"
 
-func NewGrapheLogger() *slog.Logger {
+type Logger struct {
+	Logger *slog.Logger
+}
+
+func (l *Logger) Assert(prefix string, cond bool, msg string) {
+	if !cond {
+		if l.Logger != nil {
+			l.Logger.Error(fmt.Sprintf("[%s] %s", prefix, msg))
+		} else {
+			panic(msg)
+		}
+	}
+}
+
+func (l *Logger) Log(prefix string, msg string) {
+	l.Logger.Info(fmt.Sprintf("[%s] %s", prefix, msg))
+}
+
+func NewGrapheLogger() *Logger {
 	home_dir, err := os.UserHomeDir()
 	if err != nil {
 		log.Fatal("No home directory")
@@ -194,5 +194,8 @@ func NewGrapheLogger() *slog.Logger {
 		h: slog.NewTextHandler(b, &slog.HandlerOptions{Level: slog.LevelDebug}),
 		m: &sync.Mutex{},
 	}
-	return slog.New(handler)
+
+	return &Logger{
+		Logger: slog.New(handler),
+	}
 }

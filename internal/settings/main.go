@@ -2,7 +2,8 @@ package settings
 
 import (
 	"fmt"
-	"log/slog"
+	"graphe/internal/logger"
+	"graphe/internal/menu"
 	"os"
 	"path/filepath"
 
@@ -10,18 +11,17 @@ import (
 )
 
 type SettingsDB struct {
-	logger *slog.Logger
-	db     *sqlite3.Conn
+	logger       *logger.Logger
+	menu_manager *menu.MenuManager
+	db           *sqlite3.Conn
 }
 
 func (s *SettingsDB) assert(cond bool, msg string) {
-	if !cond {
-		if s.logger != nil {
-			s.logger.Error(fmt.Sprintf("[SettingsDB] %s", msg))
-		} else {
-			panic(msg)
-		}
-	}
+	s.logger.Assert("SettingsDB", cond, msg)
+}
+
+func (s *SettingsDB) log(msg string) {
+	s.logger.Log("SettingsDB", msg)
 }
 
 func (s *SettingsDB) Name() string {
@@ -31,13 +31,14 @@ func (s *SettingsDB) Name() string {
 func (s *SettingsDB) OnShutdown() error {
 	err := s.db.Close()
 	s.assert(err == nil, "Error closing connection")
-	s.logger.Info("Closed connection sucessfully")
+	s.log("Closed connection sucessfully")
 	return nil
 }
 
-func NewSettingsDB(logger *slog.Logger) *SettingsDB {
+func NewSettingsDB(logger *logger.Logger, menu_manager *menu.MenuManager) *SettingsDB {
 	s := &SettingsDB{
-		logger: logger,
+		logger:       logger,
+		menu_manager: menu_manager,
 	}
 
 	home_directory, err := os.UserHomeDir()
@@ -46,9 +47,13 @@ func NewSettingsDB(logger *slog.Logger) *SettingsDB {
 	file_name := filepath.Join(data_directory, "/settings.db")
 	s.db, err = sqlite3.Open("file:" + file_name)
 	s.assert(err == nil, fmt.Sprintf("Error connecting to db (file_name: `%s`)", file_name))
-	s.logger.Info(fmt.Sprintf("Connection created successfully (file_name: `%s`)", file_name))
+	s.log(fmt.Sprintf("Connection created successfully (file_name: `%s`)", file_name))
 
 	s.assert(s.validateDB(), "Error validating db")
-	s.logger.Info("Validated settings in database")
+	s.log("Validated settings in database")
+
+	shortcuts := s.GetSettings().Shortcuts
+	s.menu_manager.SetShortcuts(&shortcuts)
+
 	return s
 }

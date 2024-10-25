@@ -7,9 +7,9 @@ import {Call as $Call, Create as $Create} from "@wailsio/runtime";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore: Unused imports
-import * as $models from "./models.js";
+import * as internal$0 from "../models.js";
 
-export function GetSettings(): Promise<$models.SettingsValues> & { cancel(): void } {
+export function GetSettings(): Promise<internal$0.SettingsValues> & { cancel(): void } {
     let $resultPromise = $Call.ByID(4188995328) as any;
     let $typingPromise = $resultPromise.then(($result) => {
         return $$createType0($result);
@@ -34,4 +34,4 @@ export function UpdateSetting(key: string[], val: any): Promise<boolean> & { can
 }
 
 // Private type creation functions
-const $$createType0 = $models.SettingsValues.createFrom;
+const $$createType0 = internal$0.SettingsValues.createFrom;
