@@ -75,6 +75,16 @@ func (s *SettingsDB) ResetSetting(key []string) interface{} {
 		s.assert(item.IsValid(), fmt.Sprintf("Invalid key (key: %v, index: %d)", key, i))
 	}
 	resetValue(s, item, key)
+	switch item.Kind() {
+	case reflect.Int:
+		return item.Int()
+	case reflect.String:
+		return item.String()
+	case reflect.Struct:
+		return item.Interface()
+	default:
+		s.assert(false, "Invalid reset value format")
+	}
 	return nil
 }
 
@@ -122,6 +132,10 @@ func (s *SettingsDB) UpdateSetting(key []string, val interface{}) bool {
 
 	// Update the value in the db
 	switch val.(type) {
+	case int:
+		execUpdate(s, fmt.Sprintf(`
+			UPDATE %s SET %s = %d WHERE id = 1;
+		`, table_name, column_name, val))
 	case float64:
 		val := int(val.(float64))
 		execUpdate(s, fmt.Sprintf(`

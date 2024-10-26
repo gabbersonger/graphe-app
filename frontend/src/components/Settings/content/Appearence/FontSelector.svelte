@@ -3,7 +3,7 @@
     import type { Select as SelectPrimitive } from "bits-ui";
     import { fontData } from "@/static/fonts";
     import { graphe_settings } from "@/lib/stores";
-    import type { SettingsValues } from "!/graphe/internal/settings";
+    import type { SettingsValues } from "!/graphe/internal";
     import FontSelect from "./FontSelect.svelte";
 
     const language_info = [

@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "bits-ui": "^0.21.13",
-    "lucide-svelte": "^0.438.0"
+    "lucide-svelte": "^0.438.0",
+    "zod": "^3.23.8"
   }
 }

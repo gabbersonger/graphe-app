@@ -7,7 +7,7 @@ import type {
   ScriptureSection,
   ScriptureWordData,
 } from "!/graphe/internal/data";
-import type { SettingsValues } from "!/graphe/internal/settings";
+import type { SettingsValues } from "!/graphe/internal";
 import type { SettingSection } from "@/components/Settings/data";
 import type { ModalName } from "@/components/Workspace/Modals/data";
 import {} from "!/graphe/internal/settings";

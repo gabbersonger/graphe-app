@@ -15,7 +15,7 @@
     } from "@/lib/stores";
     import { Events } from "@wailsio/runtime";
     import { graphe_settings, workspace_sidebar } from "@/lib/stores";
-    import type { SettingsValues } from "!/graphe/internal/settings";
+    import type { SettingsValues } from "!/graphe/internal";
     import {
         ScriptureRefStringType,
         ScriptureService,

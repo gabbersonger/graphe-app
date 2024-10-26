@@ -6,7 +6,7 @@
     import { shortcutsData } from "@/components/Settings/content/Shortcuts/data";
     import { graphe_settings } from "@/lib/stores";
     import { Events } from "@wailsio/runtime";
-    import type { SettingsValues } from "!/graphe/internal/settings";
+    import type { SettingsValues } from "!/graphe/internal";
 
     // Limit the height of the table
     let fullHeight: number, fullWidth: number;
