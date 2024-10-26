@@ -9,12 +9,6 @@ type SettingValue struct {
 	Value   any      `json:"value"`
 }
 
-func (m *MenuManager) menuItemEventCallback(eventName string, data ...any) func(*application.Context) {
-	return func(ctx *application.Context) {
-		m.app.EmitEvent(eventName, data)
-	}
-}
-
 func (m *MenuManager) addMenuItem(submenu *application.Menu, label string, shortcut string, callback func(*application.Context)) *application.MenuItem {
 	menu_item := submenu.Add(label)
 	if len(shortcut) > 0 {
