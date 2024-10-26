@@ -1,4 +1,4 @@
-![Graphe](https://raw.githubusercontent.com/gabrielaravena32/graphe-app/main/build/banner.png)
+![Graphe](https://raw.githubusercontent.com/gabbersonger/graphe-app/main/build/banner.png)
 <br />
 
 # What is Graphe?
