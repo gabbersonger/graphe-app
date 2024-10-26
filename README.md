@@ -36,9 +36,6 @@ Currently requires a large database file that is currently not packaged with the
 - [x] Remove JS Scripture functions
 - [x] Replace Virtualiser with just loading 10 chapters either side
 - [ ] Right click functionality
-- [ ] Animations
-  - [ ] Entering settings window (look at what Discord does)
-- [ ] Sound effects
 - [ ] Auto-download database files on start-up
   - [ ] Functionality
   - [ ] UI
@@ -57,7 +54,6 @@ Currently requires a large database file that is currently not packaged with the
     - [ ] Functionality
     - [ ] Reset
   - [x] Shortcuts reset
-  - [ ] On shortcut page, disable shortcuts
 
 <br/>
 
@@ -121,6 +117,9 @@ Currently requires a large database file that is currently not packaged with the
 - Add more fonts
 - Add more themes
 - "< Close" button in sidebar for settings at small screen sizes
+- Animations (e.g. going into settings, like Discord)
+- Sound effects
+- On shortcut page, disable shortcuts
 
 **Bugs**
 
