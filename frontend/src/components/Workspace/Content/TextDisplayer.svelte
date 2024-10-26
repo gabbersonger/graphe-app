@@ -59,7 +59,7 @@
         if (pivot.index == visible_below[0].index) return;
         throttled_update(pivot, offset, remaining);
     }
-    const throttled_refresh = throttle(refresh, 300);
+    const throttled_refresh = throttle(refresh, 10);
 
     async function update(vb: VirtualBlock, offset: number, remaining: number) {
         // Update current verse
@@ -84,7 +84,7 @@
         pivot_height += offset;
         updateViritualBlocks(vb.index);
     }
-    const throttled_update = throttle(update, 300);
+    const throttled_update = throttle(update, 10);
 
     function calculatePivot(scroll: number): {
         pivot: VirtualBlock;
