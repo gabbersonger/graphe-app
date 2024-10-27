@@ -54,6 +54,7 @@ Currently requires a large database file that is currently not packaged with the
     - [ ] Functionality
     - [ ] Reset
   - [x] Shortcuts reset
+  - [ ] Shortcuts update menubar
 
 <br/>
 
