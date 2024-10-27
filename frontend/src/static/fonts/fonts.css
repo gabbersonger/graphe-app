@@ -2,21 +2,21 @@
     font-family: "Neuton";
     src:
         local("Neuton"),
-        url("src/static/fonts/Neuton.ttf") format("truetype");
+        url("@/static/fonts/Neuton.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "SBL Greek";
     src:
         local("SBL Greek"),
-        url("src/static/fonts/SBL\ Greek.ttf") format("truetype");
+        url("@/static/fonts/SBLGreek.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "SBL Hebrew";
     src:
         local("SBL Hebrew"),
-        url("src/static/fonts/SBL\ Hebrew.ttf") format("truetype");
+        url("@/static/fonts/SBLHebrew.ttf") format("truetype");
 }
 
 @font-face {
@@ -24,63 +24,63 @@
     font-style: normal;
     font-weight: 100;
     font-display: swap;
-    src: url("src/static/fonts/Geist/Geist-Thin.ttf") format("truetype");
+    src: url("@/static/fonts/Geist/Geist-Thin.ttf") format("truetype");
 }
 @font-face {
     font-family: "Geist";
     font-style: normal;
     font-weight: 200;
     font-display: swap;
-    src: url("src/static/fonts/Geist/Geist-UltraLight.ttf") format("truetype");
+    src: url("@/static/fonts/Geist/Geist-UltraLight.ttf") format("truetype");
 }
 @font-face {
     font-family: "Geist";
     font-style: normal;
     font-weight: 300;
     font-display: swap;
-    src: url("src/static/fonts/Geist/Geist-Light.ttf") format("truetype");
+    src: url("@/static/fonts/Geist/Geist-Light.ttf") format("truetype");
 }
 @font-face {
     font-family: "Geist";
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: url("src/static/fonts/Geist/Geist-Regular.ttf") format("truetype");
+    src: url("@/static/fonts/Geist/Geist-Regular.ttf") format("truetype");
 }
 @font-face {
     font-family: "Geist";
     font-style: normal;
     font-weight: 500;
     font-display: swap;
-    src: url("src/static/fonts/Geist/Geist-Medium.ttf") format("truetype");
+    src: url("@/static/fonts/Geist/Geist-Medium.ttf") format("truetype");
 }
 @font-face {
     font-family: "Geist";
     font-style: normal;
     font-weight: 600;
     font-display: swap;
-    src: url("src/static/fonts/Geist/Geist-SemiBold.ttf") format("truetype");
+    src: url("@/static/fonts/Geist/Geist-SemiBold.ttf") format("truetype");
 }
 @font-face {
     font-family: "Geist";
     font-style: normal;
     font-weight: 700;
     font-display: swap;
-    src: url("src/static/fonts/Geist/Geist-Bold.ttf") format("truetype");
+    src: url("@/static/fonts/Geist/Geist-Bold.ttf") format("truetype");
 }
 @font-face {
     font-family: "Geist";
     font-style: normal;
     font-weight: 800;
     font-display: swap;
-    src: url("src/static/fonts/Geist/Geist-Black.ttf") format("truetype");
+    src: url("@/static/fonts/Geist/Geist-Black.ttf") format("truetype");
 }
 @font-face {
     font-family: "Geist";
     font-style: normal;
     font-weight: 900;
     font-display: swap;
-    src: url("src/static/fonts/Geist/Geist-UltraBlack.ttf") format("truetype");
+    src: url("@/static/fonts/Geist/Geist-UltraBlack.ttf") format("truetype");
 }
 
 @font-face {
@@ -88,14 +88,14 @@
     font-style: normal;
     font-weight: 100;
     font-display: swap;
-    src: url("src/static/fonts/GeistMono/GeistMono-Thin.ttf") format("truetype");
+    src: url("@/static/fonts/GeistMono/GeistMono-Thin.ttf") format("truetype");
 }
 @font-face {
     font-family: "Geist Mono";
     font-style: normal;
     font-weight: 200;
     font-display: swap;
-    src: url("src/static/fonts/GeistMono/GeistMono-UltraLight.ttf")
+    src: url("@/static/fonts/GeistMono/GeistMono-UltraLight.ttf")
         format("truetype");
 }
 @font-face {
@@ -103,15 +103,14 @@
     font-style: normal;
     font-weight: 300;
     font-display: swap;
-    src: url("src/static/fonts/GeistMono/GeistMono-Light.ttf")
-        format("truetype");
+    src: url("@/static/fonts/GeistMono/GeistMono-Light.ttf") format("truetype");
 }
 @font-face {
     font-family: "Geist Mono";
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: url("src/static/fonts/GeistMono/GeistMono-Regular.ttf")
+    src: url("@/static/fonts/GeistMono/GeistMono-Regular.ttf")
         format("truetype");
 }
 @font-face {
@@ -119,15 +118,14 @@
     font-style: normal;
     font-weight: 500;
     font-display: swap;
-    src: url("src/static/fonts/GeistMono/GeistMono-Medium.ttf")
-        format("truetype");
+    src: url("@/static/fonts/GeistMono/GeistMono-Medium.ttf") format("truetype");
 }
 @font-face {
     font-family: "Geist Mono";
     font-style: normal;
     font-weight: 600;
     font-display: swap;
-    src: url("src/static/fonts/GeistMono/GeistMono-SemiBold.ttf")
+    src: url("@/static/fonts/GeistMono/GeistMono-SemiBold.ttf")
         format("truetype");
 }
 @font-face {
@@ -135,21 +133,20 @@
     font-style: normal;
     font-weight: 700;
     font-display: swap;
-    src: url("src/static/fonts/GeistMono/GeistMono-Bold.ttf") format("truetype");
+    src: url("@/static/fonts/GeistMono/GeistMono-Bold.ttf") format("truetype");
 }
 @font-face {
     font-family: "Geist Mono";
     font-style: normal;
     font-weight: 800;
     font-display: swap;
-    src: url("src/static/fonts/GeistMono/GeistMono-Black.ttf")
-        format("truetype");
+    src: url("@/static/fonts/GeistMono/GeistMono-Black.ttf") format("truetype");
 }
 @font-face {
     font-family: "Geist Mono";
     font-style: normal;
     font-weight: 900;
     font-display: swap;
-    src: url("src/static/fonts/GeistMono/GeistMono-UltraBlack.ttf")
+    src: url("@/static/fonts/GeistMono/GeistMono-UltraBlack.ttf")
         format("truetype");
 }
