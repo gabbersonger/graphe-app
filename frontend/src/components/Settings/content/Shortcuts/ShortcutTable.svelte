@@ -5,8 +5,8 @@
     import { TextSearch, RotateCcw, MoveDown, Lock } from "lucide-svelte";
     import { shortcutsData } from "@/components/Settings/content/Shortcuts/data";
     import { graphe_settings } from "@/lib/stores";
-    import { Events } from "@wailsio/runtime";
     import type { SettingsValues } from "!/graphe/internal";
+    import { GrapheEvent } from "@/lib/utils";
 
     // Limit the height of the table
     let fullHeight: number, fullWidth: number;
@@ -30,25 +30,19 @@
 
     // Reset all the shortcuts
     function resetAllShortcuts() {
-        Events.Emit({ name: "graphe:setting:reset", data: ["shortcuts"] });
+        GrapheEvent("graphe:setting:reset", ["shortcuts"]);
     }
 
     // Reset invidual shortcut
     function resetShortcut(shortcut: string) {
-        Events.Emit({
-            name: "graphe:setting:reset",
-            data: ["shortcuts", shortcut],
-        });
+        GrapheEvent("graphe:setting:reset", ["shortcuts", shortcut]);
     }
 
     // Change the value for a shortcut
     function onShortcutChange(shortcut: string, value: string) {
-        Events.Emit({
-            name: "graphe:setting",
-            data: {
-                setting: ["shortcuts", shortcut],
-                value: value,
-            },
+        GrapheEvent("graphe:setting", {
+            setting: ["shortcuts", shortcut],
+            value: value,
         });
     }
 

@@ -1,7 +1,7 @@
 <script lang="ts">
     import Select from "@/components/ui/Select.svelte";
     import type { Select as SelectPrimitive } from "bits-ui";
-    import { Events, Create } from "@wailsio/runtime";
+    import { GrapheEvent } from "@/lib/utils";
 
     export let name: string;
     export let values:
@@ -13,12 +13,9 @@
 
     function onFontChange(font: string | undefined) {
         if (font != undefined) {
-            Events.Emit({
-                name: "graphe:setting",
-                data: {
-                    setting: ["appearence", "font", name],
-                    value: font,
-                },
+            GrapheEvent("graphe:setting", {
+                setting: ["appearence", "font", name],
+                value: font,
             });
         }
     }

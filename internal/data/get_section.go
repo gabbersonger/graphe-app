@@ -34,12 +34,12 @@ type ScriptureVerseDetail struct {
 }
 
 type ScriptureWord struct {
-	WordNumber       int                   `json:"word_num"`
-	Text             string                `json:"text"`
-	Pre              string                `json:"pre"`
-	Post             string                `json:"post"`
-	Details          []ScriptureWordDetail `json:"details,omitempty"`
-	NoInstantDetails bool                  `json:"no_instant_details,omitempty"`
+	WordNumber        int                   `json:"word_num"`
+	Text              string                `json:"text"`
+	Pre               string                `json:"pre"`
+	Post              string                `json:"post"`
+	Details           []ScriptureWordDetail `json:"details,omitempty"`
+	HasInstantDetails bool                  `json:"has_instant_details,omitempty"`
 }
 
 type ScriptureWordDetail struct {
@@ -195,7 +195,7 @@ func getScriptureSection(d *DataDB, wg *sync.WaitGroup, section *ScriptureSectio
 		}
 
 		// Add word
-		new_word := ScriptureWord{word_num, text, pre, post, details, has_instant_details == 0}
+		new_word := ScriptureWord{word_num, text, pre, post, details, has_instant_details == 1}
 		section.Blocks[last_block].Verses[last_verse].Words = append(section.Blocks[last_block].Verses[last_verse].Words, new_word)
 	}
 	section.Range.End = scripture.ScriptureRef(ref)

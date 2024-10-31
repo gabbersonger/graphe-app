@@ -1,17 +1,14 @@
 <script lang="ts">
     import { Slider } from "bits-ui";
     import { graphe_settings } from "@/lib/stores";
-    import { Events } from "@wailsio/runtime";
+    import { GrapheEvent } from "@/lib/utils";
 
     $: value = [$graphe_settings?.appearence.zoom ?? 100];
 
     function onZoomChange(zoom: number) {
-        Events.Emit({
-            name: "graphe:setting",
-            data: {
-                setting: ["appearence", "zoom"],
-                value: zoom,
-            },
+        GrapheEvent("graphe:setting", {
+            setting: ["appearence", "zoom"],
+            value: zoom,
         });
     }
 </script>

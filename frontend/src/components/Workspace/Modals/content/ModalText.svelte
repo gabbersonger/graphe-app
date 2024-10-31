@@ -8,8 +8,7 @@
         ScriptureService,
         type VersionData,
     } from "!/graphe/internal/scripture";
-    import { GrapheLog } from "@/lib/utils";
-    import { Events } from "@wailsio/runtime";
+    import { GrapheEvent, GrapheLog } from "@/lib/utils";
 
     let initialised = false;
     let current_version: string | undefined = undefined;
@@ -279,8 +278,8 @@
                 "error",
                 `[ModalText] Invalid reference made (ref: ${ref}, version: \`${$workspace_version}\`)`,
             );
-        Events.Emit({ name: "window:workspace:goto", data: ref });
-        Events.Emit({ name: "window:workspace:modal:close", data: null });
+        GrapheEvent("window:workspace:goto", ref);
+        GrapheEvent("window:workspace:modal:close");
     }
 </script>
 

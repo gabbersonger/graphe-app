@@ -1,20 +1,16 @@
 <script lang="ts">
-    import { Events } from "@wailsio/runtime";
-
     import {
         type ThemeName,
         themeData,
         createThemeStylesString,
     } from "@/static/themes";
     import { graphe_settings } from "@/lib/stores";
+    import { GrapheEvent } from "@/lib/utils";
 
     function selectTheme(theme: ThemeName) {
-        Events.Emit({
-            name: "graphe:setting",
-            data: {
-                setting: ["appearence", "theme"],
-                value: theme,
-            },
+        GrapheEvent("graphe:setting", {
+            setting: ["appearence", "theme"],
+            value: theme,
         });
     }
 </script>

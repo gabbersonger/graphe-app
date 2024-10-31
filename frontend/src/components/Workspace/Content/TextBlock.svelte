@@ -1,7 +1,20 @@
 <script lang="ts">
     import type { ScriptureBlock } from "!/graphe/internal/data";
+    import { GrapheEvent } from "@/lib/utils";
+    import { Events } from "@wailsio/runtime";
 
     export let block: ScriptureBlock;
+
+    function handleMouseEnter(ref: number, word_num: number) {
+        GrapheEvent("window:workspace:instantdetails", {
+            ref: ref,
+            word_num: word_num,
+        });
+    }
+
+    function handleMouseLeave() {
+        GrapheEvent("window:workspace:instantdetails:hide");
+    }
 </script>
 
 <div class="block">
@@ -16,7 +29,17 @@
             {/if}
 
             {#each verse.words as word}
-                {word.pre}<span class="word">{word.text}</span>{word.post}{" "}
+                {word.pre}<span
+                    class="word"
+                    role="tooltip"
+                    class:hoverable={"has_instant_details" in word}
+                    on:mouseenter={"has_instant_details" in word
+                        ? (e) => handleMouseEnter(verse.ref, word.word_num)
+                        : null}
+                    on:mouseleave={"has_instant_details" in word
+                        ? handleMouseLeave
+                        : null}>{word.text}</span
+                >{word.post}{word.post != "-" ? " " : ""}
             {/each}
         </div>
     {/each}
@@ -54,5 +77,13 @@
         font-weight: bold;
         font-size: 0.7rem;
         color: var(--clr-text-sub);
+    }
+
+    .hoverable:hover {
+        cursor: pointer;
+        background: var(--clr-main);
+        color: var(--clr-background);
+        outline: 0.5ch solid var(--clr-main);
+        border-radius: 0.15ch;
     }
 </style>

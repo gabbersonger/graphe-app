@@ -155,7 +155,7 @@ export class ScriptureWord {
     "pre": string;
     "post": string;
     "details"?: ScriptureWordDetail[];
-    "no_instant_details"?: boolean;
+    "has_instant_details"?: boolean;
 
     /** Creates a new ScriptureWord instance. */
     constructor($$source: Partial<ScriptureWord> = {}) {

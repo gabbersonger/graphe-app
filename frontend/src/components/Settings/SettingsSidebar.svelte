@@ -1,15 +1,14 @@
 <script lang="ts">
-    import { Events } from "@wailsio/runtime";
-
     import { settings_section } from "@/lib/stores";
     import {
         settingsData,
         getSettingCategories,
         type SettingSection,
     } from "@/components/Settings/data";
+    import { GrapheEvent } from "@/lib/utils";
 
     function selectSection(section: SettingSection) {
-        Events.Emit({ name: "window:settings:section", data: section });
+        GrapheEvent("window:settings:section", section);
     }
 </script>
 

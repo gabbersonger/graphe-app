@@ -6,8 +6,9 @@
         type ScriptureRef,
     } from "!/graphe/internal/scripture";
     import { onMount, tick } from "svelte";
-    import { Events } from "@wailsio/runtime";
     import { throttle } from "@/lib/utils";
+    import { EventHandler } from "@/lib/event_handler";
+    import { z } from "zod";
 
     const NUM_BLOCK_BUFFER = 20;
     const SCROLLABLE_HEIGHT = 100_000;
@@ -251,11 +252,10 @@
     }
 
     onMount(() => {
-        Events.On("window:workspace:text:goto", (event_data: any) => {
-            gotoRef(event_data.data as ScriptureRef);
-        });
+        const events = new EventHandler();
+        events.subscribe("window:workspace:text:goto", gotoRef, z.number());
         return () => {
-            Events.Off("window:workspace:text:goto");
+            events.shutdown();
         };
     });
 </script>

@@ -2,11 +2,11 @@
     import SettingsSidebar from "@/components/Settings/SettingsSidebar.svelte";
     import SettingsContent from "@/components/Settings/SettingsContent.svelte";
     import { X } from "lucide-svelte";
-    import { Events } from "@wailsio/runtime";
     import { windowSettingsManager } from "@/lib/managers/window_settings";
+    import { GrapheEvent } from "@/lib/utils";
 
     function closeSettings() {
-        Events.Emit({ name: "graphe:mode", data: "workspace" });
+        GrapheEvent("graphe:mode", "workspace");
     }
 </script>
 

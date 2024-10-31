@@ -1,4 +1,3 @@
-import { Events } from "@wailsio/runtime";
 import { get } from "svelte/store";
 import { EventHandler } from "@/lib/event_handler";
 import {
@@ -18,20 +17,27 @@ import {
   type ScriptureRef,
   type ScriptureVersion,
 } from "!/graphe/internal/scripture";
-import { GrapheLog } from "../utils";
+import { GrapheEvent, GrapheLog } from "@/lib/utils";
+import { z } from "zod";
 
 function handleReset() {
   handleVersion("esv");
 }
 
+const z_workspace_mode = z.union([z.literal("passage"), z.literal("search")]);
 function handleMode(mode: WorkspaceMode) {
   workspace_mode.set(mode);
-  if (mode == "search")
-    Events.Emit({ name: "window:workspace:modal", data: "search" });
+  if (mode == "search") GrapheEvent("window:workspace:modal", "search");
   else if (get(workspace_modal) != "")
-    Events.Emit({ name: "window:workspace:modal", data: "" });
+    GrapheEvent("window:workspace:modal", "");
 }
 
+const z_workspace_modal = z.union([
+  z.literal("search"),
+  z.literal("version"),
+  z.literal("text"),
+  z.literal("functions"),
+]);
 function handleModal(modal: ModalName) {
   if (modal == "text" && get(workspace_mode) == "search") return;
   workspace_modal.update((val) => (val == modal ? "" : modal));
@@ -41,6 +47,7 @@ function handleModalClose() {
   workspace_modal.set("");
 }
 
+const z_sidebar = z.boolean().or(z.literal("toggle"));
 function handleSidebar(mode: boolean | "toggle") {
   if (typeof mode == "boolean") {
     workspace_sidebar.set(mode);
@@ -77,27 +84,38 @@ function handleVersion(version: ScriptureVersion) {
 }
 
 function handleGoTo(ref: ScriptureRef) {
-  Events.Emit({ name: "window:workspace:text:goto", data: ref });
+  GrapheEvent("window:workspace:text:goto", ref);
 }
 
-async function instantDetails(ref: ScriptureRef, word_number: number) {
-  const version = get(workspace_version);
-  if (version == undefined) {
-    return GrapheLog(
-      "error",
-      `[Workspace Manager] Invalid version when doing instantDetails (version: \`${version}\`)`,
-    );
-  }
-  let data = await DataDB.GetScriptureWord(version, ref, word_number);
-  workspace_instantDetailsData.set(data);
+const z_instant_details = z.object({
+  ref: z.number(),
+  word_num: z.number(),
+});
+function handleInstantDetails(data: {
+  ref: ScriptureRef;
+  word_number: number;
+}) {
+  console.log(data);
 }
 
-function handleInstantDetails(ref: ScriptureRef, word_number: number) {
-  let current = get(workspace_instantDetailsData);
-  if (!(current && current.ref == ref && current.word_number == word_number)) {
-    instantDetails(ref, word_number);
-  }
-}
+// async function instantDetails(ref: ScriptureRef, word_number: number) {
+//   const version = get(workspace_version);
+//   if (version == undefined) {
+//     return GrapheLog(
+//       "error",
+//       `[Workspace Manager] Invalid version when doing instantDetails (version: \`${version}\`)`,
+//     );
+//   }
+//   let data = await DataDB.GetScriptureWord(version, ref, word_number);
+//   workspace_instantDetailsData.set(data);
+// }
+
+// function handleInstantDetails(ref: ScriptureRef, word_number: number) {
+//   let current = get(workspace_instantDetailsData);
+//   if (!(current && current.ref == ref && current.word_number == word_number)) {
+//     instantDetails(ref, word_number);
+//   }
+// }
 
 function handleInstantDetailsHide() {
   workspace_instantDetailsData.set(null);
@@ -105,22 +123,27 @@ function handleInstantDetailsHide() {
 
 export function windowWorkspaceManager(_: HTMLElement) {
   const events = new EventHandler();
-  events.subscribe("window:workspace:reset", handleReset);
+  events.subscribe("window:workspace:reset", handleReset, undefined);
 
-  events.subscribe("window:workspace:mode", handleMode);
-  events.subscribe("window:workspace:modal", handleModal);
-  events.subscribe("window:workspace:modal:close", handleModalClose);
-  events.subscribe("window:workspace:sidebar", handleSidebar);
+  events.subscribe("window:workspace:mode", handleMode, z_workspace_mode);
+  events.subscribe("window:workspace:modal", handleModal, z_workspace_modal);
+  events.subscribe("window:workspace:modal:close", handleModalClose, undefined);
+  events.subscribe("window:workspace:sidebar", handleSidebar, z_sidebar);
 
-  events.subscribe("window:workspace:version", handleVersion);
-  events.subscribe("window:workspace:goto", handleGoTo);
-  events.subscribe("window:workspace:instantdetails", handleInstantDetails);
+  events.subscribe("window:workspace:version", handleVersion, z.string());
+  events.subscribe("window:workspace:goto", handleGoTo, z.number());
+  events.subscribe(
+    "window:workspace:instantdetails",
+    handleInstantDetails,
+    z_instant_details,
+  );
   events.subscribe(
     "window:workspace:instantdetails:hide",
     handleInstantDetailsHide,
+    undefined,
   );
 
-  Events.Emit({ name: "window:workspace:reset", data: null });
+  GrapheEvent("window:workspace:reset");
 
   return {
     destroy() {

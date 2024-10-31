@@ -1,7 +1,6 @@
 import { SettingsDB } from "!/graphe/internal/settings";
-import { graphe_settings, type GrapheMode } from "@/lib/stores";
-import { EventHandler } from "@/lib/event_handler";
-import { Events } from "@wailsio/runtime";
+import { graphe_settings } from "@/lib/stores";
+import { GrapheEvent } from "@/lib/utils";
 
 async function getSavedSettings() {
   const settings = await SettingsDB.GetSettings();
@@ -10,15 +9,7 @@ async function getSavedSettings() {
 }
 
 export function loadingManager(_: HTMLElement) {
-  const events = new EventHandler();
-
   getSavedSettings().then((x) => {
-    Events.Emit({ name: "graphe:mode", data: "workspace" });
+    GrapheEvent("graphe:mode", "workspace");
   });
-
-  return {
-    destroy() {
-      events.shutdown();
-    },
-  };
 }

@@ -10,6 +10,11 @@ import { GrapheLog } from "@/lib/utils";
 import { get } from "svelte/store";
 import { z } from "zod";
 
+const z_graphe_mode = z.union([
+  z.literal("workspace"),
+  z.literal("settings"),
+  z.literal("loading"),
+]);
 function handleMode(mode: GrapheMode) {
   if (get(graphe_mode) == "settings" && mode != "settings") {
     // TODO: load menu
@@ -75,30 +80,20 @@ function _parseSettingValue(setting: string[], value: any): any {
   return value;
 }
 
-function parseSettingData(data: any) {
-  let setting: string[] | null = null;
-  let value: any = null;
+const z_setting = z.array(z.string());
+const z_update_setting = z.object({
+  setting: z_setting,
+  value: z.any(),
+});
+const z_update_setting_field = z_update_setting.or(z.array(z_update_setting));
 
-  const setting_schema = z.object({
-    setting: z.array(z.string()),
-    value: z.any(),
-  });
-  const parsed_setting = setting_schema.safeParse(data);
-  if (parsed_setting.success) {
-    setting = parsed_setting.data.setting;
-    value = parsed_setting.data.value;
-  } else {
-    const setting_array_schema = z.array(setting_schema);
-    const parsed_setting_array = setting_array_schema.safeParse(data);
-    if (parsed_setting_array.success) {
-      setting = parsed_setting_array.data[0].setting;
-      value = parsed_setting_array.data[0].value;
-    }
-  }
-  return { setting, value };
+function parseSettingData(data: z.infer<typeof z_update_setting_field>) {
+  return data instanceof Array
+    ? { setting: data[0]?.setting, value: data[0]?.value }
+    : { setting: data.setting, value: data.value };
 }
 
-async function updateSetting(data: any) {
+async function updateSetting(data: z.infer<typeof z_update_setting_field>) {
   let { setting, value } = parseSettingData(data);
   if (setting == null || value == null)
     return GrapheLog(
@@ -130,9 +125,9 @@ async function resetSetting(setting: string[]) {
 
 export function grapheManager(_: HTMLElement) {
   const events = new EventHandler();
-  events.subscribe("graphe:mode", handleMode);
-  events.subscribe("graphe:setting", updateSetting);
-  events.subscribe("graphe:setting:reset", resetSetting);
+  events.subscribe("graphe:mode", handleMode, z_graphe_mode);
+  events.subscribe("graphe:setting", updateSetting, z_update_setting_field);
+  events.subscribe("graphe:setting:reset", resetSetting, z_setting);
 
   return {
     destroy() {

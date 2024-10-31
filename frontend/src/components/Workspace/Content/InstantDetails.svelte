@@ -1,25 +1,23 @@
 <script lang="ts">
-    import type { data } from "!wails/go/models";
+    import type { ScriptureWordData } from "!/graphe/internal/data";
     import { workspace_instantDetailsData } from "@/lib/stores";
     import { GrapheLog } from "@/lib/utils";
 
     type InstantDetailsData_Fields = Map<string, string | number>;
-
     type InstantDetailsData = {
         version: string;
         ref: number;
         word_number: number;
         text: string;
-        fields?: InstantDetailsData_Fields;
-        collections?: InstantDetailsData_Fields[];
+        fields: InstantDetailsData_Fields;
+        collections: InstantDetailsData_Fields[];
     };
 
-    let shown = false;
-    let detail: InstantDetailsData = undefined;
+    let detail: InstantDetailsData | undefined = undefined;
 
-    function handleData(data: data.ScriptureWordData) {
+    function handleData(data: ScriptureWordData | null) {
         if (data == null) {
-            shown = false;
+            detail = undefined;
             return;
         }
 
@@ -63,13 +61,12 @@
                     );
             }
         }
-        shown = true;
     }
 
     $: handleData($workspace_instantDetailsData);
 </script>
 
-{#if shown}
+{#if detail != undefined}
     <div class="container">
         {#if detail.version == "gnt"}
             <div>

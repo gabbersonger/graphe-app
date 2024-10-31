@@ -52,12 +52,12 @@ export const settingsData = [
 ] as const;
 
 export type SettingSection = (typeof settingsData)[number]["name"];
-export function getSettingCategories(): (typeof settingsData)[number]["category"][] {
-  let categories = [];
+export function getSettingCategories() {
+  let categories: string[] = [];
   for (let i = 0; i < settingsData.length; i++) {
     if (!categories.includes(settingsData[i].category)) {
       categories.push(settingsData[i].category);
     }
   }
-  return categories;
+  return categories as (typeof settingsData)[number]["category"][];
 }

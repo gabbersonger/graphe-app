@@ -3,12 +3,12 @@
     import { LibraryBig } from "lucide-svelte";
 
     import { onMount } from "svelte";
-    import { Events } from "@wailsio/runtime";
     import { workspace_version } from "@/lib/stores";
     import {
         ScriptureService,
         ScriptureVersionBasicInfo,
     } from "!/graphe/internal/scripture";
+    import { GrapheEvent } from "@/lib/utils";
 
     function normaliseString(string: string): string {
         return string.toLowerCase().replaceAll(" ", "");
@@ -53,8 +53,8 @@
 
     function chooseVersion(index: number) {
         const version = available_versions[index].value;
-        Events.Emit({ name: "window:workspace:version", data: version });
-        Events.Emit({ name: "window:workspace:modal:close", data: null });
+        GrapheEvent("window:workspace:version", version);
+        GrapheEvent("window:workspace:modal:close");
     }
 </script>
 

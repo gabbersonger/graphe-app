@@ -13,13 +13,13 @@
         workspace_version,
         workspace_ref,
     } from "@/lib/stores";
-    import { Events } from "@wailsio/runtime";
     import { graphe_settings, workspace_sidebar } from "@/lib/stores";
     import type { SettingsValues } from "!/graphe/internal";
     import {
         ScriptureRefStringType,
         ScriptureService,
     } from "!/graphe/internal/scripture";
+    import { GrapheEvent } from "@/lib/utils";
 
     export let nav_floating = true;
     let width: number;
@@ -119,11 +119,7 @@
             <NavbarItem
                 icon={TextSelect}
                 text={width > text_breakpoint ? "passage" : ""}
-                on:click={() =>
-                    Events.Emit({
-                        name: "window:workspace:mode",
-                        data: "passage",
-                    })}
+                on:click={() => GrapheEvent("window:workspace:mode", "passage")}
                 tooltip="Passage Mode"
                 command={$graphe_settings?.shortcuts.passageMode}
                 selected={$workspace_mode == "passage"}
@@ -132,11 +128,7 @@
             <NavbarItem
                 icon={Search}
                 text={width > text_breakpoint ? "search" : ""}
-                on:click={() =>
-                    Events.Emit({
-                        name: "window:workspace:mode",
-                        data: "search",
-                    })}
+                on:click={() => GrapheEvent("window:workspace:mode", "search")}
                 tooltip="Search Mode"
                 command={$graphe_settings?.shortcuts.searchMode}
                 selected={$workspace_mode == "search"}
@@ -148,10 +140,7 @@
                 icon={LibraryBig}
                 text={$workspace_version}
                 on:click={() =>
-                    Events.Emit({
-                        name: "window:workspace:modal",
-                        data: "version",
-                    })}
+                    GrapheEvent("window:workspace:modal", "version")}
                 tooltip="Choose Version"
                 command={$graphe_settings?.shortcuts.chooseVersion}
             />
@@ -159,11 +148,7 @@
             <NavbarItem
                 icon={BookOpenText}
                 text={current_ref_string}
-                on:click={() =>
-                    Events.Emit({
-                        name: "window:workspace:modal",
-                        data: "text",
-                    })}
+                on:click={() => GrapheEvent("window:workspace:modal", "text")}
                 tooltip="Choose Text"
                 command={$graphe_settings?.shortcuts.chooseText}
                 disabled={$workspace_mode == "search"}
@@ -174,21 +159,14 @@
             <NavbarItem
                 icon={Sigma}
                 on:click={() =>
-                    Events.Emit({
-                        name: "window:workspace:modal",
-                        data: "functions",
-                    })}
+                    GrapheEvent("window:workspace:modal", "functions")}
                 tooltip="Functions"
                 command={$graphe_settings?.shortcuts.openFunctions}
             />
 
             <NavbarItem
                 icon={NotepadText}
-                on:click={() =>
-                    Events.Emit({
-                        name: "window:workspace:sidebar",
-                        data: null,
-                    })}
+                on:click={() => GrapheEvent("window:workspace:sidebar")}
                 tooltip="Analytics"
                 command={$graphe_settings?.shortcuts.openAnalytics}
                 selected={$workspace_sidebar}
