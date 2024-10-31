@@ -1,14 +1,13 @@
 <script lang="ts">
     import type { ScriptureBlock } from "!/graphe/internal/data";
     import { GrapheEvent } from "@/lib/utils";
-    import { Events } from "@wailsio/runtime";
 
     export let block: ScriptureBlock;
 
-    function handleMouseEnter(ref: number, word_num: number) {
+    function handleMouseEnter(ref: number, word_number: number) {
         GrapheEvent("window:workspace:instantdetails", {
             ref: ref,
-            word_num: word_num,
+            word_number: word_number,
         });
     }
 
@@ -32,11 +31,11 @@
                 {word.pre}<span
                     class="word"
                     role="tooltip"
-                    class:hoverable={"has_instant_details" in word}
-                    on:mouseenter={"has_instant_details" in word
+                    class:hoverable={word.has_instant_details}
+                    on:mouseenter={word.has_instant_details
                         ? (e) => handleMouseEnter(verse.ref, word.word_num)
                         : null}
-                    on:mouseleave={"has_instant_details" in word
+                    on:mouseleave={word.has_instant_details
                         ? handleMouseLeave
                         : null}>{word.text}</span
                 >{word.post}{word.post != "-" ? " " : ""}

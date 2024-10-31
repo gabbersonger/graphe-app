@@ -39,7 +39,7 @@ type ScriptureWord struct {
 	Pre               string                `json:"pre"`
 	Post              string                `json:"post"`
 	Details           []ScriptureWordDetail `json:"details,omitempty"`
-	HasInstantDetails bool                  `json:"has_instant_details,omitempty"`
+	HasInstantDetails bool                  `json:"has_instant_details"`
 }
 
 type ScriptureWordDetail struct {

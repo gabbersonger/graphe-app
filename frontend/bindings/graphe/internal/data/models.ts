@@ -155,7 +155,7 @@ export class ScriptureWord {
     "pre": string;
     "post": string;
     "details"?: ScriptureWordDetail[];
-    "has_instant_details"?: boolean;
+    "has_instant_details": boolean;
 
     /** Creates a new ScriptureWord instance. */
     constructor($$source: Partial<ScriptureWord> = {}) {
@@ -170,6 +170,9 @@ export class ScriptureWord {
         }
         if (!("post" in $$source)) {
             this["post"] = "";
+        }
+        if (!("has_instant_details" in $$source)) {
+            this["has_instant_details"] = false;
         }
 
         Object.assign(this, $$source);

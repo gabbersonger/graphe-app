@@ -87,35 +87,38 @@ function handleGoTo(ref: ScriptureRef) {
   GrapheEvent("window:workspace:text:goto", ref);
 }
 
+async function instantDetails(ref: ScriptureRef, word_number: number) {
+  const version = get(workspace_version);
+  if (version == undefined) {
+    return GrapheLog(
+      "error",
+      `[Workspace Manager] Invalid version when doing instantDetails (version: \`${version}\`)`,
+    );
+  }
+  let data = await DataDB.GetScriptureWord(version, ref, word_number);
+  workspace_instantDetailsData.set(data);
+}
+
 const z_instant_details = z.object({
   ref: z.number(),
-  word_num: z.number(),
+  word_number: z.number(),
 });
+
 function handleInstantDetails(data: {
   ref: ScriptureRef;
   word_number: number;
 }) {
-  console.log(data);
+  let current = get(workspace_instantDetailsData);
+  if (
+    !(
+      current &&
+      current.ref == data.ref &&
+      current.word_number == data.word_number
+    )
+  ) {
+    instantDetails(data.ref, data.word_number);
+  }
 }
-
-// async function instantDetails(ref: ScriptureRef, word_number: number) {
-//   const version = get(workspace_version);
-//   if (version == undefined) {
-//     return GrapheLog(
-//       "error",
-//       `[Workspace Manager] Invalid version when doing instantDetails (version: \`${version}\`)`,
-//     );
-//   }
-//   let data = await DataDB.GetScriptureWord(version, ref, word_number);
-//   workspace_instantDetailsData.set(data);
-// }
-
-// function handleInstantDetails(ref: ScriptureRef, word_number: number) {
-//   let current = get(workspace_instantDetailsData);
-//   if (!(current && current.ref == ref && current.word_number == word_number)) {
-//     instantDetails(ref, word_number);
-//   }
-// }
 
 function handleInstantDetailsHide() {
   workspace_instantDetailsData.set(null);

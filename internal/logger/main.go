@@ -86,7 +86,7 @@ func (h *Handler) prettyPrint_callBinding(r slog.Record) (error, string) {
 	r.Attrs(func(a slog.Attr) bool {
 		switch a.Key {
 		case "method":
-			if strings.HasPrefix(a.Value.String(), "log/slog.Logger") {
+			if strings.HasPrefix(a.Value.String(), "graphe/internal/logger.Logger.Log") {
 				error = true
 			}
 			message += fmt.Sprintf("method: %s ", a.Value)

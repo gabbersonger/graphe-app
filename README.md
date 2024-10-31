@@ -50,6 +50,7 @@ Currently requires a large database file that is currently not packaged with the
     - [ ] Database version
     - [ ] User login details
   - [ ] Instant details
+    - [x] Back to working
     - [ ] UI - drag and drop available fields
     - [ ] Functionality
     - [ ] Reset
