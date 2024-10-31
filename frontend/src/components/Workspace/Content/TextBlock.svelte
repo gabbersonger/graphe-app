@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { ScriptureBlock } from "!/graphe/internal/data";
-    import { GrapheEvent } from "@/lib/utils";
+    import { GrapheEvent, throttle } from "@/lib/utils";
 
     export let block: ScriptureBlock;
 
@@ -10,6 +10,8 @@
             word_number: word_number,
         });
     }
+
+    const throttled_handleMouseEnter = throttle(handleMouseEnter, 50);
 
     function handleMouseLeave() {
         GrapheEvent("window:workspace:instantdetails:hide");
@@ -33,7 +35,11 @@
                     role="tooltip"
                     class:hoverable={word.has_instant_details}
                     on:mouseenter={word.has_instant_details
-                        ? (e) => handleMouseEnter(verse.ref, word.word_num)
+                        ? (e) =>
+                              throttled_handleMouseEnter(
+                                  verse.ref,
+                                  word.word_num,
+                              )
                         : null}
                     on:mouseleave={word.has_instant_details
                         ? handleMouseLeave
