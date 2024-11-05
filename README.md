@@ -49,6 +49,7 @@ Currently requires a large database file that is currently not packaged with the
     - [ ] User login details
   - [ ] Instant details
     - [x] Back to working
+    - [ ] Fix throttling
     - [ ] UI - drag and drop available fields
     - [ ] Functionality
     - [ ] Reset
@@ -123,7 +124,6 @@ Currently requires a large database file that is currently not packaged with the
 
 **Bugs**
 
-- Scroll too fast breaks text virtualiser
 - ESV psalm 119:1
 - Creating shortcut with ' key (as this screws with mysql string)
 - LXX go to Susanna 1 fails (Susanna 1:1 does not exist) -> use go function CreateFirstValidRef()
