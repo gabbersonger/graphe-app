@@ -15,11 +15,9 @@ Features include:
 
 # Development & Building
 
-Live development mode: `wails dev`
+Live development mode: `wails3 dev`
 
-Build distributable app: `wails build`
-
-Test go code: `go test ./... -v`
+Build distributable app: `wails3 build`
 
 Currently requires a large database file that is currently not packaged with the code. However there are plans to make this downloadable.
 
