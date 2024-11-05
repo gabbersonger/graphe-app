@@ -5,23 +5,21 @@
         ScriptureService,
         type ScriptureRef,
     } from "!/graphe/internal/scripture";
-    import { onMount, tick } from "svelte";
     import { throttle } from "@/lib/utils";
     import { EventHandler } from "@/lib/event_handler";
+    import { onMount } from "svelte";
     import { z } from "zod";
-
-    const NUM_BLOCK_BUFFER = 20;
-    const SCROLLABLE_HEIGHT = 100_000;
-    const SCROLLABLE_BUFFER = 10_000;
-
-    let viewport: HTMLDivElement;
 
     export let data: ScriptureSection[];
     $: n_blocks = data.reduce((a, c) => a + c.blocks.length, 0) ?? 0;
     $: if (n_blocks == 0) reset();
-    $: if (n_blocks > 0) load();
+    $: if (n_blocks > 0) init();
 
     export let current_verse: ScriptureRef | undefined = undefined;
+
+    const NUM_BLOCK_BUFFER = 20;
+    const SCROLL_MAX_HEIGHT = 100_000;
+    const SCROLL_BUFFER = 10_000;
 
     type VirtualBlock = {
         index: number;
@@ -33,7 +31,8 @@
     let visible_above_elements: HTMLDivElement[] = [];
     let visible_below_elements: HTMLDivElement[] = [];
     let pivot_height: number = 0;
-    let scroll_locked = false;
+
+    let viewport: HTMLDivElement;
 
     function reset() {
         current_verse = undefined;
@@ -42,61 +41,23 @@
         visible_above_elements.length = 0;
         visible_below_elements.length = 0;
         pivot_height = 0;
-        scroll_locked = false;
     }
 
-    function load() {
+    function init() {
         reset();
-        loadVirtualBlock({ index: 0, section: 0, block: 0 });
+        update({ index: 0, section: 0, block: 0 });
     }
 
     function refresh() {
-        if (scroll_locked) return;
         if (n_blocks == 0) return;
 
         const scroll = viewport.scrollTop;
-        const { pivot, offset, remaining } = calculatePivot(scroll);
 
-        if (pivot.index == visible_below[0].index) return;
-        throttled_update(pivot, offset, remaining);
-    }
-    const throttled_refresh = throttle(refresh, 10);
-
-    async function update(vb: VirtualBlock, offset: number, remaining: number) {
-        // Update current verse
-        const new_block = data[vb.section].blocks[vb.block];
-        current_verse = new_block.verses[0].ref;
-
-        // Handle reaching the start of blocks
-        if (vb.index == 0) return loadVirtualBlock(vb, remaining);
-
-        // Handle reaching the end of blocks
-        if (vb.index + NUM_BLOCK_BUFFER >= n_blocks)
-            return loadVirtualBlock(vb, remaining);
-
-        // Handle getting too close to edge while in the middle
-        if (
-            pivot_height + offset < SCROLLABLE_BUFFER ||
-            pivot_height + offset > SCROLLABLE_HEIGHT - SCROLLABLE_BUFFER
-        ) {
-            return loadVirtualBlock(vb, remaining);
-        }
-
-        pivot_height += offset;
-        updateViritualBlocks(vb.index);
-    }
-    const throttled_update = throttle(update, 10);
-
-    function calculatePivot(scroll: number): {
-        pivot: VirtualBlock;
-        offset: number;
-        remaining: number;
-    } {
         let pivot: VirtualBlock;
         let offset = 0;
         let remaining = scroll - pivot_height;
 
-        if (remaining > 0) {
+        if (remaining >= 0) {
             const last = visible_below_elements.findLastIndex((e) => e != null);
             let i = 0;
             while (remaining > 0 && i < last) {
@@ -120,19 +81,30 @@
             pivot = i < 0 ? visible_below[0] : visible_above[i];
         }
 
-        return {
-            pivot: pivot,
-            offset: offset,
-            remaining: remaining,
-        };
+        // Deal with edge-case: fast scrolling towards the top
+        if (remaining < 0) {
+            const last_above = visible_above_elements.findLast(
+                (e) => e != null,
+            );
+            if (
+                (last_above == undefined ||
+                    remaining < -last_above.scrollHeight) &&
+                pivot.index < NUM_BLOCK_BUFFER
+            ) {
+                update({ index: 0, section: 0, block: 0 }, 0, 0);
+                return;
+            }
+        }
+
+        update(pivot, offset, remaining);
     }
+    const throttled_refresh = throttle(refresh, 100);
 
     function getVirtualBlocks(
         output: VirtualBlock[],
         start: number,
-        length: number | undefined = undefined,
+        length: number = NUM_BLOCK_BUFFER,
     ) {
-        if (length == undefined) length = NUM_BLOCK_BUFFER;
         if (start < 0 || start >= n_blocks || length <= 0) {
             output.length = 0;
             return output;
@@ -174,54 +146,35 @@
         return output;
     }
 
-    function updateViritualBlocks(pivot: number) {
+    function update(
+        vb: VirtualBlock,
+        offset: number = 0,
+        remaining: number = 0,
+    ) {
+        // Update current verse
+        const pivot_block = data[vb.section].blocks[vb.block];
+        current_verse = pivot_block.verses[0].ref;
+
+        // Load the correct virtual blocks
+        const pivot = vb.index;
         const start = Math.max(pivot - NUM_BLOCK_BUFFER, 0);
         visible_above = getVirtualBlocks(visible_above, start, pivot - start);
         visible_below = getVirtualBlocks(visible_below, pivot);
-    }
 
-    async function loadVirtualBlock(vb: VirtualBlock, offset: number = 0) {
-        // Stop re-loading if it is the current block already loaded
-        if (visible_below.length > 0 && visible_below[0].index == vb.index)
-            return;
-
-        // Stop re-loading bottom if bottom already loaded
-        if (
-            visible_below.length > 0 &&
-            visible_below[0].index < vb.index &&
-            visible_below[visible_below.length - 1].index == n_blocks - 1
-        )
-            return;
-
-        updateViritualBlocks(vb.index);
-        current_verse = data[vb.section].blocks[vb.block].verses[0].ref;
-
-        if (visible_below.length > 0 && visible_below[0].index == 0) {
-            // At the top
+        // Update the pivot height
+        if (pivot == 0) {
             pivot_height = 0;
-        } else if (
-            visible_below.length > 0 &&
-            visible_below[visible_below.length - 1].index == n_blocks - 1
-        ) {
-            // At the bottom
-            pivot_height = SCROLLABLE_HEIGHT;
-            scroll_locked = true;
-            await tick();
+        } else if (pivot == n_blocks - 1) {
+            pivot_height = SCROLL_MAX_HEIGHT - viewport.clientHeight;
+        } else if (pivot_height + offset < SCROLL_BUFFER) {
+            pivot_height = SCROLL_MAX_HEIGHT / 2;
+        } else if (pivot_height + offset > SCROLL_MAX_HEIGHT - SCROLL_BUFFER) {
+            pivot_height = SCROLL_MAX_HEIGHT / 2;
         } else {
-            // In the middle
-            pivot_height = SCROLLABLE_HEIGHT / 2;
+            pivot_height += offset;
         }
 
-        // Scroll to the new content
-        const current_scroll = viewport ? viewport.scrollTop : 0;
-        if (pivot_height == current_scroll) return;
-
-        scroll_locked = true;
-        viewport.scrollTop = pivot_height + offset;
-        setTimeout(() => {
-            scroll_locked = false;
-        }, 10);
-        // FIX: this relies on 10ms being enough time for scrollTop to finish
+        viewport.scrollTop = pivot_height + remaining;
     }
 
     async function gotoRef(ref: ScriptureRef) {
@@ -239,11 +192,8 @@
                         ref,
                     );
                     if (block_contains) {
-                        loadVirtualBlock({
-                            index: nth_item,
-                            section: i,
-                            block: j,
-                        });
+                        update({ index: nth_item, section: i, block: j });
+                        return;
                     }
                     nth_item += 1;
                 }
@@ -265,7 +215,7 @@
         <div class="content">
             <div
                 class="rows"
-                style:min-height={`${SCROLLABLE_HEIGHT}px`}
+                style:min-height={`${SCROLL_MAX_HEIGHT}px`}
                 style:--pivot-height={`${pivot_height}px`}
             >
                 <div class="collection above">
