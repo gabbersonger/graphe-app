@@ -166,7 +166,8 @@
 
             <NavbarItem
                 icon={NotepadText}
-                on:click={() => GrapheEvent("window:workspace:sidebar")}
+                on:click={() =>
+                    GrapheEvent("window:workspace:sidebar", "toggle")}
                 tooltip="Analytics"
                 command={$graphe_settings?.shortcuts.openAnalytics}
                 selected={$workspace_sidebar}
