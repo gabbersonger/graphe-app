@@ -17,7 +17,7 @@ const z_graphe_mode = z.union([
 ]);
 function handleMode(mode: GrapheMode) {
   if (get(graphe_mode) == "settings" && mode != "settings") {
-    // TODO: load menu
+    // TODO: enable menu
   } else if (mode != "settings" && get(settings_section) == "shortcuts") {
     // TODO: disable menu
   }
