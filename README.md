@@ -25,55 +25,16 @@ Currently requires a large database file that is currently not packaged with the
 
 # Roadmap
 
-**Verse 0.4 - Quality of life update**
-
-- [x] Refactor Go code to include asserts
-- [x] Wails v.3
-  - [x] Basic update
-  - [x] Reinstate menu & shortcuts
-- [x] Remove JS Scripture functions
-- [x] Replace Virtualiser with just loading 10 chapters either side
-- [ ] Right click functionality
-- [ ] Auto-download database files on start-up
-  - [ ] Functionality
-  - [ ] UI
-- [ ] More settings updates
-  - [ ] General
-    - [ ] Startup - what to show
-    - [ ] Logs - open, purge
-  - [ ] Version / updates
-    - [ ] Show version number
-    - [ ] Check for updates at login
-    - [ ] Application version
-    - [ ] Database version
-    - [ ] User login details
+**Version 0.5 - Analysis**
+- [ ] Appearence
+- [ ] Functionality
   - [ ] Instant details
-    - [x] Back to working
-    - [ ] Fix throttling
-    - [ ] UI - drag and drop available fields
-    - [ ] Functionality
-    - [ ] Reset
-  - [x] Shortcuts reset
-  - [ ] Shortcuts update menubar
-
-<br/>
-
-**Version 0.5 – Text details update**
-
-- [ ] LXX Capitalisation
-- [ ] Parallel texts
-- [ ] Bible headings
-- [ ] Footnoted variant spelling/meaning
-- [ ] Conjoin word highlighting
-- [ ] Lexicon data
-- [ ] Morph code expansions
-- [ ] Cross References
-- [ ] Analysis window in sidebar: top occurances in chapter (filter out regular occurances)
-- [ ] Song of Songs: "SHE", "HE", "OTHERS"
-- [ ] Psalm book headings
-- [ ] Divine name
-
-<br/>
+  - [ ] Chapter data
+    - [ ] Most popular words
+    - [ ] Overlap with another chapter
+    - [ ] Sort by: frequency (most -> least), frequency (least -> most), alphabetical
+    - [ ] Filter out regular occurences
+- [ ] Right click functionality
 
 **Version 0.6 – Formatting Functions update**
 
@@ -100,15 +61,55 @@ Currently requires a large database file that is currently not packaged with the
 
 <br/>
 
-**Version 0.8 - Hebrew update**
+**Version 0.8 - Settings update**
+- [ ] General
+  - [ ] Startup - what to show
+  - [ ] Logs - open, purge
+- [ ] Version / updates
+  - [ ] Show version number
+  - [ ] Check for updates at login
+  - [ ] Application version
+  - [ ] Database version
+  - [ ] User login details
+- [ ] Instant details
+  - [x] Back to working
+  - [ ] Fix throttling
+  - [ ] UI - drag and drop available fields
+  - [ ] Functionality
+  - [ ] Reset
+- [ ] Shortcuts
+  - [x] Shortcuts reset
+  - [ ] Shortcuts update menubar
 
-- [ ] RTL text support
-- [ ] Tyndale HOT
+<br/>
+
+**Version 0.9 – Text details update**
+
+- [ ] Parallel texts
+- [ ] Bible headings
+- [ ] Footnoted variant spelling/meaning
+- [ ] Conjoin word highlighting
+- [ ] Lexicon data
+- [ ] Morph code expansions
+- [ ] Cross References
+- [ ] Song of Songs: "SHE", "HE", "OTHERS"
+- [ ] Psalm book headings
+- [ ] Divine name
+- [ ] LXX Capitalisation
+- [ ] Hebrew
+  - [ ] RTL text support
   - [ ] Data
-  - [ ] Displaying sections
-  - [ ] Instant details
+  - [ ] GetSections
+  - [ ] GetWord
+<br/>
 
-<br/><br/>
+**Version 0.10 - Make it work for others**
+
+- [ ] Auto-download database files on start-up
+  - [ ] Functionality
+  - [ ] UI
+
+<br/>
 
 **Improvements**
 
