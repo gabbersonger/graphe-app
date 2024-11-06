@@ -11,7 +11,7 @@
         ArrowDown,
     } from "lucide-svelte";
 
-    export let icon: ComponentType<Icon> = null;
+    export let icon: ComponentType<Icon> | null = null;
     export let placeholder: string;
     export let value: string;
     export let results: { value: any; display: string }[];
