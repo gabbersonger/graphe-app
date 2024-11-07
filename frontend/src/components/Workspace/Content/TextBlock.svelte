@@ -4,21 +4,36 @@
 
     export let block: ScriptureBlock;
 
+    let instant_details_timeout: ReturnType<typeof setTimeout>;
+
+    const INSTANT_DETAILS_DELAY = 50;
     function handleMouseEnter(ref: number, word_number: number) {
-        GrapheEvent("window:workspace:instantdetails", {
-            ref: ref,
-            word_number: word_number,
-        });
+        clearTimeout(instant_details_timeout);
+        instant_details_timeout = setTimeout(() => {
+            GrapheEvent("window:workspace:instantdetails", {
+                ref: ref,
+                word_number: word_number,
+            });
+        }, INSTANT_DETAILS_DELAY);
     }
 
     const throttled_handleMouseEnter = throttle(handleMouseEnter, 50);
 
     function handleMouseLeave() {
+        clearTimeout(instant_details_timeout);
         GrapheEvent("window:workspace:instantdetails:hide");
     }
 </script>
 
 <div class="block">
+    {#if block.verses.length > 0 && "details" in block.verses[0] && block.verses[0].details != undefined}
+        {#each block.verses[0]?.details as detail}
+            <div class={detail.type == 0 ? "title" : "heading"}>
+                {detail.data}
+            </div>
+        {/each}
+    {/if}
+
     {#each block.verses as verse, index}
         <div class="verse">
             {#if !verse.continuation}
@@ -64,6 +79,14 @@
         display: inline;
         font-family: var(--font-content);
         font-size: 1.2rem;
+    }
+
+    .title {
+        display: block;
+        text-align: center;
+        font-family: var(--font-title);
+        font-size: 3em;
+        padding-block: 3rem;
     }
 
     .ref {
