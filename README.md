@@ -26,14 +26,13 @@ Currently requires a large database file that is currently not packaged with the
 # Roadmap
 
 **Version 0.5 - Analysis**
+- [x] Instant details timing
 - [ ] Appearence
-- [ ] Functionality
-  - [ ] Instant details
-  - [ ] Chapter data
-    - [ ] Most popular words
-    - [ ] Overlap with another chapter
-    - [ ] Sort by: frequency (most -> least), frequency (least -> most), alphabetical
-    - [ ] Filter out regular occurences
+- [ ] Functionality of chapter data
+  - [ ] Most popular words
+  - [ ] Overlap with another chapter
+  - [ ] Sort by: frequency (most -> least), frequency (least -> most), alphabetical
+  - [ ] Filter out regular occurences
 - [ ] Right click functionality
 
 **Version 0.6 – Formatting Functions update**
