@@ -5,7 +5,7 @@
     import Modals from "@/components/Workspace/Modals/Modals.svelte";
 
     import { Window } from "@wailsio/runtime";
-    import { workspace_modal, workspace_sidebar } from "@/lib/stores";
+    import { workspace_sidebar } from "@/lib/stores";
     import { windowWorkspaceManager } from "@/lib/managers/window_workspace";
 
     let is_fullscreen = false;
@@ -26,11 +26,12 @@
     class:sidebar={$workspace_sidebar}
     class:fullscreen={is_fullscreen}
     class:navfloating={nav_floating}
-    class:modal={$workspace_modal != ""}
     use:windowWorkspaceManager
 >
-    <nav><Navbar bind:nav_floating /></nav>
-    <main><MainWindow /></main>
+    <div class="content">
+        <nav><Navbar bind:nav_floating /></nav>
+        <main><MainWindow /></main>
+    </div>
     <aside><Sidebar /></aside>
     <Modals />
 </div>
@@ -40,47 +41,93 @@
         position: relative;
         width: 100%;
         height: 100%;
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: var(--size-navbar-height) 1fr;
-        grid-template-areas: "navbar" "content";
+        display: flex;
+        flex-direction: row;
         background: var(--clr-background);
     }
 
-    #app.sidebar {
-        grid-template-columns: 1fr var(--size-sidebar-width);
-        grid-template-areas: "navbar sidebar" "content sidebar";
+    #app .content {
+        position: relative;
+        width: calc(
+            100% -
+                clamp(
+                    var(--size-sidebar-width-min),
+                    30%,
+                    var(--size-sidebar-width-max)
+                )
+        );
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        isolation: isolate;
+    }
+
+    #app:not(.sidebar) .content {
+        width: 100%;
     }
 
     #app:not(.sidebar) aside {
         display: none;
     }
 
-    #app:not(.navfloating) {
-        grid-template-rows: var(--size-navbar-height-small) 1fr;
-    }
-
-    #app nav {
-        grid-area: navbar;
+    #app .content nav {
+        position: relative;
+        width: 100%;
+        height: var(--size-navbar-height);
         --wails-draggable: drag;
     }
 
-    #app:not(.fullscreen) nav > :global(#navbar) {
+    #app:not(.fullscreen) .content nav > :global(#navbar) {
         padding-left: var(--size-navbar-clear-left);
     }
 
-    #app main {
-        grid-area: content;
+    #app:not(.navfloating) .content nav {
+        height: var(--size-navbar-height-small);
+    }
+
+    #app .content main {
+        position: relative;
+        width: 100%;
+        height: calc(100% - var(--size-navbar-height));
+    }
+
+    #app:not(.navfloating) .content main {
+        height: calc(100% - var(--size-navbar-height-small));
     }
 
     #app aside {
-        grid-area: sidebar;
+        position: relative;
+        width: clamp(
+            var(--size-sidebar-width-min),
+            30%,
+            var(--size-sidebar-width-max)
+        );
+        height: 100%;
     }
 
-    #app.modal > main,
-    #app.modal > nav,
-    #app.modal > aside {
-        filter: blur(2px);
-        -webkit-filter: blur(2px);
+    @media (max-width: 600px) {
+        #app .content {
+            width: 100%;
+        }
+
+        #app aside {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: clamp(
+                var(--size-sidebar-width-min),
+                90%,
+                var(--size-sidebar-width-max)
+            );
+            box-shadow:
+                0 4px 6px -1px rgb(0 0 0 / 0.1),
+                0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+    }
+
+    @media (max-width: 300px) {
+        #app aside {
+            width: 100%;
+        }
     }
 </style>

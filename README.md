@@ -28,12 +28,23 @@ Currently requires a large database file that is currently not packaged with the
 **Version 0.5 - Analysis**
 - [x] Instant details timing
 - [ ] Appearence
-- [ ] Functionality of chapter data
-  - [ ] Most popular words
-  - [ ] Overlap with another chapter
-  - [ ] Sort by: frequency (most -> least), frequency (least -> most), alphabetical
-  - [ ] Filter out regular occurences
-- [ ] Right click functionality
+  - [x] Sidebar
+  - [ ] Controls
+  - [ ] Display
+  - [ ] Graph?
+- [ ] Functionality
+  - [ ] Ranges
+    - [ ] Current (e.g. section?, chapter, book)
+    - [ ] Compare
+  - [ ] Compare language (e.g. current, english, original)
+  - [ ] Modes
+    - [ ] Basic - list of words in current section
+    - [ ] Overlap - words that overlap with another section
+    - [ ] Unique - words that are different to another section
+  - [ ] Sort
+    - [ ] Frequency (most -> least)
+    - [ ] Frequency (least -> most)
+    - [ ] Alphabetical
 
 **Version 0.6 – Formatting Functions update**
 

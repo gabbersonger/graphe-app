@@ -4,7 +4,12 @@
     --size-navbar-height: 55px;
     --size-navbar-height-small: 40px;
     --size-navbar-clear-left: 68px;
-    --size-sidebar-width: 300px;
+
+    --size-sidebar-width-min: 300px;
+    --size-sidebar-width-max: 450px;
+    /* If these change -> change components/Workspace/index.svelte breakpoints */
+
+    --size-sidebar-width: 250px;
 }
 
 * {
